@@ -8,14 +8,14 @@
     "start": "gp-cli-service-pm2-prod",
     "populate-db": "gp-cli-service-pm2-populate-db"
   },
-  "author": "",
+  "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "@greenpress/admin": "^0.1.3",
     "@greenpress/assets": "^1.0.0",
     "@greenpress/auth": "^1.0.0",
     "@greenpress/blog-front": "git@github.com:greenpress/blog-front.git",
-    "@greenpress/cli-service-pm2": "0.0.9",
+    "@greenpress/cli-service-pm2": "0.0.10",
     "@greenpress/content": "^1.0.4",
     "@greenpress/secrets": "^1.0.0"
   },
