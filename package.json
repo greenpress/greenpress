@@ -13,10 +13,10 @@
   "dependencies": {
     "@greenpress/admin": "^0.1.3",
     "@greenpress/assets": "^1.0.1",
-    "@greenpress/auth": "^1.0.0",
+    "@greenpress/auth": "^1.0.1",
     "@greenpress/blog-front": "https://github.com/greenpress/blog-front.git",
     "@greenpress/cli-service-pm2": "0.0.10",
-    "@greenpress/content": "^1.0.4",
+    "@greenpress/content": "^1.0.5",
     "@greenpress/secrets": "^1.0.1"
   },
   "devDependencies": {
