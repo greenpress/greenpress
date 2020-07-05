@@ -12,10 +12,10 @@
   "license": "MIT",
   "dependencies": {
     "@greenpress/admin": "^0.1.5",
-    "@greenpress/assets": "^1.0.1",
+    "@greenpress/assets": "^1.0.2",
     "@greenpress/auth": "^1.0.1",
     "@greenpress/blog-front": "https://github.com/greenpress/blog-front.git",
-    "@greenpress/cli-service-pm2": "0.0.10",
+    "@greenpress/cli-service-pm2": "0.0.11",
     "@greenpress/content": "^1.0.5",
     "@greenpress/secrets": "^1.0.1"
   },
