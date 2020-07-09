@@ -11,9 +11,9 @@
   "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@greenpress/admin": "^0.1.6",
+    "@greenpress/admin": "^0.1.7",
     "@greenpress/assets": "^1.0.2",
-    "@greenpress/auth": "^1.0.4",
+    "@greenpress/auth": "^1.0.5",
     "@greenpress/blog-front": "https://github.com/greenpress/blog-front.git",
     "@greenpress/cli-service-pm2": "0.0.12",
     "@greenpress/content": "^1.0.6",
