@@ -1,0 +1,29 @@
+version: '3'
+services:
+  mongo:
+    image: mongo
+    volumes:
+      - ./db-data:/data/db
+    networks:
+      common_network:
+  redis:
+    image: redis
+    networks:
+      common_network:
+  greenpress:
+    image: greenpress/greenpress
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+      - redis
+    environment:
+      MONGODB_URI: mongodb://mongo/greenpress
+      REDIS_URL: redis://redis
+    links:
+      - mongo
+      - redis
+    networks:
+      common_network:
+networks:
+  common_network:

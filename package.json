@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "gp-cli-service-pm2-dev",
     "start": "gp-cli-service-pm2-prod",
-    "populate-db": "gp-cli-service-pm2-populate-db"
+    "populate-db": "gp-cli-service-pm2-populate-db",
+	"docker:build": "docker build -t greenpress/greenpress .",
+	"docker:populate-db": "docker exec greenpress_greenpress_1 npm run populate-db"
   },
   "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
   "license": "MIT",
