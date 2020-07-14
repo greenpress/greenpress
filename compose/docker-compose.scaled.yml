@@ -1,0 +1,80 @@
+version: '3.8'
+services:
+  mongo:
+    image: mongo
+    volumes:
+      - ../db-data:/data/db
+  redis:
+    image: redis
+  admin:
+    image: greenpress/admin-panel:${ADMIN_PANEL_VERSION}
+  assets:
+    image: greenpress/assets:${ASSETS_SERVICE_VERSION}
+    restart: always
+    environment:
+      MONGO_URI: ${ASSETS_MONGODB_URI}
+      REDIS_URL: redis://redis
+      SECRETS_SERVICE_URL: secrets
+      IP: 0.0.0.0
+    depends_on:
+      - mongo
+      - redis
+      - secrets
+    links:
+      - mongo
+      - redis
+      - secrets
+  auth:
+    image: greenpress/auth:${AUTH_SERVICE_VERSION}
+    restart: always
+    environment:
+      MONGO_URI: ${AUTH_MONGODB_URI}
+      IP: 0.0.0.0
+    depends_on:
+      - mongo
+    links:
+      - mongo
+  blog-front:
+    image: greenpress/blog-front:${BLOG_FRONT_VERSION}
+    ports:
+      - 3000:3000
+    depends_on:
+      - content
+      - auth
+      - assets
+      - admin
+    links:
+      - content
+      - auth
+      - assets
+      - admin
+    environment:
+      CONTENT_SERVICE_URL: content
+      AUTH_SERVICE_URL: auth
+      ASSETS_SERVICE_URL: assets
+      ADMIN_PANEL_URL: admin
+  content:
+    image: greenpress/content:${CONTENT_SERVICE_VERSION}
+    restart: always
+    environment:
+      MONGO_URI: ${CONTENT_MONGODB_URI}
+      REDIS_URL: redis://redis
+      IP: 0.0.0.0
+    depends_on:
+      - mongo
+      - redis
+    links:
+      - mongo
+      - redis
+  secrets:
+    image: greenpress/secrets:${SECRETS_SERVICE_VERSION}
+    restart: always
+    environment:
+      MONGO_URI: ${SECRETS_MONGODB_URI}
+      IP: 0.0.0.0
+    depends_on:
+      - mongo
+    links:
+      - mongo
+networks:
+  common_network:
