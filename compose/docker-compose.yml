@@ -3,7 +3,7 @@ services:
   mongo:
     image: mongo
     volumes:
-      - ../db-data:/data/db
+      - ${MONGODB_VOLUME}:/data/db
     networks:
       common_network:
   redis:
