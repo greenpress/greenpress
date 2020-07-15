@@ -15,6 +15,9 @@ services:
       MONGO_URI: ${ASSETS_MONGODB_URI}
       REDIS_URL: redis://redis
       SECRETS_SERVICE_URL: secrets
+      AUTH_SERVICE_URL: auth
+      SECRETS_TOKEN: ${ASSETS_SECRETS_TOKEN}
+      INTERNAL_SECRET: ${INTERNAL_SECRET}
       IP: 0.0.0.0
     depends_on:
       - mongo
@@ -30,6 +33,9 @@ services:
     environment:
       MONGO_URI: ${AUTH_MONGODB_URI}
       IP: 0.0.0.0
+      JWT_SECRET: ${JWT_SECRET}
+      REFRESH_TOKEN_SECRET: ${REFRESH_TOKEN_SECRET}
+      APPLICATION_URL: ${APPLICATION_URL}
     depends_on:
       - mongo
     links:
@@ -37,7 +43,7 @@ services:
   blog-front:
     image: greenpress/blog-front:${BLOG_FRONT_VERSION}
     ports:
-      - 3000:3000
+      - ${PORT}:3000
     depends_on:
       - content
       - auth
@@ -49,6 +55,9 @@ services:
       - assets
       - admin
     environment:
+      THEME: ${THEME}
+      TENANT: ${TENANT}
+      APPLICATION_URL: ${APPLICATION_URL}
       CONTENT_SERVICE_URL: content
       AUTH_SERVICE_URL: auth
       ASSETS_SERVICE_URL: assets
@@ -60,18 +69,23 @@ services:
       MONGO_URI: ${CONTENT_MONGODB_URI}
       REDIS_URL: redis://redis
       IP: 0.0.0.0
+      AUTH_SERVICE_URL: auth
     depends_on:
       - mongo
       - redis
+      - auth
     links:
       - mongo
       - redis
+      - auth
   secrets:
     image: greenpress/secrets:${SECRETS_SERVICE_VERSION}
     restart: always
     environment:
       MONGO_URI: ${SECRETS_MONGODB_URI}
       IP: 0.0.0.0
+      SECRET: ${SECRETS_SERVICE_SECRET}
+      INTERNAL_SECRET: ${INTERNAL_SECRET}
     depends_on:
       - mongo
     links:
