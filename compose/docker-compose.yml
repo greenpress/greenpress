@@ -11,7 +11,7 @@ services:
     networks:
       common_network:
   greenpress:
-    image: greenpress/greenpress
+    image: ${GREENPRESS_IMAGE}
     ports:
       - ${PORT}:3000
     depends_on:
