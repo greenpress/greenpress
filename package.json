@@ -1,6 +1,6 @@
 {
   "name": "greenpress",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -17,7 +17,7 @@
     "@greenpress/auth": "^1.0.7",
     "@greenpress/blog-front": "https://github.com/greenpress/blog-front.git",
     "@greenpress/cli-service-pm2": "0.0.13",
-    "@greenpress/content": "^1.0.7",
+    "@greenpress/content": "^1.0.8",
     "@greenpress/secrets": "^1.0.2"
   },
   "devDependencies": {
