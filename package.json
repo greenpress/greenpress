@@ -12,7 +12,7 @@
   "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@greenpress/admin": "^0.1.11",
+    "@greenpress/admin": "^0.1.12",
     "@greenpress/assets": "^1.0.2",
     "@greenpress/auth": "^1.0.8",
     "@greenpress/blog-front": "https://github.com/greenpress/blog-front.git",
