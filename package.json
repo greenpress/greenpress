@@ -1,6 +1,6 @@
 {
   "name": "greenpress",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -15,7 +15,7 @@
     "@greenpress/admin": "^0.1.13",
     "@greenpress/assets": "^1.0.2",
     "@greenpress/auth": "^1.0.8",
-    "@greenpress/blog-front": "https://github.com/greenpress/blog-front.git#65afe0d90444a795f6062f4f2f8bf439067b04a3",
+    "@greenpress/blog-front": "https://github.com/greenpress/blog-front.git#96603389e4da338564a5379c268d6ff1205e9f02",
     "@greenpress/cli-service-pm2": "0.0.14",
     "@greenpress/content": "^1.0.9",
     "@greenpress/secrets": "^1.0.2"
