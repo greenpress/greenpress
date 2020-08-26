@@ -18,7 +18,7 @@
     "@greenpress/blog-front": "https://github.com/greenpress/blog-front.git#4b4aef91720b102f887da2ce6d99fbc66b688cd1",
     "@greenpress/cli-service-pm2": "0.1.2",
     "@greenpress/content": "^1.0.10",
-    "@greenpress/secrets": "^1.0.2"
+    "@greenpress/secrets": "^1.0.3"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"
