@@ -1,6 +1,6 @@
 {
   "name": "greenpress",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -12,8 +12,8 @@
   "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@greenpress/admin": "^0.1.14",
-    "@greenpress/assets": "^1.0.2",
+    "@greenpress/admin": "^0.1.15",
+    "@greenpress/assets": "^1.0.3",
     "@greenpress/auth": "^1.0.8",
     "@greenpress/blog-front": "https://github.com/greenpress/blog-front.git#4b4aef91720b102f887da2ce6d99fbc66b688cd1",
     "@greenpress/cli-service-pm2": "0.1.2",
