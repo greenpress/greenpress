@@ -1,0 +1,40 @@
+version: '3'
+services:
+  mongo:
+    image: mongo
+    volumes:
+      - ${MONGODB_VOLUME}:/data/db
+    networks:
+      common_network:
+  redis:
+    image: redis
+    networks:
+      common_network:
+  greenpress:
+    build: ..
+    command: ${GP_LOCAL_COMMAND}
+    ports:
+      - "3000-3001:3000-3001"
+      - "9000-9100:9000-9100"
+    depends_on:
+      - mongo
+      - redis
+    environment:
+      MONGODB_URI: mongodb://mongo/greenpress
+      REDIS_URL: redis://redis
+      BASIC_TENANT: ${TENANT}
+      JWT_SECRET: ${JWT_SECRET}
+      FRONT_THEME: ${THEME}
+      REFRESH_TOKEN_SECRET: ${REFRESH_TOKEN_SECRET}
+      SECRETS_SERVICE_SECRET: ${SECRETS_SERVICE_SECRET}
+      ASSETS_SECRETS_TOKEN: ${ASSETS_SECRETS_TOKEN}
+      INTERNAL_SECRET: ${INTERNAL_SECRET}
+      MAX_MEMORY_USAGE: ${MAX_MEMORY_USAGE}
+      APPLICATION_URL: ${APPLICATION_URL}
+    links:
+      - mongo
+      - redis
+    networks:
+      common_network:
+networks:
+  common_network:
