@@ -1,27 +1,27 @@
 {
-  "name": "greenpress",
-  "version": "1.0.26",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-	"dev": "gp-cli-service-pm2-dev",
-	"start": "gp-cli-service-pm2-prod",
-	"dev:docker": "cd compose && docker-compose -f docker-compose.local.yml up",
-	"populate-db": "gp-cli-service-pm2-populate-db",
-	"docker:populate-db": "docker exec greenpress_greenpress_1 npm run populate-db"
-  },
-  "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
-  "license": "MIT",
-  "dependencies": {
-	"@greenpress/admin": "^0.1.18",
-	"@greenpress/assets": "^1.0.8",
-	"@greenpress/auth": "^1.0.9",
-	"@greenpress/blog-front": "https://github.com/greenpress/blog-front.git#ff0fb503dcd1e8def136ddc2c16cbeeed36684ef",
-	"@greenpress/cli-service-pm2": "0.1.4",
-	"@greenpress/content": "^1.0.11",
-	"@greenpress/secrets": "^1.0.5"
-  },
-  "devDependencies": {
-	"nodemon": "^2.0.4"
-  }
+	"name": "greenpress",
+	"version": "1.0.27",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"dev": "gp-cli-service-pm2-dev",
+		"start": "gp-cli-service-pm2-prod",
+		"dev:docker": "cd compose && docker-compose -f docker-compose.local.yml up",
+		"populate-db": "gp-cli-service-pm2-populate-db",
+		"docker:populate-db": "docker exec greenpress_greenpress_1 npm run populate-db"
+	},
+	"author": "David Meir-Levy <davidmeirlevy@gmail.com>",
+	"license": "MIT",
+	"dependencies": {
+		"@greenpress/admin": "^0.1.19",
+		"@greenpress/assets": "^1.0.8",
+		"@greenpress/auth": "^1.0.9",
+		"@greenpress/blog-front": "https://github.com/greenpress/blog-front.git#ff0fb503dcd1e8def136ddc2c16cbeeed36684ef",
+		"@greenpress/cli-service-pm2": "0.1.4",
+		"@greenpress/content": "^1.0.11",
+		"@greenpress/secrets": "^1.0.5"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.4"
+	}
 }
