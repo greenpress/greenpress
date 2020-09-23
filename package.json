@@ -14,7 +14,7 @@
 	"license": "MIT",
 	"dependencies": {
 		"@greenpress/admin": "^0.1.23",
-		"@greenpress/assets": "^1.0.8",
+		"@greenpress/assets": "^1.0.9",
 		"@greenpress/auth": "^1.0.9",
 		"@greenpress/blog-front": "https://github.com/greenpress/blog-front.git#ff0fb503dcd1e8def136ddc2c16cbeeed36684ef",
 		"@greenpress/cli-service-pm2": "0.1.5",
