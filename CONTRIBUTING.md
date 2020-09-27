@@ -4,6 +4,6 @@
 
 ## Greenpress [Installation Guide](https://docs.greenpress.info/guide/getting-started.html)
 
-## Authentication service [README](./README.md)
+## greenpress [README](./README.md)
 
 ## [Open Issues](https://github.com/greenpress/greenpress/issues)
