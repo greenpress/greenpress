@@ -1,6 +1,6 @@
 {
 	"name": "greenpress",
-	"version": "1.0.34",
+	"version": "1.0.35",
 	"description": "",
 	"main": "index.js",
 	"scripts": {
@@ -14,12 +14,12 @@
 	"license": "MIT",
 	"dependencies": {
 		"@greenpress/admin": "^0.1.23",
-		"@greenpress/assets": "^1.0.10",
-		"@greenpress/auth": "^1.0.9",
-		"@greenpress/blog-front": "https://github.com/greenpress/blog-front.git#ff0fb503dcd1e8def136ddc2c16cbeeed36684ef",
+		"@greenpress/assets": "^1.0.11",
+		"@greenpress/auth": "^1.0.10",
+		"@greenpress/blog-front": "https://github.com/greenpress/blog-front.git#8d1b44bac30129ed484f7294d13cd1ac10a9fa79",
 		"@greenpress/cli-service-pm2": "0.1.5",
-		"@greenpress/content": "^1.0.12",
-		"@greenpress/secrets": "^1.0.5"
+		"@greenpress/content": "^1.0.13",
+		"@greenpress/secrets": "^1.0.6"
 	},
 	"devDependencies": {
 		"nodemon": "^2.0.4"
