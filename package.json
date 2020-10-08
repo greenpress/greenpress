@@ -6,7 +6,7 @@
 	"scripts": {
 		"dev": "gp-cli-service-pm2-dev",
 		"start": "gp-cli-service-pm2-prod",
-		"dev:docker": "cd compose && docker-compose -f docker-compose.local.yml up",
+		"dev:docker": "cd compose && docker-compose -f docker-compose.local.yml up --build",
 		"populate-db": "gp-cli-service-pm2-populate-db",
 		"docker:populate-db": "docker exec greenpress_greenpress_1 npm run populate-db"
 	},

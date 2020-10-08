@@ -11,7 +11,9 @@ services:
     networks:
       common_network:
   greenpress:
-    build: ../Dockerfile
+    build:
+      context: ..
+      dockerfile: Dockerfile.local
     command: ${GP_LOCAL_COMMAND}
     ports:
       - "3000-3001:3000-3001"
