@@ -17,7 +17,7 @@ services:
     command: ${GP_LOCAL_COMMAND}
     ports:
       - "3000-3001:3000-3001"
-      - "9000-9100:9000-9100"
+      - "9000-9010:9000-9010"
     depends_on:
       - mongo
       - redis

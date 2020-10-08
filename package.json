@@ -6,9 +6,12 @@
 	"scripts": {
 		"dev": "gp-cli-service-pm2-dev",
 		"start": "gp-cli-service-pm2-prod",
-		"dev:docker": "cd compose && docker-compose -f docker-compose.local.yml up --build",
 		"populate-db": "gp-cli-service-pm2-populate-db",
-		"docker:populate-db": "docker exec greenpress_greenpress_1 npm run populate-db"
+		"docker:local": "cd compose && docker-compose -f docker-compose.local.yml -p greenpress up --build -d",
+		"docker:local:dev": "export GP_LOCAL_COMMAND=\"npm run dev --x=db\" && cd compose && docker-compose -f docker-compose.local.yml -p greenpress up --build -d",
+		"docker:populate-db": "docker exec greenpress_greenpress_1 npm run populate-db",
+		"docker:stop": "docker rm $(docker ps -f name=greenpress -aq) -f",
+		"docker:logs": "node -e \"require('child_process').execSync('docker logs greenpress_greenpress_1 -f', {stdio: 'inherit'})\""
 	},
 	"author": "David Meir-Levy <davidmeirlevy@gmail.com>",
 	"license": "MIT",
