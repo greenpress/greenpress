@@ -2,5 +2,6 @@ node_modules
 .idea
 db-data
 compose/.env
+compose/*.env
 dev
 tmp

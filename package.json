@@ -1,33 +1,36 @@
 {
-	"name": "greenpress",
-	"version": "1.0.37",
-	"description": "",
-	"main": "index.js",
-	"scripts": {
-		"dev": "gp-cli-service-pm2-dev",
-		"start": "gp-cli-service-pm2-prod",
-		"populate-db": "gp-cli-service-pm2-populate-db",
-		"docker:local": "cd compose && docker-compose -f docker-compose.local.yml -p greenpress up --build -d",
-		"docker:local:dev": "export GP_LOCAL_COMMAND=\"npm run dev --x=db\" && cd compose && docker-compose -f docker-compose.local.yml -p greenpress up --build -d",
-		"docker:populate-db": "docker exec greenpress_greenpress_1 npm run populate-db",
-		"docker:stop": "docker rm $(docker ps -f name=greenpress -aq) -f",
-		"docker:logs": "node -e \"require('child_process').execSync('docker logs greenpress_greenpress_1 -f', {stdio: 'inherit'})\""
-	},
-	"author": "David Meir-Levy <davidmeirlevy@gmail.com>",
-	"license": "MIT",
-	"dependencies": {
-		"@greenpress/admin": "^0.1.25",
-		"@greenpress/assets": "^1.0.11",
-		"@greenpress/auth": "^1.0.12",
-		"@greenpress/blog-front": "https://github.com/greenpress/blog-front.git#9b7024820e3b6c0f36f05556404b52869dc6f1e8",
-		"@greenpress/cli-service-pm2": "0.1.5",
-		"@greenpress/content": "^1.0.14",
-		"@greenpress/secrets": "^1.0.6"
-	},
-	"devDependencies": {
-		"nodemon": "^2.0.4"
-	},
-	"engines": {
-	  "node": "14.x"
-	}
+  "name": "greenpress",
+  "version": "1.0.37",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+	"dev": "gp-cli-service-pm2-dev",
+	"start": "gp-cli-service-pm2-prod",
+	"populate-db": "gp-cli-service-pm2-populate-db",
+	"docker:local": "npm run docker:envs && npm run docker:set-local-command && npm run docker:local:compose-up",
+	"docker:local:dev": "npm run docker:envs && npm run docker:set-local-dev-command && npm run docker:local:compose-up",
+	"docker:populate-db": "docker exec greenpress_greenpress_1 npm run populate-db",
+	"docker:stop": "docker rm $(docker ps -f name=greenpress -aq) -f",
+	"docker:logs": "node -e \"require('child_process').execSync('docker logs greenpress_greenpress_1 -f', {stdio: 'inherit'})\"",
+	"docker:envs": "npm run docker:create-env && npm run docker:create-local-env",
+	"docker:create-env": "node -e \"const {existsSync, writeFileSync:write, readFileSync:read}=require('fs');const envPath='compose/.env';existsSync(envPath) ? process.exit() : write(envPath, read('compose/.env.example'))\"",
+	"docker:create-local-env": "node -e \"const {existsSync, writeFileSync:write}=require('fs');const envPath='compose/greenpress.local.env';existsSync(envPath) ? process.exit() : write(envPath, '')\"",
+	"docker:set-local-dev-command": "node -e \"const {writeFileSync:write,readFileSync:read}=require('fs');const file='compose/.env';const prop='GP_LOCAL_COMMAND';write(file, read(file).toString().split('\\n').map(line=>line.startsWith(prop) ? (prop+'=\\\"npm run dev --x=db\\\"'):line).join('\\n'))\"",
+	"docker:set-local-command": "node -e \"const {writeFileSync:write,readFileSync:read}=require('fs');const file='compose/.env';const prop='GP_LOCAL_COMMAND';write(file, read(file).toString().split('\\n').map(line=>line.startsWith(prop) ? (prop+'=\\\"npm start\\\"'):line).join('\\n'))\"",
+	"docker:local:compose-up": "docker-compose -f compose/docker-compose.local.yml -p greenpress up --build -d"
+  },
+  "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+	"@greenpress/admin": "^0.1.25",
+	"@greenpress/assets": "^1.0.11",
+	"@greenpress/auth": "^1.0.12",
+	"@greenpress/blog-front": "https://github.com/greenpress/blog-front.git#9b7024820e3b6c0f36f05556404b52869dc6f1e8",
+	"@greenpress/cli-service-pm2": "0.1.5",
+	"@greenpress/content": "^1.0.14",
+	"@greenpress/secrets": "^1.0.6"
+  },
+  "devDependencies": {
+	"nodemon": "^2.0.4"
+  }
 }
