@@ -17,7 +17,7 @@
 	"docker:create-local-env": "node -e \"const {existsSync, writeFileSync:write}=require('fs');const envPath='compose/greenpress.local.env';existsSync(envPath) ? process.exit() : write(envPath, '')\"",
 	"docker:set-local-dev-command": "node -e \"const {writeFileSync:write,readFileSync:read}=require('fs');const file='compose/.env';const prop='GP_LOCAL_COMMAND';write(file, read(file).toString().split('\\n').map(line=>line.startsWith(prop) ? (prop+'=\\\"npm run dev --x=db\\\"'):line).join('\\n'))\"",
 	"docker:set-local-command": "node -e \"const {writeFileSync:write,readFileSync:read}=require('fs');const file='compose/.env';const prop='GP_LOCAL_COMMAND';write(file, read(file).toString().split('\\n').map(line=>line.startsWith(prop) ? (prop+'=\\\"npm start\\\"'):line).join('\\n'))\"",
-	"docker:local:compose-up": "docker-compose -f compose/docker-compose.local.yml -p greenpress up --build -d"
+	"docker:local:compose-up": "cd compose && docker-compose -f docker-compose.local.yml -p greenpress up --build -d"
   },
   "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
   "license": "MIT",
