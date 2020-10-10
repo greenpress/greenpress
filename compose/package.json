@@ -8,7 +8,7 @@
 	"stop": "docker rm $(docker ps -f name=greenpress -aq) -f",
 	"logs": "node -e \"require('child_process').execSync('docker logs greenpress_greenpress_1 -f', {stdio: 'inherit'})\"",
 	"envs": "npm run create-env && npm run create-local-env",
-	"create-env": "node -e \"const {existsSync, writeFileSync:write, readFileSync:read}=require('fs');const envPath='.env';existsSync(envPath) ? process.exit() : write(envPath, read('compose/.env.example'))\"",
+	"create-env": "node -e \"const {existsSync, writeFileSync:write, readFileSync:read}=require('fs');const envPath='.env';existsSync(envPath) ? process.exit() : write(envPath, read('.env.example'))\"",
 	"create-local-env": "node -e \"const {existsSync, writeFileSync:write}=require('fs');const envPath='greenpress.local.env';existsSync(envPath) ? process.exit() : write(envPath, '')\"",
 	"set-local-dev-command": "node -e \"const {writeFileSync:write,readFileSync:read}=require('fs');const file='.env';const prop='GP_LOCAL_COMMAND';write(file, read(file).toString().split('\\n').map(line=>line.startsWith(prop) ? (prop+'=\\\"npm run dev --x=db\\\"'):line).join('\\n'))\"",
 	"set-local-command": "node -e \"const {writeFileSync:write,readFileSync:read}=require('fs');const file='.env';const prop='GP_LOCAL_COMMAND';write(file, read(file).toString().split('\\n').map(line=>line.startsWith(prop) ? (prop+'=\\\"npm start\\\"'):line).join('\\n'))\"",
