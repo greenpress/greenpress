@@ -4,3 +4,4 @@ db-data
 compose
 tmp
 dev
+.vscode

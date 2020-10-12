@@ -5,7 +5,7 @@
 	"local": "npm run envs && npm run set-local-command && npm run local:compose-up",
 	"local:dev": "npm run envs && npm run set-local-dev-command && npm run local:compose-up",
 	"populate-db": "docker exec greenpress_greenpress_1 npm run populate-db",
-	"stop": "node - e \"const {execSync}=require('child_process');execSync('docker rm '+execSync('docker ps -f name=greenpress -aq').toString().replace(/\\n/g, ' ')+' -f');\"",
+	"stop": "node -e \"const {execSync}=require('child_process');execSync('docker rm '+execSync('docker ps -f name=greenpress -aq').toString().replace(/\\n/g, ' ')+' -f', {stdio: 'inherit'});\"",
 	"logs": "node -e \"require('child_process').execSync('docker logs greenpress_greenpress_1 -f', {stdio: 'inherit'})\"",
 	"envs": "npm run create-env && npm run create-local-env",
 	"create-env": "node -e \"const {existsSync, writeFileSync:write, readFileSync:read}=require('fs');const envPath='.env';existsSync(envPath) ? process.exit() : write(envPath, read('.env.example'))\"",
