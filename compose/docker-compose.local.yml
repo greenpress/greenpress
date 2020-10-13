@@ -17,6 +17,8 @@ services:
     command: ${GP_LOCAL_COMMAND}
     env_file:
       - greenpress.local.env
+    volumes:
+      - ../dev:/app/dev
     ports:
       - "3000-3001:3000-3001"
       - "9000-9010:9000-9010"
