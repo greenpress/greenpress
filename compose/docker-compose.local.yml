@@ -11,11 +11,17 @@ services:
     networks:
       common_network:
   greenpress:
-    build: ..
+    build:
+      context: ..
+      dockerfile: Dockerfile.local
     command: ${GP_LOCAL_COMMAND}
+    env_file:
+      - greenpress.local.env
+    volumes:
+      - ../dev:/app/dev
     ports:
       - "3000-3001:3000-3001"
-      - "9000-9100:9000-9100"
+      - "9000-9010:9000-9010"
     depends_on:
       - mongo
       - redis
@@ -30,7 +36,6 @@ services:
       ASSETS_SECRETS_TOKEN: ${ASSETS_SECRETS_TOKEN}
       INTERNAL_SECRET: ${INTERNAL_SECRET}
       MAX_MEMORY_USAGE: ${MAX_MEMORY_USAGE}
-      APPLICATION_URL: ${APPLICATION_URL}
     links:
       - mongo
       - redis

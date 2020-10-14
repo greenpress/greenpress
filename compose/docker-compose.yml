@@ -28,7 +28,6 @@ services:
       ASSETS_SECRETS_TOKEN: ${ASSETS_SECRETS_TOKEN}
       INTERNAL_SECRET: ${INTERNAL_SECRET}
       MAX_MEMORY_USAGE: ${MAX_MEMORY_USAGE}
-      APPLICATION_URL: ${APPLICATION_URL}
     links:
       - mongo
       - redis
