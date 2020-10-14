@@ -1,28 +1,39 @@
 {
-  "name": "greenpress",
-  "version": "1.0.37",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-	"dev": "gp-cli-service-pm2-dev",
-	"start": "gp-cli-service-pm2-prod",
-	"populate-db": "gp-cli-service-pm2-populate-db"
-  },
-  "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
-  "license": "MIT",
-  "dependencies": {
-	"@greenpress/admin": "^0.1.25",
-	"@greenpress/assets": "^1.0.11",
-	"@greenpress/auth": "^1.0.12",
-	"@greenpress/blog-front": "https://github.com/greenpress/blog-front.git#9b7024820e3b6c0f36f05556404b52869dc6f1e8",
-	"@greenpress/cli-service-pm2": "0.1.5",
-	"@greenpress/content": "^1.0.14",
-	"@greenpress/secrets": "^1.0.6"
-  },
-  "devDependencies": {
-	"nodemon": "^2.0.4"
-  },
-  "engines": {
-	"node": "14.x"
-  }
+ "name": "greenpress",
+ "version": "1.0.38",
+ "description": "Open-source blogs and content websites platform, made for the 21st century",
+ "main": "index.js",
+ "scripts": {
+  "dev": "gp-cli-service-pm2-dev",
+  "start": "gp-cli-service-pm2-prod",
+  "populate-db": "gp-cli-service-pm2-populate-db"
+ },
+ "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
+ "license": "MIT",
+ "dependencies": {
+  "@greenpress/admin": "^0.1.25",
+  "@greenpress/assets": "^1.0.11",
+  "@greenpress/auth": "^1.0.12",
+  "@greenpress/blog-front": "https://github.com/greenpress/blog-front.git#9b7024820e3b6c0f36f05556404b52869dc6f1e8",
+  "@greenpress/cli-service-pm2": "0.1.5",
+  "@greenpress/content": "^1.0.14",
+  "@greenpress/secrets": "^1.0.6"
+ },
+ "devDependencies": {
+  "nodemon": "^2.0.4"
+ },
+ "engines": {
+  "node": "14.x"
+ },
+ "bugs": {
+  "url": "https://github.com/greenpress/greenpress/issues"
+ },
+ "homepage": "https://github.com/greenpress/greenpress#readme",
+ "publishConfig": {
+  "access": "public"
+ },
+ "repository": {
+  "type": "git",
+  "url": "git+ssh://git@github.com/greenpress/greenpress.git"
+ }
 }
