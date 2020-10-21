@@ -8,11 +8,13 @@ pub async fn forward(
     body: web::Bytes,
     client: web::Data<Client>,
 ) -> Result<HttpResponse, Error> {
-    // match_config()
-    let forwarded_addr = "127.0.0.1";
-    let forwarded_port = 9000;
 
-    let mut new_url = Url::parse(&format!(
+    //todo: basic forwarding works, need to map to configurable services
+
+    let forwarded_addr = "127.0.0.1";
+    let forwarded_port = 8080;
+
+    let url = Url::parse(&format!(
         "http://{}",
         (forwarded_addr, forwarded_port)
             .to_socket_addrs()
@@ -22,6 +24,7 @@ pub async fn forward(
     ))
         .unwrap();
 
+    let mut new_url = url;
     new_url.set_path(req.uri().path());
     new_url.set_query(req.uri().query());
 

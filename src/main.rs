@@ -1,19 +1,20 @@
 mod config;
 mod api_proxy;
 
+use crate::config::{AppConfig};
+use crate::api_proxy::forward;
 use std::net::ToSocketAddrs;
-
 use actix_web::client::Client;
 use actix_web::{middleware, web, App, Error, HttpRequest, HttpResponse, HttpServer};
 use url::Url;
-use url::quirks::protocol;
-use crate::config::{AppConfig, match_config};
-use crate::api_proxy::forward;
 
+//todo: add some #[cfg(test)]
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+
     let app_config = AppConfig::new();
     let address = format!("{}:{}", app_config.application_url, app_config.port);
+    println!("{}", address);
 
     HttpServer::new(move || {
         App::new()
