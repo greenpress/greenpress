@@ -2,6 +2,19 @@ use actix_web::{HttpRequest, web, HttpResponse, Error};
 use actix_web::client::Client;
 use url::Url;
 use std::net::ToSocketAddrs;
+use crate::config::{ AppConfig, ServiceConfig };
+
+fn get_url(addr: &str, port: u16) -> Url {
+    Url::parse(&format!(
+        "http://{}",
+        (addr, port)
+            .to_socket_addrs()
+            .unwrap()
+            .next()
+            .unwrap()
+    ))
+        .unwrap()
+}
 
 pub async fn forward(
     req: HttpRequest,
@@ -14,17 +27,7 @@ pub async fn forward(
     let forwarded_addr = "127.0.0.1";
     let forwarded_port = 8080;
 
-    let url = Url::parse(&format!(
-        "http://{}",
-        (forwarded_addr, forwarded_port)
-            .to_socket_addrs()
-            .unwrap()
-            .next()
-            .unwrap()
-    ))
-        .unwrap();
-
-    let mut new_url = url;
+    let mut new_url = get_url(forwarded_addr, forwarded_port);
     new_url.set_path(req.uri().path());
     new_url.set_query(req.uri().query());
 
@@ -52,3 +55,13 @@ pub async fn forward(
 
     Ok(client_resp.body(res.body().await?))
 }
+
+// pub fn use_service_config(app_config: AppConfig) {
+//     // if app_config.content_service
+// }
+
+// Returns target URL
+pub fn get_proxy_target(service: ServiceConfig) -> String {
+    format!("{}://{}:{}", service.protocol, service.url, service.port)
+}
+
