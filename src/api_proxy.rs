@@ -21,10 +21,11 @@ pub async fn forward(
     body: web::Bytes,
     client: web::Data<Client>,
 ) -> Result<HttpResponse, Error> {
-    // todo: handle auth
-    //todo: basic forwarding works, move following block to function
+    // todo: 1. handle auth (maybe middleware)
+    // todo: 2. handle any other route (default route)
+    // todo: 3. move following block to function
     let url = req.path();
-    println!("url {}", url);
+
     let config = AppConfig::new();
     let services = vec![
                         config.auth_service,
@@ -34,6 +35,7 @@ pub async fn forward(
     ];
     let mut forwarded_addr = "".to_string();
     let mut forwarded_port = 0;
+    // Iterate all services and check if path exists in their proxies vec
     for service in &services {
         // if app_config.content_service
         for proxy in &service.proxies {
@@ -45,11 +47,10 @@ pub async fn forward(
         }
     }
 
+    // based on: https://github.com/actix/examples/blob/master/http-proxy/src/main.rs
     let mut new_url = get_url(&*forwarded_addr, forwarded_port);
     new_url.set_path(req.uri().path());
     new_url.set_query(req.uri().query());
-
-    // map_service_config()
 
     // TODO: This forwarded implementation is incomplete as it only handles the inofficial
     // X-Forwarded-For header but not the official Forwarded one.
@@ -74,10 +75,5 @@ pub async fn forward(
     }
 
     Ok(client_resp.body(res.body().await?))
-}
-
-// Returns target URL
-pub fn get_proxy_target(service: &ServiceConfig) -> String {
-    format!("{}://{}:{}", service.protocol, service.url, service.port)
 }
 
