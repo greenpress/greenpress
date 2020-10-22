@@ -2,22 +2,22 @@ use url::Url;
 use std::str::Split;
 use std::ops::RangeFrom;
 
-struct ServiceConfig {
-    protocol: String,
-    url: String,
-    port: u16,
-    proxies: Vec<String>
+pub struct ServiceConfig {
+    pub protocol: String,
+    pub url: String,
+    pub port: u16,
+    pub proxies: Vec<String>
 }
 
 pub struct AppConfig {
     pub port: u16,
     tenant: String,
     pub application_url: String,
-    content_service: ServiceConfig,
-    auth_service: ServiceConfig,
-    assets_service: ServiceConfig,
-    admin_panel: ServiceConfig,
-    drafts_service: ServiceConfig
+    pub content_service: ServiceConfig,
+    pub auth_service: ServiceConfig,
+    pub assets_service: ServiceConfig,
+    pub admin_panel: ServiceConfig,
+    pub drafts_service: ServiceConfig
 }
 
 // https://github.com/greenpress/blog-front/blob/master/config/index.js
@@ -73,10 +73,3 @@ impl AppConfig {
     }
 }
 
-// fn get_proxies<'a>(env_var: String, defaults: std::str::Split<P>) -> Split<'a, char> {
-//     if env_var { env_var.split(',') } else { defaults }
-// }
-
-// pub fn match_config(url: String, port: u16) -> (String, u16) {
-//
-// }

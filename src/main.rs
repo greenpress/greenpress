@@ -13,7 +13,7 @@ use url::Url;
 async fn main() -> std::io::Result<()> {
 
     let app_config = AppConfig::new();
-    let address = format!("{}:{}", app_config.application_url, app_config.port);
+    let address = format!("{}:{}", "0.0.0.0", app_config.port);
     println!("{}", address);
 
     HttpServer::new(move || {
@@ -21,6 +21,7 @@ async fn main() -> std::io::Result<()> {
             .data(Client::new())
             .wrap(middleware::Logger::default())
             .default_service(web::route().to(forward))
+            // .default_service() webfront url
     })
         .bind(address)?
         .system_exit()

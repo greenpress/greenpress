@@ -1,30 +1,54 @@
-use actix_web::{HttpRequest, web, HttpResponse, Error};
+use actix_web::{HttpRequest, web, HttpResponse, Error, HttpMessage};
 use actix_web::client::Client;
 use url::Url;
 use std::net::ToSocketAddrs;
+use crate::config::{ AppConfig, ServiceConfig };
+
+fn get_url(addr: &str, port: u16) -> Url {
+    Url::parse(&format!(
+        "http://{}",
+        (addr, port)
+            .to_socket_addrs()
+            .unwrap()
+            .next()
+            .unwrap()
+    ))
+        .unwrap()
+}
 
 pub async fn forward(
     req: HttpRequest,
     body: web::Bytes,
     client: web::Data<Client>,
 ) -> Result<HttpResponse, Error> {
+    // todo: 1. handle auth (maybe middleware)
+    // todo: 2. handle any other route (default route)
+    // todo: 3. move following block to function
+    let url = req.path();
 
-    //todo: basic forwarding works, need to map to configurable services
+    let config = AppConfig::new();
+    let services = vec![
+                        config.auth_service,
+                        config.assets_service,
+                        config.content_service,
+                        config.drafts_service
+    ];
+    let mut forwarded_addr = "".to_string();
+    let mut forwarded_port = 0;
+    // Iterate all services and check if path exists in their proxies vec
+    for service in &services {
+        // if app_config.content_service
+        for proxy in &service.proxies {
+            if proxy.contains(&url) {
+                // result = (&service.url, service.port);
+                forwarded_addr = (*service.url).parse()?;
+                forwarded_port = service.port;
+            }
+        }
+    }
 
-    let forwarded_addr = "127.0.0.1";
-    let forwarded_port = 8080;
-
-    let url = Url::parse(&format!(
-        "http://{}",
-        (forwarded_addr, forwarded_port)
-            .to_socket_addrs()
-            .unwrap()
-            .next()
-            .unwrap()
-    ))
-        .unwrap();
-
-    let mut new_url = url;
+    // based on: https://github.com/actix/examples/blob/master/http-proxy/src/main.rs
+    let mut new_url = get_url(&*forwarded_addr, forwarded_port);
     new_url.set_path(req.uri().path());
     new_url.set_query(req.uri().query());
 
@@ -52,3 +76,4 @@ pub async fn forward(
 
     Ok(client_resp.body(res.body().await?))
 }
+
