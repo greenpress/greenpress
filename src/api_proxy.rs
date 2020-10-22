@@ -1,4 +1,4 @@
-use actix_web::{HttpRequest, web, HttpResponse, Error};
+use actix_web::{HttpRequest, web, HttpResponse, Error, HttpMessage};
 use actix_web::client::Client;
 use url::Url;
 use std::net::ToSocketAddrs;
@@ -21,15 +21,35 @@ pub async fn forward(
     body: web::Bytes,
     client: web::Data<Client>,
 ) -> Result<HttpResponse, Error> {
+    // todo: handle auth
+    //todo: basic forwarding works, move following block to function
+    let url = req.path();
+    println!("url {}", url);
+    let config = AppConfig::new();
+    let services = vec![
+                        config.auth_service,
+                        config.assets_service,
+                        config.content_service,
+                        config.drafts_service
+    ];
+    let mut forwarded_addr = "".to_string();
+    let mut forwarded_port = 0;
+    for service in &services {
+        // if app_config.content_service
+        for proxy in &service.proxies {
+            if proxy.contains(&url) {
+                // result = (&service.url, service.port);
+                forwarded_addr = (*service.url).parse()?;
+                forwarded_port = service.port;
+            }
+        }
+    }
 
-    //todo: basic forwarding works, need to map to configurable services
-
-    let forwarded_addr = "127.0.0.1";
-    let forwarded_port = 8080;
-
-    let mut new_url = get_url(forwarded_addr, forwarded_port);
+    let mut new_url = get_url(&*forwarded_addr, forwarded_port);
     new_url.set_path(req.uri().path());
     new_url.set_query(req.uri().query());
+
+    // map_service_config()
 
     // TODO: This forwarded implementation is incomplete as it only handles the inofficial
     // X-Forwarded-For header but not the official Forwarded one.
@@ -56,12 +76,8 @@ pub async fn forward(
     Ok(client_resp.body(res.body().await?))
 }
 
-// pub fn use_service_config(app_config: AppConfig) {
-//     // if app_config.content_service
-// }
-
 // Returns target URL
-pub fn get_proxy_target(service: ServiceConfig) -> String {
+pub fn get_proxy_target(service: &ServiceConfig) -> String {
     format!("{}://{}:{}", service.protocol, service.url, service.port)
 }
 
