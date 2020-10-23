@@ -1,7 +1,3 @@
-use url::Url;
-use std::str::Split;
-use std::ops::RangeFrom;
-
 pub struct ServiceConfig {
     pub protocol: String,
     pub url: String,
@@ -9,6 +5,7 @@ pub struct ServiceConfig {
     pub proxies: Vec<String>
 }
 
+#[allow(dead_code)]
 pub struct AppConfig {
     pub port: u16,
     tenant: String,

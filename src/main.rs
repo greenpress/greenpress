@@ -3,10 +3,8 @@ mod api_proxy;
 
 use crate::config::{AppConfig};
 use crate::api_proxy::forward;
-use std::net::ToSocketAddrs;
 use actix_web::client::Client;
-use actix_web::{middleware, web, App, Error, HttpRequest, HttpResponse, HttpServer};
-use url::Url;
+use actix_web::{middleware, web, App, HttpServer};
 
 //todo: add some #[cfg(test)]
 #[actix_web::main]
