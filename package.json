@@ -1,6 +1,6 @@
 {
  "name": "greenpress",
- "version": "1.1.4",
+ "version": "1.1.5",
  "description": "Open-source blogs and content websites platform, made for the 21st century",
  "main": "index.js",
  "scripts": {
@@ -14,7 +14,7 @@
   "@greenpress/admin": "^0.1.31",
   "@greenpress/assets": "^1.0.13",
   "@greenpress/auth": "^1.0.14",
-  "@greenpress/blog-front": "https://github.com/greenpress/blog-front.git#7f68f542881abd623d89b382bcee2cbc28763662",
+  "@greenpress/blog-front": "https://github.com/greenpress/blog-front.git#5dcf942925706e4e3da245e11a70f81ae136e147",
   "@greenpress/cli-service-pm2": "0.2.0",
   "@greenpress/content": "^1.0.15",
   "@greenpress/drafts": "^1.0.3",
