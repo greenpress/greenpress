@@ -1,6 +1,6 @@
 {
  "name": "greenpress",
- "version": "1.1.5",
+ "version": "1.1.6",
  "description": "Open-source blogs and content websites platform, made for the 21st century",
  "main": "index.js",
  "scripts": {
@@ -12,7 +12,7 @@
  "license": "MIT",
  "dependencies": {
   "@greenpress/admin": "^0.1.31",
-  "@greenpress/assets": "^1.0.13",
+  "@greenpress/assets": "^1.0.14",
   "@greenpress/auth": "^1.0.14",
   "@greenpress/blog-front": "https://github.com/greenpress/blog-front.git#5dcf942925706e4e3da245e11a70f81ae136e147",
   "@greenpress/cli-service-pm2": "0.2.0",
