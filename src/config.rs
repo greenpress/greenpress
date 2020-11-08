@@ -1,5 +1,3 @@
-use std::env::var;
-
 pub struct ServiceConfig {
     pub protocol: String,
     pub url: String,
@@ -23,13 +21,31 @@ pub struct AppConfig {
 impl AppConfig {
     pub fn new() -> Self {
         Self {
-            port: var("PORT").unwrap().parse().unwrap(),
-            tenant: var("BASIC_TENANT").unwrap().parse().unwrap(),
-            application_url: var("APPLICATION_URL").unwrap().parse().unwrap(),
+            port: std::env::var("PORT")
+                .expect("PORT not found")
+                .parse()
+                .unwrap(),
+            tenant: std::env::var("BASIC_TENANT")
+                .expect("BASIC_TENANT not found")
+                .parse()
+                .unwrap(),
+            application_url: std::env::var("APPLICATION_URL")
+                .expect("APPLICATION_URL not found")
+                .parse()
+                .unwrap(),
             content_service: ServiceConfig {
-                protocol: var("CONTENT_SERVICE_PROTOCOL").unwrap().parse().unwrap(),
-                url: var("CONTENT_SERVICE_URL").unwrap().parse().unwrap(),
-                port: var("CONTENT_SERVICE_PORT").unwrap().parse().unwrap(),
+                protocol: std::env::var("CONTENT_SERVICE_PROTOCOL")
+                    .expect("CONTENT_SERVICE_PROTOCOL not found")
+                    .parse()
+                    .unwrap(),
+                url: std::env::var("CONTENT_SERVICE_URL")
+                    .expect("CONTENT_SERVICE_URL not found")
+                    .parse()
+                    .unwrap(),
+                port: std::env::var("CONTENT_SERVICE_PORT")
+                    .expect("CONTENT_SERVICE_PORT not found")
+                    .parse()
+                    .unwrap(),
                 proxies: vec![
                     "/api/categories".to_string(),
                     "/api/posts".to_string(),
@@ -39,9 +55,18 @@ impl AppConfig {
                 ], //CONTENT_SERVICE_PROXIES
             },
             auth_service: ServiceConfig {
-                protocol: var("AUTH_SERVICE_PROTOCOL").unwrap().parse().unwrap(),
-                url: var("AUTH_SERVICE_URL").unwrap().parse().unwrap(),
-                port: var("AUTH_SERVICE_PORT").unwrap().parse().unwrap(),
+                protocol: std::env::var("AUTH_SERVICE_PROTOCOL")
+                    .expect("AUTH_SERVICE_PROTOCOL not found")
+                    .parse()
+                    .unwrap(),
+                url: std::env::var("AUTH_SERVICE_URL")
+                    .expect("AUTH_SERVICE_URL not found")
+                    .parse()
+                    .unwrap(),
+                port: std::env::var("AUTH_SERVICE_PORT")
+                    .expect("AUTH_SERVICE_PORT not found")
+                    .parse()
+                    .unwrap(),
                 proxies: vec![
                     "/api/signin".to_string(),
                     "/api/signup".to_string(),
@@ -52,21 +77,48 @@ impl AppConfig {
                 ],
             },
             assets_service: ServiceConfig {
-                protocol: var("ASSETS_SERVICE_PROTOCOL").unwrap().parse().unwrap(),
-                url: var("ASSETS_SERVICE_URL").unwrap().parse().unwrap(),
-                port: var("ASSETS_SERVICE_PORT").unwrap().parse().unwrap(),
+                protocol: std::env::var("ASSETS_SERVICE_PROTOCOL")
+                    .expect("ASSETS_SERVICE_PROTOCOL not found")
+                    .parse()
+                    .unwrap(),
+                url: std::env::var("ASSETS_SERVICE_URL")
+                    .expect("ASSETS_SERVICE_URL not found")
+                    .parse()
+                    .unwrap(),
+                port: std::env::var("ASSETS_SERVICE_PORT")
+                    .expect("ASSETS_SERVICE_PORT not found")
+                    .parse()
+                    .unwrap(),
                 proxies: vec!["/api/assets".to_string(), "/api/storage".to_string()], //ASSETS_SERVICE_PROXIES
             },
             admin_panel: ServiceConfig {
-                protocol: var("ADMIN_PANEL_PROTOCOL").unwrap().parse().unwrap(),
-                url: var("ADMIN_PANEL_URL").unwrap().parse().unwrap(),
-                port: var("ADMIN_PANEL_PORT").unwrap().parse().unwrap(),
+                protocol: std::env::var("ADMIN_PANEL_PROTOCOL")
+                    .expect("ADMIN_PANEL_PROTOCOL not found")
+                    .parse()
+                    .unwrap(),
+                url: std::env::var("ADMIN_PANEL_URL")
+                    .expect("ADMIN_PANEL_URL not found")
+                    .parse()
+                    .unwrap(),
+                port: std::env::var("ADMIN_PANEL_PORT")
+                    .expect("ADMIN_PANEL_PORT not found")
+                    .parse()
+                    .unwrap(),
                 proxies: vec!["/gp-admin".to_string()], // ADMIN_PANEL_PROXIES
             },
             drafts_service: ServiceConfig {
-                protocol: var("DRAFTS_SERVICE_PROTOCOL").unwrap().parse().unwrap(),
-                url: var("DRAFTS_SERVICE_URL").unwrap().parse().unwrap(),
-                port: var("DRAFTS_SERVICE_PORT").unwrap().parse().unwrap(),
+                protocol: std::env::var("DRAFTS_SERVICE_PROTOCOL")
+                    .expect("DRAFTS_SERVICE_PROTOCOL not found")
+                    .parse()
+                    .unwrap(),
+                url: std::env::var("DRAFTS_SERVICE_URL")
+                    .expect("DRAFTS_SERVICE_URL not found")
+                    .parse()
+                    .unwrap(),
+                port: std::env::var("DRAFTS_SERVICE_PORT")
+                    .expect("DRAFTS_SERVICE_PORT not found")
+                    .parse()
+                    .unwrap(),
                 proxies: vec!["/api/drafts".to_string()], // DRAFTS_SERVICE_PROXIES
             },
         }
