@@ -13,7 +13,7 @@ async fn main() -> std::io::Result<()> {
     dotenv().ok();
 
     let app_config = AppConfig::new();
-    let address = format!("{}:{}", "0.0.0.0", app_config.port);
+    let address = format!("{}:{}", app_config.application_url, app_config.port);
 
     println!("{}", address);
 
