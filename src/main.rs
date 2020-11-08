@@ -1,15 +1,14 @@
-mod config;
 mod api_proxy;
+mod config;
 
-use crate::config::{AppConfig};
 use crate::api_proxy::forward;
+use crate::config::AppConfig;
 use actix_web::client::Client;
 use actix_web::{middleware, web, App, HttpServer};
 
 //todo: add some #[cfg(test)]
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-
     let app_config = AppConfig::new();
     let address = format!("{}:{}", "0.0.0.0", app_config.port);
     println!("{}", address);
@@ -19,10 +18,10 @@ async fn main() -> std::io::Result<()> {
             .data(Client::new())
             .wrap(middleware::Logger::default())
             .default_service(web::route().to(forward))
-            // .default_service() webfront url
+        //  .default_service() webfront url
     })
-        .bind(address)?
-        .system_exit()
-        .run()
-        .await
+    .bind(address)?
+    .system_exit()
+    .run()
+    .await
 }

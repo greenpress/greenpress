@@ -1,19 +1,15 @@
-use actix_web::{HttpRequest, web, HttpResponse, Error};
+use crate::config::AppConfig;
 use actix_web::client::{Client, ClientRequest};
-use url::Url;
+use actix_web::{web, Error, HttpRequest, HttpResponse};
 use std::net::ToSocketAddrs;
-use crate::config::{ AppConfig };
+use url::Url;
 
 fn get_url(addr: &str, port: u16) -> Url {
     Url::parse(&format!(
         "http://{}",
-        (addr, port)
-            .to_socket_addrs()
-            .unwrap()
-            .next()
-            .unwrap()
+        (addr, port).to_socket_addrs().unwrap().next().unwrap()
     ))
-        .unwrap()
+    .unwrap()
 }
 
 fn enrich_url(mut url: Url, req: &HttpRequest) -> Url {
@@ -42,7 +38,7 @@ fn forward_to(url: &str) -> Result<(String, u16), Error> {
         // config.auth_service, // config.admin_panel ?
         config.assets_service,
         config.content_service,
-        config.drafts_service
+        config.drafts_service,
     ];
     // todo: is that the default?
     let mut forwarded_addr = config.application_url;
@@ -102,12 +98,9 @@ pub async fn forward(
     let mut client_resp = HttpResponse::build(res.status());
     // Remove `Connection` as per
     // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Connection#Directives
-    for (header_name, header_value) in
-    res.headers().iter().filter(|(h, _)| *h != "connection")
-    {
+    for (header_name, header_value) in res.headers().iter().filter(|(h, _)| *h != "connection") {
         client_resp.header(header_name.clone(), header_value.clone());
     }
 
     Ok(client_resp.body(res.body().await?))
 }
-
