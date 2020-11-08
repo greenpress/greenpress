@@ -52,7 +52,8 @@ impl AppConfig {
                     "/api/menus".to_string(),
                     "/api/tags".to_string(),
                     "/api/configurations".to_string(),
-                ], //CONTENT_SERVICE_PROXIES
+                ],
+                // TODO: CONTENT_SERVICE_PROXIES
             },
             auth_service: ServiceConfig {
                 protocol: std::env::var("AUTH_SERVICE_PROTOCOL")
@@ -75,6 +76,7 @@ impl AppConfig {
                     "/api/users".to_string(),
                     "/api/logout".to_string(),
                 ],
+                // TODO: AUTH_SERVICE_PROXIES
             },
             assets_service: ServiceConfig {
                 protocol: std::env::var("ASSETS_SERVICE_PROTOCOL")
@@ -89,7 +91,8 @@ impl AppConfig {
                     .expect("ASSETS_SERVICE_PORT not found")
                     .parse()
                     .unwrap(),
-                proxies: vec!["/api/assets".to_string(), "/api/storage".to_string()], //ASSETS_SERVICE_PROXIES
+                proxies: vec!["/api/assets".to_string(), "/api/storage".to_string()],
+                // TODO: ASSETS_SERVICE_PROXIES
             },
             admin_panel: ServiceConfig {
                 protocol: std::env::var("ADMIN_PANEL_PROTOCOL")
@@ -104,7 +107,8 @@ impl AppConfig {
                     .expect("ADMIN_PANEL_PORT not found")
                     .parse()
                     .unwrap(),
-                proxies: vec!["/gp-admin".to_string()], // ADMIN_PANEL_PROXIES
+                proxies: vec!["/gp-admin".to_string()],
+                // TODO: ADMIN_PANEL_PROXIES
             },
             drafts_service: ServiceConfig {
                 protocol: std::env::var("DRAFTS_SERVICE_PROTOCOL")
@@ -119,7 +123,8 @@ impl AppConfig {
                     .expect("DRAFTS_SERVICE_PORT not found")
                     .parse()
                     .unwrap(),
-                proxies: vec!["/api/drafts".to_string()], // DRAFTS_SERVICE_PROXIES
+                proxies: vec!["/api/drafts".to_string()],
+                // TODO: DRAFTS_SERVICE_PROXIES
             },
         }
     }
