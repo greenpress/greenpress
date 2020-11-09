@@ -1,6 +1,6 @@
 {
  "name": "greenpress",
- "version": "1.1.6",
+ "version": "1.1.7",
  "description": "Open-source blogs and content websites platform, made for the 21st century",
  "main": "index.js",
  "scripts": {
@@ -17,7 +17,7 @@
   "@greenpress/blog-front": "https://github.com/greenpress/blog-front.git#5dcf942925706e4e3da245e11a70f81ae136e147",
   "@greenpress/cli-service-pm2": "0.2.0",
   "@greenpress/content": "^1.0.15",
-  "@greenpress/drafts": "^1.0.3",
+  "@greenpress/drafts": "^1.0.4",
   "@greenpress/secrets": "^1.0.6"
  },
  "devDependencies": {
