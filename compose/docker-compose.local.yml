@@ -19,6 +19,7 @@ services:
       - greenpress.local.env
     volumes:
       - ../dev:/app/dev
+      - ../themes:/app/themes
     ports:
       - "3000-3001:3000-3001"
       - "9000-9010:9000-9010"
