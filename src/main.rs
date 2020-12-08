@@ -11,6 +11,8 @@ use actix_web_httpauth::middleware::HttpAuthentication;
 use dotenv::dotenv;
 
 async fn validator(req: ServiceRequest, auth: BearerAuth) -> Result<ServiceRequest, Error> {
+    // Opened an issue with requesting more elegant code to get a cookie from a request:
+    // https://github.com/actix/actix-web/issues/1818
     let (http_req, payload) = req.into_parts();
     let cookie = http_req.cookie("token=");
     let req = ServiceRequest::from_parts(http_req, payload).ok().unwrap();
