@@ -21,7 +21,10 @@ async fn validator(req: ServiceRequest, auth: BearerAuth) -> Result<ServiceReque
         return Ok(req);
     }
 
-    // TODO: Call auth service
+    let me_url = "http://localhost:9000/api/me";
+    let auth_req = Client::new().request_from(me_url, req.head());
+
+    // TODO: Call auth service and handle response
 
     Ok(req)
 }
