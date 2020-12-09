@@ -4,27 +4,38 @@ mod config;
 use crate::api_proxy::forward;
 use crate::config::AppConfig;
 use actix_web::client::Client;
+use actix_web::http::header::{HeaderName, HeaderValue};
 use actix_web::HttpMessage;
 use actix_web::{dev::ServiceRequest, middleware, web, App, Error, HttpServer};
 use actix_web_httpauth::extractors::bearer::BearerAuth;
 use actix_web_httpauth::middleware::HttpAuthentication;
 use dotenv::dotenv;
+use std::str;
+
+static USER_HEADER: &'static str = "user";
 
 async fn validator(req: ServiceRequest, auth: BearerAuth) -> Result<ServiceRequest, Error> {
     // Opened an issue with requesting more elegant code to get a cookie from a request:
     // https://github.com/actix/actix-web/issues/1818
     let (http_req, payload) = req.into_parts();
     let cookie = http_req.cookie("token=");
-    let req = ServiceRequest::from_parts(http_req, payload).ok().unwrap();
+    let mut req = ServiceRequest::from_parts(http_req, payload).ok().unwrap();
 
     if auth.token().trim().is_empty() || cookie.is_some() {
         return Ok(req);
     }
 
+    // TODO: Get url from config
     let me_url = "http://localhost:9000/api/me";
     let auth_req = Client::new().request_from(me_url, req.head());
+    let mut auth_res = auth_req.send().await?;
+    let body = auth_res.body().await?;
+    let user = str::from_utf8(body.as_ref()).unwrap();
 
-    // TODO: Call auth service and handle response
+    req.headers_mut().insert(
+        HeaderName::from_static(USER_HEADER),
+        HeaderValue::from_str(user).unwrap(),
+    );
 
     Ok(req)
 }
