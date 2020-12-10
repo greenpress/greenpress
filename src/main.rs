@@ -19,7 +19,7 @@ async fn validator(req: ServiceRequest, auth: BearerAuth) -> Result<ServiceReque
     // https://github.com/actix/actix-web/issues/1818
     let (http_req, payload) = req.into_parts();
     let cookie = http_req.cookie("token=");
-    // TODO: Don't use unwrap()
+    // TODO: Don't use unwrap() because panics
     let mut req = ServiceRequest::from_parts(http_req, payload).ok().unwrap();
 
     if auth.token().trim().is_empty() || cookie.is_some() {
@@ -28,7 +28,11 @@ async fn validator(req: ServiceRequest, auth: BearerAuth) -> Result<ServiceReque
 
     // TODO: Get url from config
     let me_url = "http://localhost:9000/api/me";
-    let auth_req = Client::new().request_from(me_url, req.head());
+    let auth_req = Client::new()
+        .get(me_url)
+        .bearer_auth(auth.token())
+        .cookie(cookie.unwrap()) // unwrap() should never panic
+        .content_type("application/json");
     let mut auth_res = auth_req.send().await?;
     let body = auth_res.body().await?;
     let user = str::from_utf8(body.as_ref())?;
