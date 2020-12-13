@@ -18,7 +18,7 @@ async fn validator(req: ServiceRequest, auth: BearerAuth) -> Result<ServiceReque
     // Opened an issue with requesting more elegant code to get a cookie from a request:
     // https://github.com/actix/actix-web/issues/1818
     let (http_req, payload) = req.into_parts();
-    let cookie = http_req.cookie("token=");
+    let cookie = http_req.cookie("token");
     // TODO: Don't use unwrap() because panics?
     let mut req = ServiceRequest::from_parts(http_req, payload).ok().unwrap();
 
