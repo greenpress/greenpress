@@ -60,6 +60,9 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(move || {
         let middleware = HttpAuthentication::bearer(validator);
 
+        // NOTE: Consequently, the *first* middleware registered
+        // in the builder chain is the *last* to execute during request processing.
+
         App::new()
             .data(Client::new())
             .wrap(middleware)
