@@ -26,8 +26,14 @@ async fn validator(req: ServiceRequest, auth: BearerAuth) -> Result<ServiceReque
         return Ok(req);
     }
 
-    // TODO: Get url from config
-    let me_url = "http://localhost:9000/api/me";
+    let app_config = req.app_data::<web::Data<AppConfig>>().unwrap();
+    let me_url_protocol = &app_config.auth_service.protocol;
+    let me_url_url = &app_config.auth_service.url;
+    let me_url_port = &app_config.auth_service.port;
+    let me_url = format!(
+        "{}://{}:{}/api/me",
+        me_url_protocol, me_url_url, me_url_port
+    );
     let auth_req = Client::new()
         .get(me_url)
         .bearer_auth(auth.token())
@@ -65,6 +71,7 @@ async fn main() -> std::io::Result<()> {
 
         App::new()
             .data(Client::new())
+            .data(AppConfig::new())
             .wrap(middleware)
             .wrap(middleware::Logger::default())
             .default_service(web::route().to(forward))
