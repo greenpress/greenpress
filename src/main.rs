@@ -27,6 +27,7 @@ async fn validator(req: ServiceRequest, auth: BearerAuth) -> Result<ServiceReque
         return Ok(req);
     }
 
+    // NOTE: unwrap() should never panic
     let app_config = req.app_data::<web::Data<AppConfig>>().unwrap();
     let me_url_protocol = &app_config.auth_service.protocol;
     let me_url_url = &app_config.auth_service.url;
