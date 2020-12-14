@@ -5,6 +5,7 @@ use crate::api_proxy::forward;
 use crate::config::AppConfig;
 use actix_web::client::Client;
 use actix_web::http::header::{HeaderName, HeaderValue};
+use actix_web::http::StatusCode;
 use actix_web::HttpMessage;
 use actix_web::{dev::ServiceRequest, middleware, web, App, Error, HttpServer};
 use actix_web_httpauth::extractors::bearer::BearerAuth;
@@ -40,15 +41,25 @@ async fn validator(req: ServiceRequest, auth: BearerAuth) -> Result<ServiceReque
         .cookie(cookie.unwrap()) // NOTE: unwrap() should never panic
         .content_type("application/json");
     let mut auth_res = auth_req.send().await?;
-    let body = auth_res.body().await?;
-    // TODO: What if there is no json response? -> If there is no json, will we send an empty header value?
-    // TODO: What if there is error as a (json?) response? -> Handle here or pass to service?
-    let user = str::from_utf8(body.as_ref())?;
 
-    req.headers_mut().insert(
-        HeaderName::from_static(USER_HEADER),
-        HeaderValue::from_str(user)?, // TODO: No error
-    );
+    /*
+     * 200 response always has a payload,
+     * though an origin server MAY generate a payload body of zero length.
+     * If no payload is desired, an origin server ought to send 204 (No
+     * Content) instead.
+     *
+     * https://tools.ietf.org/html/rfc7231#section-6.3.1
+     */
+    if auth_res.status() == StatusCode::OK {
+        let body = auth_res.body().await?;
+
+        if let Ok(user) = str::from_utf8(body.as_ref()) {
+            req.headers_mut().insert(
+                HeaderName::from_static(USER_HEADER),
+                HeaderValue::from_str(user).unwrap(), // NOTE: unwrap() should never panic
+            );
+        }
+    }
 
     Ok(req)
 }
