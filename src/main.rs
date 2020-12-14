@@ -10,7 +10,7 @@ use actix_web::{dev::ServiceRequest, middleware, web, App, Error, HttpServer};
 use actix_web_httpauth::extractors::bearer::BearerAuth;
 use actix_web_httpauth::middleware::HttpAuthentication;
 use dotenv::dotenv;
-use std::str;
+use std::{env, str};
 
 static USER_HEADER: &'static str = "user";
 
@@ -58,8 +58,9 @@ async fn validator(req: ServiceRequest, auth: BearerAuth) -> Result<ServiceReque
 async fn main() -> std::io::Result<()> {
     dotenv().ok();
 
-    let app_config = AppConfig::new();
-    let address = format!("{}:{}", app_config.application_url, app_config.port);
+    let url = env::var("APPLICATION_URL").expect("APPLICATION_URL must be set");
+    let port = env::var("PORT").expect("PORT must be set");
+    let address = format!("{}:{}", url, port);
 
     println!("{}", address);
 
