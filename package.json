@@ -15,9 +15,9 @@
   "@greenpress/assets": "^1.0.15",
   "@greenpress/auth": "^1.0.14",
   "@greenpress/blog-front": "https://github.com/greenpress/blog-front.git#a3945caae9df8ef1133630673880254607709f38",
-  "@greenpress/cli-service-pm2": "0.2.1",
   "@greenpress/content": "^1.0.16",
   "@greenpress/drafts": "^1.0.4",
+  "@greenpress/pm2-launcher": "^0.2.1",
   "@greenpress/secrets": "^1.0.6"
  },
  "devDependencies": {
