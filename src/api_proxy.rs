@@ -115,6 +115,8 @@ pub async fn validator(req: ServiceRequest, auth: BearerAuth) -> Result<ServiceR
         .content_type("application/json");
     let mut auth_res = auth_req.send().await?;
 
+    // TODO: Do set-cookie
+    // TODO: Don't check status code
     /*
      * 200 response always has a payload,
      * though an origin server MAY generate a payload body of zero length.
