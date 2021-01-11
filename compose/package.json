@@ -12,6 +12,7 @@
 	"create-local-env": "node -e \"const {existsSync, writeFileSync:write}=require('fs');const envPath='greenpress.local.env';existsSync(envPath) ? process.exit() : write(envPath, '')\"",
 	"set-local-dev-command": "node -e \"const {writeFileSync:write,readFileSync:read}=require('fs');const file='.env';const prop='GP_LOCAL_COMMAND';write(file, read(file).toString().split('\\n').map(line=>line.startsWith(prop) ? (prop+'=npm run dev --x=db'):line).join('\\n'))\"",
 	"set-local-command": "node -e \"const {writeFileSync:write,readFileSync:read}=require('fs');const file='.env';const prop='GP_LOCAL_COMMAND';write(file, read(file).toString().split('\\n').map(line=>line.startsWith(prop) ? (prop+'=npm start'):line).join('\\n'))\"",
+	"set-alternative-hmr": "node -e \"if(process.platform!=='win32') {process.exit(0)};const {writeFileSync:write,readFileSync:read}=require('fs');const file='.env';const prop='ALTERNATIVE_HMR';write(file, read(file).toString().split('\\n').map(line=>line.startsWith(prop) ? (prop+'=1'):line).join('\\n'))\"",
 	"local:compose-up": "docker-compose -f docker-compose.local.yml -p greenpress up --build -d",
 	"install-dev-repo": "node -e \"const {execSync}=require('child_process');const {REPO_PATH}=process.env; execSync(`docker build -t ${REPO_PATH} .`, {cwd: REPO_PATH})\""
   },
