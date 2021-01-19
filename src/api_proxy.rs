@@ -140,10 +140,16 @@ pub async fn validator(req: ServiceRequest, auth: BearerAuth) -> Result<ServiceR
     if auth_res.status() == StatusCode::OK {
         let body = auth_res.body().await?;
 
+        // proxyReq.setHeader('user', req.user || '')
         if let Ok(user) = str::from_utf8(body.as_ref()) {
             req.headers_mut().insert(
                 HeaderName::from_static(USER_HEADER),
                 HeaderValue::from_str(user).unwrap(), // NOTE: unwrap() should never panic
+            );
+        } else {
+            req.headers_mut().insert(
+                HeaderName::from_static(USER_HEADER),
+                HeaderValue::from_str(&"").unwrap(), // NOTE: unwrap() should never panic
             );
         }
     }
