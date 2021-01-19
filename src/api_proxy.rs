@@ -1,6 +1,7 @@
 use crate::config::AppConfig;
 use actix_web::client::{Client, ClientRequest};
 use actix_web::dev::ServiceRequest;
+use actix_web::http::header::SET_COOKIE;
 use actix_web::http::header::{HeaderName, HeaderValue};
 use actix_web::http::StatusCode;
 use actix_web::HttpMessage;
@@ -115,8 +116,19 @@ pub async fn validator(req: ServiceRequest, auth: BearerAuth) -> Result<ServiceR
         .content_type("application/json");
     let mut auth_res = auth_req.send().await?;
 
-    // TODO: Do set-cookie
-    // TODO: Don't check status code
+    // const setCookie = response.headers.raw()['set-cookie']
+    let set_cookie = auth_res.headers().get(SET_COOKIE);
+
+    // if (setCookie)
+    if set_cookie.is_some() {
+        // TODO: res.set('set-cookie', setCookie)
+    }
+
+    // if (response.status === 200)
+    if auth_res.status() == StatusCode::OK {
+        // return response.text()
+    }
+
     /*
      * 200 response always has a payload,
      * though an origin server MAY generate a payload body of zero length.
