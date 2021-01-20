@@ -45,7 +45,7 @@ fn forward_to(url: &str) -> Result<(String, u16), Error> {
         config.content_service,
         config.drafts_service,
     ];
-    // todo: is that the default?
+    // TODO: Is that the default?
     let mut forwarded_addr = config.application_url;
     let mut forwarded_port = config.port;
     // Iterate all services and check if path exists in their proxies vec
@@ -67,8 +67,7 @@ pub async fn forward(
     body: web::Bytes,
     client: web::Data<Client>,
 ) -> Result<HttpResponse, Error> {
-    // todo: 1. handle auth (maybe middleware)
-    // todo: 2. handle any other route (default route)
+    // TODO: Handle any other route (default route)
     let mut res = HttpResponse::Ok();
     let bearer_token = get_bearer_token(&req).unwrap(); // req.headers.authorization
     let cookie_token = req.cookie("token"); // req.headers.cookie.includes('token=')
