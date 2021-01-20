@@ -2,7 +2,7 @@ mod config;
 mod proxy;
 mod utils;
 
-use crate::config::config::AppConfig;
+use crate::config::app_config::AppConfig;
 use crate::proxy::api_proxy::forward;
 
 use actix_web::{client::Client, middleware, web, App, HttpServer};
