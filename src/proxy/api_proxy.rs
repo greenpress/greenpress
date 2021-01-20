@@ -18,6 +18,7 @@ pub async fn forward(
 ) -> Result<HttpResponse, Error> {
     // TODO: Handle any other route (default route)
     let mut res = HttpResponse::Ok();
+    let app_config = req.app_data::<web::Data<AppConfig>>().unwrap();
     let bearer_token = get_bearer_token(&req).unwrap(); // req.headers.authorization
     let cookie_token = req.cookie("token"); // req.headers.cookie.includes('token=')
     let mut user: String = "".to_owned();
@@ -25,7 +26,6 @@ pub async fn forward(
     // if (!(req.headers.authorization || req.headers.cookie && req.headers.cookie.includes('token=')))
     if bearer_token.trim().is_empty() || cookie_token.is_some() {
         // const meUrl = getProxyTarget(authService) + '/api/me'
-        let app_config = req.app_data::<web::Data<AppConfig>>().unwrap();
         let me_url_protocol = &app_config.auth_service.protocol;
         let me_url_url = &app_config.auth_service.url;
         let me_url_port = &app_config.auth_service.port;
@@ -65,7 +65,7 @@ pub async fn forward(
 
     // based on: https://github.com/actix/examples/blob/master/http-proxy/src/main.rs
     let url = req.path();
-    let (forwarded_addr, forwarded_port) = forward_to(url)?;
+    let (forwarded_addr, forwarded_port) = forward_to(&app_config, url)?;
     let new_url = enrich_url(get_url(&forwarded_addr, forwarded_port), &req);
     let forwarded_req = get_forwarded_req(client, &req, &new_url);
     let mut proxy_res = forwarded_req
