@@ -19,6 +19,7 @@ pub fn get_forwarded_req(
     } else {
         forwarded_req
     };
+    
     forwarded_req
 }
 
@@ -33,8 +34,10 @@ pub fn forward_to(url: &str) -> Result<(String, u16), Error> {
     // TODO: Is that the default?
     let mut forwarded_addr = config.application_url;
     let mut forwarded_port = config.port;
+
     // Iterate all services and check if path exists in their proxies vec
     for service in &services {
+
         // if app_config.content_service
         for proxy in &service.proxies {
             if proxy.contains(&url) {
@@ -44,5 +47,6 @@ pub fn forward_to(url: &str) -> Result<(String, u16), Error> {
             }
         }
     }
+    
     Ok((forwarded_addr, forwarded_port))
 }
