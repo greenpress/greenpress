@@ -4,6 +4,7 @@ use crate::utils::url::*;
 use crate::AppConfig;
 
 use actix_web::client::Client;
+use actix_web::http::Cookie;
 use actix_web::http::{header::SET_COOKIE, StatusCode};
 use actix_web::HttpMessage;
 use actix_web::{web, Error, HttpRequest, HttpResponse};
@@ -19,12 +20,12 @@ pub async fn forward(
     // TODO: Handle any other route (default route)
     let mut res = HttpResponse::Ok();
     let app_config = req.app_data::<web::Data<AppConfig>>().unwrap();
-    let bearer_token = get_bearer_token(&req).unwrap(); // req.headers.authorization
+    let bearer_token = get_bearer_token(&req); // req.headers.authorization
     let cookie_token = req.cookie("token"); // req.headers.cookie.includes('token=')
     let mut user: String = "".to_owned();
 
     // if (!(req.headers.authorization || req.headers.cookie && req.headers.cookie.includes('token=')))
-    if bearer_token.trim().is_empty() || cookie_token.is_some() {
+    if bearer_token.is_some() || cookie_token.is_some() {
         // const meUrl = getProxyTarget(authService) + '/api/me'
         let me_url_protocol = &app_config.auth_service.protocol;
         let me_url_url = &app_config.auth_service.url;
@@ -37,8 +38,8 @@ pub async fn forward(
         // fetch(meUrl, headers...)
         let mut auth_res = actix_web::client::Client::new()
             .get(me_url)
-            .bearer_auth(bearer_token)
-            .cookie(cookie_token.unwrap()) // NOTE: unwrap() should never panic
+            .bearer_auth(bearer_token.unwrap_or_default())
+            .cookie(cookie_token.unwrap_or(Cookie::named("token")))
             .content_type("application/json")
             .send()
             .await?;
