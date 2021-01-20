@@ -1,5 +1,6 @@
 mod config;
 mod proxy;
+mod utils;
 
 use crate::config::config::AppConfig;
 use crate::proxy::proxy::forward;
