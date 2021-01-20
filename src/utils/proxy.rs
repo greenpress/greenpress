@@ -26,7 +26,8 @@ pub fn get_forwarded_req(
 pub fn forward_to(url: &str) -> Result<(String, u16), Error> {
     let config = AppConfig::new();
     let services = vec![
-        // config.auth_service, // config.admin_panel ?
+        config.auth_service, 
+        config.admin_panel,
         config.assets_service,
         config.content_service,
         config.drafts_service,
