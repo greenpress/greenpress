@@ -1,10 +1,9 @@
 mod api_proxy;
 mod config;
 
-use crate::api_proxy::{forward, validator};
+use crate::api_proxy::forward;
 use crate::config::AppConfig;
 use actix_web::{client::Client, middleware, web, App, HttpServer};
-use actix_web_httpauth::middleware::HttpAuthentication;
 use dotenv::dotenv;
 use std::env;
 
@@ -20,15 +19,12 @@ async fn main() -> std::io::Result<()> {
     println!("{}", address);
 
     HttpServer::new(move || {
-        let middleware = HttpAuthentication::bearer(validator);
-
         // NOTE: Consequently, the *first* middleware registered
         // in the builder chain is the *last* to execute during request processing.
 
         App::new()
             .data(Client::new())
             .data(AppConfig::new())
-            .wrap(middleware)
             .wrap(middleware::Logger::default())
             .default_service(web::route().to(forward))
         //  .default_service() webfront url
