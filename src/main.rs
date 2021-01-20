@@ -4,11 +4,12 @@ mod utils;
 
 use crate::config::config::AppConfig;
 use crate::proxy::api_proxy::forward;
+
 use actix_web::{client::Client, middleware, web, App, HttpServer};
 use dotenv::dotenv;
 use std::env;
 
-//todo: add some #[cfg(test)]
+// TODO: Add some #[cfg(test)]
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     dotenv().ok();
