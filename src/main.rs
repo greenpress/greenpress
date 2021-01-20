@@ -1,8 +1,8 @@
 mod config;
 mod proxy;
 
-use crate::config::AppConfig;
-use crate::proxy::forward;
+use crate::config::config::AppConfig;
+use crate::proxy::proxy::forward;
 use actix_web::{client::Client, middleware, web, App, HttpServer};
 use dotenv::dotenv;
 use std::env;

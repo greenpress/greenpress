@@ -1,4 +1,4 @@
-use crate::config::AppConfig;
+use crate::AppConfig;
 use actix_web::client::{Client, ClientRequest};
 use actix_web::{web, Error, HttpRequest, HttpResponse};
 use std::{net::ToSocketAddrs, str};
