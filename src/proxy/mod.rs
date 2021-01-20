@@ -1,1 +1,1 @@
-pub mod proxy;
+pub mod api_proxy;
