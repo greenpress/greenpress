@@ -57,29 +57,6 @@ fn forward_to(url: &str) -> Result<(String, u16), Error> {
     Ok((forwarded_addr, forwarded_port))
 }
 
-// Handle header
-
-fn get_auth_header(req: &HttpRequest) -> Option<&str> {
-    let req_headers = req.headers();
-    let basic_auth_header = req_headers.get("Authorization"); //todo: is it?
-    let basic_auth: &str = basic_auth_header.unwrap().to_str().unwrap();
-    Some(basic_auth)
-}
-
-fn get_header_cookie(req: &HttpRequest) -> Option<&str> {
-    let req_headers = req.headers();
-    let header_cookie = req_headers.get("cookie"); //todo: is it?
-    let cookie: &str = header_cookie.unwrap().to_str().unwrap();
-    Some(cookie)
-}
-
-fn handle_req_header(req: &HttpRequest) {
-    let auth = get_auth_header(req).unwrap();
-    let cookie = get_header_cookie(req).unwrap();
-    println!("{}", auth);
-}
-// ['set-cookie']
-
 pub async fn forward(
     req: HttpRequest,
     body: web::Bytes,
