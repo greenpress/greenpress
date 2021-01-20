@@ -70,6 +70,8 @@ pub async fn forward(
     // based on: https://github.com/actix/examples/blob/master/http-proxy/src/main.rs
     let new_url = enrich_url(get_url(&forwarded_addr, forwarded_port), &req);
     let forwarded_req = get_forwarded_req(client, &req, &new_url);
+
+    // ? Add user header here
     let mut res = forwarded_req.send_body(body).await.map_err(Error::from)?;
 
     let mut client_resp = HttpResponse::build(res.status());
