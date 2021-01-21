@@ -8,7 +8,6 @@ pub fn get_bearer_token(req: &HttpRequest) -> Option<&str> {
 
     if basic_auth_header.is_some() {
         let basic_auth: &str = basic_auth_header?.to_str().unwrap();
-
         return Some(basic_auth);
     }
 
