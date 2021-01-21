@@ -8,7 +8,7 @@ pub struct ServiceConfig {
 #[allow(dead_code)]
 pub struct AppConfig {
     pub port: u16,
-    tenant: String,
+    pub tenant: String,
     pub application_url: String,
     pub content_service: ServiceConfig,
     pub auth_service: ServiceConfig,
