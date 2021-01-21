@@ -72,7 +72,7 @@ pub async fn forward(
     let forwarded_req = get_forwarded_req(client, &req, &new_url);
     let mut proxy_res = forwarded_req
         .header(TENANT_HEADER, app_config.tenant.to_owned())
-        .header(USER_HEADER, user) // proxyReq.setHeader('user', req.user || '')
+        .header(USER_HEADER, user.to_owned()) // proxyReq.setHeader('user', req.user || '')
         .send_body(body)
         .await
         .map_err(Error::from)?;
