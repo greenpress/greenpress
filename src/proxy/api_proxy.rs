@@ -10,6 +10,7 @@ use actix_web::HttpMessage;
 use actix_web::{web, Error, HttpRequest, HttpResponse};
 use std::str;
 
+static TENANT_HEADER: &'static str = "tenant";
 static USER_HEADER: &'static str = "user";
 
 pub async fn forward(
@@ -70,6 +71,7 @@ pub async fn forward(
     let new_url = enrich_url(get_url(&forwarded_addr, forwarded_port), &req);
     let forwarded_req = get_forwarded_req(client, &req, &new_url);
     let mut proxy_res = forwarded_req
+        .header(TENANT_HEADER, app_config.tenant.to_owned())
         .header(USER_HEADER, user) // proxyReq.setHeader('user', req.user || '')
         .send_body(body)
         .await
