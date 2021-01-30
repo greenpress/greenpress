@@ -28,17 +28,11 @@ pub async fn forward(
     // if (!(req.headers.authorization || req.headers.cookie && req.headers.cookie.includes('token=')))
     if bearer_token.is_some() || cookie_token.is_some() {
         // const meUrl = getProxyTarget(authService) + '/api/me'
-        let me_url_protocol = &app_config.auth_service.protocol;
-        let me_url_url = &app_config.auth_service.url;
-        let me_url_port = &app_config.auth_service.port;
-        let me_url = format!(
-            "{}://{}:{}/api/me",
-            me_url_protocol, me_url_url, me_url_port
-        );
+        let me_url = get_me_url(&app_config);
 
         // fetch(meUrl, headers...)
         let mut auth_res = actix_web::client::Client::new()
-            .get(me_url)
+            .get(&me_url)
             .bearer_auth(bearer_token.unwrap_or_default())
             .cookie(cookie_token.unwrap_or(Cookie::named("token")))
             .content_type("application/json")
