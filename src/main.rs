@@ -5,20 +5,19 @@ mod utils;
 use crate::config::app_config::AppConfig;
 use crate::proxy::api_proxy::forward;
 
-use actix_web::{client::Client, middleware, web, App, HttpServer};
+use actix_web::{client::Client, middleware::Logger, web, App, HttpServer};
 use dotenv::dotenv;
-use std::env;
+use std::{env, io::Result};
 
-// TODO: Add some #[cfg(test)]
 #[actix_web::main]
-async fn main() -> std::io::Result<()> {
+async fn main() -> Result<()> {
     dotenv().ok();
 
     let url = env::var("APPLICATION_URL").expect("APPLICATION_URL must be set");
     let port = env::var("PORT").expect("PORT must be set");
     let address = format!("{}:{}", url, port);
 
-    println!("{}", address);
+    println!("Address: {}", address);
 
     HttpServer::new(move || {
         // NOTE: Consequently, the *first* middleware registered
@@ -26,7 +25,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .data(Client::new())
             .data(AppConfig::new())
-            .wrap(middleware::Logger::default())
+            .wrap(Logger::default())
             .default_service(web::route().to(forward))
         //  .default_service() webfront url
     })
