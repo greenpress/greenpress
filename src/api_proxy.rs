@@ -104,3 +104,7 @@ pub async fn forward(
 
     Ok(client_resp.body(res.body().await?))
 }
+
+#[cfg(test)]
+#[path = "api_proxy/tests.rs"]
+mod tests;
