@@ -47,11 +47,12 @@ impl AppConfig {
                     .parse()
                     .unwrap(),
                 proxies: vec![
+                    "/api/configurations".to_string(),
                     "/api/categories".to_string(),
                     "/api/posts".to_string(),
                     "/api/menus".to_string(),
                     "/api/tags".to_string(),
-                    "/api/configurations".to_string(),
+                    "/api/blocks".to_string(),
                 ],
             },
             auth_service: ServiceConfig {
@@ -70,7 +71,7 @@ impl AppConfig {
                 proxies: vec![
                     "/api/signin".to_string(),
                     "/api/signup".to_string(),
-                    "/api/token".to_string(),
+                    "/api/token/refresh".to_string(),
                     "/api/me".to_string(),
                     "/api/users".to_string(),
                     "/api/logout".to_string(),
@@ -119,7 +120,7 @@ impl AppConfig {
                     .expect("DRAFTS_SERVICE_PORT not found")
                     .parse()
                     .unwrap(),
-                proxies: vec!["/api/drafts".to_string()],
+                proxies: vec!["/api/drafts/all".to_string(), "/api/drafts".to_string()],
             },
         }
     }
