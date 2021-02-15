@@ -13,6 +13,8 @@ use std::{env, io::Result};
 async fn main() -> Result<()> {
     dotenv().ok();
 
+    env_logger::init();
+
     let url = env::var("APPLICATION_URL").expect("APPLICATION_URL must be set");
     let port = env::var("PORT").expect("PORT must be set");
     let address = format!("{}:{}", url, port);
