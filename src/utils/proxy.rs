@@ -38,7 +38,7 @@ pub fn forward_to(config: &AppConfig, url: &str) -> Result<(String, u16), Error>
     // Iterate all services and check if path exists in their proxies vec
     for service in services {
         for proxy in &service.proxies {
-            if proxy.contains(&url) {
+            if proxy == &url {
                 forwarded_addr = service.url.parse::<String>()?;
                 forwarded_port = &service.port;
             }
