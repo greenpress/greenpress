@@ -88,17 +88,17 @@ services:
     depends_on:
       - mongo
     links:
-	  - mongo
+      - mongo
   drafts:
-	image: greenpress/drafts:${DRAFTS_SERVICE_VERSION}
-	restart: always
-	environment: 
-	  MONGO_URI: ${DRAFTS_MONGODB_URI}
-	  IP: 0.0.0.0
-	depends_on: 
-	  - mongo
-	links:
-	  - mongo
+    image: greenpress/drafts:${DRAFTS_SERVICE_VERSION}
+    restart: always
+    environment: 
+      MONGO_URI: ${DRAFTS_MONGODB_URI}
+      IP: 0.0.0.0
+    depends_on: 
+      - mongo
+    links:
+      - mongo
 
 networks:
   common_network:
