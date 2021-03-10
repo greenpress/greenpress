@@ -54,6 +54,7 @@ services:
       - assets
       - admin
     environment:
+      IP: 0.0.0.0
       THEME: ${THEME}
       TENANT: ${TENANT}
       APPLICATION_URL: ${APPLICATION_URL}
@@ -92,10 +93,9 @@ services:
   drafts:
     image: greenpress/drafts:${DRAFTS_SERVICE_VERSION}
     restart: always
-    environment: 
+    environment:
       MONGO_URI: ${DRAFTS_MONGODB_URI}
-      IP: 0.0.0.0
-    depends_on: 
+    depends_on:
       - mongo
     links:
       - mongo
