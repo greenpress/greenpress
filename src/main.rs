@@ -2,6 +2,9 @@ mod config;
 mod proxy;
 mod utils;
 
+#[cfg(test)]
+mod tests;
+
 use crate::config::app_config::AppConfig;
 use crate::proxy::api_proxy::forward;
 
