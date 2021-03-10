@@ -4,6 +4,7 @@
   "scripts": {
 	"local": "npm run envs && npm run set-local-command && npm run local:compose-up",
 	"local:dev": "npm run envs && npm run set-local-dev-command && npm run local:compose-up",
+	"scaled": "npm run envs && npm run scaled:compose-up",
 	"populate-db": "docker exec greenpress_greenpress_1 npm run populate-db",
 	"stop": "node -e \"const {execSync}=require('child_process');execSync('docker rm '+execSync('docker ps -f name=greenpress -aq').toString().replace(/\\n/g, ' ')+' -f', {stdio: 'inherit'});\"",
 	"logs": "node -e \"require('child_process').execSync('docker logs greenpress_greenpress_1 -f', {stdio: 'inherit'})\"",
@@ -14,7 +15,8 @@
 	"set-local-command": "node -e \"const {writeFileSync:write,readFileSync:read}=require('fs');const file='.env';const prop='GP_LOCAL_COMMAND';write(file, read(file).toString().split('\\n').map(line=>line.startsWith(prop) ? (prop+'=npm start'):line).join('\\n'))\"",
 	"set-alternative-hmr": "node -e \"if(process.platform!=='win32') {process.exit(0)};const {writeFileSync:write,readFileSync:read}=require('fs');const file='.env';const prop='ALTERNATIVE_HMR';write(file, read(file).toString().split('\\n').map(line=>line.startsWith(prop) ? (prop+'=1'):line).join('\\n'))\"",
 	"local:compose-up": "docker-compose -f docker-compose.local.yml -p greenpress up --build -d",
-	"install-dev-repo": "node -e \"const {execSync}=require('child_process');const {REPO_PATH}=process.env; execSync(`docker build -t ${REPO_PATH} .`, {cwd: REPO_PATH})\""
+	"install-dev-repo": "node -e \"const {execSync}=require('child_process');const {REPO_PATH}=process.env; execSync(`docker build -t ${REPO_PATH} .`, {cwd: REPO_PATH})\"",
+	"scaled:compose-up": "docker-compose -f docker-compose.scaled.yml -p greenpress up -d"
   },
   "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
   "license": "MIT"
