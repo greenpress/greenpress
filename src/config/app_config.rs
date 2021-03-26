@@ -8,7 +8,7 @@ pub struct ServiceConfig {
 #[allow(dead_code)]
 pub struct AppConfig {
     pub port: u16,
-    tenant: String,
+    pub tenant: String,
     pub application_url: String,
     pub content_service: ServiceConfig,
     pub auth_service: ServiceConfig,
@@ -47,13 +47,13 @@ impl AppConfig {
                     .parse()
                     .unwrap(),
                 proxies: vec![
+                    "/api/configurations".to_string(),
                     "/api/categories".to_string(),
                     "/api/posts".to_string(),
                     "/api/menus".to_string(),
                     "/api/tags".to_string(),
-                    "/api/configurations".to_string(),
+                    "/api/blocks".to_string(),
                 ],
-                // TODO: CONTENT_SERVICE_PROXIES
             },
             auth_service: ServiceConfig {
                 protocol: std::env::var("AUTH_SERVICE_PROTOCOL")
@@ -71,12 +71,11 @@ impl AppConfig {
                 proxies: vec![
                     "/api/signin".to_string(),
                     "/api/signup".to_string(),
-                    "/api/token".to_string(),
+                    "/api/token/refresh".to_string(),
                     "/api/me".to_string(),
                     "/api/users".to_string(),
                     "/api/logout".to_string(),
                 ],
-                // TODO: AUTH_SERVICE_PROXIES
             },
             assets_service: ServiceConfig {
                 protocol: std::env::var("ASSETS_SERVICE_PROTOCOL")
@@ -92,7 +91,6 @@ impl AppConfig {
                     .parse()
                     .unwrap(),
                 proxies: vec!["/api/assets".to_string(), "/api/storage".to_string()],
-                // TODO: ASSETS_SERVICE_PROXIES
             },
             admin_panel: ServiceConfig {
                 protocol: std::env::var("ADMIN_PANEL_PROTOCOL")
@@ -108,7 +106,6 @@ impl AppConfig {
                     .parse()
                     .unwrap(),
                 proxies: vec!["/gp-admin".to_string()],
-                // TODO: ADMIN_PANEL_PROXIES
             },
             drafts_service: ServiceConfig {
                 protocol: std::env::var("DRAFTS_SERVICE_PROTOCOL")
@@ -123,8 +120,7 @@ impl AppConfig {
                     .expect("DRAFTS_SERVICE_PORT not found")
                     .parse()
                     .unwrap(),
-                proxies: vec!["/api/drafts".to_string()],
-                // TODO: DRAFTS_SERVICE_PROXIES
+                proxies: vec!["/api/drafts/all".to_string(), "/api/drafts".to_string()],
             },
         }
     }

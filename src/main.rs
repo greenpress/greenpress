@@ -1,26 +1,36 @@
-mod api_proxy;
 mod config;
+mod proxy;
+mod utils;
 
-use crate::api_proxy::forward;
-use crate::config::AppConfig;
-use actix_web::client::Client;
-use actix_web::{middleware, web, App, HttpServer};
+#[cfg(test)]
+mod tests;
+
+use crate::config::app_config::AppConfig;
+use crate::proxy::api_proxy::forward;
+
+use actix_web::{client::Client, middleware::Logger, web, App, HttpServer};
 use dotenv::dotenv;
+use std::{env, io::Result};
 
-//todo: add some #[cfg(test)]
 #[actix_web::main]
-async fn main() -> std::io::Result<()> {
+async fn main() -> Result<()> {
     dotenv().ok();
 
-    let app_config = AppConfig::new();
-    let address = format!("{}:{}", app_config.application_url, app_config.port);
+    env_logger::init();
 
-    println!("{}", address);
+    let url = env::var("APPLICATION_URL").expect("APPLICATION_URL must be set");
+    let port = env::var("PORT").expect("PORT must be set");
+    let address = format!("{}:{}", url, port);
+
+    println!("Address: {}", address);
 
     HttpServer::new(move || {
+        // NOTE: Consequently, the *first* middleware registered
+        // in the builder chain is the *last* to execute during request processing.
         App::new()
             .data(Client::new())
-            .wrap(middleware::Logger::default())
+            .data(AppConfig::new())
+            .wrap(Logger::default())
             .default_service(web::route().to(forward))
         //  .default_service() webfront url
     })
