@@ -1,0 +1,11 @@
+{
+  "files": {
+    "apps/greenpress/.rush/temp/shrinkwrap-deps.json": "5ac32c1f7fbb255206f41bf98b0c44f93ed83db7",
+    "apps/greenpress/Dockerfile": "4feff9b6e6f8aab0380ff6313b6c6f32df65679e",
+    "apps/greenpress/Dockerfile.local": "cb9ed248f9438a913affd95f992afe257da7b4c0",
+    "apps/greenpress/package-lock.json": "4f028a8f4d501011322a05ba054258c6dfa52a16",
+    "apps/greenpress/package.json": "8b10b06233a3230b478989686076cf05d5f58743",
+    "apps/greenpress/.rush/temp/package-deps_build.json": "044271b3638d277dc44414f8cad328782f88d4e0"
+  },
+  "arguments": "npm install "
+}
