@@ -13,7 +13,7 @@
   "commands": [
 	{
 	  "commandKind": "bulk",
-	  "name": "build",
+	  "name": "rebuild",
 	  "summary": "Ignoring warnings from npm install",
 	  "enableParallelism": true,
 	  "allowWarningsInSuccessfulBuild": true
