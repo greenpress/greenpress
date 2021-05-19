@@ -12,7 +12,7 @@ services:
       common_network:
   greenpress:
     build:
-      context: ..
+      context: ../
       dockerfile: Dockerfile.local
     command: ${GP_LOCAL_COMMAND}
     env_file:

@@ -3,7 +3,7 @@ services:
   mongo:
     image: mongo
     volumes:
-      - ../db-data:/data/db
+      - ../apps/greenpress/db-data:/data/db
   redis:
     image: redis
   admin:
