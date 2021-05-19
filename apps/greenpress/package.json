@@ -4,7 +4,6 @@
   "description": "Open-source blogs and content websites platform, made for the 21st century",
   "main": "index.js",
   "scripts": {
-    "build": "npm install",
     "dev": "gp-cli-service-pm2-dev",
     "start": "gp-cli-service-pm2-prod",
     "populate-db": "gp-cli-service-pm2-populate-db"

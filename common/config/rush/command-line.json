@@ -13,8 +13,9 @@
   "commands": [
 	{
 	  "commandKind": "bulk",
-	  "name": "rebuild",
-	  "summary": "Ignoring warnings from npm install",
+	  "name": "build",
+	  "summary": "Ignoring warnings from npm build",
+	  "ignoreMissingScript": true,
 	  "enableParallelism": true,
 	  "allowWarningsInSuccessfulBuild": true
 	}
