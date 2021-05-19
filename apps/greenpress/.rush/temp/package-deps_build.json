@@ -1,11 +1,11 @@
 {
   "files": {
-    "apps/greenpress/.rush/temp/shrinkwrap-deps.json": "5ac32c1f7fbb255206f41bf98b0c44f93ed83db7",
+    "apps/greenpress/.rush/temp/package-deps_build.json": "7a03742f81e60de3e8390faf978da3a105572709",
+    "apps/greenpress/.rush/temp/shrinkwrap-deps.json": "55558c7b9df78f505a57a43e9ca28b9004c18f0c",
     "apps/greenpress/Dockerfile": "4feff9b6e6f8aab0380ff6313b6c6f32df65679e",
     "apps/greenpress/Dockerfile.local": "cb9ed248f9438a913affd95f992afe257da7b4c0",
-    "apps/greenpress/package-lock.json": "4f028a8f4d501011322a05ba054258c6dfa52a16",
-    "apps/greenpress/package.json": "8b10b06233a3230b478989686076cf05d5f58743",
-    "apps/greenpress/.rush/temp/package-deps_build.json": "044271b3638d277dc44414f8cad328782f88d4e0"
+    "apps/greenpress/package-lock.json": "019353cce44c898dae091ed7bfcb8c2ce7ad4373",
+    "apps/greenpress/package.json": "4839359c372b7b1a42a4d59f465503a94a279a0f"
   },
   "arguments": "npm install "
 }

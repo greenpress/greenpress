@@ -107,7 +107,7 @@
   "@google-cloud/projectify@2.0.1": "sha512-ZDG38U/Yy6Zr21LaR3BTiiLtpJl6RkPS/JwoRT453G+6Q1DhlV0waNf8Lfu+YVYGIIxgKnLayJRfYlFJfiI8iQ==",
   "@google-cloud/promisify@2.0.3": "sha512-d4VSA86eL/AFTe5xtyZX+ePUjE8dIFu2T8zmdeNBSa5/kNgXPCx/o/wbFNHAGLJdGnk1vddRuMESD9HbOC8irw==",
   "@google-cloud/storage@5.8.5": "sha512-i0gB9CRwQeOBYP7xuvn14M40LhHCwMjceBjxE4CTvsqL519sVY5yVKxLiAedHWGwUZHJNRa7Q2CmNfkdRwVNPg==",
-  "@greenpress/admin@0.1.39": "sha512-9o38iK/oZE0le7263tgED+EcMcN7cMmP/7xjADRXZOU/eN2kDURBcnVKN9cbkjOgmXM1MoDQcyraFZx+wEXXlA==",
+  "@greenpress/admin@0.2.0": "sha512-2iZCWtDqWufvjO5VO3BEelGZk84z4MhvzoktYnYdiz8dPkIEMFhUYCIFzAiLyIL8OkVJkGWfi+7Gl4Lr+BdadA==",
   "@greenpress/api-kit@0.2.0": "sha512-h4MZO01cGiDYDdsPWYjKNdHoW7pc4kpGsV3RvIyVzI++aRllI6ft1ON+Dhim40Y359WY7hC7lueV9Vi7lSwR+Q==",
   "@greenpress/assets@1.2.0": "sha512-DDGuI1O+UmV853xhqkJrZPfmxfmxZnfcLISDEITeRimYjO4wbLtBh0MS37Hg/OlZb1p0LgkNm2+B2gT25+w+Pw==",
   "@greenpress/auth@1.1.1": "sha512-KjpmRA7wqztU6G0dd+5KdlyLV9dD7FTxBqdoEQdQNcQuIrprhtR9rFO7g34NapzV12eU3xVFPFzcepD/DXKzFA==",

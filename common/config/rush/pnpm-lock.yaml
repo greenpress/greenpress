@@ -1,7 +1,6 @@
 lockfileVersion: 5.3
 
 specifiers:
-  '@greenpress/admin': ^0.1.34
   '@greenpress/assets': ^1.1.1
   '@greenpress/auth': ^1.0.15
   '@greenpress/blog-front': ^1.0.11
@@ -13,7 +12,6 @@ specifiers:
   nodemon: ^2.0.4
 
 dependencies:
-  '@greenpress/admin': 0.1.39
   '@greenpress/assets': 1.2.0
   '@greenpress/auth': 1.1.1
   '@greenpress/blog-front': 1.1.1
@@ -1164,8 +1162,8 @@ packages:
       - supports-color
     dev: false
 
-  /@greenpress/admin/0.1.39:
-    resolution: {integrity: sha512-9o38iK/oZE0le7263tgED+EcMcN7cMmP/7xjADRXZOU/eN2kDURBcnVKN9cbkjOgmXM1MoDQcyraFZx+wEXXlA==}
+  /@greenpress/admin/0.2.0:
+    resolution: {integrity: sha512-2iZCWtDqWufvjO5VO3BEelGZk84z4MhvzoktYnYdiz8dPkIEMFhUYCIFzAiLyIL8OkVJkGWfi+7Gl4Lr+BdadA==}
     hasBin: true
     dependencies:
       express: 4.17.1
@@ -10954,11 +10952,11 @@ packages:
     dev: false
 
   file:projects/greenpress.tgz:
-    resolution: {integrity: sha512-hlJ0xhb0KFDBDAfnmALfedAc9S4faQnXMAI75xI+WCfx2GWIqRG1toQF6pQBwxmZwHwO+0OThG5TFUImmjb2UA==, tarball: file:projects/greenpress.tgz}
+    resolution: {integrity: sha512-Aht2xwQcd7amRcRXt6c9e4lHmzEssh9wndjHfVAlgn4ySrpKMRaZLvvzbjoK3Wsk0GuDrRwdRNKvT5RAOt13eg==, tarball: file:projects/greenpress.tgz}
     name: '@rush-temp/greenpress'
     version: 0.0.0
     dependencies:
-      '@greenpress/admin': 0.1.39
+      '@greenpress/admin': 0.2.0
       '@greenpress/assets': 1.2.0
       '@greenpress/auth': 1.1.1
       '@greenpress/blog-front': 1.1.1

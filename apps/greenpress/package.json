@@ -12,13 +12,13 @@
   "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@greenpress/admin": "^0.1.34",
+    "@greenpress/admin": "~0.2.0",
     "@greenpress/assets": "^1.1.1",
-    "@greenpress/auth": "^1.0.15",
-    "@greenpress/blog-front": "^1.0.11",
+    "@greenpress/auth": "~1.1.1",
+    "@greenpress/blog-front": "~1.1.1",
     "@greenpress/content": "^1.0.17",
     "@greenpress/drafts": "^1.0.6",
-    "@greenpress/pm2-launcher": "^0.2.4",
+    "@greenpress/pm2-launcher": "~0.2.4",
     "@greenpress/secrets": "^1.0.7"
   },
   "devDependencies": {
