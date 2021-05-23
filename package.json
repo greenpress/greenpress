@@ -8,7 +8,7 @@
   "build": "lerna run build",
   "dev": "lerna exec npm run dev --scope=@greenpress/greenpress",
   "start": "lerna exec npm start --scope=@greenpress/greenpress",
-  "populate-db": "lerna exec npm start --scope=@greenpress/greenpress"
+  "populate-db": "lerna exec npm run populate-db --scope=@greenpress/greenpress"
  },
  "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
  "license": "MIT",

@@ -1,6 +1,6 @@
 const { join } = require('path')
 
-const appAbsolutePath = join(__dirname, '../../../..');
+const appAbsolutePath = join('../../apps/greenpress');
 const IS_PROD = process.env.NODE_ENV !== 'development'
 
 const localhost = '127.0.0.1';
