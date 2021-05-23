@@ -1,0 +1,30 @@
+{
+  "name": "@greenpress/pm2-launcher",
+  "version": "0.2.4",
+  "description": "",
+  "bin": {
+    "gp-cli-service-pm2-dev": "bin/dev",
+    "gp-cli-service-pm2-prod": "bin/prod",
+    "gp-cli-service-pm2-populate-db": "populate-db.js",
+    "gp-cli-service-pm2-post-install": "create-needed-dirs.js"
+  },
+  "scripts": {
+    "postinstall": "node create-needed-dirs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/greenpress/pm2-launcher.git"
+  },
+  "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/greenpress/pm2-launcher/issues"
+  },
+  "homepage": "https://github.com/greenpress/pm2-launcher#readme",
+  "dependencies": {
+    "pm2": "^4.5.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

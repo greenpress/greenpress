@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1577885910087" clover="3.2.0">
+  <project timestamp="1577885910088" name="All files">
+    <metrics statements="7" coveredstatements="3" conditionals="6" coveredconditionals="1" methods="2" coveredmethods="1" elements="15" coveredelements="5" complexity="0" loc="7" ncloc="7" packages="1" files="1" classes="1"/>
+    <file name="auth-check.js" path="/Users/davidlevy/projects/self/greenpress-pm2/auth/server/middleware/auth-check.js">
+      <metrics statements="7" coveredstatements="3" conditionals="6" coveredconditionals="1" methods="2" coveredmethods="1"/>
+      <line num="2" count="1" type="cond" truecount="1" falsecount="1"/>
+      <line num="3" count="1" type="stmt"/>
+      <line num="5" count="0" type="stmt"/>
+      <line num="9" count="0" type="cond" truecount="0" falsecount="4"/>
+      <line num="10" count="0" type="stmt"/>
+      <line num="12" count="0" type="stmt"/>
+      <line num="15" count="1" type="stmt"/>
+    </file>
+  </project>
+</coverage>

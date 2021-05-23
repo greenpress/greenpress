@@ -1,0 +1,48 @@
+{
+  "name": "@greenpress/auth",
+  "version": "1.1.1",
+  "description": "Express Passport authentication service",
+  "keywords": [
+    "express",
+    "passport",
+    "mongoose",
+    "authentication service",
+    "greenpress"
+  ],
+  "engines": {
+    "npm": ">=5",
+    "node": ">=10.5"
+  },
+  "scripts": {
+    "start": "node --use_strict index.js",
+    "test": "jest",
+    "restart:dev": "node helpers/reset; npm start"
+  },
+  "main": "index.js",
+  "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@greenpress/api-kit": "0.2.0",
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.5",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.10.5",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "validator": "^7.0.0"
+  },
+  "devDependencies": {
+    "jest": "^24.9.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "bugs": {
+    "url": "https://github.com/greenpress/authentication-service/issues"
+  },
+  "homepage": "https://github.com/greenpress/authentication-service#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/greenpress/authentication-service.git"
+  }
+}
