@@ -4,10 +4,11 @@
  "description": "Open-source blogs and content websites platform, made for the 21st century",
  "main": "index.js",
  "scripts": {
-  "build": "node common/scripts/install-run-rush.js build -verbose",
-  "dev": "cd apps/greenpress && npm run dev",
-  "start": "cd apps/greenpress && npm start",
-  "populate-db": "cd apps/greenpress && npm run populate-db"
+  "postinstall": "lerna bootstrap",
+  "build": "lerna run build",
+  "dev": "lerna exec npm run dev --scope=@greenpress/greenpress",
+  "start": "lerna exec npm start --scope=@greenpress/greenpress",
+  "populate-db": "lerna exec npm start --scope=@greenpress/greenpress"
  },
  "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
  "license": "MIT",
@@ -24,5 +25,8 @@
  "repository": {
   "type": "git",
   "url": "git+ssh://git@github.com/greenpress/greenpress.git"
+ },
+ "devDependencies": {
+  "lerna": "^4.0.0"
  }
 }
