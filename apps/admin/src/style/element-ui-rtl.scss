@@ -1,0 +1,35 @@
+[dir="rtl"] {
+
+  .el-checkbox {
+    margin-left: 30px;
+    margin-right: 0;
+  }
+
+  .el-checkbox__label {
+    padding-right: 10px;
+    padding-left: 0;
+  }
+
+  .el-message-box {
+    text-align: right;
+  }
+
+  .el-message-box__headerbtn {
+    left: 15px;
+    right: auto;
+  }
+
+  .el-message-box__message {
+    padding-right: 36px;
+    padding-left: 12px;
+  }
+
+  .el-message-box__btns {
+    text-align: left;
+  }
+
+  .el-button+.el-button {
+    margin-right: 10px;
+    margin-left: 0;
+  }
+}

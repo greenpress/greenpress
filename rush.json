@@ -361,6 +361,10 @@
     //    */
     //   "description": "Build this repo using the previous release of the SDK"
     // }
+	{
+	  "variantName": "old-vue",
+	  "description": "old version of vue for blog-front"
+	}
   ],
 
   /**
@@ -392,6 +396,10 @@
 	{
 	  "packageName": "@greenpress/greenpress",
 	  "projectFolder": "apps/greenpress"
+	},
+	{
+	  "packageName": "@greenpress/admin",
+	  "projectFolder": "apps/admin"
 	}
   ]
 }

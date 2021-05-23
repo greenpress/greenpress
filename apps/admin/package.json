@@ -1,0 +1,46 @@
+{
+  "name": "@greenpress/admin",
+  "version": "0.2.0",
+  "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build --base=/gp-admin/",
+    "build:no-base": "vite build",
+    "serve": "vite",
+    "prepublishOnly": "(NODE_ENV=development && npm run build)",
+    "start": "node server.js"
+  },
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@greenpress/gp-editor": "^2.0.0",
+    "@vitejs/plugin-vue": "^1.2.2",
+    "@vue/compiler-sfc": "^3.0.5",
+    "axios": "^0.21.1",
+    "element-plus": "^1.0.2-beta.41",
+    "lodash.debounce": "^4.0.8",
+    "sass": "^1.32.11",
+    "vite": "^2.2.3",
+    "vite-plugin-style-import": "^0.10.0",
+    "vue": "^3.0.5",
+    "vue-i18n": "^9.1.6",
+    "vue-router": "^4.0.6"
+  },
+  "bin": {
+    "greenpress-admin": "server.js"
+  },
+  "bugs": {
+    "url": "https://github.com/greenpress/admin-panel/issues"
+  },
+  "homepage": "https://github.com/greenpress/admin-panel#readme",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/greenpress/admin-panel.git"
+  }
+}

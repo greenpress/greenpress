@@ -1,0 +1,8 @@
+.form-item-flex {
+  display: flex;
+  flex-direction: column;
+
+  .el-form-item__label {
+    text-align: left;
+  }
+}

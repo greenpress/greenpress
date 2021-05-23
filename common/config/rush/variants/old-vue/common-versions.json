@@ -24,7 +24,7 @@
      * instead of the latest version.
      */
     // "some-library": "1.2.3"
-	// "vue": "2.6.1"
+	"vue": "^2.6.1"
   },
 
   /**
