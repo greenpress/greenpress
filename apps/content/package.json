@@ -1,0 +1,43 @@
+{
+  "name": "@greenpress/content",
+  "version": "1.1.0",
+  "migrationVersion": 5,
+  "description": "Content API for greenpress platform",
+  "keywords": [
+    "greenpress",
+    "blog cotent",
+    "backend as a service"
+  ],
+  "engines": {
+    "npm": ">=5",
+    "node": ">=10.5"
+  },
+  "scripts": {
+    "prestart": "node ./migrator",
+    "start": "node index.js"
+  },
+  "main": "index.js",
+  "bin": {
+    "greenpress-content": "index.js"
+  },
+  "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@greenpress/api-kit": "^0.2.0",
+    "cache-manager": "^3.3.0",
+    "cache-manager-redis": "^0.6.0",
+    "mongoose": "^5.10.5",
+    "shortid": "^2.2.14"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "bugs": {
+    "url": "https://github.com/greenpress/content-service/issues"
+  },
+  "homepage": "https://github.com/greenpress/content-service#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/greenpress/content-service.git"
+  }
+}
