@@ -1,0 +1,26 @@
+{
+  "name": "@greenpress/api-kit",
+  "version": "0.2.0",
+  "description": "API-Kit package to help with greenpress infrastructure and reuse capabilities across services",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/greenpress/api-kit.git"
+  },
+  "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/greenpress/api-kit/issues"
+  },
+  "homepage": "https://github.com/greenpress/api-kit#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0"
+  }
+}
