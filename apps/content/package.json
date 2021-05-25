@@ -17,9 +17,6 @@
     "start": "node index.js"
   },
   "main": "index.js",
-  "bin": {
-    "greenpress-content": "index.js"
-  },
   "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
   "license": "MIT",
   "dependencies": {
@@ -32,12 +29,12 @@
   "publishConfig": {
     "access": "public"
   },
+  "homepage": "https://github.com/greenpress/greenpress#readme",
   "bugs": {
-    "url": "https://github.com/greenpress/content-service/issues"
+	"url": "https://github.com/greenpress/greenpress/issues"
   },
-  "homepage": "https://github.com/greenpress/content-service#readme",
   "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/greenpress/content-service.git"
+	"type": "git",
+	"url": "git+ssh://git@github.com/greenpress/greenpress.git"
   }
 }

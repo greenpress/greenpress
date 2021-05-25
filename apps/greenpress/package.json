@@ -26,15 +26,15 @@
   "engines": {
     "node": "14.x"
   },
-  "bugs": {
-    "url": "https://github.com/greenpress/greenpress/issues"
-  },
   "homepage": "https://github.com/greenpress/greenpress#readme",
-  "publishConfig": {
-    "access": "public"
+  "bugs": {
+	"url": "https://github.com/greenpress/greenpress/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/greenpress/greenpress.git"
+  },
+  "publishConfig": {
+	"access": "public"
   }
 }

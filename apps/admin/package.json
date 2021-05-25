@@ -28,16 +28,16 @@
     "vue-i18n": "^9.1.6",
     "vue-router": "^4.0.6"
   },
-  "bugs": {
-    "url": "https://github.com/greenpress/admin-panel/issues"
-  },
-  "homepage": "https://github.com/greenpress/admin-panel#readme",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
+  "homepage": "https://github.com/greenpress/greenpress#readme",
+  "bugs": {
+	"url": "https://github.com/greenpress/greenpress/issues"
+  },
   "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/greenpress/admin-panel.git"
+	"type": "git",
+	"url": "git+ssh://git@github.com/greenpress/greenpress.git"
   }
 }

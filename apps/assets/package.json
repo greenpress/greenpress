@@ -34,12 +34,12 @@
   "publishConfig": {
     "access": "public"
   },
+  "homepage": "https://github.com/greenpress/greenpress#readme",
   "bugs": {
-    "url": "https://github.com/greenpress/assets-service/issues"
+	"url": "https://github.com/greenpress/greenpress/issues"
   },
-  "homepage": "https://github.com/greenpress/assets-service#readme",
   "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/greenpress/assets-service.git"
+	"type": "git",
+	"url": "git+ssh://git@github.com/greenpress/greenpress.git"
   }
 }

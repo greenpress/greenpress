@@ -32,5 +32,13 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "homepage": "https://github.com/greenpress/greenpress#readme",
+  "bugs": {
+	"url": "https://github.com/greenpress/greenpress/issues"
+  },
+  "repository": {
+	"type": "git",
+	"url": "git+ssh://git@github.com/greenpress/greenpress.git"
   }
 }
