@@ -55,6 +55,9 @@ module.exports = {
 				children: [
 					'/guide/getting-started',
 					'/guide/greenpress-configuration',
+					'/guide/local-docker-composition',
+					'/guide/customize',
+					'/guide/permissions'
 				]
 			},
 			{
@@ -66,6 +69,7 @@ module.exports = {
 					'/guide/contribute/locate-issues',
 					'/guide/contribute/report-issues',
 					'/guide/contribute/pull-request',
+ 					'/guide/contribute/working-with-git',
 				]
 			},
 			{
@@ -79,6 +83,7 @@ module.exports = {
 					'/services/content/',
 					'/services/secrets/',
 					'/services/auth/',
+					'/services/drafts/'
 				]
 			},
 			{
@@ -88,8 +93,16 @@ module.exports = {
 				children: [
 					'/tools/cli',
 					'/tools/cli-service-pm2',
-					'/tools/api-kit',
-					'/tools/gp-config',
+					'/tools/api-kit'
+				]
+			},
+			{
+				title: 'Test',
+				collapsable: false,
+				path: '/tests/',
+				children: [
+					'/tests/manual-tests',
+					
 				]
 			},
 		]
