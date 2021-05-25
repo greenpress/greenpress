@@ -1,0 +1,40 @@
+{
+  "name": "@greenpress/drafts",
+  "version": "1.1.0",
+  "description": "drafts service for the greenpress api",
+  "main": "dist/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "prepublish": "tsc",
+    "build": "tsc",
+    "start": "node --use_strict dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/greenpress/drafts-service.git"
+  },
+  "keywords": [
+    "post",
+    "blog",
+    "website-generator"
+  ],
+  "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/greenpress/drafts-service/issues"
+  },
+  "homepage": "https://github.com/greenpress/drafts-service#readme",
+  "dependencies": {
+    "@greenpress/api-kit": "^0.2.0",
+    "mongoose": "^5.10.5"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/express": "^4.17.8",
+    "@types/mongoose": "^5.7.36",
+    "@types/node": "^14.11.1",
+    "typescript": "^4.0.2"
+  }
+}

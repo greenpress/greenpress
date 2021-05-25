@@ -69,7 +69,7 @@ module.exports = {
       port: process.env.ADMIN_PORT || 3001,
       ip: process.env.ADMIN_IP || localhost,
       cwd: process.env.ADMIN_SERVICE_CWD || join(appAbsolutePath, './node_modules/@greenpress/admin'),
-      script: process.env.ADMIN_SERVICE_SCRIPT ||  (IS_PROD ? 'server.js' : 'npm run serve')
+      script: process.env.ADMIN_SERVICE_SCRIPT ||  (IS_PROD ? 'server.js' : 'npm run dev')
     },
     front: {
       theme: process.env.FRONT_THEME || 'damal',

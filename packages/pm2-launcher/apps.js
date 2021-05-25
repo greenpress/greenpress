@@ -42,7 +42,7 @@ const db = config.noDocker ?
 const getHttpServiceVariables = (name, variables) => {
   return {
     name,
-    script: services[name].script,
+    script: services[name].script || "npm run dev",
     cwd: services[name].cwd,
     ...basicHttpServiceOpts,
     env: {

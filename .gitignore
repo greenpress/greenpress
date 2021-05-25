@@ -5,5 +5,6 @@ compose/.env
 compose/*.env
 dev
 tmp
+dist
 common/temp
 *.log

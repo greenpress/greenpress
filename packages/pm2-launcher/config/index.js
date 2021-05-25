@@ -4,7 +4,7 @@ const { existsSync } = require('fs')
 const extendConfigPath = join(baseConfig.appAbsolutePath, './greenpress.config.js');
 const extendConfig = existsSync(extendConfigPath) ? require(extendConfigPath) : { exists: false };
 
-const index = typeof extendConfig === 'function' ? extendConfig(baseConfig) : {
+const mergedConfig = typeof extendConfig === 'function' ? extendConfig(baseConfig) : {
 	...baseConfig,
 	...extendConfig,
 	services: extendConfig && extendConfig.services ?
@@ -18,14 +18,4 @@ const index = typeof extendConfig === 'function' ? extendConfig(baseConfig) : {
 		baseConfig.services
 }
 
-if (index.services.admin.cwd.includes('node_modules')) {
-	index.services.admin.script = 'server.js';
-} else if (index.services.admin.cwd.includes('dev')) {
-	index.services.admin.script = 'npm rebuild node-saas && ' + index.services.admin.script;
-}
-
-if (!index.services.front.cwd.includes('node_modules') &&
-    index.services.front.cwd.includes('dev')) {
-		index.services.front.script = 'npm rebuild node-saas && ' + index.services.front.script;
-}
-module.exports = index
+module.exports = mergedConfig
