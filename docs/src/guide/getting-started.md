@@ -17,6 +17,9 @@ $ greenpress populate
 
 You can see more informational explanation on [this post](https://www.greenpress.info/get-started/cli-tool-v1)
 
+In case of issues with creation of environment files during installation via the CLI tool, please
+refer to [our guide](local-docker-composition.md) on them.
+
 ##
 
 
