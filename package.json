@@ -1,11 +1,14 @@
 {
- "name": "greenpress",
+ "name": "@greenpress/monorepo",
  "version": "2.0.0",
  "description": "Open-source blogs and content websites platform, made for the 21st century",
  "main": "index.js",
  "scripts": {
   "postinstall": "lerna bootstrap",
+  "install:prod-only": "lerna bootstrap -- --production --no-optional",
+  "prebuild": "lerna run prebuild",
   "build": "lerna run build",
+  "clean": "lerna clean --yes",
   "dev": "lerna exec npm run dev --scope=@greenpress/greenpress",
   "start": "lerna exec npm start --scope=@greenpress/greenpress",
   "populate-db": "lerna exec npm run populate-db --scope=@greenpress/greenpress"

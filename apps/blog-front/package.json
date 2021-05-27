@@ -6,8 +6,9 @@
   "private": false,
   "scripts": {
     "preinstall": "NODE_ENV=development",
-    "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
-    "build": "npm run set-theme && nuxt build",
+	"prebuild": "npm install",
+	"dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
+    "build": "npm run set-theme && npx nuxt build",
     "start": "cross-env NODE_ENV=production node server/index.js",
     "set-theme": "node ./helpers/set-theme.js",
     "envs-lookup": "node ./helpers/envs-lookup.js"
