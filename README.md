@@ -33,6 +33,20 @@ $ npm run dev
 
 ## Dockerized Usage
 
+## Pre-running
+Before running a docker-compose environment, you'll need an `.env` file and the `compose` library.
+
+You can just copy the `.env.example` and call it `.env` (manually), but you can also do it on command line:
+```sh
+$ cd compose
+
+# for linux or mac:
+$ cp .env.example .env
+
+# for all operation systems (including windows):
+$ npm run create-env
+```
+
 Running Greenpress via Docker-Compose is a very simple task.
 You might need to pre-install Docker and Docker Compose, and then run these commands:
 ```sh
