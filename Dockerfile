@@ -1,7 +1,7 @@
 FROM node:14.11
 COPY . .
 ENV NODE_ENV=development
-RUN npm install
+RUN npm install --unsafe-perm
 RUN npm run prebuild
 RUN npm run build
 
