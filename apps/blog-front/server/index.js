@@ -22,7 +22,7 @@ async function start () {
   }
 
   require('./host-redirect')(app)
-  require('./api-proxy')(app)
+  require('@greenpress/api-proxy-middleware')(app)
 
   // Give nuxt middleware to express
   app.use(nuxt.render)

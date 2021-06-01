@@ -5,41 +5,35 @@
   "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
   "private": false,
   "scripts": {
-    "preinstall": "NODE_ENV=development",
-	"prebuild": "npm install",
-	"dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
+    "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
     "build": "npm run set-theme && npx nuxt build",
     "start": "cross-env NODE_ENV=production node server/index.js",
     "set-theme": "node ./helpers/set-theme.js",
     "envs-lookup": "node ./helpers/envs-lookup.js"
   },
   "dependencies": {
+    "@greenpress/api-proxy-middleware": "^1.0.1",
     "@nuxtjs/axios": "^5.12.5",
     "@nuxtjs/component-cache": "^1.1.6",
     "@nuxtjs/composition-api": "^0.18.1",
-    "cors": "^2.8.5",
     "cross-env": "^5.2.1",
     "express": "^4.16.4",
-    "http-proxy-middleware": "^1.0.4",
-    "node-fetch": "^2.6.1",
     "node-sass": "^5.0.0",
     "nuxt": "^2.14.12",
     "sass-loader": "^10.1.1",
     "vuex": "^3.1.2",
-    "vuex-composition-helpers": "^1.0.22"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.4"
+    "vuex-composition-helpers": "^1.0.22",
+	"nodemon": "^2.0.4"
   },
   "publishConfig": {
     "access": "public"
   },
   "homepage": "https://github.com/greenpress/greenpress#readme",
   "bugs": {
-	"url": "https://github.com/greenpress/greenpress/issues"
+    "url": "https://github.com/greenpress/greenpress/issues"
   },
   "repository": {
-	"type": "git",
-	"url": "git+ssh://git@github.com/greenpress/greenpress.git"
+    "type": "git",
+    "url": "git+ssh://git@github.com/greenpress/greenpress.git"
   }
 }
