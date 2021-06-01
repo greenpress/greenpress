@@ -3,13 +3,15 @@ node_js:
   - '14.17.0'
 env:
   - CI=false
+  - NODE_ENV=development
 script:
   - set -e
 
   - echo 'installing'
-  - npm install
+  - npm install --unsafe-perm
   - echo -en 'travis_fold:end:change\\r'
 
   - echo 'building'
+  - npm run prebuild
   - npm run build
   - echo -en 'travis_fold:end:change\\r'
