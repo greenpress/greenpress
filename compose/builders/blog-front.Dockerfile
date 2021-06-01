@@ -1,4 +1,4 @@
-FROM node:14.5.0
+FROM node:14.11-alpine
 ENV THEME=damal
 ENV PORT=3000
 ENV NODE_ENV=production

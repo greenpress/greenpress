@@ -1,4 +1,4 @@
-FROM node:14.17.0
+FROM node:14.11-alpine
 ENV PORT=3000
 ENV FRONT_THEME=classic
 ENV NODE_ENV=production
