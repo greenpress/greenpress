@@ -17,7 +17,7 @@
     "@nuxtjs/component-cache": "^1.1.6",
     "@nuxtjs/composition-api": "^0.18.1",
     "cross-env": "^5.2.1",
-    "express": "^4.16.4",
+    "express": "^4.17.1",
     "node-sass": "^5.0.0",
     "nuxt": "^2.14.12",
     "sass-loader": "^10.1.1",
