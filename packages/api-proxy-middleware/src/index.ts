@@ -1,4 +1,4 @@
-import fetch from 'node-fetch'
+import fetch from 'node-fetch';
 import {createProxyMiddleware as proxy} from 'http-proxy-middleware'
 import {IApiProxyConfig, IServiceProxyConfig} from './types';
 import {getApiProxyConfig} from './config';
@@ -23,7 +23,7 @@ function getProxyTarget(service: IServiceProxyConfig) {
   return `${service.protocol}://${service.url}:${service.port}`;
 }
 
-module.exports = function apiProxy(app, config: Partial<IApiProxyConfig>) {
+module.exports = function apiProxy(app: any, config: Partial<IApiProxyConfig>) {
   const {
     authService,
     contentService,

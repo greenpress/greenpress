@@ -20,7 +20,7 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/greenpress/api-proxy-middleware/issues"
+    "url": "https://github.com/greenpress/greenpress/issues"
   },
   "devDependencies": {
     "typescript": "^4.2.4"
