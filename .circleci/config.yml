@@ -38,6 +38,8 @@ jobs:
     # CircleCI will report the results back to your VCS provider.
     parallelism: 4
     steps:
+      - attach_workspace:
+          at: .
       - run: |
           cd compose/builders
           docker build . -f admin.Dockerfile -t greenpress/admin-panel:$CIRCLE_BRANCH
