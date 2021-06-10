@@ -3,5 +3,5 @@ ENV NODE_ENV=production
 ENV PORT=9001
 EXPOSE $PORT
 ARG MONOREPO_VERSION=main
-COPY --from=greenpress/monorepo:$MONOREPO_VERSION /apps/content .
+COPY --from=greenpress/monorepo:${MONOREPO_VERSION} /apps/content .
 CMD npm start
