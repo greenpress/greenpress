@@ -28,6 +28,10 @@ jobs:
           name: Docker build
           command: docker build . -t greenpress/monorepo:$CIRCLE_BRANCH
       - run: docker push greenpress/monorepo:$CIRCLE_BRANCH
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
   build-apps:
     executor: gp-machine
     # Then run your tests!
