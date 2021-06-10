@@ -8,10 +8,15 @@ orbs:
   # See the orb documentation here: https://circleci.com/developer/orbs/orb/circleci/node
   node: circleci/node@4.1
 
+executors:
+  gp-machine:
+    machine: true
+    working_directory: /
+
 jobs:
   # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
   build-base-monorepo:
-    machine: true
+    executor: gp-machine
     # Then run your tests!
     # CircleCI will report the results back to your VCS provider.
     steps:
@@ -25,7 +30,7 @@ jobs:
           command: docker build . -t greenpress/monorepo:$CIRCLE_BRANCH
       - run: docker push greenpress/monorepo:$CIRCLE_BRANCH
   build-apps:
-    machine: true
+    executor: gp-machine
     # Then run your tests!
     # CircleCI will report the results back to your VCS provider.
     parallelism: 4
