@@ -11,7 +11,6 @@ orbs:
 executors:
   gp-machine:
     machine: true
-    working_directory: /app
 
 jobs:
   # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
