@@ -34,7 +34,6 @@ jobs:
             - .
   build-apps:
     executor: gp-machine
-    parallelism: 4
     steps:
       - attach_workspace:
           at: .
