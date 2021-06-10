@@ -58,6 +58,8 @@ workflows:
              branches:
                only: main
       -  build-apps:
+           requires:
+             - build-base-monorepo
            filters:
              branches:
                only: main
