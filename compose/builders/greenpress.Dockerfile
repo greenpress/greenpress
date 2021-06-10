@@ -3,5 +3,6 @@ ENV PORT=3000
 ENV FRONT_THEME=classic
 ENV NODE_ENV=production
 EXPOSE $PORT
-COPY --from=greenpress/monorepo /apps/greenpress .
+ARG MONOREPO_VERSION=main
+COPY --from=greenpress/monorepo:$MONOREPO_VERSION /apps/greenpress .
 CMD npm start
