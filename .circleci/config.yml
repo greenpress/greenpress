@@ -24,11 +24,36 @@ jobs:
           name: Docker build
           command: docker build . -t greenpress/monorepo:$CIRCLE_BRANCH
       - run: docker push greenpress/monorepo:$CIRCLE_BRANCH
-
+  build-apps:
+    machine: true
+    # Then run your tests!
+    # CircleCI will report the results back to your VCS provider.
+    parallelism: 4
+    steps:
+      - run: |
+          cd compose/builders
+          docker build . -f admin.Dockerfile -t greenpress/admin-panel:$CIRCLE_BRANCH
+          docker push greenpress/admin-panel:$CIRCLE_BRANCH
+      - run: |
+          cd compose/builders
+          docker build . -f auth.Dockerfile -t greenpress/auth:$CIRCLE_BRANCH
+          docker push greenpress/auth:$CIRCLE_BRANCH
+      - run: |
+          cd compose/builders
+          docker build . -f assets.Dockerfile -t greenpress/assets:$CIRCLE_BRANCH
+          docker push greenpress/assets:$CIRCLE_BRANCH
+      - run: |
+          cd compose/builders
+          docker build . -f blog-front.Dockerfile -t greenpress/blog-front:$CIRCLE_BRANCH
+          docker push greenpress/blog-front:$CIRCLE_BRANCH
 workflows:
   build-monorepo:
     jobs:
       -  build-base-monorepo:
+           filters:
+             branches:
+               only: main
+      -  build-apps:
            filters:
              branches:
                only: main
