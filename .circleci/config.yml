@@ -40,6 +40,9 @@ jobs:
     steps:
       - attach_workspace:
           at: .
+      - run:
+          name: Docker login
+          command: echo "$DOCKER_PASS" | docker login --username $DOCKER_USER --password-stdin
       - run: |
           cd compose/builders
           docker build . -f admin.Dockerfile -t greenpress/admin-panel:$CIRCLE_BRANCH
