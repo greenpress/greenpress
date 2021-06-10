@@ -1,7 +1,9 @@
+ARG MONOREPO_VERSION=main
+FROM greenpress/monorepo:${MONOREPO_VERSION} as base
+
 FROM node:14.11-alpine
 ENV NODE_ENV=production
 ENV PORT=9005
 EXPOSE $PORT
-ARG MONOREPO_VERSION=main
-COPY --from=greenpress/monorepo:${MONOREPO_VERSION} /apps/drafts .
+COPY --from=base /apps/drafts .
 CMD npm start
