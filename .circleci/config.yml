@@ -34,9 +34,7 @@ jobs:
             - .
   build-apps:
     executor: gp-machine
-    # Then run your tests!
-    # CircleCI will report the results back to your VCS provider.
-    parallelism: 4
+    parallelism: 6
     steps:
       - attach_workspace:
           at: .
@@ -59,6 +57,26 @@ jobs:
           cd compose/builders
           docker build . -f blog-front.Dockerfile -t greenpress/blog-front:$CIRCLE_BRANCH
           docker push greenpress/blog-front:$CIRCLE_BRANCH
+      - run: |
+          cd compose/builders
+          docker build . -f content.Dockerfile -t greenpress/content:$CIRCLE_BRANCH
+          docker push greenpress/content:$CIRCLE_BRANCH
+      - run: |
+          cd compose/builders
+          docker build . -f drafts.Dockerfile -t greenpress/drafts:$CIRCLE_BRANCH
+          docker push greenpress/drafts:$CIRCLE_BRANCH
+      - run: |
+          cd compose/builders
+          docker build . -f greenpress.Dockerfile -t greenpress/greenpress:$CIRCLE_BRANCH
+          docker push greenpress/greenpress:$CIRCLE_BRANCH
+      - run: |
+          cd compose/builders
+          docker build . -f mailing.Dockerfile -t greenpress/mailing:$CIRCLE_BRANCH
+          docker push greenpress/mailing:$CIRCLE_BRANCH
+      - run: |
+          cd compose/builders
+          docker build . -f secrets.Dockerfile -t greenpress/secrets:$CIRCLE_BRANCH
+          docker push greenpress/secrets:$CIRCLE_BRANCH
 workflows:
   build-monorepo:
     jobs:
