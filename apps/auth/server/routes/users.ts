@@ -1,9 +1,10 @@
-const { getRouter } = require('@greenpress/api-kit/router')
-const verifyUser = require('../middleware/verify-user')
-const { getUsers, createUser, getUser, updateUser, removeUser } = require('../controllers/users')
-const { onlyPrivileged } = require('../middleware/auth-check')
+import users from '../controllers/users'
+import { Router } from 'express'
+import verifyUser from '../middleware/verify-user'
+import { onlyPrivileged } from '../middleware/auth-check'
 
-const router = getRouter();
+const { getUsers, createUser, getUser, updateUser, removeUser } = users
+const router = Router()
 
 router
   .get('/api/users', verifyUser, getUsers)

@@ -1,6 +1,8 @@
-const { updateUser } = require('../services/users')
+import { updateUser } from '../services/users'
+import { Response}  from 'express'
+import { AuthRequest } from '../../types'
 
-function getMe(req, res) {
+function getMe(req:AuthRequest, res:Response) {
 	return res.status(200).json({
 		_id: req.userPayload.sub,
 		email: req.userPayload.email,
@@ -9,7 +11,7 @@ function getMe(req, res) {
 	}).end()
 }
 
-async function setMe(req, res) {
+async function setMe(req:AuthRequest, res:Response) {
 	const { email, password, name } = req.body || {}
 	try {
 		await updateUser(req.userPayload, { email, password, name })
@@ -24,7 +26,7 @@ async function setMe(req, res) {
 	}
 }
 
-module.exports = {
+export default {
 	getMe,
 	setMe
 }

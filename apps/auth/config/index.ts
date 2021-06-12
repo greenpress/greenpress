@@ -3,7 +3,7 @@ const privilegedRoles = process.env.PRIVILEGED_ROLES ? process.env.PRIVILEGED_RO
 const TEN_MINUTES = 1000 * 60 * 10
 const THIRTY_DAYS = 1000 * 60 * 60 * 24 * 30
 
-module.exports = {
+const config  = {
 	mongoUri: process.env.MONGO_URI || 'mongodb://localhost/auth-service',
 	cookieBaseDomain: process.env.COOKIE_BASE_DOMAIN ||
 		(process.env.APPLICATION_URL ? new URL(process.env.APPLICATION_URL).hostname.replace(/www\.|www/, '') : null),
@@ -18,3 +18,4 @@ module.exports = {
 	defaultRole: process.env.DEFAULT_ROLE ? process.env.DEFAULT_ROLE : roles[0],
 	defaultAuthType: process.env.DEFAULT_AUTH_TYPE || 'cookie'
 }
+export default config 

@@ -1,7 +1,8 @@
-const passport = require('passport')
+import { NextFunction, Request, Response } from 'express';
+import passport from 'passport';
 const { validateSignUpForm, tokenPayload } = require('./signin-signup-token');
 
-function signup (req, res, next) {
+function signup (req:Request, res:Response, next:NextFunction) {
   const validationErrors = validateSignUpForm(req.body)
 
   if (Object.keys(validationErrors).length > 0) {
