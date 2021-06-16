@@ -1,8 +1,8 @@
-import { Router } from 'express';
+import {getRouter} from '@greenpress/api-kit/router'
 import { onlyAuthenticated } from '../middleware/auth-check';
 import verifyUser from '../middleware/verify-user';
 
-const router = Router();
+const router = getRouter()
 
 router
   .post('/api/signin', require('../controllers/signin'))

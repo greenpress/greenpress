@@ -6,7 +6,7 @@ import {
 } from "../services/tokens";
 import  { getUserIfTokenExists, updateToken }  from "../services/users";
 import config from "../../config";
-import { NextFunction, Request, Response } from "express";
+import {NextFunction, RequestHandler, Response} from 'express';
 import { AuthRequest } from "../../types";
 
 const {
@@ -75,7 +75,7 @@ function setUserPayload(payload:any, req:AuthRequest, next:NextFunction) {
 /**
  *  The Auth Checker middleware function.
  */
-export default (req:AuthRequest, res:Response, next:NextFunction) => {
+export default <RequestHandler>function verifyUser(req:AuthRequest, res:Response, next:NextFunction) {
   if (req.cookies.token || req.signedCookies.token) {
     return cookieVerify(req, res, next);
   } else if (req.headers.authorization) {
