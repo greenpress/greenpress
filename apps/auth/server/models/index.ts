@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-module.exports.connect = (uri) => {
+export const connect = (uri:string) => {
 	mongoose.connect(uri, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true});
 	// plug in the promise library:
 	mongoose.Promise = global.Promise;

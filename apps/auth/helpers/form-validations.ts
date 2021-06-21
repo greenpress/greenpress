@@ -1,7 +1,7 @@
-const validator = require('validator');
+import validator from 'validator';
 
-function validateBasicSignInSignUpForm(payload) {
-	const errors = {};
+export function validateBasicSignInSignUpForm(payload: {email:string}) {
+	const errors:Record<string, any> = {};
 	if (!payload || typeof payload.email !== 'string' || !validator.isEmail(payload.email.trim())) {
 		errors.email = {
 			code: 'INVALID_EMAIL'
@@ -10,7 +10,3 @@ function validateBasicSignInSignUpForm(payload) {
 
 	return errors;
 }
-
-module.exports = {
-	validateBasicSignInSignUpForm
-};

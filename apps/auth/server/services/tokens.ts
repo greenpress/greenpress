@@ -1,24 +1,25 @@
-const jwt = require('jsonwebtoken')
-const {
+import { Response } from 'express'
+import jwt, { Secret } from 'jsonwebtoken'
+import {
 	jwtSecret, refreshTokenSecret, tokenExpiration,
 	cookieTokenExpiration, cookieBaseDomain
-} = require('../../config')
+} from '../../config';
 
-function verifyToken(token, tenant) {
+export function verifyToken(token:string, tenant:string) {
 	if (!token.trim()) {
 		return Promise.reject()
 	}
 	return verify(token, tenant, jwtSecret)
 }
 
-function verifyRefreshToken(refreshToken, tenant) {
+export function verifyRefreshToken(refreshToken:string, tenant:string) {
 	return verify(refreshToken, tenant, refreshTokenSecret)
 }
 
-function verify(token, tenant, secret) {
+function verify(token:string, tenant:string, secret:Secret) {
 	return new Promise((resolve, reject) => {
 		jwt.verify(token, secret, (err, decoded) => {
-			if (err || !decoded || decoded.tenant !== tenant) {
+			if (err || !decoded || (decoded as any).tenant !== tenant) {
 				// the 401 code is for unauthorized status
 				return reject(err || { message: 'token is empty' })
 			}
@@ -27,12 +28,12 @@ function verify(token, tenant, secret) {
 	})
 }
 
-function getUniqueId(creationTime = Date.now().toString()) {
+export function getUniqueId(creationTime = Date.now().toString()) {
 	return creationTime + ':' + Buffer.from(Math.random().toString()).toString('base64')
 }
 
-function getCookieParameters(cookieId, maxAge) {
-	let cookieParams = { maxAge, httpOnly: true }
+function getCookieParameters(cookieId:string, maxAge:string) {
+	let cookieParams:any = { maxAge, httpOnly: true }
 	if (cookieBaseDomain) {
 		cookieParams.domain = cookieBaseDomain
 		cookieParams.sameSite = 'None'
@@ -42,13 +43,13 @@ function getCookieParameters(cookieId, maxAge) {
 	return ['token', cookieId, cookieParams]
 }
 
-function setCookie(res, cookieId, maxAge = cookieTokenExpiration) {
-	const [type, id, parameters] = getCookieParameters(cookieId, maxAge)
+export function setCookie(res:Response, cookieId:string, maxAge = cookieTokenExpiration) {
+	const [type, id, parameters] = getCookieParameters(cookieId, maxAge.toString())
 	res.cookie(type, id, parameters)
 	return res
 }
 
-function getSignedToken(user, tokenIdentifier, expiresIn = tokenExpiration) {
+export function getSignedToken(user:any, tokenIdentifier:string, expiresIn = tokenExpiration) {
 	const secretParams = {
 		sub: user._id,
 		tenant: user.tenant,
@@ -57,7 +58,7 @@ function getSignedToken(user, tokenIdentifier, expiresIn = tokenExpiration) {
 		roles: user.roles
 	}
 	if (tokenIdentifier) {
-		secretParams.tokenIdentifier = tokenIdentifier
+		(secretParams as any).tokenIdentifier = tokenIdentifier
 	}
 	return {
 		payload: secretParams,
@@ -65,10 +66,4 @@ function getSignedToken(user, tokenIdentifier, expiresIn = tokenExpiration) {
 	}
 }
 
-module.exports = {
-	verifyToken,
-	verifyRefreshToken,
-	getUniqueId,
-	setCookie,
-	getSignedToken
-}
+

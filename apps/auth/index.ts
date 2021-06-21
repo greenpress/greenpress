@@ -1,14 +1,15 @@
-const { mongoUri } = require('./config')
+import {mongoUri} from './config'
+import {connect} from './server/models';
 
 // connect to the database and load models
-require('./server/models').connect(mongoUri)
+connect(mongoUri)
 
 // load passport strategies
-require('./server/passport')
-require('./server/routes')
+import './server/passport'
+import './server/routes'
 
 // start the server
-  require('@greenpress/api-kit')
+require('@greenpress/api-kit')
       .start(
           'Authentication Service',
           process.env.PORT || 8000,

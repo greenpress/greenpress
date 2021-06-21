@@ -1,14 +1,17 @@
+import { Response, Request, RequestHandler } from "express"
+import { AuthRequest } from "../../types"
+import User, {IUser} from '../models/user'
+
 const { Types: { ObjectId } } = require('mongoose')
-const User = require('../models/user')
 const UsersService = require('../services/users')
 const { isObjectId } = require('../../helpers/mongo-utils')
 
 const privilegedUserFields = 'email name roles'
 
-function getUsers(req, res) {
+function getUsers(req:AuthRequest, res:Response): RequestHandler {
 	const isPrivileged = !!(req.userPayload && req.userPayload.isPrivileged)
 
-	const users = (req.query.users || '')
+	const users = (req.query.users as string || '')
 		.split(',')
 		.map(id => {
 			const val = id.trim()
@@ -20,37 +23,39 @@ function getUsers(req, res) {
 		.filter(Boolean)
 
 	if (!(isPrivileged || users.length)) {
-		return res.status(200).json([]).end()
+	  res.status(200).json([]).end()
 	}
 
-	const query = isPrivileged && !users.length ? {} : { _id: { $in: users } }
+	const query: Record<string, any> = isPrivileged && !users.length ? {} : { _id: { $in: users } }
 	query.tenant = req.headers.tenant
 
-	return User.find(query)
+	User.find(query)
 		.select(isPrivileged ? privilegedUserFields : 'name')
 		.lean()
-		.then(users => {
-			return res.status(200).json(users || []).end()
+		.then((users:any[]) => {
+			res.status(200).json(users || []).end()
 		})
 		.catch(() => res.status(404).json({ message: 'could not load users' }).end())
+  return;
 }
 
-function getUser(req, res) {
+function getUser(req:AuthRequest, res:Response): RequestHandler {
 	const isPrivileged = !!(req.userPayload && req.userPayload.isPrivileged)
 
-	return User.findOne({ _id: req.params.userId, tenant: req.headers.tenant })
+	User.findOne({ _id: req.params.userId, tenant: req.headers.tenant })
 		.select(isPrivileged ? privilegedUserFields : 'name')
 		.lean()
-		.then(user => {
+		.then((user?: IUser) => {
 			if (!user) {
 				return Promise.reject(null)
 			}
-			return res.status(200).json(user).end()
+			res.status(200).json(user).end()
 		})
 		.catch(() => res.status(404).json({ message: 'user not exists' }).end())
+  return;
 }
 
-async function createUser(req, res) {
+async function createUser(req:AuthRequest, res:Response) {
 	const user = new User(req.body)
 	user.tenant = req.headers.tenant
 
@@ -62,7 +67,7 @@ async function createUser(req, res) {
 	}
 }
 
-async function updateUser(req, res) {
+async function updateUser(req:AuthRequest, res:Response) {
 	const { email, roles, name, password } = req.body || {}
 
 	try {
@@ -76,7 +81,7 @@ async function updateUser(req, res) {
 	}
 }
 
-async function removeUser(req, res) {
+async function removeUser(req:Request, res:Response) {
 	try {
 		await UsersService.deleteUser(req.params.userId, req.headers.tenant);
 		res.status(200).json({ _id: req.params.userId }).end()
@@ -85,7 +90,7 @@ async function removeUser(req, res) {
 	}
 }
 
-module.exports = {
+export default {
 	getUsers,
 	createUser,
 	getUser,

@@ -1,7 +1,8 @@
-const passport = require('passport')
-const { validateSignUpForm, tokenPayload } = require('./signin-signup-token');
+import { NextFunction, Request, Response } from 'express';
+import passport from 'passport';
+import { validateSignUpForm, tokenPayload } from './signin-signup-token';
 
-function signup (req, res, next) {
+export function signup (req:Request, res:Response, next:NextFunction) {
   const validationErrors = validateSignUpForm(req.body)
 
   if (Object.keys(validationErrors).length > 0) {
@@ -30,5 +31,3 @@ function signup (req, res, next) {
 
   })(req, res, next)
 }
-
-module.exports = signup

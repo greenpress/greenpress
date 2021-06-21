@@ -1,7 +1,7 @@
 const User = require('../models/user')
 const { verifyRefreshToken } = require('../services/tokens')
 
-module.exports = async function refreshToken (req, res) {
+export async function refreshToken (req, res) {
   if (!req.headers.authorization) {
     return res.status(401).end()
   }
