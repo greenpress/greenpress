@@ -1,8 +1,8 @@
 /**
  * this file used to initiate basic data inside the authentication service
  */
-import config from '../config';
-require('../server/models').connect(config.mongoUri);
+import {mongoUri} from '../config';
+require('../server/models').connect(mongoUri);
 const User = require('mongoose').model('User');
 const { reset, init } = require('./init-util.js')
 

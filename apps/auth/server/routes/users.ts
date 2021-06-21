@@ -21,6 +21,6 @@ router
   .delete('/api/users/:userId', verifyUser, onlyPrivileged,
     (req: AuthRequest, res) => {
       removeUser(req, res)
-    })
+    });
 
-module.exports = router
+export default router;

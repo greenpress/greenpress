@@ -14,7 +14,7 @@ function removeToken(
   );
 }
 
-async function logout(req: AuthRequest, res: Response) {
+export async function logout(req: AuthRequest, res: Response) {
   const tenant = (req.headers.tenant = (req.headers.tenant as string) || "0");
   const userId = req.userPayload.sub;
 
@@ -30,5 +30,3 @@ async function logout(req: AuthRequest, res: Response) {
   removeToken(tenant, userId, authType, token);
   res.status(200).end();
 }
-
-module.exports = logout;

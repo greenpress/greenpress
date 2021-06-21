@@ -1,8 +1,8 @@
 import { Response, Request, RequestHandler } from "express"
 import { AuthRequest } from "../../types"
+import User, {IUser} from '../models/user'
 
 const { Types: { ObjectId } } = require('mongoose')
-const User = require('../models/user')
 const UsersService = require('../services/users')
 const { isObjectId } = require('../../helpers/mongo-utils')
 
@@ -29,28 +29,30 @@ function getUsers(req:AuthRequest, res:Response): RequestHandler {
 	const query: Record<string, any> = isPrivileged && !users.length ? {} : { _id: { $in: users } }
 	query.tenant = req.headers.tenant
 
-	return User.find(query)
+	User.find(query)
 		.select(isPrivileged ? privilegedUserFields : 'name')
 		.lean()
 		.then((users:any[]) => {
-			return res.status(200).json(users || []).end()
+			res.status(200).json(users || []).end()
 		})
 		.catch(() => res.status(404).json({ message: 'could not load users' }).end())
+  return;
 }
 
 function getUser(req:AuthRequest, res:Response): RequestHandler {
 	const isPrivileged = !!(req.userPayload && req.userPayload.isPrivileged)
 
-	return User.findOne({ _id: req.params.userId, tenant: req.headers.tenant })
+	User.findOne({ _id: req.params.userId, tenant: req.headers.tenant })
 		.select(isPrivileged ? privilegedUserFields : 'name')
 		.lean()
-		.then((user:any[]) => {
+		.then((user?: IUser) => {
 			if (!user) {
 				return Promise.reject(null)
 			}
-			return res.status(200).json(user).end()
+			res.status(200).json(user).end()
 		})
 		.catch(() => res.status(404).json({ message: 'user not exists' }).end())
+  return;
 }
 
 async function createUser(req:AuthRequest, res:Response) {

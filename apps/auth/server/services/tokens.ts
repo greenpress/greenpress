@@ -1,9 +1,9 @@
 import { Response } from 'express'
 import jwt, { Secret } from 'jsonwebtoken'
-const {
+import {
 	jwtSecret, refreshTokenSecret, tokenExpiration,
 	cookieTokenExpiration, cookieBaseDomain
-} = require('../../config')
+} from '../../config';
 
 export function verifyToken(token:string, tenant:string) {
 	if (!token.trim()) {
@@ -44,7 +44,7 @@ function getCookieParameters(cookieId:string, maxAge:string) {
 }
 
 export function setCookie(res:Response, cookieId:string, maxAge = cookieTokenExpiration) {
-	const [type, id, parameters] = getCookieParameters(cookieId, maxAge)
+	const [type, id, parameters] = getCookieParameters(cookieId, maxAge.toString())
 	res.cookie(type, id, parameters)
 	return res
 }

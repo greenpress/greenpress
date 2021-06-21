@@ -2,7 +2,7 @@
  * this file used to initiate basic data inside the authentication service
  */
 import { model } from "mongoose";
-import config from "../config";
+import {privilegedRoles} from "../config";
 
 const User = model("User");
 
@@ -12,7 +12,7 @@ export function init() {
     email: process.env.EMAIL || "test@test.com",
     name: "Administrator",
     password: process.env.PASSWORD || "admin",
-    roles: [config.privilegedRoles[0]],
+    roles: [privilegedRoles[0]],
   });
 
   return user.save().then((lastUser) => {

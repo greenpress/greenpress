@@ -1,12 +1,12 @@
-const { defaultAuthType } = require("../../config");
-import { getUser, comparePassword, setToken } from "../services/users";
-import { Strategy } from "passport-local";
-import { UserModel } from "../models/user";
+import {defaultAuthType} from '../../config';
+import {getUser, comparePassword, setToken} from '../services/users';
+import {Strategy} from 'passport-local';
+import {UserModel} from '../models/user';
 
 module.exports = new Strategy(
   {
-    usernameField: "email",
-    passwordField: "password",
+    usernameField: 'email',
+    passwordField: 'password',
     session: false,
     passReqToCallback: true,
   },
@@ -15,16 +15,16 @@ module.exports = new Strategy(
       email: string;
       tenant: undefined | string | string[];
       roles?: { $in: string[] };
-    } = { email: email.trim(), tenant: req.headers.tenant };
+    } = {email: email.trim(), tenant: req.headers.tenant};
     const authType = req.body.authType || defaultAuthType;
 
     if (req.body.roles && req.body.roles instanceof Array) {
-      query.roles = { $in: req.body.roles };
+      query.roles = {$in: req.body.roles};
     }
     getUser(query)
       .then((user) => comparePassword((user as unknown as UserModel), password))
       .then((user) => setToken((user as any), authType))
-      .then(({ user, token, refreshToken, cookieToken }) => {
+      .then(({user, token, refreshToken, cookieToken}) => {
         done(null, {
           token,
           refreshToken,

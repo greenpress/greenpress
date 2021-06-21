@@ -1,11 +1,11 @@
-import mongoose from "mongoose";
-import { Document, Model} from "mongoose";
-import jwt from "jsonwebtoken";
-import bcrypt from "bcryptjs";
-import config from "../../config";
-import { getSignedToken, getUniqueId } from "../services/tokens";
+import mongoose from 'mongoose';
+import {Document, Model} from 'mongoose';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
+import * as config from '../../config';
+import {getSignedToken, getUniqueId} from '../services/tokens';
 
-export interface User {
+export interface IUser {
   tenant: string;
   email: string;
   password: string;
@@ -15,29 +15,37 @@ export interface User {
   tokens: any[];
 }
 
-export interface UserDocument extends User, Document {}
+export interface UserDocument extends IUser, Document {
+}
+
 export interface UserModel extends Model<UserDocument> {
   comparePassword(
     password: string,
     callback: (err: Error, success: boolean) => void
   ): void;
+
   getToken(authType: string, expiresIn?: string): any;
+
   getRefreshToken(relatedToken: string): any;
+
   updateToken(
     authType: string,
     currentIdentifier: string,
     newIdentifier: string,
     relatedToken?: string
   ): Promise<UserDocument>;
+
   deleteToken(authType: string, tokenIdentifier: string): Promise<UserDocument>;
+
   getTokenByRelatedTokens(authType: string, tokenIdentifier: string): string;
 }
+
 // define the User model schema
 const UserSchema = new mongoose.Schema<UserDocument, UserModel>({
   tenant: {
     type: String,
     index: true,
-    default: "0",
+    default: '0',
   },
   email: {
     type: String,
@@ -52,7 +60,7 @@ const UserSchema = new mongoose.Schema<UserDocument, UserModel>({
       const notValidRole = roles.find((role) => !config.roles.includes(role));
       if (notValidRole) {
         return Promise.reject({
-          message: "role not valid",
+          message: 'role not valid',
           role: notValidRole,
         });
       }
@@ -63,7 +71,7 @@ const UserSchema = new mongoose.Schema<UserDocument, UserModel>({
     {
       kind: {
         type: String,
-        enum: ["cookie", "oauth"],
+        enum: ['cookie', 'oauth'],
         default: config.defaultAuthType,
       },
       metadata: {
@@ -79,7 +87,7 @@ const UserSchema = new mongoose.Schema<UserDocument, UserModel>({
   },
 });
 
-UserSchema.index({ tenant: 1, email: 1 }, { unique: true });
+UserSchema.index({tenant: 1, email: 1}, {unique: true});
 
 /**
  * Compare the passed password with the value in the database. A model method.
@@ -98,7 +106,7 @@ UserSchema.methods.comparePassword = function comparePassword(
 
 UserSchema.methods.getToken = function getToken(authType, expiresIn) {
   let tokenIdentifier;
-  if (authType === "cookie") {
+  if (authType === 'cookie') {
     tokenIdentifier = getUniqueId();
     this.tokens.push({
       kind: authType,
@@ -112,9 +120,9 @@ UserSchema.methods.getRefreshToken = function getRefreshToken(relatedToken) {
   const tokenIdentifier = getUniqueId();
 
   this.tokens.push({
-    kind: "oauth",
+    kind: 'oauth',
     tokenIdentifier,
-    metadata: { relatedToken },
+    metadata: {relatedToken},
   });
 
   return jwt.sign(
@@ -124,7 +132,7 @@ UserSchema.methods.getRefreshToken = function getRefreshToken(relatedToken) {
       tokenIdentifier,
     },
     config.refreshTokenSecret,
-    { expiresIn: config.refreshTokenExpiration }
+    {expiresIn: config.refreshTokenExpiration}
   );
 };
 
@@ -138,9 +146,9 @@ UserSchema.methods.updateToken = function updateToken(
     (token) =>
       !(token.kind === authType && token.tokenIdentifier === currentIdentifier)
   );
-  const token = { kind: authType, tokenIdentifier: newIdentifier };
+  const token = {kind: authType, tokenIdentifier: newIdentifier};
   if (relatedToken) {
-    (token as any).metadata = { relatedToken };
+    (token as any).metadata = {relatedToken};
   }
   this.tokens.push(token);
 
@@ -175,7 +183,7 @@ UserSchema.methods.getTokenByRelatedTokens = function getTokenByRelatedTokens(
 /**
  * The pre-save hook method.
  */
-UserSchema.pre("save", function saveHook(next) {
+UserSchema.pre('save', function saveHook(next) {
   const user = this;
 
   // define role for new user
@@ -188,7 +196,7 @@ UserSchema.pre("save", function saveHook(next) {
   }
 
   // proceed further only if the password is modified or the user is new
-  if (!user.isModified("password")) return next();
+  if (!user.isModified('password')) return next();
 
   return bcrypt.genSalt((saltError, salt) => {
     if (saltError) {
@@ -208,6 +216,6 @@ UserSchema.pre("save", function saveHook(next) {
   });
 });
 
-const User = mongoose.model<UserDocument, UserModel>("User", UserSchema);
+const User = mongoose.model<UserDocument, UserModel>('User', UserSchema);
 export default User
 

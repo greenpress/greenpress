@@ -1,20 +1,21 @@
-import {User} from "../models/user";
-import {setToken} from "../services/users";
+import User, {UserDocument} from '../models/user';
+import {setToken} from '../services/users';
 
-const { defaultAuthType, defaultRole } = require("../../config");
-import { Strategy } from "passport-local";
+import {defaultAuthType, defaultRole} from '../../config';
+import {Strategy} from 'passport-local';
+
 /**
  * Return the Passport Local Strategy object.
  */
 module.exports = new Strategy(
   {
-    usernameField: "email",
-    passwordField: "password",
+    usernameField: 'email',
+    passwordField: 'password',
     session: false,
     passReqToCallback: true,
   },
   (req, email, password, done) => {
-    const name = (req.body && req.body.name) || "";
+    const name = (req.body && req.body.name) || '';
     const newUser = new User({
       tenant: req.headers.tenant,
       email: email.trim(),
@@ -25,7 +26,12 @@ module.exports = new Strategy(
     const authType = req.body.authType || defaultAuthType;
 
     setToken(newUser, authType)
-      .then(({ user, token, refreshToken, cookieToken }:{user:User, token:string, refreshToken:string, cookieToken:string}) => {
+      .then(({
+               user,
+               token,
+               refreshToken,
+               cookieToken
+             }: { user: UserDocument, token: string, refreshToken: string, cookieToken: string }) => {
         done(null, {
           token,
           refreshToken,

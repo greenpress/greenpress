@@ -1,8 +1,8 @@
-import config from './config'
+import {mongoUri} from './config'
 import {connect} from './server/models';
 
 // connect to the database and load models
-connect(config.mongoUri)
+connect(mongoUri)
 
 // load passport strategies
 import './server/passport'

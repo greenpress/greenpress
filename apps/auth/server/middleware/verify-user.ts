@@ -3,38 +3,32 @@ import {
   getUniqueId,
   setCookie,
   getSignedToken,
-} from "../services/tokens";
-import  { getUserIfTokenExists, updateToken }  from "../services/users";
-import config from "../../config";
+} from '../services/tokens';
+import {getUserIfTokenExists, updateToken} from '../services/users';
+import {cookieTokenExpiration, privilegedRoles, cookieTokenVerificationTime} from '../../config';
 import {NextFunction, RequestHandler, Response} from 'express';
-import { AuthRequest } from "../../types";
+import {AuthRequest} from '../../types';
 
-const {
-  privilegedRoles,
-  cookieTokenExpiration,
-  cookieTokenVerificationTime,
-} = config;
-
-function oAuthVerify(req: AuthRequest, _res: Response, next: NextFunction) {
+function oAuthVerify(req: AuthRequest, _res: Response, next: NextFunction): Promise<void> {
   // get the last part from a authorization header string like "bearer token-value"
-  const token = req.headers.authorization!.split(" ")[1];
-  const tenant = (req.headers.tenant = req.headers.tenant as string|| "0");
+  const token = req.headers.authorization!.split(' ')[1];
+  const tenant = (req.headers.tenant = req.headers.tenant as string || '0');
 
   return verifyToken(token, tenant)
     .then((payload) => setUserPayload(payload, req, next))
     .catch(() => {
-      return next();
+      next();
     });
 }
 
-async function cookieVerify(req:AuthRequest, res:Response, next: NextFunction) {
+async function cookieVerify(req: AuthRequest, res: Response, next: NextFunction): Promise<void> {
   // get the last part from a authorization header string like "bearer token-value"
   const token = req.signedCookies.token || req.cookies.token;
-  const tenant = (req.headers.tenant = req.headers.tenant as string || "0");
+  const tenant = (req.headers.tenant = req.headers.tenant as string || '0');
 
   try {
-    const payload:any = await verifyToken(token, tenant);
-    const created = Number(payload.tokenIdentifier?.split(":")[0]);
+    const payload: any = await verifyToken(token, tenant);
+    const created = Number(payload.tokenIdentifier?.split(':')[0]);
     if (Date.now() - created < cookieTokenVerificationTime) {
       setUserPayload(payload, req, next);
       return;
@@ -47,14 +41,14 @@ async function cookieVerify(req:AuthRequest, res:Response, next: NextFunction) {
     );
     await updateToken(
       user,
-      "cookie",
+      'cookie',
       payload.tokenIdentifier,
       newCookieIdentifier
     );
-    const { token: newToken, payload: newPayload } = getSignedToken(
+    const {token: newToken, payload: newPayload} = getSignedToken(
       user,
       newCookieIdentifier,
-      cookieTokenExpiration / 1000
+      String(cookieTokenExpiration / 1000)
     );
 
     setCookie(res, newToken);
@@ -64,9 +58,9 @@ async function cookieVerify(req:AuthRequest, res:Response, next: NextFunction) {
   }
 }
 
-function setUserPayload(payload:any, req:AuthRequest, next:NextFunction) {
+function setUserPayload(payload: any, req: AuthRequest, next: NextFunction) {
   req.userPayload = payload;
-  req.userPayload.isPrivileged = payload.roles.some((role:string) =>
+  req.userPayload.isPrivileged = payload.roles.some((role: string) =>
     privilegedRoles.includes(role)
   );
   next();
@@ -75,11 +69,12 @@ function setUserPayload(payload:any, req:AuthRequest, next:NextFunction) {
 /**
  *  The Auth Checker middleware function.
  */
-export default <RequestHandler>function verifyUser(req:AuthRequest, res:Response, next:NextFunction) {
+export default <RequestHandler>function verifyUser(req: AuthRequest, res: Response, next: NextFunction) {
   if (req.cookies.token || req.signedCookies.token) {
-    return cookieVerify(req, res, next);
+    cookieVerify(req, res, next).catch(next);
   } else if (req.headers.authorization) {
-    return oAuthVerify(req, res, next);
+    oAuthVerify(req, res, next).catch(next);
+  } else {
+    next();
   }
-  return next();
 };
