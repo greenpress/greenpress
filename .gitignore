@@ -3,7 +3,6 @@ node_modules
 db-data
 compose/.env
 compose/*.env
-dev
 tmp
 dist
 common/temp

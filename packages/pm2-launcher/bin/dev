@@ -1,0 +1,1 @@
+pm2-runtime start ./node_modules/@greenpress/pm2-launcher/greenpress-dev.config.js --env development
