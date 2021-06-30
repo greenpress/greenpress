@@ -5,6 +5,8 @@ const { version } = require('./package.json')
 
 program.version(version)
 
+program.option('-V', '--verbose', 'show verbose output');
+
 require('./commands/create')(program)
 require('./commands/upgrade')(program)
 require('./commands/populate')(program)
