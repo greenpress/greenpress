@@ -19,6 +19,7 @@ Open-source blogs and content websites platform, made for the 21st century.
 #### Install
 ```sh
 $ npm install
+$ npm run build
 ```
 
 #### Run production
@@ -28,7 +29,11 @@ $ npm start
 
 #### Run development
 ```sh
+// In case you have separated MongoDB instance on your local machine:
 $ npm run dev
+
+// In case you don't:
+$ npm run dev --x=all
 ```
 
 ## Dockerized Usage
