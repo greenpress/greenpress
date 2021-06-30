@@ -7,7 +7,7 @@
     "postinstall": "lerna bootstrap",
     "install:prod-only": "lerna bootstrap -- --production --no-optional",
     "prebuild": "lerna run prebuild",
-    "build": "lerna run build",
+    "build": "npm run prebuild && lerna run build",
     "clean": "lerna clean --yes",
     "dev": "lerna exec npm run dev --scope=@greenpress/greenpress",
     "start": "lerna exec npm start --scope=@greenpress/greenpress",

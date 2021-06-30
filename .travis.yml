@@ -12,6 +12,5 @@ script:
   - echo -en 'travis_fold:end:change\\r'
 
   - echo 'building'
-  - npm run prebuild
   - npm run build
   - echo -en 'travis_fold:end:change\\r'
