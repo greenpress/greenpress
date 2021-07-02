@@ -3,10 +3,13 @@ import vue from '@vitejs/plugin-vue'
 import styleImport from 'vite-plugin-style-import'
 import path from 'path'
 
+const BASE_URL = process.env.BASE_URL || '/gp-admin';
+
 export default defineConfig({
 	json: {
 		stringify: true
 	},
+  base: BASE_URL,
 	server: {
 		port: process.env.PORT || 3001,
 		proxy: {
@@ -14,7 +17,7 @@ export default defineConfig({
 		}
 	},
 	define: {
-		BASE_URL: `"${process.env.BASE_URL || '/gp-admin'}"`
+		BASE_URL: `"${BASE_URL}"`
 	},
 	plugins: [
 		vue(),
