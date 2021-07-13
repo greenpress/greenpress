@@ -1,1 +1,1 @@
-NODE_ENV=production ./node_modules/pm2/bin/pm2-runtime start ./node_modules/@greenpress/pm2-launcher/greenpress-prod.config.js --env production
+NODE_ENV=production pm2-runtime start ./node_modules/@greenpress/pm2-launcher/greenpress-prod.config.js --env production

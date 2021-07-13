@@ -34,7 +34,7 @@ Configuration.statics.getByKey = function getByKey (tenant, key, isAdmin) {
   if (isAdmin) {
     return this.findOne({ key, tenant }).then(config => {
       if (config.public) {
-        cacheManager.set(cachePrefix + tenant + ':' + key, JSON.stringify({ tenant, key, metadata: config.metadata }))
+        cacheManager.setItem(cachePrefix + tenant + ':' + key, JSON.stringify({ tenant, key, metadata: config.metadata }))
       }
       return config
     })

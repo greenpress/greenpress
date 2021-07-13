@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-function connect (uri) {
+function connect(uri) {
   return mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
     .catch((err) => {
       console.error(`Mongoose connection error: ${err}`)

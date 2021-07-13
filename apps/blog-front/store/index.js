@@ -10,7 +10,7 @@ export const actions = {
 }
 
 export const mutations = {
-  setConfig (state, metadata) {
+  setConfig (state, metadata = {}) {
     return Object.assign(
       state.config,
       metadata,

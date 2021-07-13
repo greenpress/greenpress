@@ -89,25 +89,28 @@ PostSchema.statics.search = function search (query, freeTextSearch, select, { li
     }
   }
 
-  const makeSearch = () => this.find(query)
-    .select(select)
-    .sort({ created: -1 })
-    .populate('category', categoriesFields || 'path')
-    .limit(limit)
-    .skip(offset)
-    .lean()
-    .then(list => {
-      if (list && list.length) {
-        if (!categoriesFields) {
-          list = list.map(post => {
-            post.category = post.category.path
-            return post
-          })
+  const makeSearch = () => {
+    return this.find(query)
+      .select(select)
+      .sort({ created: -1 })
+      .populate('category', categoriesFields || 'path')
+      .limit(limit)
+      .skip(offset)
+      .lean()
+      .exec()
+      .then(list => {
+        if (list && list.length) {
+          if (!categoriesFields) {
+            list = list.map(post => {
+              post.category = post.category.path
+              return post
+            })
+          }
+          return JSON.stringify(list)
         }
-        return JSON.stringify(list)
-      }
-      return '[]'
-    })
+        return '[]'
+      })
+  }
 
   if (useCache) {
     return cacheManager.wrap(`${cachePrefix}search:${stringedQuery}.${stringedSearch}.${select}.${limit}.${offset}.${categoriesFields}`, makeSearch)
