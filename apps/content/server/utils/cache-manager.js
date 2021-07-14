@@ -1,9 +1,11 @@
 const { redisUrl } = require('../../config')
 
-const cacheManager = require('cache-manager').caching({
-  store: redisUrl ? require('cache-manager-redis') : 'memory',
-  url: redisUrl,
-  ttl: 600,
-})
+const { createCacheManager } = require('@greenpress/cache-manager');
 
-module.exports = cacheManager
+const cacher = redisUrl ?
+  require('@greenpress/cache-manager/dist/redis-cache').createRedisCache(redisUrl) :
+  require('@greenpress/cache-manager/dist/memory-cache').createMemoryCache()
+
+const cacheManager = createCacheManager(cacher);
+
+module.exports = cacheManager;

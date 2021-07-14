@@ -18,6 +18,7 @@ module.exports = {
           usersMap[user._id] = user
           return usersMap
         }, {}))
+        .then((usersMap) => JSON.stringify(usersMap))
     )
   }
 }

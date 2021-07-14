@@ -24,6 +24,7 @@ function getUsers(req:AuthRequest, res:Response): RequestHandler {
 
 	if (!(isPrivileged || users.length)) {
 	  res.status(200).json([]).end()
+    return;
 	}
 
 	const query: Record<string, any> = isPrivileged && !users.length ? {} : { _id: { $in: users } }

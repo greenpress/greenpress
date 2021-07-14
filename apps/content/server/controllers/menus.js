@@ -23,7 +23,7 @@ function getCachedName (tenant, menuName) {
 function getCachedMenu (req, res, next) {
   const tenant = req.headers.tenant
   const menuName = req.params.menuName
-  cacheManager.get(getCachedName(tenant, menuName)).then(menu => {
+  cacheManager.getItem(getCachedName(tenant, menuName)).then(menu => {
     if (menu) {
       res.status(200).set('Content-Type', 'application/json').end(menu)
     } else {
@@ -35,7 +35,7 @@ function getCachedMenu (req, res, next) {
 }
 
 function setCachedMenu (menu) {
-  cacheManager.set(getCachedName(menu.tenant, menu.name), JSON.stringify(menu.toObject ? menu.toObject() : menu))
+  cacheManager.setItem(getCachedName(menu.tenant, menu.name), JSON.stringify(menu.toObject ? menu.toObject() : menu))
 }
 
 function populateMenu (menu) {

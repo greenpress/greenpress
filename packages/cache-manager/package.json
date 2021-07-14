@@ -1,0 +1,19 @@
+{
+  "name": "@greenpress/cache-manager",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "redis": "3.0.2"
+  },
+  "devDependencies": {
+    "typescript": "^4.2.4",
+    "@types/redis": "^2.8.31"
+  }
+}
