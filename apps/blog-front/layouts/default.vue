@@ -14,6 +14,14 @@
       return { config: useConfiguration() }
     },
     head () {
+      const link = [];
+      if (this.config.themeStylesUrl) {
+        link.push({
+          hid: 'theme-styles',
+          rel: 'stylesheet',
+          href: this.config.themeStylesUrl
+        })
+      }
       return {
         htmlAttrs: {
           lang: this.config.language,
@@ -22,8 +30,9 @@
         titleTemplate: `%s | ${this.config.titleSuffix}`,
         meta: [
           { hid: 'description', name: 'description', content: this.config.description },
-          { hid: 'keywords', name: 'keywords', content: this.config.keywords }
-        ]
+          { hid: 'keywords', name: 'keywords', content: this.config.keywords },
+        ],
+        link
       }
     }
   }
