@@ -1,9 +1,11 @@
 import { reactive } from 'vue'
 import { useEditedInputModels } from '../../core/compositions/edited-inputs'
 
+const fileUploaderConfigProperty = ['text', 'upload'];
+
 const configurationKeysTypes = {
-  logoUrl: ['text', 'upload'],
-  themeStylesUrl: ['text', 'upload'],
+  logoUrl: fileUploaderConfigProperty,
+  themeStylesUrl: fileUploaderConfigProperty,
 }
 
 export function useEditMetadata(metadata) {
