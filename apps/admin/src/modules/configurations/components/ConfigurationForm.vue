@@ -1,7 +1,7 @@
 <template>
 	<el-form @submit.native.prevent="save">
-    <template v-for="key in keys">
-      <el-switch :key="key + '-switch'"
+    <template v-for="key in keys" :key="key">
+      <el-switch
           v-if="valuesTypes[key].options.length === 2"
           v-model="valuesTypes[key].selected"
           :inactive-value="valuesTypes[key].options[0]"
@@ -9,7 +9,6 @@
           :inactive-text="$t(valuesTypes[key].options[0])"
           :active-text="$t(valuesTypes[key].options[1])"/>
       <FormInput
-          :key="key + '-input'"
           :title="key"
           v-model="updated[key]"
           :type="valuesTypes[key].selected"/>
