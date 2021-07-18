@@ -5,7 +5,7 @@
 			<div class="post-item-contents">
 				<h3 class="post-item-title">
 					<nuxt-link 
-						class="pos-item-link"
+						class="post-item-link"
 						:to="{params: {post: post.path, category: post.category.path ? post.category.path : post.category}, name: 'category-post'}">
 						{{post.title}}
 					</nuxt-link>

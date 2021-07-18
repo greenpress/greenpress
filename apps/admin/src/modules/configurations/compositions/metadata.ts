@@ -8,6 +8,22 @@ const configurationKeysTypes = {
   themeStylesUrl: fileUploaderConfigProperty,
 }
 
+const titles = {
+  name: 'Website Name',
+  language: 'Language',
+  direction: 'Direction',
+  description: 'Description',
+  logoUrl: 'Logo',
+  themeStylesUrl: 'Theme CSS URL'
+};
+
+const placeholders = {
+  language: 'en | he',
+  direction: 'ltr | rtl',
+  logoUrl: 'https://...',
+  themeStylesUrl: 'https://...',
+}
+
 export function useEditMetadata(metadata) {
   const keys: string[] = Object.keys(metadata)
   const editedValues = reactive(keys.reduce((values, key) => {
@@ -17,7 +33,9 @@ export function useEditMetadata(metadata) {
   const updated = reactive(useEditedInputModels(editedValues, metadata, keys))
   const valuesTypes = reactive(keys.reduce((types, key) => {
 	  const options = configurationKeysTypes[key] || [(typeof updated[key] === 'number' ? 'number' : 'text')]
-	  types[key] = {
+    types[key] = {
+      title: titles[key] || key,
+      placeholder: placeholders[key],
 		  options,
 		  selected: options[0]
 	  }

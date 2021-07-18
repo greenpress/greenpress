@@ -1,7 +1,7 @@
 <template>
   <div class="main-menu-wrapper">
     <div class="main-manu">
-      <menuLink v-for="(item, index) of menu" :link="item" :key="index" class="menu-link" />
+      <MenuLink v-for="(item, index) of menu" :link="item" :key="index" class="menu-link" />
     </div>
   </div>
 </template>

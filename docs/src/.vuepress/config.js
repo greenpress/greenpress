@@ -61,6 +61,14 @@ module.exports = {
 				]
 			},
 			{
+				title: 'Themes',
+				collapsable: false,
+				path: '/themes/',
+				children: [
+					'/themes/custom-css',
+				]
+			},
+			{
 				title: 'Contribute',
 				collapsable: false,
 				path: '/guide/contribute/',
@@ -102,7 +110,6 @@ module.exports = {
 				path: '/tests/',
 				children: [
 					'/tests/manual-tests',
-					
 				]
 			},
 		]

@@ -1,6 +1,7 @@
 <template>
 	<div class="category-page">
 		<h1>{{category.name}}</h1>
+    <section v-if="category.content" class="category-content" v-html="category.content"/>
 		<PostsList :posts="posts"/>
 	</div>
 </template>
