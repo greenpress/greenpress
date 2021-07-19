@@ -1,19 +1,10 @@
 <template>
 	<el-form @submit.native.prevent="save">
-    <template v-for="key in keys" :key="key">
-      <el-switch
-          v-if="valuesTypes[key].options.length === 2"
-          v-model="valuesTypes[key].selected"
-          :inactive-value="valuesTypes[key].options[0]"
-          :active-value="valuesTypes[key].options[1]"
-          :inactive-text="$t(valuesTypes[key].options[0])"
-          :active-text="$t(valuesTypes[key].options[1])"/>
-      <FormInput
-          :title="key"
-          v-model="updated[key]"
-          :type="valuesTypes[key].selected"/>
-    </template>
-
+    <ConfigurationInput  
+      v-for="key in keys"
+      :key="key"
+      v-model="updated[key]"
+      :valueType="valuesTypes[key]" />
 		<el-button native-type="submit" :loading="submitting">{{$t('SAVE')}}</el-button>
 	</el-form>
 </template>
@@ -22,10 +13,11 @@
   import { useEditMetadata } from '../compositions/metadata'
   import { clearNulls } from '../../core/utils/clear-nulls'
   import FormInput from '../../core/components/forms/FormInput.vue'
+  import ConfigurationInput from './ConfigurationInput.vue'
 
   export default {
     name: 'ConfigurationForm',
-    components: { FormInput },
+    components: { FormInput, ConfigurationInput },
     props: {
       metadata: Object,
       submitting: Boolean
@@ -45,7 +37,3 @@
     }
   }
 </script>
-
-<style scoped>
-
-</style>

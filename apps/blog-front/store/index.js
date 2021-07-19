@@ -31,6 +31,7 @@ export const state = () => ({
     slogan: '',
     language: 'en',
     direction: 'ltr',
-    titleSuffix: ''
+    titleSuffix: '',
+    themeStylesUrl: ''
   },
 })

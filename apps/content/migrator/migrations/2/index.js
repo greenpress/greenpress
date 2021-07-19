@@ -33,6 +33,7 @@ function migrate () {
       slogan: 'amazing blog platform',
       keywords: 'blog, platform, open-source, node, nuxt, vue',
       theme: 'damal',
+      themeStylesUrl: ''
     }
   })
   return row.save()
