@@ -16,7 +16,7 @@ In order to set your custom CSS file:
 
 ### Custom CSS file
 
-We have made [an empty CSS file with all thr relavant selectors](https://github.com/greenpress/docs/edit/master/docs/themes/custom-styles-base.css).
+We have made [an empty CSS file with all thr relavant selectors](https://github.com/greenpress/greenpress/blob/main/docs/src/themes/custom-styles-base.css).
 you can use it in order to design your website.
 
 Example CSS Files:
