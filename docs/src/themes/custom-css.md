@@ -21,5 +21,5 @@ you can use it in order to design your website.
 
 Example CSS Files:
 
-1.  [Base file with selectors only](https://github.com/greenpress/docs/edit/master/docs/themes/custom-styles-base.css)
-2.  [Classic design (WIP)](https://github.com/greenpress/docs/edit/master/docs/themes/custom-styles-classic.css)
+1.  [Base file with selectors only](https://github.com/greenpress/greenpress/blob/main/docs/src/themes/custom-styles-base.css)
+2.  [Classic design (WIP)](https://github.com/greenpress/greenpress/blob/main/docs/src/themes/custom-styles-classic.css)
