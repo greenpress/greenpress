@@ -68,5 +68,11 @@
   "Cancel": "Cancel",
   "OK": "OK",
   "Tags": "Tags",
-  "leave empty to auto-generate": "Leave empty to auto-generate"
+  "leave empty to auto-generate": "Leave empty to auto-generate",
+  "Website Name": "Website Name",
+  "Language": "Language",
+  "Text Direction": "Text Direction",
+  "Logo": "Logo",
+  "theme": "theme",
+  "Theme CSS URL": "Theme CSS URL"
 }

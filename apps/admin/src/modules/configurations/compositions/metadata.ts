@@ -11,7 +11,7 @@ const configurationKeysTypes = {
 const titles = {
   name: 'Website Name',
   language: 'Language',
-  direction: 'Direction',
+  direction: 'Text Direction',
   description: 'Description',
   logoUrl: 'Logo',
   themeStylesUrl: 'Theme CSS URL'

@@ -68,5 +68,11 @@
   "Tags": "תגיות",
   "leave empty to auto-generate": "השאר ריק בכדי שיווצר אוטומטית",
   "category": "קטגוריה",
-  "post": "פוסט"
+  "post": "פוסט",
+  "Website Name": "שם האתר",
+  "Language": "שפה",
+  "Text Direction": "כיוון הכתיבה",
+  "Logo": "לוגו",
+  "theme": "עיצוב",
+  "Theme CSS URL": "כתובת לקובץ עיצוב CSS"
 }
