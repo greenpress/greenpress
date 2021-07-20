@@ -4,14 +4,14 @@ const { editorsRoles } = require('../../config');
  */
 module.exports = (req, res, next) => {
   if (!req.user) {
-    return res.status(401).end();
+    res.status(401).end();
+    return;
   }
 
   if (req.user.roles.find(role => editorsRoles.includes(role))) {
     req.user.isEditor = true;
-    return next();
+    next();
+  } else {
+    res.status(401).end();
   }
-
-  return res.status(401).end();
-
 };
