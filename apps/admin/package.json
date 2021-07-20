@@ -6,7 +6,7 @@
     "dev": "vite --host 0.0.0.0",
     "prebuild": "npm install",
     "build": "vite build --base=/gp-admin/",
-    "build:no-base": "vite build",
+    "build:no-base": "vite build --base=/",
     "serve": "vite",
     "prepublishOnly": "(NODE_ENV=development && npm run build)",
     "start": "node server.js"
