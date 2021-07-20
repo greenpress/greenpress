@@ -19,8 +19,8 @@
     </el-upload>
   </div>
 </template>
-<script>
-  import { ref } from 'vue'
+<script lang="ts">
+  import { ref, nextTick } from 'vue'
   import { useAssetsUpload } from '../compositions/assets'
 
   export default {
@@ -28,7 +28,7 @@
     props: {
       storage: String
     },
-    setup(props, { root, emit }) {
+    setup(props, { emit }) {
       const location = ref('')
       const { headers, uploadUrl, setUploadUrl } = useAssetsUpload(
         props.storage,
@@ -40,7 +40,7 @@
         uploadUrl,
         beforeUpload: (file) => {
           setUploadUrl(file)
-          return root.$nextTick()
+          return nextTick()
         },
         location,
         onSuccess(res) {
