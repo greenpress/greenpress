@@ -11,7 +11,7 @@ import configurationsRoutes from './modules/configurations/routes'
 import { authStore, fetchAuthUser } from '@/modules/core/store/auth'
 import draftsRoutes from '@/modules/drafts/routes';
 
-const BASE = '/gp-admin';
+const BASE = import.meta.env.BASE_URL || '/gp-admin';
 
 const router = createRouter({
 	history: createWebHistory(BASE),

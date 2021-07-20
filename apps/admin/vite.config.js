@@ -9,7 +9,7 @@ export default defineConfig({
 	json: {
 		stringify: true
 	},
-  base: BASE_URL,
+  	base: BASE_URL,
 	server: {
 		port: process.env.PORT || 3001,
 		proxy: {
