@@ -73,6 +73,8 @@
   "Language": "שפה",
   "Text Direction": "כיוון הכתיבה",
   "Logo": "לוגו",
-  "theme": "עיצוב",
+  "Slogan": "סלוגן",
+  "Keywords": "מילות מפתח",
+  "Theme Name": "שם העיצוב",
   "Theme CSS URL": "כתובת לקובץ עיצוב CSS"
 }

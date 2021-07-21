@@ -1,15 +1,15 @@
-import { useDispatcher } from '@/modules/core/compositions/dispatcher'
-import configurationsService from '@/services/configurations-service'
+import {useDispatcher} from '../../core/compositions/dispatcher';
+import configurationsService from '../../../services/configurations-service';
 
 export function useConfigurationsList() {
-  const { result } = useDispatcher(() => configurationsService.getAll())
+  const {result} = useDispatcher(() => configurationsService.getAll())
   return {
     list: result
   }
 }
 
 export function useConfiguration(key: string) {
-  const { result } = useDispatcher(() => configurationsService.getOne(key))
+  const {result} = useDispatcher(() => configurationsService.getOne(key))
   return {
     config: result
   }

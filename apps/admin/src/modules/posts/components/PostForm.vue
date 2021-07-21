@@ -4,26 +4,25 @@
     <el-checkbox :model-value="isPinned" @change="editedPost.isPinned = $event">{{$t('Pinned Post')}}</el-checkbox>
 
     <FormInput title="Title" :model-value="title" @input="editedPost.title = $event" />
-    <FormInput title="Path" label="leave empty to auto-generate"
-               :model-value="path" @input="editedPost.path = $event" />
 
-    <el-form-item label="Thumbnail">
-      <a @click="toggleUpload">Upload</a>
-      <AssetUploader v-if="uploadThumbnailOpen" @change="uploadComplete" />
-      <FormInput v-else :model-value="thumbnail" placeholder="https://" @input="thumbnail = $event" />
-      <div>
-        <img v-if="!uploadThumbnailOpen" class="thumbnail-image" :src="editedPost.thumbnail || post.thumbnail">
-      </div>
-    </el-form-item>
+		<el-form-item label="Thumbnail">
+			<a @click="toggleUpload">Upload</a>
+			<AssetUploader v-if="uploadThumbnailOpen" @change="uploadComplete" />
+			<FormInput v-else :model-value="thumbnail" placeholder="https://" @input="thumbnail = $event" />
+			<div v-if="editedPost.thumbnail || post.thumbnail">
+				<img v-if="!uploadThumbnailOpen" class="thumbnail-image" :src="editedPost.thumbnail || post.thumbnail">
+			</div>
+		</el-form-item>
 
-    <el-form-item label="Category">
-      <CategorySelector :model-value="categoryPath" @change="editedPost.category = $event"
-                        @mounted="mountCategory" />
-    </el-form-item>
+		<PostFormMetadata :category-path="categoryPath"
+											:path="path"
+											:is-new="!post._id"
+											@changed:path="editedPost.path = $event"
+											@changed:category="editedPost.category = $event"/>
 
     <FormInput title="Tags" v-model="currentTagText" @keydown.enter.prevent="addTag" placeholder="ADD NEW TAG">
-      <ul>
-        <li v-for="tag in tags" :key="tag">
+      <ul class="tags-list">
+        <li v-for="tag in tags" :key="tag" class="tag">
           {{ tag }}
           <i @click="removeTag(tag)" class="el-icon-delete" />
         </li>
@@ -54,7 +53,6 @@
 </template>
 <script>
   import FormInput from '../../core/components/forms/FormInput.vue'
-  import CategorySelector from '../../categories/components/CategorySelector.vue'
   import { clearNulls } from '../../core/utils/clear-nulls'
   import PostContentEditor from './PostContentEditor.vue'
   import { computed, onBeforeMount } from 'vue'
@@ -66,9 +64,10 @@
   import { useUnsavedChanges } from '../../drafts/compositions/unsaved-changes'
   import { useEditorConfig } from '@/modules/posts/compositions/gp-editor'
 	import AssetUploader from '../../assets/components/AssetUploader.vue'
+	import PostFormMetadata from './PostFormMetadata.vue';
 
   export default {
-    components: { AssetUploader, PostContentEditor, CategorySelector, FormInput },
+    components: { PostFormMetadata, AssetUploader, PostContentEditor, FormInput },
     props: {
       post: Object,
       submitting: Boolean
@@ -103,11 +102,6 @@
           const isBool = typeof editedPost.isPinned === 'boolean'
           return isBool ? editedPost.isPinned : props.post.isPinned
         }),
-        mountCategory(path) {
-          if (!props.post._id) {
-            editedPost.category = path
-          }
-        },
         submit() {
           const submittedPost = clearNulls(editedPost)
           emit('submitted', submittedPost)
@@ -117,6 +111,7 @@
   }
 </script>
 <style scoped lang="scss">
+	@import "../../../style/colors";
 
   .post-form {
     padding: 0 10px;
@@ -137,4 +132,25 @@
       margin-bottom: 5px;
     }
   }
+
+	.tags-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
+
+	.tag {
+		margin: 5px;
+		font-size: 80%;
+		padding: 6px;
+		border-radius: 3px;
+		background-color: #c4ecd0;
+
+		> i {
+			cursor: pointer;
+		}
+	}
 </style>

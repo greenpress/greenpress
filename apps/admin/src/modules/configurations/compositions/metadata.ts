@@ -14,6 +14,9 @@ const titles = {
   direction: 'Text Direction',
   description: 'Description',
   logoUrl: 'Logo',
+  slogan: 'Slogan',
+  keywords: 'Keywords',
+  theme: 'Theme Name',
   themeStylesUrl: 'Theme CSS URL'
 };
 
