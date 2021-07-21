@@ -11,6 +11,7 @@ export function useAssetsUpload(storageId: string, location: Ref<string>) {
   const uploadUrl = ref('')
   return {
     headers: computed(() => api.defaults.headers.common),
+    withCredentials: computed(() => api.defaults.withCredentials),
     setUploadUrl(file) {
       const fileName = file.name.split('.')
       const url = new URL(`/api/assets/${storageId}`, api.defaults.baseURL)

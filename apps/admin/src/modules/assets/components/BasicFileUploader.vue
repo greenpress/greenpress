@@ -6,7 +6,8 @@
       drag
       :headers="headers"
       :action="uploadUrl"
-      :on-success="onSuccess"
+			:with-credentials="withCredentials"
+			:on-success="onSuccess"
       :before-upload="beforeUpload"
     >
       <i class="el-icon-upload"></i>
@@ -30,13 +31,14 @@
     },
     setup(props, { emit }) {
       const location = ref('')
-      const { headers, uploadUrl, setUploadUrl } = useAssetsUpload(
+			const { headers, uploadUrl, setUploadUrl, withCredentials } = useAssetsUpload(
         props.storage,
         location
       )
 
       return {
         headers,
+				withCredentials,
         uploadUrl,
         beforeUpload: (file) => {
           setUploadUrl(file)
