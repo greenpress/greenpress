@@ -54,72 +54,64 @@ jobs:
           docker build . -f admin.Dockerfile -t greenpress/admin-panel:$BRANCH_NAME
           docker push greenpress/admin-panel:$BRANCH_NAME
           localVersion=v$(docker run -it greenpress/admin-panel:$BRANCH_NAME sed 's/.*"version": "\(.*\)".*/\1/;t;d' ./package.json)
-          dockerHubVersion=$(wget -q https://registry.hub.docker.com/v1/repositories/greenpress/auth/tags -O -)
-          dockerVersion=$(echo $dockerHubVersion | sed -e 's/[][]//g' -e 's/"//g' -e 's/ //g' | tr '}' '\n'  | awk -F: '{print $3}'  | grep -x ${localVersion} || true)
+          dockerHubVersion=$(curl --silent -lSL https://index.docker.io/v1/repositories/greenpress/auth/tags/$localVersion)
+          if [ "$dockerHubVersion" = "Tag not found" ]; then echo "version: ${localVersion} already exist in docker hub"; else docker push greenpress/admin-panel:latest;fi
       - run: |
           cd compose/builders
           docker build . -f auth.Dockerfile -t greenpress/auth:$BRANCH_NAME
           docker push greenpress/auth:$BRANCH_NAME
-          localVersion=v$(docker run -it greenpress/auth:$BRANCH_NAME cat package.json | jq ."version" | tr -d "\"")
+          localVersion=v$(docker run -it greenpress/auth:$BRANCH_NAME sed 's/.*"version": "\(.*\)".*/\1/;t;d' ./package.json)
           dockerHubVersion=$(wget -q https://registry.hub.docker.com/v1/repositories/greenpress/auth/tags -O -)  
-          dockerVersion=$(echo $dockerHubVersion | sed -e 's/[][]//g' -e 's/"//g' -e 's/ //g' | tr '}' '\n'  | awk -F: '{print $3}'  | grep -x ${localVersion} || true)
-          if [ -n "$dockerVersion" ]; then echo "version: ${localVersion} already exist in docker hub" else docker push greenpress/auth:latest;fi
+          if [ "$dockerHubVersion" = "Tag not found" ]; then echo "version: ${localVersion} already exist in docker hub"; else docker push greenpress/auth:latest;fi
       - run: |
           cd compose/builders
           docker build . -f assets.Dockerfile -t greenpress/assets:$BRANCH_NAME
           docker push greenpress/assets:$BRANCH_NAME
-          localVersion=v$(docker run -it greenpress/assets:$BRANCH_NAME cat package.json | jq ."version" | tr -d "\"")
-          dockerHubVersion=$(wget -q https://registry.hub.docker.com/v1/repositories/greenpress/assets/tags -O -)  
-          dockerVersion=$(echo $dockerHubVersion | sed -e 's/[][]//g' -e 's/"//g' -e 's/ //g' | tr '}' '\n'  | awk -F: '{print $3}'  | grep -x ${localVersion} || true)
-          if [ -n "$dockerVersion" ]; then echo "version: ${localVersion} already exist in docker hub" else docker push greenpress/assets:latest;fi
+          localVersion=v$(docker run -it greenpress/assets:$BRANCH_NAME sed 's/.*"version": "\(.*\)".*/\1/;t;d' ./package.json)
+          dockerHubVersion=$(curl --silent -lSL https://index.docker.io/v1/repositories/greenpress/assets/tags/$localVersion)
+          if [ "$dockerHubVersion" = "Tag not found" ]; then echo "version: ${localVersion} already exist in docker hub"; else docker push greenpress/assets:latest;fi
       - run: |
           cd compose/builders
           docker build . -f blog-front.Dockerfile -t greenpress/blog-front:$BRANCH_NAME
           docker push greenpress/blog-front:$BRANCH_NAME
-          localVersion=v$(docker run -it greenpress/auth:$BRANCH_NAME cat package.json | jq ."version" | tr -d "\"")
-          dockerHubVersion=$(wget -q https://registry.hub.docker.com/v1/repositories/greenpress/blog-front/tags -O -)  
-          dockerVersion=$(echo $dockerHubVersion | sed -e 's/[][]//g' -e 's/"//g' -e 's/ //g' | tr '}' '\n'  | awk -F: '{print $3}'  | grep -x ${localVersion} || true)
-          if [ -n "$dockerVersion" ]; then echo "version: ${localVersion} already exist in docker hub" else docker push greenpress/blog-front:latest;fi
+          localVersion=v$(docker run -it greenpress/blog-front:$BRANCH_NAME sed 's/.*"version": "\(.*\)".*/\1/;t;d' ./package.json)
+          dockerHubVersion=$(curl --silent -lSL https://index.docker.io/v1/repositories/greenpress/blog-front/tags/$localVersion)
+          if [ "$dockerHubVersion" = "Tag not found" ]; then echo "version: ${localVersion} already exist in docker hub"; else docker push greenpress/blog-front:latest;fi
       - run: |
           cd compose/builders
           docker build . -f content.Dockerfile -t greenpress/content:$BRANCH_NAME
           docker push greenpress/content:$BRANCH_NAME
-          localVersion=v$(docker run -it greenpress/content:$BRANCH_NAME cat package.json | jq ."version" | tr -d "\"")
-          dockerHubVersion=$(wget -q https://registry.hub.docker.com/v1/repositories/greenpress/content/tags -O -)  
-          dockerVersion=$(echo $dockerHubVersion | sed -e 's/[][]//g' -e 's/"//g' -e 's/ //g' | tr '}' '\n'  | awk -F: '{print $3}'  | grep -x ${localVersion} || true)
-          if [ -n "$dockerVersion" ]; then echo "version: ${localVersion} already exist in docker hub" else docker push greenpress/content:latest;fi
+          localVersion=v$(docker run -it greenpress/content:$BRANCH_NAME sed 's/.*"version": "\(.*\)".*/\1/;t;d' ./package.json)
+          dockerHubVersion=$(curl --silent -lSL https://index.docker.io/v1/repositories/greenpress/content/tags/$localVersion)
+          if [ "$dockerHubVersion" = "Tag not found" ]; then echo "version: ${localVersion} already exist in docker hub"; else docker push greenpress/content:latest;fi
       - run: |
           cd compose/builders
           docker build . -f drafts.Dockerfile -t greenpress/drafts:$BRANCH_NAME
           docker push greenpress/drafts:$BRANCH_NAME
-          localVersion=v$(docker run -it greenpress/drafts:$BRANCH_NAME cat package.json | jq ."version" | tr -d "\"")
-          dockerHubVersion=$(wget -q https://registry.hub.docker.com/v1/repositories/greenpress/drafts/tags -O -)  
-          dockerVersion=$(echo $dockerHubVersion | sed -e 's/[][]//g' -e 's/"//g' -e 's/ //g' | tr '}' '\n'  | awk -F: '{print $3}'  | grep -x ${localVersion} || true)
-          if [ -n "$dockerVersion" ]; then echo "version: ${localVersion} already exist in docker hub" else docker push greenpress/drafts:latest;fi
+          localVersion=v$(docker run -it greenpress/drafts:$BRANCH_NAME sed 's/.*"version": "\(.*\)".*/\1/;t;d' ./package.json)
+          dockerHubVersion=$(curl --silent -lSL https://index.docker.io/v1/repositories/greenpress/drafts/tags/$localVersion)
+          if [ "$dockerHubVersion" = "Tag not found" ]; then echo "version: ${localVersion} already exist in docker hub"; else docker push greenpress/drafts:latest;fi
       - run: |
           cd compose/builders
           docker build . -f greenpress.Dockerfile -t greenpress/greenpress:$BRANCH_NAME
           docker push greenpress/greenpress:$BRANCH_NAME
-          localVersion=v$(docker run -it greenpress/greenpress:$BRANCH_NAME cat package.json | jq ."version" | tr -d "\"")
-          dockerHubVersion=$(wget -q https://registry.hub.docker.com/v1/repositories/greenpress/greenpress/tags -O -)  
-          dockerVersion=$(echo $dockerHubVersion | sed -e 's/[][]//g' -e 's/"//g' -e 's/ //g' | tr '}' '\n'  | awk -F: '{print $3}'  | grep -x ${localVersion} || true)
-          if [ -n "$dockerVersion" ]; then echo "version: ${localVersion} already exist in docker hub" else docker push greenpress/greenpress:latest;fi
+          localVersion=v$(docker run -it greenpress/greenpress:$BRANCH_NAME sed 's/.*"version": "\(.*\)".*/\1/;t;d' ./package.json)
+          dockerHubVersion=$(curl --silent -lSL https://index.docker.io/v1/repositories/greenpress/greenpress/tags/$localVersion)
+          if [ "$dockerHubVersion" = "Tag not found" ]; then echo "version: ${localVersion} already exist in docker hub"; else docker push greenpress/greenpress:latest;fi
       - run: |
           cd compose/builders
           docker build . -f mailing.Dockerfile -t greenpress/mailing:$BRANCH_NAME
           docker push greenpress/mailing:$BRANCH_NAME
-          localVersion=v$(docker run -it greenpress/mailing:$BRANCH_NAME cat package.json | jq ."version" | tr -d "\"")
-          dockerHubVersion=$(wget -q https://registry.hub.docker.com/v1/repositories/greenpress/mailing/tags -O -)  
-          dockerVersion=$(echo $dockerHubVersion | sed -e 's/[][]//g' -e 's/"//g' -e 's/ //g' | tr '}' '\n'  | awk -F: '{print $3}'  | grep -x ${localVersion} || true)
-          if [ -n "$dockerVersion" ]; then echo "version: ${localVersion} already exist in docker hub" else docker push greenpress/mailing:latest;fi
+          localVersion=v$(docker run -it greenpress/mailing:$BRANCH_NAME sed 's/.*"version": "\(.*\)".*/\1/;t;d' ./package.json)
+          dockerHubVersion=$(curl --silent -lSL https://index.docker.io/v1/repositories/greenpress/mailing/tags/$localVersion)
+          if [ "$dockerHubVersion" = "Tag not found" ]; then echo "version: ${localVersion} already exist in docker hub"; else docker push greenpress/mailing:latest;fi
       - run: |
           cd compose/builders
           docker build . -f secrets.Dockerfile -t greenpress/secrets:$BRANCH_NAME
           docker push greenpress/secrets:$BRANCH_NAME
-          localVersion=v$(docker run -it greenpress/secrets:$BRANCH_NAME cat package.json | jq ."version" | tr -d "\"")
-          dockerHubVersion=$(wget -q https://registry.hub.docker.com/v1/repositories/greenpress/secrets/tags -O -)  
-          dockerVersion=$(echo $dockerHubVersion | sed -e 's/[][]//g' -e 's/"//g' -e 's/ //g' | tr '}' '\n'  | awk -F: '{print $3}'  | grep -x ${localVersion} || true)
-          if [ -n "$dockerVersion" ]; then echo "version: ${localVersion} already exist in docker hub" else docker push greenpress/secrets:latest;fi
+          localVersion=v$(docker run -it greenpress/secrets:$BRANCH_NAME sed 's/.*"version": "\(.*\)".*/\1/;t;d' ./package.json)
+          dockerHubVersion=$(curl --silent -lSL https://index.docker.io/v1/repositories/greenpress/secrets/tags/$localVersion)
+          if [ "$dockerHubVersion" = "Tag not found" ]; then echo "version: ${localVersion} already exist in docker hub"; else docker push greenpress/secrets:latest;fi
 workflows:
   build-monorepo:
     jobs:
