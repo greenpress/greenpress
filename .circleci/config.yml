@@ -55,6 +55,7 @@ jobs:
           docker push greenpress/admin-panel:$BRANCH_NAME
           localVersion=v$(docker run -it greenpress/admin-panel:$BRANCH_NAME sed 's/.*"version": "\(.*\)".*/\1/;t;d' ./package.json)
           dockerHubVersion=$(wget -q https://registry.hub.docker.com/v1/repositories/greenpress/auth/tags -O -)
+          dockerVersion=$(echo $dockerHubVersion | sed -e 's/[][]//g' -e 's/"//g' -e 's/ //g' | tr '}' '\n'  | awk -F: '{print $3}'  | grep -x ${localVersion} || true)
       - run: |
           cd compose/builders
           docker build . -f auth.Dockerfile -t greenpress/auth:$BRANCH_NAME
