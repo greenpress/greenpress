@@ -74,3 +74,4 @@ Basic way is by environment variables, and the second part is to add a `greenpre
 
 The `greenpress.config.js` can either export the configuration object, or export a function that will get the base configuration object, and expected to return a new configuration object.
 Note that the base configuration object passed to the function will include data that calculated by environment variables before.
+ 
