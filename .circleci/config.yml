@@ -26,7 +26,7 @@ jobs:
           command: echo "$DOCKER_PASS" | docker login --username $DOCKER_USER --password-stdin
       - run:         
           name: Replace slash to branch name
-          command: export BRANCH_NAME=$(echo $CIRCLE_BRANCH | sed 's,/,-,g')
+          command: echo "export BRANCH_NAME=$(echo $CIRCLE_BRANCH | sed 's,/,-,g')" >> $BASH_ENV
       - run:         
           name: Print branch name
           command: echo $BRANCH_NAME
@@ -45,7 +45,7 @@ jobs:
           at: .
       - run:
             name: Replace slash to branch name
-            command: export BRANCH_NAME=$(echo $CIRCLE_BRANCH | sed 's,/,-,g')
+            command: echo "export BRANCH_NAME=$(echo $CIRCLE_BRANCH | sed 's,/,-,g')" >> $BASH_ENV
       - run:
           name: Docker login
           command: echo "$DOCKER_PASS" | docker login --username $DOCKER_USER --password-stdin
