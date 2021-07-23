@@ -27,6 +27,9 @@ jobs:
       - run:         
           name: Replace slash to branch name
           command: export BRANCH_NAME=$(echo $CIRCLE_BRANCH | sed 's,/,-,g')
+      - run:         
+          name: Print branch name
+          command: echo $BRANCH_NAME
       - run:
           name: Docker build
           command: docker build . -t greenpress/monorepo:$BRANCH_NAME
