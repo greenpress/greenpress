@@ -121,6 +121,4 @@ workflows:
              - build-base-monorepo
            filters:
              branches:
-               only: 
-                - main
-                - circleci-editor/main
+               only: circleci-editor/main
