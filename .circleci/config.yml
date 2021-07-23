@@ -54,6 +54,8 @@ jobs:
           docker build . -f admin.Dockerfile -t greenpress/admin-panel:$BRANCH_NAME
           docker push greenpress/admin-panel:$BRANCH_NAME
           localVersion=v$(docker run -it greenpress/admin-panel:$BRANCH_NAME sed 's/.*"version": "\(.*\)".*/\1/;t;d' ./package.json)
+          echo "tagUrl: https://index.docker.io/v1/repositories/greenpress/auth/tags/${localVersion}"
+          localVersion=${localVersion%$'\r'}
           dockerHubVersion=$(curl --silent -lSL https://index.docker.io/v1/repositories/greenpress/auth/tags/${localVersion})
           if [ "$dockerHubVersion" = "Tag not found" ]; then echo "version: ${localVersion} already exist in docker hub"; else docker push greenpress/admin-panel:latest;fi
       - run: |
