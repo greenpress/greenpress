@@ -125,7 +125,7 @@ jobs:
           echo "version: ${localVersion} already exist in docker hub"; 
           else docker push greenpress/drafts
           docker tag greenpress/drafts:$BRANCH_NAME greenpress/drafts:${localVersion}
-          docler push greenpress/drafts:${localVersion};
+          docker push greenpress/drafts:${localVersion};
           fi
       - run: |
           cd compose/builders
