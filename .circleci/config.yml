@@ -54,9 +54,9 @@ jobs:
           docker build . -f admin.Dockerfile -t greenpress/admin-panel:$BRANCH_NAME
           docker push greenpress/admin-panel:$BRANCH_NAME
           localVersion=v$(docker run -it greenpress/admin-panel:$BRANCH_NAME sed 's/.*"version": "\(.*\)".*/\1/;t;d' ./package.json)
-          localVersion=$(echo ${localVersion} | tr -d "^@")
+          localVersion=$(echo ${localVersion} | tr -d "^@" | tr -d "\r")
           dockerHubVersion=$(wget -q -O- "https://index.docker.io/v1/repositories/greenpress/admin-panel/tags/${localVersion}" || true)
-          if [ - n "$dockerHubVersion"  ]; then
+          if [ "$dockerHubVersion" = "[]"  ]; then
           echo "version: ${localVersion} already exist in docker hub"; 
           docker push greenpress/admin-panel
           docker tag greenpress/admin-panel:$BRANCH_NAME greenpress/admin-panel:${localVersion}
@@ -67,9 +67,9 @@ jobs:
           docker build . -f auth.Dockerfile -t greenpress/auth:$BRANCH_NAME
           docker push greenpress/auth:$BRANCH_NAME
           localVersion=v$(docker run -it greenpress/auth:$BRANCH_NAME sed 's/.*"version": "\(.*\)".*/\1/;t;d' ./package.json)
-          localVersion=$(echo ${localVersion} | tr -d "^@")
+          localVersion=$(echo ${localVersion} | tr -d "^@" | tr -d "\r")
           dockerHubVersion=$(wget -q -O- "https://index.docker.io/v1/repositories/greenpress/admin-panel/tags/${localVersion}" || true)
-          if [ - n "$dockerHubVersion"  ]; then 
+          if [ "$dockerHubVersion" = "[]"  ]; then 
           echo "version: ${localVersion} already exist in docker hub"; 
           else docker push greenpress/auth
           docker tag greenpress/auth:$BRANCH_NAME greenpress/auth:${localVersion}
@@ -80,9 +80,9 @@ jobs:
           docker build . -f assets.Dockerfile -t greenpress/assets:$BRANCH_NAME
           docker push greenpress/assets:$BRANCH_NAME
           localVersion=v$(docker run -it greenpress/assets:$BRANCH_NAME sed 's/.*"version": "\(.*\)".*/\1/;t;d' ./package.json)
-          localVersion=$(echo ${localVersion} | tr -d "^@")
+          localVersion=$(echo ${localVersion} | tr -d "^@" | tr -d "\r")
           dockerHubVersion=$(wget -q -O- "https://index.docker.io/v1/repositories/greenpress/assets/tags/${localVersion}" || true)
-          if [ - n "$dockerHubVersion"  ]; then 
+          if [ "$dockerHubVersion" = "[]"  ]; then 
           echo "version: ${localVersion} already exist in docker hub"; 
           else docker push greenpress/assets
           docker tag greenpress/assets:$BRANCH_NAME greenpress/assets:${localVersion}
@@ -93,9 +93,9 @@ jobs:
           docker build . -f blog-front.Dockerfile -t greenpress/blog-front:$BRANCH_NAME
           docker push greenpress/blog-front:$BRANCH_NAME
           localVersion=v$(docker run -it greenpress/blog-front:$BRANCH_NAME sed 's/.*"version": "\(.*\)".*/\1/;t;d' ./package.json)
-          localVersion=$(echo ${localVersion} | tr -d "^@")
+          localVersion=$(echo ${localVersion} | tr -d "^@" | tr -d "\r")
           dockerHubVersion=$(wget -q -O- "https://index.docker.io/v1/repositories/greenpress/blog-front/tags/${localVersion}" || true)
-          if [ - n "$dockerHubVersion"  ]; then 
+          if [ "$dockerHubVersion" = "[]"  ]; then 
           echo "version: ${localVersion} already exist in docker hub"; 
           else docker push greenpress/blog-front
           docker tag greenpress/blog-front:$BRANCH_NAME greenpress/blog-front:${localVersion}
@@ -106,9 +106,9 @@ jobs:
           docker build . -f content.Dockerfile -t greenpress/content:$BRANCH_NAME
           docker push greenpress/content:$BRANCH_NAME
           localVersion=v$(docker run -it greenpress/content:$BRANCH_NAME sed 's/.*"version": "\(.*\)".*/\1/;t;d' ./package.json)
-          localVersion=$(echo ${localVersion} | tr -d "^@")
+          localVersion=$(echo ${localVersion} | tr -d "^@" | tr -d "\r")
           dockerHubVersion=$(wget -q -O- "https://index.docker.io/v1/repositories/greenpress/content/tags/${localVersion}" || true)
-          if [ - n "$dockerHubVersion"  ]; then 
+          if [ "$dockerHubVersion" = "[]"  ]; then 
           echo "version: ${localVersion} already exist in docker hub"; 
           else docker push greenpress/content
           docker tag greenpress/content:$BRANCH_NAME greenpress/content:${localVersion}
@@ -120,8 +120,8 @@ jobs:
           docker push greenpress/drafts:$BRANCH_NAME
           localVersion=v$(docker run -it greenpress/drafts:$BRANCH_NAME sed 's/.*"version": "\(.*\)".*/\1/;t;d' ./package.json)
           dockerHubVersion=$(wget -q -O- "https://index.docker.io/v1/repositories/greenpress/drafts/tags/${localVersion}" || true)
-          localVersion=$(echo ${localVersion} | tr -d "^@")
-          if [ - n "$dockerHubVersion"  ]; then 
+          localVersion=$(echo ${localVersion} | tr -d "^@" | tr -d "\r")
+          if [ "$dockerHubVersion" = "[]"  ]; then 
           echo "version: ${localVersion} already exist in docker hub"; 
           else docker push greenpress/drafts
           docker tag greenpress/drafts:$BRANCH_NAME greenpress/drafts:${localVersion}
@@ -132,9 +132,9 @@ jobs:
           docker build . -f greenpress.Dockerfile -t greenpress/greenpress:$BRANCH_NAME
           docker push greenpress/greenpress:$BRANCH_NAME
           localVersion=v$(docker run -it greenpress/greenpress:$BRANCH_NAME sed 's/.*"version": "\(.*\)".*/\1/;t;d' ./package.json)
-          localVersion=$(echo ${localVersion} | tr -d "^@")
+          localVersion=$(echo ${localVersion} | tr -d "^@" | tr -d "\r")
           dockerHubVersion=$(wget -q -O- "https://index.docker.io/v1/repositories/greenpress/greenpress/tags/${localVersion}" || true)
-          if [ - n "$dockerHubVersion"  ]; then 
+          if [ "$dockerHubVersion" = "[]"  ]; then 
           echo "version: ${localVersion} already exist in docker hub"; 
           else docker push greenpress/greenpress
           docker tag greenpress/greenpress:$BRANCH_NAME greenpress/greenpress:${localVersion}
@@ -145,9 +145,9 @@ jobs:
           docker build . -f mailing.Dockerfile -t greenpress/mailing:$BRANCH_NAME
           docker push greenpress/mailing:$BRANCH_NAME
           localVersion=v$(docker run -it greenpress/mailing:$BRANCH_NAME sed 's/.*"version": "\(.*\)".*/\1/;t;d' ./package.json)
-          localVersion=$(echo ${localVersion} | tr -d "^@")
+          localVersion=$(echo ${localVersion} | tr -d "^@" | tr -d "\r")
           dockerHubVersion=$(wget -q -O- "https://index.docker.io/v1/repositories/greenpress/mailing/tags/${localVersion}" || true)
-          if [ - n "$dockerHubVersion"  ]; then 
+          if [ "$dockerHubVersion" = "[]"  ]; then 
           echo "version: ${localVersion} already exist in docker hub"; 
           else docker push greenpress/mailing
           docker tag greenpress/mailing:$BRANCH_NAME greenpress/mailing:${localVersion}
@@ -158,9 +158,9 @@ jobs:
           docker build . -f secrets.Dockerfile -t greenpress/secrets:$BRANCH_NAME
           docker push greenpress/secrets:$BRANCH_NAME
           localVersion=v$(docker run -it greenpress/secrets:$BRANCH_NAME sed 's/.*"version": "\(.*\)".*/\1/;t;d' ./package.json)
-          localVersion=$(echo ${localVersion} | tr -d "^@")
+          localVersion=$(echo ${localVersion} | tr -d "^@" | tr -d "\r")
           dockerHubVersion=$(wget -q -O- "https://index.docker.io/v1/repositories/greenpress/secrets/tags/${localVersion}" || true)
-          if [ - n "$dockerHubVersion"  ]; then 
+          if [ "$dockerHubVersion" = "[]"  ]; then 
           echo "version: ${localVersion} already exist in docker hub"; 
           else docker push greenpress/secrets
           docker tag greenpress/secrets:$BRANCH_NAME greenpress/secrets:${localVersion}
