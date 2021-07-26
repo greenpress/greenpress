@@ -16,7 +16,7 @@
   "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
   "license": "MIT",
   "engines": {
-    "node": "14.x"
+    "node": "15.x"
   },
   "bugs": {
     "url": "https://github.com/greenpress/greenpress/issues"
@@ -30,7 +30,7 @@
     "url": "git+ssh://git@github.com/greenpress/greenpress.git"
   },
   "devDependencies": {
-    "@types/node": "^14.17.3",
+    "@types/node": "^15.14.0",
     "jest": "^27.0.4",
     "lerna": "^4.0.0"
   }
