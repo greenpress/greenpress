@@ -2,8 +2,6 @@
 
 Open-source blogs and content websites platform, made for the 21st century.
 
-[![Codefresh build status]( https://g.codefresh.io/api/badges/pipeline/greenpress/greenpress%2Fgreenpress?type=cf-1)]( https://g.codefresh.io/public/accounts/greenpress/pipelines/new/5f0c0847cbfcb738508361c0)
-
 ## Dependencies
 #### Direct usage
 - Node.js

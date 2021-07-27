@@ -1,8 +1,0 @@
-FROM node:14.6.0
-ENV PORT=3000
-ENV FRONT_THEME=classic
-WORKDIR /app
-EXPOSE $PORT
-COPY . .
-RUN npm install
-CMD npm start
