@@ -7,3 +7,4 @@ tmp
 dist
 common/temp
 *.log
+greenpress-*.tgz

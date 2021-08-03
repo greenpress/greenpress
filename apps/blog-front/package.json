@@ -11,6 +11,7 @@
     "set-theme": "node ./helpers/set-theme.js",
     "envs-lookup": "node ./helpers/envs-lookup.js"
   },
+  "bundledDependencies": true,
   "dependencies": {
     "@greenpress/api-proxy-middleware": "^1.0.1",
     "@nuxtjs/axios": "^5.12.5",

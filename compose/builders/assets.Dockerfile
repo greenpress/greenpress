@@ -5,5 +5,6 @@ FROM node:15.14-alpine
 ENV PORT=9003
 ENV NODE_ENV=production
 EXPOSE $PORT
-COPY --from=base /apps/assets .
+ADD --from=base /apps/assets/greenpress-assets.tgz .
+WORKDIR /package
 CMD npm start

@@ -5,5 +5,6 @@ FROM node:15.14-alpine
 ENV PORT=9000
 ENV NODE_ENV=production
 EXPOSE $PORT
-COPY --from=base /apps/auth .
+COPY --from=base /apps/auth/greenpress-auth.tgz .
+WORKDIR /package
 CMD npm start

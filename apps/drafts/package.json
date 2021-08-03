@@ -18,6 +18,7 @@
   ],
   "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
   "license": "MIT",
+  "bundledDependencies": true,
   "dependencies": {
     "@greenpress/api-kit": "^0.2.0",
     "mongoose": "^5.10.5"

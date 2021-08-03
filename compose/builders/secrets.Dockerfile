@@ -5,5 +5,6 @@ FROM node:15.14-alpine
 ENV NODE_ENV=production
 ENV PORT=9002
 EXPOSE $PORT
-COPY --from=base /apps/secrets .
+COPY --from=base /apps/secrets/greenpress-secrets.tgz .
+WORKDIR /package
 CMD npm start

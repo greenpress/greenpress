@@ -10,6 +10,7 @@
   },
   "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
   "license": "MIT",
+  "bundledDependencies": true,
   "dependencies": {
     "@greenpress/admin": "~0.2.0",
     "@greenpress/assets": "^1.1.1",
