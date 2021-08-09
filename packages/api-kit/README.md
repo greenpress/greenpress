@@ -1,6 +1,6 @@
 # GreenPress API Kit
 
-This code brings toghether all greenpress services
+This code brings together all greenpress services
 
 ## Main Features
 
