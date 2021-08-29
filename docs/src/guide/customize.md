@@ -11,7 +11,7 @@ Greenpress provides us with options for creating our own theme. This guide will 
 - Basic Vue.js understanding
 - Greenpress CLI
 
-## Setps
+## Setups
 
 ### 1. Fork our blog-front repo
 
@@ -33,32 +33,32 @@ You can now create your own theme.
 
 ### 3. create theme components
 
-Every theme **must** have the compontents listed below. See `default` folder for refrences and examples.
+Every theme **must** have the components listed below. See `default` folder for references and examples.
 
-- [Category.vue](https://github.com/greenpress/blog-front/blob/master/themes/default/Category.vue)
-- [Error.vue](https://github.com/greenpress/blog-front/blob/master/themes/default/Error.vue)
-- [Index.vue](https://github.com/greenpress/blog-front/blob/master/themes/default/Index.vue)
-- [Layout.vue](https://github.com/greenpress/blog-front/blob/master/themes/default/Layout.vue) (main styling goes here)
-- [Post.vue](https://github.com/greenpress/blog-front/blob/master/themes/default/Post.vue)
-- [Search.vue](https://github.com/greenpress/blog-front/blob/master/themes/default/Search.vue)
-- [SignIn.vue](https://github.com/greenpress/blog-front/blob/master/themes/default/SignIn.vue)
-- [SignUp.vue](https://github.com/greenpress/blog-front/blob/master/themes/default/SignUp.vue)
-- [Tag.vue](https://github.com/greenpress/blog-front/blob/master/themes/default/Tag.vue)
-- [_colors.scss](https://github.com/greenpress/blog-front/blob/master/themes/default/_colors.scss) (accent color goes here)
+- [Category.vue](https://github.com/greenpress/greenpress/blob/main/apps/blog-front/themes/default/Category.vue)
+- [Error.vue](https://github.com/greenpress/greenpress/blob/main/apps/blog-front/themes/default/Error.vue)
+- [Index.vue](https://github.com/greenpress/greenpress/blob/main/apps/blog-front/themes/default/Index.vue)
+- [Layout.vue](https://github.com/greenpress/greenpress/blob/main/apps/blog-front/themes/default/Layout.vue) (main styling goes here)
+- [Post.vue](https://github.com/greenpress/greenpress/blob/main/apps/blog-front/themes/default/Post.vue)
+- [Search.vue](https://github.com/greenpress/greenpress/blob/main/apps/blog-front/themes/default/Search.vue)
+- [SignIn.vue](https://github.com/greenpress/greenpress/blob/main/apps/blog-front/themes/default/SignIn.vue)
+- [SignUp.vue](https://github.com/greenpress/greenpress/blob/main/apps/blog-front/themes/default/SignUp.vue)
+- [Tag.vue](https://github.com/greenpress/greenpress/blob/main/apps/blog-front/themes/default/Tag.vue)
+- [_colors.scss](https://github.com/greenpress/greenpress/blob/main/apps/blog-front/themes/default/_colors.scss) (accent color goes here)
 - components
-    - [AddCommentForm.vue](https://github.com/greenpress/blog-front/blob/master/themes/default/components/AddCommentForm.vue)
-    - [ErrorDisplay.vue](https://github.com/greenpress/blog-front/blob/master/themes/default/components/ErrorDisplay.vue)
-    - [Footer.vue](https://github.com/greenpress/blog-front/blob/master/themes/default/components/Footer.vue)
-    - [Form.vue](https://github.com/greenpress/blog-front/blob/master/themes/default/components/Form.vue)
-    - [FormInput.vue](https://github.com/greenpress/blog-front/blob/master/themes/default/components/FormInput.vue)
-    - [Header.vue](https://github.com/greenpress/blog-front/blob/master/themes/default/components/Header.vue)
-    - [Logo.vue](https://github.com/greenpress/blog-front/blob/master/themes/default/components/Logo.vue)
-    - [MainMenu.vue](https://github.com/greenpress/blog-front/blob/master/themes/default/components/MainMenu.vue)
-    - [PostBreadcrumbs.vue](https://github.com/greenpress/blog-front/blob/master/themes/default/components/PostBreadcrumbs.vue)
-    - [PostComments.vue](https://github.com/greenpress/blog-front/blob/master/themes/default/components/PostComments.vue)
-    - [PostsList.vue](https://github.com/greenpress/blog-front/blob/master/themes/default/components/PostsList.vue)
-    - [SignInForm.vue](https://github.com/greenpress/blog-front/blob/master/themes/default/components/SignInForm.vue)
-    - [SignUpForm.vue](https://github.com/greenpress/blog-front/blob/master/themes/default/components/SignUpForm.vue)
+    - [AddCommentForm.vue](https://github.com/greenpress/greenpress/blob/main/apps/blog-front/themes/default/components/AddCommentForm.vue)
+    - [ErrorDisplay.vue](https://github.com/greenpress/greenpress/blob/main/apps/blog-front/themes/default/components/ErrorDisplay.vue)
+    - [Footer.vue](https://github.com/greenpress/greenpress/blob/main/apps/blog-front/themes/default/components/Footer.vue)
+    - [Form.vue](https://github.com/greenpress/greenpress/blob/main/apps/blog-front/themes/default/components/Form.vue)
+    - [FormInput.vue](https://github.com/greenpress/greenpress/blob/main/apps/blog-front/themes/default/components/FormInput.vue)
+    - [Header.vue](https://github.com/greenpress/greenpress/blob/main/apps/blog-front/themes/default/components/Header.vue)
+    - [Logo.vue](https://github.com/greenpress/greenpress/blob/main/apps/blog-front/themes/default/components/Logo.vue)
+    - [MainMenu.vue](https://github.com/greenpress/greenpress/blob/main/apps/blog-front/themes/default/components/MainMenu.vue)
+    - [PostBreadcrumbs.vue](https://github.com/greenpress/greenpress/blob/main/apps/blog-front/themes/default/components/PostBreadcrumbs.vue)
+    - [PostComments.vue](https://github.com/greenpress/greenpress/blob/main/apps/blog-front/themes/default/components/PostComments.vue)
+    - [PostsList.vue](https://github.com/greenpress/greenpress/blob/main/apps/blog-front/themes/default/components/PostsList.vue)
+    - [SignInForm.vue](https://github.com/greenpress/greenpress/blob/main/apps/blog-front/themes/default/components/SigninForm.vue)
+    - [SignUpForm.vue](https://github.com/greenpress/greenpress/blob/main/apps/blog-front/themes/default/components/SignupForm.vue)
 
 if you don't wish to change a component, copy the file as is to your folder.
 
