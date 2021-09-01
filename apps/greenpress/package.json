@@ -10,7 +10,16 @@
   },
   "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
   "license": "MIT",
-  "bundledDependencies": true,
+  "bundledDependencies": [
+    "@greenpress/admin",
+    "@greenpress/assets",
+    "@greenpress/auth",
+    "@greenpress/blog-front",
+    "@greenpress/content",
+    "@greenpress/drafts",
+    "@greenpress/pm2-launcher",
+    "@greenpress/secrets"
+  ],
   "dependencies": {
     "@greenpress/admin": "~0.2.0",
     "@greenpress/assets": "^1.1.1",
@@ -29,13 +38,13 @@
   },
   "homepage": "https://github.com/greenpress/greenpress#readme",
   "bugs": {
-	"url": "https://github.com/greenpress/greenpress/issues"
+    "url": "https://github.com/greenpress/greenpress/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/greenpress/greenpress.git"
   },
   "publishConfig": {
-	"access": "public"
+    "access": "public"
   }
 }

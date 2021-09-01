@@ -11,7 +11,20 @@
     "set-theme": "node ./helpers/set-theme.js",
     "envs-lookup": "node ./helpers/envs-lookup.js"
   },
-  "bundledDependencies": true,
+  "bundledDependencies": [
+    "@greenpress/api-proxy-middleware",
+    "@nuxtjs/axios",
+    "@nuxtjs/component-cache",
+    "@nuxtjs/composition-api",
+    "cross-env",
+    "express",
+    "node-sass",
+    "nuxt",
+    "sass-loader",
+    "vuex",
+    "vuex-composition-helpers",
+    "nodemon"
+  ],
   "dependencies": {
     "@greenpress/api-proxy-middleware": "^1.0.1",
     "@nuxtjs/axios": "^5.12.5",
@@ -24,7 +37,7 @@
     "sass-loader": "^10.1.1",
     "vuex": "^3.1.2",
     "vuex-composition-helpers": "^1.0.22",
-	"nodemon": "^2.0.4"
+    "nodemon": "^2.0.4"
   },
   "publishConfig": {
     "access": "public"
