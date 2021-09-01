@@ -17,7 +17,11 @@
     "start": "node --use_strict dist/index.js"
   },
   "main": "dist/index.js",
-  "bundledDependencies": true,
+  "bundledDependencies": [
+    "@greenpress/api-kit",
+    "mongoose",
+    "uniqid"
+  ],
   "dependencies": {
     "@greenpress/api-kit": "^0.2.0",
     "mongoose": "^5.10.5",
@@ -35,10 +39,10 @@
   },
   "homepage": "https://github.com/greenpress/greenpress#readme",
   "bugs": {
-	"url": "https://github.com/greenpress/greenpress/issues"
+    "url": "https://github.com/greenpress/greenpress/issues"
   },
   "repository": {
-	"type": "git",
-	"url": "git+ssh://git@github.com/greenpress/greenpress.git"
+    "type": "git",
+    "url": "git+ssh://git@github.com/greenpress/greenpress.git"
   }
 }

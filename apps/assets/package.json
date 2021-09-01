@@ -22,7 +22,15 @@
   "bin": {
     "greenpress-assets": "index.js"
   },
-  "bundledDependencies": true,
+  "bundledDependencies": [
+    "@google-cloud/storage",
+    "@greenpress/api-kit",
+    "aws-sdk",
+    "ftp",
+    "mongoose",
+    "multer",
+    "uniqid"
+  ],
   "dependencies": {
     "@google-cloud/storage": "^5.4.0",
     "@greenpress/api-kit": "^0.2.0",
@@ -37,10 +45,10 @@
   },
   "homepage": "https://github.com/greenpress/greenpress#readme",
   "bugs": {
-	"url": "https://github.com/greenpress/greenpress/issues"
+    "url": "https://github.com/greenpress/greenpress/issues"
   },
   "repository": {
-	"type": "git",
-	"url": "git+ssh://git@github.com/greenpress/greenpress.git"
+    "type": "git",
+    "url": "git+ssh://git@github.com/greenpress/greenpress.git"
   }
 }

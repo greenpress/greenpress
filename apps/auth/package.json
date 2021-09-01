@@ -17,7 +17,16 @@
   "main": "dist/index.js",
   "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
   "license": "MIT",
-  "bundledDependencies": true,
+  "bundledDependencies": [
+    "@greenpress/api-kit",
+    "bcryptjs",
+    "cookie-parser",
+    "jsonwebtoken",
+    "mongoose",
+    "passport",
+    "passport-local",
+    "validator"
+  ],
   "dependencies": {
     "@greenpress/api-kit": "0.2.0",
     "bcryptjs": "^2.4.3",
