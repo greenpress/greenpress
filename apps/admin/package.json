@@ -15,7 +15,9 @@
   "dependencies": {
     "express": "^4.17.1"
   },
-  "bundledDependencies": true,
+  "bundledDependencies": [
+    "express"
+  ],
   "devDependencies": {
     "@greenpress/gp-editor": "^2.0.0",
     "@vitejs/plugin-vue": "^1.2.2",
