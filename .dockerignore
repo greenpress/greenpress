@@ -5,5 +5,5 @@ compose
 tmp
 dev
 .vscode
-tools
+tools/cli
 docs
