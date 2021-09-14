@@ -7,4 +7,4 @@ RUN npm run build
 RUN npm run clean
 ENV NODE_ENV=production
 RUN npm run install:prod-only
-RUN npm run install:pack-all
+RUN npm run pack-all
