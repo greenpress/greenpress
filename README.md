@@ -30,7 +30,7 @@ $ npm start
 // In case you have separated MongoDB instance on your local machine:
 $ npm run dev
 
-// In case you don't:
+// In case you don't (will run MongoDB using Docker):
 $ npm run dev --x=all
 ```
 
