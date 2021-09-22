@@ -184,7 +184,7 @@ jobs:
       - checkout
       - run:
           name: Print branch name
-          command: echo $BRANCH_NAME
+          command: echo $CIRCLE_BRANCH
       - run:
           name: Run test using Docker
           command: docker build . -f Dockerfile.test
