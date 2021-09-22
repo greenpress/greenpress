@@ -187,7 +187,7 @@ jobs:
           command: echo $BRANCH_NAME
       - run:
           name: Run test using Docker
-          command: docker build -f Dockerfile.test
+          command: docker build . -f Dockerfile.test
 workflows:
   build-monorepo:
     jobs:
