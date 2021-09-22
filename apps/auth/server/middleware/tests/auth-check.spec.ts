@@ -1,12 +1,12 @@
-import { onlyAuthenticated } from "../auth-check";
-import { getExpressResMock } from "../../../mocks/express-res.mock";
-import { AuthRequest } from "../../../types";
+import {onlyAuthenticated} from '../auth-check';
+import {getExpressResMock} from '../../../mocks/express-res.mock';
+import {AuthRequest} from '../../../types';
 
-describe("Auth Check middlewares", () => {
-  describe("onlyAuthenticated", () => {
-    describe("When get request without a valid user", () => {
-      const emptyRequest:any = {};
-      it("should response error to user", () => {
+describe('Auth Check middlewares', () => {
+  describe('onlyAuthenticated', () => {
+    describe('When get request without a valid user', () => {
+      const emptyRequest: any = {};
+      it('should response error to user', () => {
         const resMock = getExpressResMock();
         const nextMock = jest.fn();
         onlyAuthenticated(
@@ -17,12 +17,12 @@ describe("Auth Check middlewares", () => {
 
         expect(resMock.status).toBeCalledWith(401);
         expect(resMock.json).toBeCalledWith({
-          message: "you are not authorized",
+          message: 'you are not authorized',
         });
         expect(resMock.end).toBeCalled();
       });
 
-      it("should not trigger next middleware", () => {
+      it('should not trigger next middleware', () => {
         const resMock = getExpressResMock();
         const nextMock = jest.fn();
         onlyAuthenticated(
@@ -35,11 +35,11 @@ describe("Auth Check middlewares", () => {
       });
     });
 
-    describe("When get request with a valid user", () => {
+    describe('When get request with a valid user', () => {
       const reqWithUser = {
         userPayload: {},
       };
-      it("should continue to next middleware", () => {
+      it('should continue to next middleware', () => {
         const resMock = getExpressResMock();
         const nextMock = jest.fn();
 

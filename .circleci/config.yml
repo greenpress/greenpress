@@ -11,6 +11,8 @@ orbs:
 executors:
   gp-machine:
     machine: true
+  test-machine:
+    machine: true
 
 jobs:
   # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
@@ -175,6 +177,14 @@ jobs:
           docker tag greenpress/secrets:latest greenpress/secrets:${localVersion}
           docker push greenpress/secrets:${localVersion};
           fi
+  test:
+    executor: test-machine
+    steps:
+      # Checkout the code as the first step.
+      - checkout
+      - run: NODE_ENV=development npm install --unsafe-perm
+      - run: npm run build
+      - run: npm run test
 workflows:
   build-monorepo:
     jobs:
@@ -188,3 +198,6 @@ workflows:
            filters:
              branches:
                only: main
+  test-all:
+    jobs:
+      -  test

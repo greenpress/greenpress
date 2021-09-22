@@ -13,7 +13,8 @@
     "start": "lerna exec npm start --scope=@greenpress/greenpress",
     "populate-db": "lerna exec npm run populate-db --scope=@greenpress/greenpress",
     "pack-all": "lerna exec npm pack && npm run rename-packs",
-    "rename-packs": "lerna exec node ../../tools/bundler/rename-pack.js"
+    "rename-packs": "lerna exec node ../../tools/bundler/rename-pack.js",
+	"test": "lerna run test --parallel"
   },
   "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
   "license": "MIT",
