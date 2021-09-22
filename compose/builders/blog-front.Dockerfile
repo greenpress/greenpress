@@ -6,6 +6,6 @@ ENV THEME=damal
 ENV PORT=3000
 ENV NODE_ENV=production
 EXPOSE $PORT
-COPY --from=base /apps/blog-front/greenpress-blog-front.tgz .
+ADD --from=base /apps/blog-front/greenpress-blog-front.tgz .
 WORKDIR /package
 CMD npm start

@@ -5,6 +5,6 @@ FROM node:15.14-alpine
 ENV NODE_ENV=production
 ENV PORT=9004
 EXPOSE $PORT
-COPY --from=base /apps/mailing/greenpress-mailing.tgz .
+ADD --from=base /apps/mailing/greenpress-mailing.tgz .
 WORKDIR /package
 CMD npm start
