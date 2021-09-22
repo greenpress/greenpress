@@ -182,12 +182,12 @@ jobs:
     steps:
       # Checkout the code as the first step.
       - checkout
-      - run: export NODE_ENV=development
-      - run: npm -v
-      - run: node -v
-      - run: npm install --unsafe-perm
-      - run: npm run build
-      - run: npm run test
+      - run:
+          name: Print branch name
+          command: echo $BRANCH_NAME
+      - run:
+          name: Run test using Docker
+          command: docker build -f Dockerfile.test
 workflows:
   build-monorepo:
     jobs:
