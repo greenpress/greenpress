@@ -1,6 +1,8 @@
-# GreenPress
+[![CircleCI](https://circleci.com/gh/greenpress/greenpress/tree/main.svg?style=shield)](https://circleci.com/gh/greenpress/greenpress/tree/main)
 
+# GreenPress
 Open-source blogs and content websites platform, made for the 21st century.
+![Greenpress](https://cdn1.greenpress.info/Logo-v2-TRNSP-405gzo1nki369py7.png)
 
 ## Dependencies
 #### Direct usage
@@ -27,16 +29,16 @@ $ npm start
 
 #### Run development
 ```sh
-// In case you have separated MongoDB instance on your local machine:
+# In case you have separated MongoDB instance on your local machine:
 $ npm run dev
 
-// In case you don't (will run MongoDB using Docker):
+# In case you don't (will run MongoDB using Docker):
 $ npm run dev --x=all
 ```
 
 ## Dockerized Usage
 
-## Pre-running
+### Pre-running
 Before running a docker-compose environment, you'll need an `.env` file and the `compose` library.
 
 You can just copy the `.env.example` and call it `.env` (manually), but you can also do it on command line:
