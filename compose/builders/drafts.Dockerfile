@@ -5,6 +5,7 @@ FROM node:15.14-alpine
 ENV NODE_ENV=production
 ENV PORT=9005
 EXPOSE $PORT
-ADD --from=base /apps/drafts/greenpress-drafts.tgz .
+COPY --from=base /apps/drafts/greenpress-drafts.tgz .
+RUN tar zxvf ./greenpress-drafts.tgz -C ./
 WORKDIR /package
 CMD npm start

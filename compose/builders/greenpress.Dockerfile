@@ -6,6 +6,7 @@ ENV PORT=3000
 ENV FRONT_THEME=classic
 ENV NODE_ENV=production
 EXPOSE $PORT
-ADD --from=base /apps/greenpress/greenpress-greenpress.tgz .
+COPY --from=base /apps/greenpress/greenpress-greenpress.tgz .
+RUN tar zxvf ./greenpress-greenpress.tgz -C ./
 WORKDIR /package
 CMD npm start
