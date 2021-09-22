@@ -1,4 +1,5 @@
 [![CircleCI](https://circleci.com/gh/greenpress/greenpress/tree/main.svg?style=shield)](https://circleci.com/gh/greenpress/greenpress/tree/main)
+[![Running tests](https://github.com/greenpress/greenpress/actions/workflows/test.js.yml/badge.svg)](https://github.com/greenpress/greenpress/actions/workflows/test.js.yml)
 
 # GreenPress
 Open-source blogs and content websites platform, made for the 21st century.
