@@ -183,7 +183,9 @@ jobs:
       # Checkout the code as the first step.
       - checkout
       - run: export NODE_ENV=development
-      - run: npm install
+      - run: npm -v
+      - run: node -v
+      - run: npm install --unsafe-perm
       - run: npm run build
       - run: npm run test
 workflows:
