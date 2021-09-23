@@ -2,9 +2,7 @@ const upgradeController = require('../controllers/upgrade.js');
 
 function setUpgradeCommand(program) {
 	program
-		.command('upgrade')
-		.description('upgrade modules to their latest version')
-		.action(upgradeController);
+		.command('upgrade', 'upgrade modules to their latest version', yargs => yargs, upgradeController);
 }
 
 module.exports = setUpgradeCommand

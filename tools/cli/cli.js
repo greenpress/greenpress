@@ -16,8 +16,8 @@ program.option('verbose', {
 });
 
 require('./commands/create')(program)
-// require('./commands/upgrade')(program)
-// require('./commands/populate')(program)
+require('./commands/upgrade')(program)
+require('./commands/populate')(program)
 // require('./commands/start')(program)
 // require('./commands/stop')(program)
 // require('./commands/missing')(program)
