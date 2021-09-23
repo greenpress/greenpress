@@ -1,6 +1,6 @@
 {
   "name": "@greenpress/cli",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "CLI to install greenpress",
   "main": "cli.js",
   "bin": {
@@ -19,15 +19,11 @@
   "license": "MIT",
   "dependencies": {
     "cli-progress": "3.9.0",
-    "commander": "^4.0.1",
-    "pre-push": "^0.1.1"
+    "yargs": "^17.2.0"
   },
   "bugs": {
     "url": "https://github.com/greenpress/greenpress/issues"
   },
-  "pre-push": [
-    "test"
-  ],
   "scripts": {
     "test": "echo 1"
   },
