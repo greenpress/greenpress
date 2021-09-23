@@ -28,5 +28,7 @@
     "test": "jest"
   },
   "homepage": "https://github.com/greenpress/greenpress#readme",
-  "devDependencies": {}
+  "devDependencies": {
+    "jest": "^27.0.4"
+  }
 }
