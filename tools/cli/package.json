@@ -25,7 +25,7 @@
     "url": "https://github.com/greenpress/greenpress/issues"
   },
   "scripts": {
-    "test": "echo 1"
+    "test": "jest"
   },
   "homepage": "https://github.com/greenpress/greenpress#readme",
   "devDependencies": {}

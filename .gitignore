@@ -9,3 +9,4 @@ common/temp
 *.log
 greenpress-*.tgz
 *.lerna_backup
+coverage

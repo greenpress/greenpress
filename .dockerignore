@@ -7,3 +7,4 @@ dev
 .vscode
 tools/cli
 docs
+coverage
