@@ -1,27 +1,18 @@
-const { getCliStore } = require('../store/cli');
-
-let cliStore;
-
 function getProcessHandler(proc) {
-  if (!cliStore) {
-    cliStore = getCliStore();
-  }
   let onExit, onData, onError;
 
-  proc.on('error', (err) => {
+  proc.stderr.on('error', (err) => {
     console.log(err.toString());
-    onError(err);
+    onError && onError(err);
   });
 
   proc.stdout.on('data', (data) => {
-    console.log(data.toString());
-
-    onData(data);
+    onData && onData(data);
   });
 
-  proc.on('exit', () => {
+  proc.on('close', (code) => {
     console.log('process exited');
-    onExit();
+    onExit && onExit(code);
   });
 
   return {
