@@ -8,7 +8,11 @@ describe("Create command", () => {
     } catch {
       //
     }
-    mkdirSync('tmp');
+    try {
+      mkdirSync('tmp');
+    } catch {
+      //
+    }
     execSync('npm link');
   });
   afterAll(() => {
