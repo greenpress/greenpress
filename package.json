@@ -14,7 +14,7 @@
     "populate-db": "lerna exec npm run populate-db --scope=@greenpress/greenpress",
     "pack-all": "lerna exec npm pack && npm run rename-packs",
     "rename-packs": "lerna exec node ../../tools/bundler/rename-pack.js",
-	"test": "lerna run test --parallel"
+    "test": "lerna run test --parallel"
   },
   "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
   "license": "MIT",
@@ -33,8 +33,10 @@
     "url": "git+ssh://git@github.com/greenpress/greenpress.git"
   },
   "devDependencies": {
+    "@types/jest": "^27.0.2",
     "@types/node": "^15.14.0",
     "jest": "^27.0.4",
-    "lerna": "^4.0.0"
+    "lerna": "^4.0.0",
+    "ts-node": "^10.2.1"
   }
 }
