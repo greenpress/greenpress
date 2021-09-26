@@ -9,6 +9,8 @@ async function startCommand({ mode, exclude }) {
   await waitForServerStartup(child);
 
   child.onData(data => console.log(data.toString()));
+
+  process.on('exit', child.exit);
 }
 
 module.exports = {

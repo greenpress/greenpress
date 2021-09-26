@@ -19,6 +19,7 @@ function getProcessHandler(proc) {
     onExit: (func) => onExit = func,
     onData: (func) => onData = func,
     onError: (func) => onError = func,
+    exit: () => proc.kill('SIGTERM'),
     process: proc
   };
 }
