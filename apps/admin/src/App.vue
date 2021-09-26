@@ -59,13 +59,4 @@ body {
 	box-sizing: border-box;
 	margin: 0;
 }
-
-a {
-	color: #03414c;
-	text-decoration: none;
-
-	&:hover {
-		text-decoration: underline;
-	}
-}
 </style>

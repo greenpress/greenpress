@@ -20,26 +20,36 @@ export default {
 	name: 'Home',
 }
 </script>
-<style scoped>
+<style scoped lang="scss">
+@import "../../style/colors";
+
 .home {
-	padding-top: 2%;
-	text-align: center;
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	align-items: center;
+  padding-top: 2%;
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (min-width: 1200px) {
+  .home {
+	padding: 2%;
+  }
 }
 
 .home i {
-	font-size: 36px;
+  font-size: 36px;
 }
 
 .home > a {
-	flex: 1;
-		padding: 10%;
+  flex: 1;
+  padding: 10%;
 }
 
 .home > a:hover {
-	background-color: #eee;
+  text-decoration: none;
+  background: $secondary-color;
+	color: white;
 }
 </style>

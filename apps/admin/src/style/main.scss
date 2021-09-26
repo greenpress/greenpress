@@ -1,6 +1,10 @@
 @import "colors";
 @import "forms";
 @import "element-ui-rtl";
+
+.main {
+  background-color: #dbf1ea;
+}
 table {
   margin: 15px auto;
   width: calc(100% - 30px);
@@ -27,25 +31,19 @@ tbody tr:nth-child(even) td {
   background-color: $border-color;
 }
 
-input[type="color"],
-input[type="date"],
-input[type="datetime"],
-input[type="datetime-local"],
-input[type="email"],
-input[type="month"],
-input[type="number"],
-input[type="password"],
-input[type="search"],
-input[type="tel"],
-input[type="text"],
-input[type="time"],
-input[type="url"],
-input[type="week"],
-select:focus,
-textarea {
-  font-size: 16px;
+a, .link {
+  color: $negative-color;
+  cursor: pointer;
+  text-decoration: none;
+  &:hover {
+	border-bottom: 1px solid #ddd;
+  }
 }
 
-a {
-  cursor: pointer;
+.small {
+  font-size: 80%;
+}
+
+p {
+  padding: 5px 0;
 }

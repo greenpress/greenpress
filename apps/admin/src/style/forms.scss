@@ -1,8 +1,48 @@
+input[type="color"],
+input[type="date"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="email"],
+input[type="month"],
+input[type="number"],
+input[type="password"],
+input[type="search"],
+input[type="tel"],
+input[type="text"],
+input[type="time"],
+input[type="url"],
+input[type="week"],
+select:focus,
+textarea {
+  font-size: 16px;
+  background-color: #fbfbfb;
+}
+
 .form-item-flex {
   display: flex;
   flex-direction: column;
 
   .el-form-item__label {
-    text-align: left;
+	text-align: left;
+  }
+}
+
+.el-button {
+  &.el-button--default {
+	background-color: $secondary-color;
+	color: white;
+	border: 1px solid $negative-color;
+  }
+
+  &.el-button--primary {
+	background-color: $main-color;
+	color: white;
+	border: 1px solid $border-color;
+
+	&:hover {
+	  background-color: $main-color;
+	  opacity: 0.8;
+	  border: 1px solid $border-color;
+	}
   }
 }
