@@ -23,6 +23,7 @@
 
   &:hover {
 	opacity: 0.9;
+	box-shadow: 0 12px 6px -6px #777;
   }
 
   ::v-deep(*) {
