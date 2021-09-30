@@ -6,9 +6,7 @@
 			</el-button>
 			<el-button @click="to('short')" :disabled="$route.query.tab === 'short'">{{ $t('Short') }}</el-button>
 			<el-button @click="to('content')" :disabled="$route.query.tab === 'content'">{{ $t('Content') }}</el-button>
-			<el-button native-type="submit" type="primary" :loading="submitting">
-				{{ $t('SAVE') }}
-			</el-button>
+			<el-button native-type="submit" type="primary" :loading="submitting" icon="el-icon-s-promotion"/>
 		</div>
 	</div>
 </template>
@@ -59,9 +57,21 @@ h2 {
 }
 
 @media screen and (max-width: 780px) {
+	h2 {
+		font-size: 11px;
+	}
   h2 strong {
 	display: none;
   }
+  .buttons-group {
+		padding: 0 6px;
+	}
+
+	.el-button {
+		font-size: 11px;
+		padding: 8px;
+		min-height: 20px;
+	}
 }
 
 .buttons-group {

@@ -2,7 +2,7 @@
 	<el-form class="post-form" @submit.native.prevent="submit">
 		<EditPostHeader :post="post" :submitting="submitting"/>
 		<div class="form-content">
-			<div v-if="$route.query.tab === 'details'">
+			<div class="details" v-if="$route.query.tab === 'details'">
 				<el-checkbox :model-value="isPublic" @change="editedPost.isPublic = $event">{{ $t('Public Post') }}
 				</el-checkbox>
 				<el-checkbox :model-value="isPinned" @change="editedPost.isPinned = $event">{{ $t('Pinned Post') }}
@@ -37,11 +37,9 @@
 				</FormInput>
 			</div>
 
-			<el-form-item v-else-if="$route.query.tab === 'short'" label="Short" class="form-item-flex">
-				<div>
-					<gp-editor :model-value="post.short || editedPost.short" @input="editedPost.short = $event"
-					           :config="editorConfig"/>
-				</div>
+			<el-form-item v-else-if="$route.query.tab === 'short'" label="Short">
+		  <gp-editor :model-value="post.short || editedPost.short" @input="editedPost.short = $event"
+		             :config="editorConfig"/>
 			</el-form-item>
 
 			<el-form-item v-else-if="$route.query.tab === 'content'" class="form-item-flex">
@@ -132,6 +130,10 @@ export default {
 .form-content {
   flex: 1;
 	overflow: auto;
+}
+
+.details {
+	padding: 10px;
 }
 
 .thumbnail-image {

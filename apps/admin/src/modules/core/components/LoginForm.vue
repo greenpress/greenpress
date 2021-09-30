@@ -1,11 +1,11 @@
 <template>
 	<el-form class="login-form" @submit.native.prevent="submit">
-		<el-form-item :label="$t('Email')">
+		<el-form-item :label="$t('Email')" class="form-item-flex">
 			<div dir="ltr">
 				<el-input name="email" v-model="form.email" type="email" required @focus="onFocus"/>
 			</div>
 		</el-form-item>
-		<el-form-item :label="$t('Password')">
+		<el-form-item :label="$t('Password')" class="form-item-flex">
 			<div dir='ltr'>
 				<el-input name="password" v-model="form.password" type="password" required @focus="onFocus"/>
 			</div>

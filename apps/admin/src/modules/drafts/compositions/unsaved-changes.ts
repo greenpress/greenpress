@@ -59,7 +59,7 @@ export function useUnsavedChanges(contextType: string, contextId: string | null 
 			contextDisplayName: displayName.value,
 			contextRouteParams: $route.params
 		})
-	}, { lazy: true })
+	}, { immediate: false })
 
 	return {
 		saveChanges: (data: any) => {
