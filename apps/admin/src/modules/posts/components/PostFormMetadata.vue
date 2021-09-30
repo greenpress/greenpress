@@ -6,7 +6,7 @@
 				<CategorySelector :model-value="categoryPath" @change="emitCategory" @mounted="mountCategory"/>
 			</el-form-item>
 			<FormInput title="Path" label="leave empty to auto-generate"
-								 :model-value="path" @input="emitPath"/>
+			           :model-value="path" @input="emitPath"/>
 		</div>
 	</details>
 </template>
@@ -25,10 +25,10 @@ export default {
 	},
 	emits: ['changed:path', 'changed:category'],
 	setup(props, {emit}) {
-		const emitCategory = (path: string) =>{
+		const emitCategory = (path: string) => {
 			emit('change:category', path);
 		};
-		const emitPath = (path: string) =>{
+		const emitPath = (path: string) => {
 			emit('change:path', path);
 		};
 		return {
@@ -45,26 +45,27 @@ export default {
 </script>
 
 <style scoped>
-	details {
-		border: 1px solid #eee;
-		padding: 10px;
-		margin: 10px 0;
-	}
-	details summary {
-		cursor: pointer;
-		user-select: none;
-	}
+details {
+	border: 1px solid #eee;
+	padding: 10px;
+	margin: 10px 0;
+}
 
+details summary {
+	cursor: pointer;
+	user-select: none;
+}
+
+.input-group {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: end;
+}
+
+@media (max-width: 720px) {
 	.input-group {
-		margin-top: 10px;
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
+		flex-direction: column;
 	}
-
-	@media (max-width: 720px) {
-		.input-group {
-			flex-direction: column;
-		}
-	}
+}
 </style>

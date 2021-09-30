@@ -2,28 +2,19 @@
 	<header :dir="$t('appDirection')">
 		<el-button type="default" icon="el-icon-menu" class="btn" circle @click="open"/>
 		<span class="user-welcome" v-if="user" v-html="$t('Hello {userName}',{userName:user.name})"></span>
-		<div class="actions">
-			<a @click="logout" v-t="'Logout'"></a>
-		</div>
 	</header>
 </template>
 <script>
   import { useAuth } from '../../compositions/authentication'
-	import { useRouter } from 'vue-router'
 
   export default {
     name: 'Header',
     setup(_, { emit }) {
-		const router = useRouter()
-		const { user, logout } = useAuth()
+	    const { user } = useAuth()
 
       return {
         user,
         open: () => emit('open'),
-        logout: async () => {
-          await logout()
-					router.push('login')
-        }
       }
     }
   }

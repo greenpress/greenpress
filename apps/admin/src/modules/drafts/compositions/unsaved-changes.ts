@@ -2,10 +2,10 @@ import { ElMessageBox } from 'element-plus'
 import debounce from 'lodash.debounce'
 import { Ref, watch } from 'vue'
 import { UnwrapRef } from 'vue'
-import { translate } from '@/plugins/i18n'
-import { deleteDraft, getDraft, setDraft } from '@/services/drafts-service'
-import { IDraftContexts } from '@/services/types/draft'
+import { deleteDraft, getDraft, setDraft } from '../../../services/drafts-service'
+import { IDraftContexts } from '../../../services/types/draft'
 import { useRoute } from 'vue-router'
+import {translate} from '../../../plugins/i18n';
 
 async function restoreDraft(contextType: string, contextId: string | null, contextData: UnwrapRef<any>) {
 	let draft

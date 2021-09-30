@@ -1,10 +1,10 @@
 import { ElMessageBox } from 'element-plus'
-import { MessageType } from 'element-plus/es/el-message-box/src/message-box.type'
+import {MessageBoxType} from 'element-plus/es/components/message-box/src/message-box.type'
 
 export interface ConfirmationContent {
   text?: string,
   title?: string,
-  type?: MessageType
+  type?: MessageBoxType
 }
 
 /**
