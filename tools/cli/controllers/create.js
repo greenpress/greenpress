@@ -1,13 +1,9 @@
 const execute = require("../utils/execute");
 const {
-  renameOrigin,
-  setupEnvForWindows,
-  runNpmInstallInDirectoryAndExitIfFailed,
-  installPm2WithNpmIfMissingInDirectoryAndExitIfFailed,
+  npmInstallInDirectoryAndExitIfFailed,
+  installPm2IfMissingInDirectoryAndExitIfFailed,
 } = require("../services/create");
 const { red, green, blue } = require("../utils/colors");
-const localCompositionGuide =
-  "https://docs.greenpress.info/guide/local-docker-composition.html";
 
 module.exports = function createController({ name, mode }) {
   try {
@@ -25,28 +21,9 @@ module.exports = function createController({ name, mode }) {
     process.exit(1);
   }
 
-  runNpmInstallInDirectoryAndExitIfFailed(name);
+  npmInstallInDirectoryAndExitIfFailed(name);
 
-  installPm2WithNpmIfMissingInDirectoryAndExitIfFailed(name);
-
-  if (mode === "user") {
-    renameOrigin(name);
-  }
-
-  if (process.platform === "win32") {
-    try {
-      setupEnvForWindows(name);
-    } catch {
-      console.log(
-        red(
-          `Failed to set env correctly. To do so manually, follow our guide: ${blue(
-            localCompositionGuide
-          )}`
-        )
-      );
-      process.exit(1);
-    }
-  }
+  installPm2IfMissingInDirectoryAndExitIfFailed(name);
 
   console.log(
     green("Done!"),
