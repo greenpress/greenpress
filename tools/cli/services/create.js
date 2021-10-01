@@ -17,12 +17,12 @@ function npmInstallInDirectoryAndExitIfFailed(directoryName) {
 }
 
 function installPm2IfMissingInDirectoryAndExitIfFailed(directoryName) {
-  if (isPm2NotExists()) {
-    installPm2WithNpmInDirectoryAndExitIfFailed(directoryName);
+  if (shouldInstallPm2()) {
+    installPm2InDirectoryAndExitIfFailed(directoryName);
   }
 }
 
-function isPm2NotExists() {
+function shouldInstallPm2() {
   try {
     execute(`which pm2`, "check if `pm2` is installed globally");
     return false;
@@ -31,7 +31,7 @@ function isPm2NotExists() {
   }
 }
 
-function installPm2WithNpmInDirectoryAndExitIfFailed(directoryName) {
+function installPm2InDirectoryAndExitIfFailed(directoryName) {
   try {
     execute(`npm install pm2 ${directoryName}`, "install pm2", {
       cwd: directoryName,
