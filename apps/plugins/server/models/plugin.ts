@@ -28,7 +28,7 @@ const PluginSchema = new mongoose.Schema<IPlugin>({
   description: String,
   apiPath: {
     type: String,
-    required: true
+    required: true,
   },
   user: {
     type: String,
@@ -47,6 +47,8 @@ const PluginSchema = new mongoose.Schema<IPlugin>({
     path: String,
     url: String,
   }]
-})
+});
 
-export default mongoose.model<IPlugin>('Plugin', PluginSchema)
+PluginSchema.index({tenant: 1, apiPath: 1}, {unique: true});
+
+export default mongoose.model<IPlugin>('Plugin', PluginSchema);

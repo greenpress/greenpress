@@ -62,6 +62,7 @@ module.exports = function apiProxy(app: any, config: Partial<IApiProxyConfig>) {
       headers: {
         'Content-Type': 'application/json',
         cookie: req.headers.cookie,
+        tenant: req.headers.tenant,
         authorization: req.headers.authorization,
       },
     })
