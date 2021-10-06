@@ -5,8 +5,8 @@ import {proxyApiPrefix} from '../../config';
 
 
 export async function playPlugins() {
-  const router = getRouter();
   const plugins = await getPlugins();
+  const router = getRouter();
 
   plugins.forEach(plugin => {
     router.use(proxyApiPrefix + '/' + plugin.apiPath, createProxyMiddleware({
@@ -17,7 +17,6 @@ export async function playPlugins() {
       }
     }))
   });
-
 
   return router;
 }
