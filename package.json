@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "postinstall": "lerna bootstrap",
-    "install:prod-only": "lerna bootstrap -- --production --no-optional",
+    "install:prod-only": "lerna bootstrap -- --production",
     "prebuild": "lerna run prebuild",
     "build": "npm run prebuild && lerna run build",
     "clean": "lerna clean --yes",
