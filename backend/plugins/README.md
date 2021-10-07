@@ -16,11 +16,6 @@ An HTTP server to manage 3rd-party plugins for any system, combining frontend an
 ```sh
 $ docker run -p 3001:3001 greenpress/plugins
 ```
-### As Node package
-```sh
-$ npm i @greenpress/mailing
-$ npx greenpress-mailing
-```
 
 ## Development and Independent Usage
 In case you would like to run this project manually, for any reason, there are several commands you need to acknowledge:
