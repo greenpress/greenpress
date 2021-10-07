@@ -12,5 +12,5 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Build the Docker monorepo image
+    - name: Build the monorepo main Docker image
       run: docker build .
