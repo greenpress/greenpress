@@ -23,7 +23,7 @@
     "uniqid"
   ],
   "dependencies": {
-	"@greenpress/api-kit": "^0.2.1",
+    "@greenpress/api-kit": "^0.2.1",
     "mongoose": "^5.10.5",
     "uniqid": "^5.0.3"
   },

@@ -26,7 +26,7 @@
     "shortid"
   ],
   "dependencies": {
-	"@greenpress/api-kit": "^0.2.1",
+    "@greenpress/api-kit": "^0.2.1",
     "@greenpress/cache-manager": "^1.0.0",
     "mongoose": "^5.10.5",
     "shortid": "^2.2.14"

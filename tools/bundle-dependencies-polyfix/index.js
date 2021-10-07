@@ -43,4 +43,4 @@ function bundleDependencies() {
   replaced.forEach(app => rewriteJSON(app));
 }
 
-module.exports = rewriteJSON;
+bundleDependencies();
