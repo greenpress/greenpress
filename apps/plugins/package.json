@@ -1,10 +1,35 @@
 {
   "name": "@greenpress/plugins",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "license": "MIT",
+  "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
+  "description": "manage plugins system",
+  "keywords": [
+	"greenpress",
+	"plugins"
+  ],
+  "engines": {
+	"npm": ">=5",
+	"node": ">=10.5"
+  },
   "scripts": {
   },
-  "author": "",
-  "license": "MIT"
+  "main": "dist/index.js",
+  "bundledDependencies": [
+  ],
+  "dependencies": {
+  },
+  "publishConfig": {
+	"access": "public"
+  },
+  "devDependencies": {
+  },
+  "homepage": "https://github.com/greenpress/greenpress#readme",
+  "bugs": {
+	"url": "https://github.com/greenpress/greenpress/issues"
+  },
+  "repository": {
+	"type": "git",
+	"url": "git+ssh://git@github.com/greenpress/greenpress.git"
+  }
 }
