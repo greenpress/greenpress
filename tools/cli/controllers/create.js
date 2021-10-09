@@ -1,8 +1,5 @@
 const execute = require("../utils/execute");
-const {
-  npmInstallInDirectoryAndExitIfFailed,
-  installPm2IfMissingInDirectoryAndExitIfFailed,
-} = require("../services/create");
+const { installNodeDependencies } = require("../services/create");
 const { red, green, blue } = require("../utils/colors");
 
 module.exports = function createController({ name, mode }) {
@@ -21,9 +18,7 @@ module.exports = function createController({ name, mode }) {
     process.exit(1);
   }
 
-  npmInstallInDirectoryAndExitIfFailed(name);
-
-  installPm2IfMissingInDirectoryAndExitIfFailed(name);
+  installNodeDependencies(name);
 
   console.log(
     green("Done!"),
