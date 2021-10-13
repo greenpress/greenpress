@@ -1,6 +1,6 @@
 import {start} from '@greenpress/api-kit';
 // import {connect} from './server/models';
-// import {mongoUri} from './config';
+import {mongoUri} from './config';
 // import {loadRoutes} from './server/routes';
 //
 // // connect to the database and load models
