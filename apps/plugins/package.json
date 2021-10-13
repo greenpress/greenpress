@@ -13,6 +13,9 @@
 	"node": ">=10.5"
   },
   "scripts": {
+	"prepublishOnly": "tsc",
+	"build": "tsc",
+	"start": "node --use_strict dist/index.js"
   },
   "main": "dist/index.js",
   "bundledDependencies": [
