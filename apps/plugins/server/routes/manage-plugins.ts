@@ -1,7 +1,7 @@
 import {getRouter} from '@greenpress/api-kit/router';
-// import {verifyUser, populateUser} from '@greenpress/api-kit/user-middlewares'
+import {verifyUser, populateUser} from '@greenpress/api-kit/user-middlewares'
 // import {createPlugin, getAllPlugins, getPlugin, removePlugin, updatePlugin} from '../controllers/manage-plugins';
-// import onlyPrivileged from '../middlewares/privileged-check';
+import onlyPrivileged from '../middlewares/privileged-check';
 
 export function managePlugins() {
   const router = getRouter();
