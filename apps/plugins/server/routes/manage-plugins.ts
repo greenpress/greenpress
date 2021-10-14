@@ -9,7 +9,7 @@ export function managePlugins() {
     .route('/api/plugins')
     .use(populateUser, verifyUser, onlyPrivileged)
     .get(getAllPlugins)
-    .post(createPlugin)
+    .post(createPlugin);
 
   router
     .route('/api/plugins/:pluginId')

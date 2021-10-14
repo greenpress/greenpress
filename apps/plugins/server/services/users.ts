@@ -1,8 +1,9 @@
 import {internalServicesSecret} from '../../config';
-const secretsService = require('@greenpress/api-kit/internal-service').service('AUTH');
+import {service} from '@greenpress/api-kit/internal-service';
+const authService = service('AUTH');
 
 function callAuthService(url: string, method: 'POST' | 'DELETE', tenant: string, data?: any) {
-  return secretsService({
+  return authService({
     headers: {internal_secret: internalServicesSecret, tenant},
     method,
     data,

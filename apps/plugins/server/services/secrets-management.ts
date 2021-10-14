@@ -1,5 +1,6 @@
 import {internalServicesSecret, secretsToken} from '../../config';
-const secretsService = require('@greenpress/api-kit/internal-service').service('SECRETS');
+import {service} from '@greenpress/api-kit/internal-service';
+const secretsService = service('SECRETS');
 
 function callSecretsService(url: string, tenant: string, key: string, value?: any) {
   return secretsService({
