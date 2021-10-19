@@ -2,9 +2,7 @@ const missingController = require('../controllers/missing');
 
 function setMissingCommand(program) {
 	program
-		.command('missing')
-		.description('checks if Greenpress dependencies are installed')
-		.action(missingController);
+		.command('missing', 'checks if Greenpress dependencies are installed', missingController);
 }
 
 module.exports = setMissingCommand;
