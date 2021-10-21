@@ -1,0 +1,6 @@
+db-data
+/db-data
+temp
+tmp
+node_modules
+*.tgz
