@@ -117,7 +117,7 @@ jobs:
           if [ "$dockerHubVersion" = "[]"  ]; then
           echo "version: ${localVersion} already exist in docker hub";
           else docker tag greenpress/content:$BRANCH_NAME greenpress/content:latest
-          docker push greenpress/content latest
+          docker push greenpress/content:latest
           docker tag greenpress/content:latest greenpress/content:${localVersion}
           docker push greenpress/content:${localVersion};
           fi
