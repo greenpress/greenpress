@@ -1,6 +1,6 @@
 {
   "name": "@greenpress/blog-front",
-  "version": "1.1.1",
+  "version": "2.0.0",
   "description": "vue blog project",
   "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
   "private": false,
@@ -26,18 +26,18 @@
     "nodemon"
   ],
   "dependencies": {
-    "@greenpress/api-proxy-middleware": "^1.0.1",
+    "@greenpress/api-proxy-middleware": "^2.0.0",
     "@nuxtjs/axios": "^5.12.5",
     "@nuxtjs/component-cache": "^1.1.6",
     "@nuxtjs/composition-api": "^0.18.1",
     "cross-env": "^5.2.1",
     "express": "^4.17.1",
     "node-sass": "^5.0.0",
+    "nodemon": "^2.0.4",
     "nuxt": "^2.14.12",
     "sass-loader": "^10.1.1",
     "vuex": "^3.1.2",
-    "vuex-composition-helpers": "^1.0.22",
-    "nodemon": "^2.0.4"
+    "vuex-composition-helpers": "^1.0.22"
   },
   "publishConfig": {
     "access": "public"

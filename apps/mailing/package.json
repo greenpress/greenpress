@@ -1,6 +1,6 @@
 {
   "name": "@greenpress/mailing",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "license": "MIT",
   "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
   "description": "manage mailing operations",
@@ -23,7 +23,7 @@
     "uniqid"
   ],
   "dependencies": {
-    "@greenpress/api-kit": "^0.2.1",
+    "@greenpress/api-kit": "^2.0.0",
     "mongoose": "^5.10.5",
     "uniqid": "^5.0.3"
   },
