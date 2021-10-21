@@ -3,6 +3,7 @@
   "version": "2.0.1",
   "description": "",
   "main": "./dist/index.js",
+  "private": false,
   "scripts": {
     "build": "tsc"
   },
@@ -15,5 +16,9 @@
   "devDependencies": {
     "@types/redis": "^2.8.31",
     "typescript": "^4.2.4"
-  }
+  },
+  "publishConfig": {
+	"access": "public"
+  },
+  "gitHead": "0390987dbe4c07f372c07a2de085cb4b5e608caa"
 }
