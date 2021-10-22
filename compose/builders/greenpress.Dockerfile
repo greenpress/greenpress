@@ -7,7 +7,5 @@ ENV FRONT_THEME=classic
 ENV NODE_ENV=production
 EXPOSE $PORT
 RUN npm i -g pm2@4.5.1
-COPY --from=base /apps/greenpress/greenpress-greenpress.tgz .
-RUN tar zxvf ./greenpress-greenpress.tgz -C ./
-WORKDIR /package
+COPY --from=base / .
 CMD npm start
