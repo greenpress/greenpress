@@ -1,6 +1,6 @@
 {
   "name": "@greenpress/cache-manager",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "",
   "main": "./dist/index.js",
   "private": false,
@@ -18,7 +18,7 @@
     "typescript": "^4.2.4"
   },
   "publishConfig": {
-	"access": "public"
+    "access": "public"
   },
   "gitHead": "0390987dbe4c07f372c07a2de085cb4b5e608caa"
 }
