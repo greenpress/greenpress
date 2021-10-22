@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "gp-cli-service-pm2-dev",
-    "start": "gp-cli-service-pm2-prod",
+    "start": "NODE_ENV=production pm2-runtime start ./node_modules/@greenpress/pm2-launcher/greenpress-prod.config.js --env production",
     "populate-db": "gp-cli-service-pm2-populate-db"
   },
   "author": "David Meir-Levy <davidmeirlevy@gmail.com>",

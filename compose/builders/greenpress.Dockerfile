@@ -10,5 +10,4 @@ RUN npm i -g pm2@4.5.1
 COPY --from=base /apps/greenpress/greenpress-greenpress.tgz .
 RUN tar zxvf ./greenpress-greenpress.tgz -C ./
 WORKDIR /package
-RUN npm install @greenpress/pm2-launcher
 CMD npm start
