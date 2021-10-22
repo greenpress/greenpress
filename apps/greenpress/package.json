@@ -34,7 +34,7 @@
     "nodemon": "^2.0.4"
   },
   "engines": {
-    "node": "14.x"
+    "node": ">=14.x"
   },
   "homepage": "https://github.com/greenpress/greenpress#readme",
   "bugs": {
