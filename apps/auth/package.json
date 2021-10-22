@@ -1,6 +1,6 @@
 {
   "name": "@greenpress/auth",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Express Passport authentication service",
   "keywords": [
     "express",
@@ -29,7 +29,7 @@
     "validator"
   ],
   "dependencies": {
-    "@greenpress/api-kit": "^2.0.2",
+    "@greenpress/api-kit": "^2.0.3",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.5",
     "jsonwebtoken": "^8.5.1",
