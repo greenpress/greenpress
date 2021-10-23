@@ -9,7 +9,7 @@ EXPOSE $PORT
 RUN npm i -g cross-env
 COPY --from=base /apps/blog-front/greenpress-blog-front.tgz .
 RUN tar zxvf ./greenpress-blog-front.tgz -C ./
-COPY --from=base /apps/blog-front/.nuxt ./package
-COPY --from=base /apps/blog-front/.current_theme ./package
+COPY --from=base /apps/blog-front/.nuxt ./package/.nuxt
+COPY --from=base /apps/blog-front/.current_theme ./package/.current_theme
 WORKDIR /package
 CMD npm start
