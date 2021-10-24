@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
 const { appConfiguration } = require('../../../config')
-const TENANT = process.env.TENANT || '0'
 
 const Configuration = mongoose.model('Configuration')
 
@@ -52,8 +51,8 @@ function migrate () {
  * check if all migration changes done as expected
  */
 function verify () {
-  return Configuration.countDocuments({ key: appConfiguration, metadata: {themeStylesUrl: {$exists: false}} }).then(count => {
-    if (!count) return Promise.reject()
+  return Configuration.countDocuments(APP_CONFIGS_WITHOUT_STYLE_URL).then(count => {
+    if (!count) return Promise.resolve()
   })
 }
 
