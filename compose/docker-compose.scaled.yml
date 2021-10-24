@@ -95,6 +95,7 @@ services:
     restart: always
     environment:
       MONGO_URI: ${DRAFTS_MONGODB_URI}
+      IP: 0.0.0.0
     depends_on:
       - mongo
     links:
