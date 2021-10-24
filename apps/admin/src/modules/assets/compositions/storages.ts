@@ -1,8 +1,8 @@
 import { computed, reactive, ref } from 'vue'
-import storagesService from '@/services/storages-service'
-import { fetchStorages, removeStorage, storagesStore } from '@/modules/assets/store/storages'
-import { useSubmitting } from '@/modules/core/compositions/submitting'
-import { IStorage } from '@/services/types/storage'
+import storagesService from '../../../services/storages-service'
+import { fetchStorages, removeStorage, storagesStore } from '../store/storages'
+import { useSubmitting } from '../../core/compositions/submitting'
+import { IStorage } from '../../../services/types/storage'
 
 export function useStorageList() {
   fetchStorages()

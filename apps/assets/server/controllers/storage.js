@@ -2,7 +2,7 @@ const Storage = require('../models/storage');
 const uniqid = require('uniqid');
 const { setSecret } = require('../../helpers/secrets-management');
 
-function createStorage(req, res) {
+async function createStorage(req, res) {
   const body = req.body || {};
   const storage = new Storage({
     tenant: req.headers.tenant,
@@ -12,17 +12,21 @@ function createStorage(req, res) {
     authentication: uniqid()
   });
 
-  return setSecret(storage.tenant, storage.authentication, body.authentication)
-    .then(() => storage.save())
-    .then((storage) => {
-      return res.status(200).json({
-        _id: storage._id,
-        name: storage.name,
-        kind: storage.kind,
-        metadata: storage.metadata
-      }).end();
+  try {
+    await setSecret(storage.tenant, storage.authentication, body.authentication);
+  } catch {
+    res.status(400).json({
+      message: 'storage creation failed',
+      description: 'failed to encrypt authentication values'
+    }).end();
+    return;
+  }
+
+  storage.save()
+    .then(({ _id, name, kind, metadata }) => {
+      res.status(200).json({ _id, name, kind, metadata }).end();
     })
-    .catch((err) => {
+    .catch(() => {
       res.status(400).json({ message: 'storage creation failed' }).end();
     });
 }
