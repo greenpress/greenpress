@@ -43,9 +43,9 @@ CategorySchema.pre('save', function(next) {
 
 CategorySchema.statics.getCategoryIdByPath = function getCategoryIdByPath (tenant, path) {
 	return cacheManager.wrap(`${cachePrefix}:IdByPath:${tenant}:${path}`, () => this.findOne({ tenant, path })
-		.select('_id')
-		.lean()
-		.then(cat => cat ? cat._id : null))
+    .select('_id')
+    .lean()
+    .then(cat => cat ? cat._id : null))
 }
 
 module.exports = mongoose.model('Category', CategorySchema)

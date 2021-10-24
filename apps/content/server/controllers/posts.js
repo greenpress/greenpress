@@ -137,7 +137,7 @@ function getPost(req, res) {
           getDisplayPost(
             req.post.toObject ? req.post.toObject() : req.post,
             req.category,
-            authorsMap,
+            authorsMap || {},
             req.comments)
         ).end()
     })

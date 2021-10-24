@@ -30,11 +30,8 @@ function getTagPosts (tenant, tag, limit, offset, isPublic = true) {
 }
 
 function getTagsList (req, res) {
-  cacheManager.wrap(
-    cachePrefix + 'all:' + req.headers.tenant,
-    () => Post.aggregate(getTagsAggregationQuery(req.headers.tenant))
-      .then(tags => JSON.stringify(tags) || '[]')
-  )
+  cacheManager.wrap(cachePrefix + 'all:' + req.headers.tenant, () => Post.aggregate(getTagsAggregationQuery(req.headers.tenant))
+    .then(tags => JSON.stringify(tags) || '[]'))
     .then(list => {
       res.status(200).set('Content-Type', 'application/json').end(list)
     })
@@ -49,10 +46,7 @@ function getPostsByTag (req, res) {
   const limit = parseInt(reqQuery.limit) || LIMIT
   const offset = parseInt(reqQuery.offset) || 0
 
-  cacheManager.wrap(
-    `${cachePrefix}postsByTag.strigified:${tenant}.${tag}.${limit}.${offset}`,
-    () => getTagPosts(tenant, tag, limit, offset)
-  )
+  cacheManager.wrap(`${cachePrefix}postsByTag.strigified:${tenant}.${tag}.${limit}.${offset}`, () => getTagPosts(tenant, tag, limit, offset))
     .then(list => {
       res.status(200).set('Content-Type', 'application/json').end(list)
     })
