@@ -39,11 +39,13 @@ services:
       - auth
       - assets
       - admin
+      - drafts
     links:
       - content
       - auth
       - assets
       - admin
+      - drafts
     environment:
       IP: 0.0.0.0
       THEME: ${THEME}
@@ -52,6 +54,7 @@ services:
       CONTENT_SERVICE_URL: content
       AUTH_SERVICE_URL: auth
       ASSETS_SERVICE_URL: assets
+      DRAFTS_SERVICE_URL: drafts
       ADMIN_PANEL_URL: admin
   content:
     image: greenpress/content:${CONTENT_SERVICE_VERSION}
