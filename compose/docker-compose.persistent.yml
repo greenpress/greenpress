@@ -18,6 +18,7 @@ services:
       AUTH_SERVICE_URL: auth
       SECRETS_TOKEN: ${ASSETS_SECRETS_TOKEN}
       INTERNAL_SECRET: ${INTERNAL_SECRET}
+      REFRESH_TOKEN_SECRET: ${REFRESH_TOKEN_SECRET}
       IP: 0.0.0.0
     depends_on:
       - mongo
@@ -35,6 +36,7 @@ services:
       IP: 0.0.0.0
       JWT_SECRET: ${JWT_SECRET}
       REFRESH_TOKEN_SECRET: ${REFRESH_TOKEN_SECRET}
+      APPLICATION_URL: ${APPLICATION_URL}
     depends_on:
       - mongo
     links:

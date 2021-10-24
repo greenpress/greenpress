@@ -1,37 +1,86 @@
 version: '3'
 services:
-  mongo:
-    image: mongo
-    volumes:
-      - ${MONGODB_VOLUME}:/data/db
-    networks:
-      common_network:
   redis:
     image: redis
-    networks:
-      common_network:
-  greenpress:
-    image: ${GREENPRESS_IMAGE}
+  admin:
+    image: greenpress/admin-panel:${ADMIN_PANEL_VERSION}
+  assets:
+    image: greenpress/assets:${ASSETS_SERVICE_VERSION}
+    restart: always
+    environment:
+      MONGO_URI: ${ASSETS_MONGODB_URI}
+      REDIS_URL: redis://redis
+      SECRETS_SERVICE_URL: secrets
+      AUTH_SERVICE_URL: auth
+      SECRETS_TOKEN: ${ASSETS_SECRETS_TOKEN}
+      INTERNAL_SECRET: ${INTERNAL_SECRET}
+      IP: 0.0.0.0
+    depends_on:
+      - redis
+      - secrets
+    links:
+      - redis
+      - secrets
+  auth:
+    image: greenpress/auth:${AUTH_SERVICE_VERSION}
+    restart: always
+    environment:
+      MONGO_URI: ${AUTH_MONGODB_URI}
+      IP: 0.0.0.0
+      JWT_SECRET: ${JWT_SECRET}
+      REFRESH_TOKEN_SECRET: ${REFRESH_TOKEN_SECRET}
+      APPLICATION_URL: ${APPLICATION_URL}
+  blog-front:
+    image: greenpress/blog-front:${BLOG_FRONT_VERSION}
     ports:
       - ${PORT}:3000
     depends_on:
-      - mongo
-      - redis
-    environment:
-      MONGODB_URI: mongodb://mongo/greenpress
-      REDIS_URL: redis://redis
-      BASIC_TENANT: ${TENANT}
-      JWT_SECRET: ${JWT_SECRET}
-      FRONT_THEME: ${THEME}
-      REFRESH_TOKEN_SECRET: ${REFRESH_TOKEN_SECRET}
-      SECRETS_SERVICE_SECRET: ${SECRETS_SERVICE_SECRET}
-      ASSETS_SECRETS_TOKEN: ${ASSETS_SECRETS_TOKEN}
-      INTERNAL_SECRET: ${INTERNAL_SECRET}
-      MAX_MEMORY_USAGE: ${MAX_MEMORY_USAGE}
+      - content
+      - auth
+      - assets
+      - admin
     links:
-      - mongo
+      - content
+      - auth
+      - assets
+      - admin
+    environment:
+      IP: 0.0.0.0
+      THEME: ${THEME}
+      TENANT: ${TENANT}
+      APPLICATION_URL: ${APPLICATION_URL}
+      CONTENT_SERVICE_URL: content
+      AUTH_SERVICE_URL: auth
+      ASSETS_SERVICE_URL: assets
+      ADMIN_PANEL_URL: admin
+  content:
+    image: greenpress/content:${CONTENT_SERVICE_VERSION}
+    restart: always
+    environment:
+      MONGO_URI: ${CONTENT_MONGODB_URI}
+      REDIS_URL: redis://redis
+      IP: 0.0.0.0
+      AUTH_SERVICE_URL: auth
+    depends_on:
       - redis
-    networks:
-      common_network:
+      - auth
+    links:
+      - redis
+      - auth
+  secrets:
+    image: greenpress/secrets:${SECRETS_SERVICE_VERSION}
+    restart: always
+    environment:
+      MONGO_URI: ${SECRETS_MONGODB_URI}
+      IP: 0.0.0.0
+      SECRET: ${SECRETS_SERVICE_SECRET}
+      INTERNAL_SECRET: ${INTERNAL_SECRET}
+  drafts:
+    image: greenpress/drafts:${DRAFTS_SERVICE_VERSION}
+    restart: always
+    environment:
+      MONGO_URI: ${DRAFTS_MONGODB_URI}
+      IP: 0.0.0.0
+
 networks:
   common_network:
