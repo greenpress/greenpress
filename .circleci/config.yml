@@ -97,6 +97,8 @@ jobs:
           cd compose/builders
           docker build . -f blog-front.Dockerfile -t greenpress/blog-front:$BRANCH_NAME
           docker push greenpress/blog-front:$BRANCH_NAME
+          docker build . -f blog-front.Dockerfile -t greenpress/blog-front:$BRANCH_NAME-plain --build-arg THEME=plain
+          docker push greenpress/blog-front:$BRANCH_NAME-plain;
           localVersion=v$(docker run -it greenpress/blog-front:$BRANCH_NAME sed 's/.*"version": "\(.*\)".*/\1/;t;d' ./package.json)
           localVersion=$(echo ${localVersion} | tr -d "^@" | tr -d "\r")
           dockerHubVersion=$(wget -q -O- "https://index.docker.io/v1/repositories/greenpress/blog-front/tags/${localVersion}" || true)
@@ -105,9 +107,7 @@ jobs:
           else docker tag greenpress/blog-front:$BRANCH_NAME greenpress/blog-front:latest
           docker push greenpress/blog-front:latest
           docker tag greenpress/blog-front:latest greenpress/blog-front:${localVersion}
-          docker build . -f blog-front.Dockerfile -t greenpress/blog-front:$BRANCH_NAME-plain --build-arg THEME=plain
           docker tag greenpress/blog-front:$BRANCH_NAME-plain greenpress/blog-front:${localVersion}-plain
-          docker push greenpress/blog-front:$BRANCH_NAME-plain;
           fi
       - run: |
           cd compose/builders
