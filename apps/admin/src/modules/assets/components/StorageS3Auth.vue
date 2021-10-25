@@ -28,7 +28,7 @@ export default {
 			return { accessKey, secretKey };
 		}
 
-		watchEffect(() => emit('change', getFormInputs(form)))
+		watchEffect(() => emit('update:modelValue', getFormInputs(form)))
 		return {
 			form
 		}

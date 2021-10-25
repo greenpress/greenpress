@@ -21,7 +21,7 @@ export default {
 			return {projectId, clientEmail, privateKey};
 		}
 
-		watchEffect(() => emit('change', getFormInputs(form)))
+		watchEffect(() => emit('update:modelValue', getFormInputs(form)))
 
 		function readFile(file: File): Promise<string> {
 			return new Promise((resolve, reject) => {
