@@ -23,7 +23,7 @@ function createServiceDescriptor(name) {
   return {
     protocol: process.env[`${name}_SERVICE_PROTOCOL`] || 'http',
     url: process.env[`${name}_SERVICE_URL`] || 'localhost',
-    port: process.env[`${name}_SERVICE_PORT`],
+    port: process.env[`${name}_SERVICE_PORT`] || 80,
   }
 }
 

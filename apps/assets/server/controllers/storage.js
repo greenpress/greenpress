@@ -14,11 +14,12 @@ async function createStorage(req, res) {
 
   try {
     await setSecret(storage.tenant, storage.authentication, body.authentication);
-  } catch {
+  } catch (e) {
     res.status(400).json({
       message: 'storage creation failed',
       description: 'failed to encrypt authentication values'
     }).end();
+    console.log(e);
     return;
   }
 
