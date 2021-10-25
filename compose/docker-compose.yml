@@ -11,6 +11,7 @@ services:
       MONGO_URI: ${ASSETS_MONGODB_URI}
       REDIS_URL: redis://redis
       SECRETS_SERVICE_URL: secrets
+      SECRETS_SERVICE_PORT: 9002
       AUTH_SERVICE_URL: auth
       SECRETS_TOKEN: ${ASSETS_SECRETS_TOKEN}
       INTERNAL_SECRET: ${INTERNAL_SECRET}
@@ -76,6 +77,7 @@ services:
     environment:
       MONGO_URI: ${SECRETS_MONGODB_URI}
       IP: 0.0.0.0
+      PORT: 9002
       SECRET: ${SECRETS_SERVICE_SECRET}
       INTERNAL_SECRET: ${INTERNAL_SECRET}
   drafts:
