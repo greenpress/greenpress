@@ -1,6 +1,6 @@
 {
   "name": "@greenpress/greenpress",
-  "version": "2.0.7",
+  "version": "2.0.8",
   "description": "Open-source blogs and content websites platform, made for the 21st century",
   "main": "index.js",
   "scripts": {
@@ -21,14 +21,14 @@
     "@greenpress/secrets"
   ],
   "dependencies": {
-    "@greenpress/admin": "^2.0.7",
-    "@greenpress/assets": "^2.0.7",
-    "@greenpress/auth": "^2.0.7",
-    "@greenpress/blog-front": "^2.0.7",
-    "@greenpress/content": "^2.0.7",
-    "@greenpress/drafts": "^2.0.7",
-    "@greenpress/pm2-launcher": "^2.0.7",
-    "@greenpress/secrets": "^2.0.7"
+    "@greenpress/admin": "^2.0.8",
+    "@greenpress/assets": "^2.0.8",
+    "@greenpress/auth": "^2.0.8",
+    "@greenpress/blog-front": "^2.0.8",
+    "@greenpress/content": "^2.0.8",
+    "@greenpress/drafts": "^2.0.8",
+    "@greenpress/pm2-launcher": "^2.0.8",
+    "@greenpress/secrets": "^2.0.8"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"
