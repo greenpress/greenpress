@@ -4,40 +4,40 @@
   "description": "Open-source blogs and content websites platform, made for the 21st century",
   "main": "index.js",
   "scripts": {
-    "postinstall": "lerna bootstrap",
-    "install:prod-only": "lerna bootstrap -- --production",
-    "prebuild": "lerna run prebuild",
-    "build": "npm run prebuild && lerna run build",
-    "clean": "lerna clean --yes",
-    "dev": "lerna exec npm run dev --scope=@greenpress/greenpress",
-    "start": "lerna exec npm start --scope=@greenpress/greenpress",
-    "populate-db": "lerna exec npm run populate-db --scope=@greenpress/greenpress",
-    "pack-all": "lerna exec npm pack && npm run rename-packs",
-    "rename-packs": "lerna exec node ../../tools/bundler/rename-pack.js",
-    "test": "lerna run test --parallel",
+	"postinstall": "lerna bootstrap",
+	"install:prod-only": "lerna bootstrap -- --production",
+	"prebuild": "lerna run prebuild",
+	"build": "npm run prebuild && lerna run build",
+	"clean": "lerna clean --yes",
+	"dev": "lerna exec npm run dev --scope=@greenpress/greenpress",
+	"start": "lerna exec npm start --scope=@greenpress/greenpress",
+	"populate-db": "lerna exec npm run populate-db --scope=@greenpress/greenpress",
+	"pack-all": "lerna exec npm pack && npm run rename-packs",
+	"rename-packs": "lerna exec node ../../tools/bundler/rename-pack.js",
+	"test": "lerna run test --parallel",
 	"build:custom-front": "docker build . -f Dockerfile.custom-blog-front"
   },
   "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
   "license": "MIT",
   "engines": {
-    "node": ">=15.x"
+	"node": ">=15.x"
   },
   "bugs": {
-    "url": "https://github.com/greenpress/greenpress/issues"
+	"url": "https://github.com/greenpress/greenpress/issues"
   },
   "homepage": "https://github.com/greenpress/greenpress#readme",
   "publishConfig": {
-    "access": "public"
+	"access": "public"
   },
   "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/greenpress/greenpress.git"
+	"type": "git",
+	"url": "git+ssh://git@github.com/greenpress/greenpress.git"
   },
   "devDependencies": {
-    "@types/jest": "^27.0.2",
-    "@types/node": "^15.14.0",
-    "jest": "^27.0.4",
-    "lerna": "^4.0.0",
-    "ts-node": "^10.2.1"
+	"@types/jest": "^27.0.2",
+	"@types/node": "^15.14.0",
+	"jest": "^27.0.4",
+	"lerna": "^4.0.0",
+	"ts-node": "^10.2.1"
   }
 }
