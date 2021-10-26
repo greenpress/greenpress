@@ -19,12 +19,6 @@
   "main": "index.js",
   "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
   "license": "MIT",
-  "bundledDependencies": [
-    "@greenpress/api-kit",
-    "@greenpress/cache-manager",
-    "mongoose",
-    "shortid"
-  ],
   "dependencies": {
     "@greenpress/api-kit": "^2.0.9",
     "@greenpress/cache-manager": "^2.0.9",

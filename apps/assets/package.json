@@ -22,15 +22,6 @@
   "bin": {
     "greenpress-assets": "index.js"
   },
-  "bundledDependencies": [
-    "@google-cloud/storage",
-    "@greenpress/api-kit",
-    "aws-sdk",
-    "ftp",
-    "mongoose",
-    "multer",
-    "uniqid"
-  ],
   "dependencies": {
     "@google-cloud/storage": "^5.4.0",
     "@greenpress/api-kit": "^2.0.9",

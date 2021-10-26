@@ -17,11 +17,6 @@
     "start": "node --use_strict dist/index.js"
   },
   "main": "dist/index.js",
-  "bundledDependencies": [
-    "@greenpress/api-kit",
-    "mongoose",
-    "uniqid"
-  ],
   "dependencies": {
     "@greenpress/api-kit": "^2.0.9",
     "mongoose": "^5.10.5",
