@@ -1,6 +1,6 @@
 ARG MONOREPO_VERSION=main
 FROM greenpress/monorepo:${MONOREPO_VERSION} as base
-ARG SERVICE_NAME=admin
+ARG SERVICE_NAME=auth
 RUN node tools/bundle-dependencies-polyfix ${SERVICE_NAME}
 RUN npm run pack-package --- --scope=@greenpress/${SERVICE_NAME}
 RUN npm run rename-pack --- --scope=@greenpress/${SERVICE_NAME}
