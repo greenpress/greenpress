@@ -10,16 +10,6 @@
   },
   "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
   "license": "MIT",
-  "bundledDependencies": [
-    "@greenpress/admin",
-    "@greenpress/assets",
-    "@greenpress/auth",
-    "@greenpress/blog-front",
-    "@greenpress/content",
-    "@greenpress/drafts",
-    "@greenpress/pm2-launcher",
-    "@greenpress/secrets"
-  ],
   "dependencies": {
     "@greenpress/admin": "^2.0.9",
     "@greenpress/assets": "^2.0.9",

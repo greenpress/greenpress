@@ -16,9 +16,6 @@
   "dependencies": {
     "express": "^4.17.1"
   },
-  "bundledDependencies": [
-    "express"
-  ],
   "devDependencies": {
     "@greenpress/gp-editor": "^2.0.0",
     "@types/jest": "^27.0.2",

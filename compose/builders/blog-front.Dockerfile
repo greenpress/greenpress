@@ -1,8 +1,13 @@
 ARG MONOREPO_VERSION=main
 FROM greenpress/monorepo:${MONOREPO_VERSION} as base
+ENV THEME=damal
+ARG SERVICE_NAME=blog-front
+RUN lerna exec npm run build --scope=@greenpress/${SERVICE_NAME}
+RUN node tools/bundle-dependencies-polyfix ${SERVICE_NAME}
+RUN npm run pack-package --- --scope=@greenpress/${SERVICE_NAME}
+RUN npm run rename-pack --- --scope=@greenpress/${SERVICE_NAME}
 
 FROM node:15.14-alpine
-ENV THEME=damal
 ENV PORT=3000
 ENV NODE_ENV=production
 EXPOSE $PORT
