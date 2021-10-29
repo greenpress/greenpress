@@ -10,7 +10,7 @@ ENV NODE_ENV=production
 RUN npm run install:prod-only
 RUN node tools/bundle-dependencies-polyfix blog-front
 RUN npx lerna exec npm pack --scope=@greenpress/blog-front
-RUN npm run rename-packs --- --scope=@greenpress/blog-front
+RUN npm run rename-pack --- --scope=@greenpress/blog-front
 
 FROM node:15.14-alpine
 ENV PORT=3000
