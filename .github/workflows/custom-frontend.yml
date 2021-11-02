@@ -5,6 +5,7 @@ name: Build and deploy blog-front custom image
 ##    SSH_USERNAME - the ssh user to your VM
 ##    SSH_HOST - the host URL / IP
 ##    SSH_TOKEN - the private key token to access the VM
+##    THEME - (optional) - the chosen theme for the blog-front build. default is: `damal`
 ## It also expects that the docker-compose yml will be under `~/compose` directory (It can also be an alias).
 
 on:
@@ -28,7 +29,7 @@ jobs:
       - name: Login to github container registery
         run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u USERNAME --password-stdin
       - name: Build the monorepo main Docker image
-        run: docker build -f Dockerfile.custom-blog-front -t ghcr.io/${{github.repository_owner}}/blog-front:${GITHUB_REF##*/} .
+        run: docker build -f Dockerfile.custom-blog-front -t ghcr.io/${{github.repository_owner}}/blog-front:${GITHUB_REF##*/} --build-arg THEME=${{secrets.THEME || 'damal'}} .
       - name: Push to registery
         run: docker push ghcr.io/${{github.repository_owner}}/blog-front:${GITHUB_REF##*/}
       - name: deploy to VM
