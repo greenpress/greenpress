@@ -1,7 +1,7 @@
 FROM node:15.14 as base
 COPY . .
 ENV NODE_ENV=development
-ENV THEME=damal
+ARG THEME=damal
 RUN npm install --unsafe-perm
 RUN npm run build
 
