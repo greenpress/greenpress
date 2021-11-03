@@ -26,17 +26,17 @@ export default {
 	emits: ['changed:path', 'changed:category'],
 	setup(props, {emit}) {
 		const emitCategory = (path: string) => {
-			emit('change:category', path);
+			emit('changed:category', path);
 		};
 		const emitPath = (path: string) => {
-			emit('change:path', path);
+			emit('changed:path', path);
 		};
 		return {
 			emitCategory,
 			emitPath,
 			mountCategory(path: string) {
 				if (props.isNew) {
-					emit('change:category', path);
+					emit('changed:category', path);
 				}
 			},
 		}
