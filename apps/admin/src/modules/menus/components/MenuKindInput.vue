@@ -1,6 +1,6 @@
 <template>
 	<label>
-		Kind:
+		<span>{{$t('Kind')}}:</span>
 		<el-select :model-value="value" @change="emitChange">
 			<el-option value="category" label="Category"/>
 			<el-option value="post" label="Post"/>
@@ -24,5 +24,8 @@
   }
 </script>
 <style scoped lang="scss">
-
+label {
+	display: flex;
+	flex-direction: column;
+}
 </style>

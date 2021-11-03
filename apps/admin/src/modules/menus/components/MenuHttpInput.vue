@@ -25,7 +25,7 @@
     setup(props, { emit }) {
       return {
         emitChange(key, value) {
-          emit('change', {
+          emit('changed', {
             ...props.value,
             [key]: value
           })

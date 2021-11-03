@@ -1,13 +1,13 @@
-import { computed, reactive } from 'vue'
+import {computed, reactive} from 'vue'
 import menusService from '../../../services/menus-service'
 
-import { useSubmitting } from '../../core/compositions/submitting'
-import { useDispatcher } from '@/modules/core/compositions/dispatcher.ts'
+import {useSubmitting} from '../../core/compositions/submitting'
+import {useDispatcher} from '../../core/compositions/dispatcher'
 
 export function useMenuOperations(menuName: string) {
-  const { result: menu } = useDispatcher<{_id: string, name: string, links: any[]} | any>(() => menusService.getOne(menuName), {})
+  const {result: menu} = useDispatcher<{ _id: string, name: string, links: any[] } | any>(() => menusService.getOne(menuName), {})
 
-  const updatedMenu = reactive<{links: any[], dirty: boolean}>({
+  const updatedMenu = reactive<{ links: any[], dirty: boolean }>({
     links: [],
     dirty: false
   })
@@ -24,11 +24,15 @@ export function useMenuOperations(menuName: string) {
       updatedMenu.dirty = true
     },
     addLink: () => {
-      updatedMenu.links = [...links.value, { kind: 'category' }]
+      updatedMenu.links = [...links.value, {kind: 'category', _id: 'new-' + Date.now()}]
       updatedMenu.dirty = true
     },
     updateMenu: useSubmitting(
-      () => menusService.update(menuName, { ...menu.value, links: links.value }),
-      { success: 'Menu updated successfully', error: 'Failed to update menu' }).submit
+      () => menusService.update(menuName, {
+        ...menu.value,
+        links: links.value
+          .map(link => link._id.startsWith('new-') ? {...link, _id: undefined} : link)
+      }),
+      {success: 'Menu updated successfully', error: 'Failed to update menu'}).submit
   }
 }

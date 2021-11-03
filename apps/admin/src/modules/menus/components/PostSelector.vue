@@ -40,7 +40,7 @@
           selectedPost.title = post.title
           selectedPost.value = post._id
           searchPostsList.value = []
-          emit('change', post._id)
+          emit('changed', post._id)
         }
       }
     }
