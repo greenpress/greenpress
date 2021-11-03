@@ -46,5 +46,6 @@ jobs:
             echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{github.repository_owner}} --password-stdin
             docker pull ghcr.io/${{github.repository_owner}}/blog-front:main
             cd compose
-            docker-compose stop
-            docker-compose up &
+            docker rm -f $(docker ps -q --filter name=blog-front)
+            docker-compose up -d --no-recreate
+            exit
