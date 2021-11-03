@@ -6,8 +6,8 @@
 			</router-link>
 		</template>
 		<div class="small metadata">
-			<span v-if="post.isPublic"><i class="el-icon-check"/> {{$t('Public')}}</span>
-			<span v-if="post.isPinned"><i class="el-icon-check"/> {{$t('Pinned')}}</span>
+			<span v-if="post.isPublic"><i class="el-icon-check"/> {{ $t('Public') }}</span>
+			<span v-if="post.isPinned"><i class="el-icon-check"/> {{ $t('Pinned') }}</span>
 			<span>Path: <strong>{{ getPath(post) }}</strong></span>
 			<router-link :to="{name: 'editCategory', params: {categoryPath: post.category.path}}">
 				<i class="el-icon-folder-opened"/>
@@ -15,7 +15,7 @@
 			</router-link>
 		</div>
 		<template v-slot:actions>
-			<a @click.prevent="remove(post._id)"><i class="el-icon-delete"/> {{$t('Remove')}}</a>
+			<a @click.prevent="remove(post._id)"><i class="el-icon-delete"/> {{ $t('Remove') }}</a>
 		</template>
 	</GpItem>
 </template>
@@ -24,11 +24,15 @@ import { usePostsList } from '../compositions/posts'
 import { useConfirmAction } from '../../core/compositions/confirm-action'
 import { useI18n } from 'vue-i18n';
 import GpItem from '../../core/components/layout/GpItem.vue';
+import { useRoute } from 'vue-router';
+import { computed } from 'vue';
 
 export default {
 	components: { GpItem },
 	setup() {
-		const { posts, remove } = usePostsList()
+		const route = useRoute();
+		const queryParams = computed(() => route.query);
+		const { posts, remove } = usePostsList(queryParams)
 		const { t } = useI18n();
 
 		return {

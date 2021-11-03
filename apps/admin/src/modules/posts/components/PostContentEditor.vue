@@ -20,9 +20,9 @@
 		</div>
 	</div>
 </template>
-<script>
+<script lang="ts">
   import { computed } from 'vue'
-  import { useEditorConfig } from '@/modules/posts/compositions/gp-editor'
+  import { useEditorConfig } from '../compositions/gp-editor'
 
   export default {
     name: 'PostContentEditor',
@@ -57,10 +57,15 @@
 		border: 1px solid $border-color;
 	}
 
+	textarea {
+		font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	}
+
 	.content-options {
 		display: flex;
 		justify-content: flex-end;
 		align-items: center;
+		margin: 10px 30px 2px 0;
 
 		> * {
 			margin-left: 5px;

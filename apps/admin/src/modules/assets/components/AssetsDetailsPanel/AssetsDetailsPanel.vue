@@ -14,8 +14,8 @@
 </template>
 <script lang="ts">
   import { ref } from 'vue'
-  import AssetsStorageSelector from '@/modules/assets/components/AssetsStorageSelector.vue'
-  import BasicFileUploader from '@/modules/assets/components/BasicFileUploader.vue'
+  import AssetsStorageSelector from '../AssetsStorageSelector.vue'
+  import BasicFileUploader from '../BasicFileUploader.vue'
   import BasicAssetsList from './BasicAssetsList.vue'
 
   export default {
@@ -36,7 +36,7 @@
   .panel {
     position: fixed;
     z-index: 1;
-    top: 100px;
+    top: 130px;
     right: -400px;
     width: 400px;
     height: 70%;
@@ -69,7 +69,7 @@
 
     .toggle {
       cursor: pointer;
-      margin-top: 20px;
+      margin-top: 200px;
       margin-left: -20px;
       width: 20px;
       height: 50px;

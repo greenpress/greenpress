@@ -1,5 +1,5 @@
 import { computed, watch, ref } from 'vue'
-import { useAppConfiguration } from '@/modules/configurations/store/app-configuration.ts'
+import { useAppConfiguration } from '../../configurations/store/app-configuration'
 
 export function useEditorConfig() {
 	const config = useAppConfiguration()

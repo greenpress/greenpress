@@ -4,7 +4,7 @@
 		<PostsList/>
 	</div>
 </template>
-<script>
+<script lang="ts">
   import PostsList from './components/PostsList.vue'
   import ListPageTitle from '../core/components/semantics/ListPageTitle.vue'
 

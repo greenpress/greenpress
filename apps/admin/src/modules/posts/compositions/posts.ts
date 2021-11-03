@@ -1,17 +1,21 @@
-import { reactive, ref } from 'vue'
+import {reactive, ref, watch} from 'vue'
 import debounce from 'lodash.debounce'
-import { useSubmitting } from '../../core/compositions/submitting'
-import { removeUnsavedChanges } from '../../drafts/compositions/unsaved-changes'
+import {useSubmitting} from '../../core/compositions/submitting'
+import {removeUnsavedChanges} from '../../drafts/compositions/unsaved-changes'
 import postsService from '../../../services/posts-service';
 
 export function useCreatePost() {
   return useSubmitting((post) => {
     return postsService.create(post)
-  }, { success: 'Post created successfully', error: 'Failed to create post' })
+  }, {success: 'Post created successfully', error: 'Failed to create post'})
 }
 
-function fetchPosts() {
-  return postsService.getAll({ populate: ['category'] })
+function fetchPosts(filters: any = {}) {
+  const qs: any = {populate: ['category']};
+  if (filters.category) {
+    qs.category = filters.category;
+  }
+  return postsService.getAll(qs)
 }
 
 function fetchPost(postId: string) {
@@ -31,7 +35,7 @@ export function useEditPost(postId) {
           post.value = post
           removeUnsavedChanges('post', post._id)
         })
-    }, { success: 'Post updated successfully', error: 'Failed to update post' }),
+    }, {success: 'Post updated successfully', error: 'Failed to update post'}),
     post
   }
 }
@@ -54,15 +58,21 @@ export function useNewPost() {
   }
 }
 
-export function usePostsList() {
+export function usePostsList(filters) {
   const posts = ref<any[]>([])
 
-  fetchPosts().then(list => posts.value = list)
+  watch(
+    filters,
+    () => {
+      fetchPosts(filters.value).then(list => posts.value = list)
+    },
+    {immediate: true})
+
 
   return {
     posts,
     remove: (postId) => postsService.remove(postId)
-      .then(() => posts.value = posts.value.filter(({ _id }) => _id !== postId))
+      .then(() => posts.value = posts.value.filter(({_id}) => _id !== postId))
   }
 }
 
@@ -74,7 +84,7 @@ export function usePostsSearch() {
   })
 
   function search() {
-    return postsService.getAll({ populate: ['category'], lean: true, q: selectedPost.title })
+    return postsService.getAll({populate: ['category'], lean: true, q: selectedPost.title})
       .then(list => searchPostsList.value = list)
   }
 

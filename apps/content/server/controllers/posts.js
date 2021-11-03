@@ -93,10 +93,10 @@ function getPostsList(req, res) {
   } : null
 
   if (req.category || reqQuery.category) {
-    query.category = req.category._id
+    query.category = req.category?._id || reqQuery.category
   }
 
-  getCategoryIdByPathOrId(req.headers.tenant, reqQuery.category, req.category && req.category._id)
+  getCategoryIdByPathOrId(req.headers.tenant, reqQuery.category, req.category?._id)
     .then(categoryId => {
       if (categoryId) {
         query.category = categoryId

@@ -2,10 +2,9 @@
 	<div class="post-header">
 		<h2>{{ title }}<strong v-if="post.title">{{ post.title }}</strong></h2>
 		<div class="buttons-group">
-			<el-button @click="to('details')" :disabled="$route.query.tab === 'details'">{{ $t('Page details') }}
-			</el-button>
-			<el-button @click="to('short')" :disabled="$route.query.tab === 'short'">{{ $t('Short') }}</el-button>
-			<el-button @click="to('content')" :disabled="$route.query.tab === 'content'">{{ $t('Content') }}</el-button>
+			<a @click="to('details')" :class="{active: $route.query.tab === 'details'}">{{ $t('Page details') }}</a>
+			<a @click="to('short')" :class="{active: $route.query.tab === 'short'}">{{ $t('Short') }}</a>
+			<a @click="to('content')" :class="{active: $route.query.tab === 'content'}">{{ $t('Content') }}</a>
 			<el-button native-type="submit" type="primary" :loading="submitting" icon="el-icon-s-promotion"/>
 		</div>
 	</div>
@@ -57,21 +56,21 @@ h2 {
 }
 
 @media screen and (max-width: 780px) {
-	h2 {
-		font-size: 11px;
-	}
+  h2 {
+	font-size: 11px;
+  }
   h2 strong {
 	display: none;
   }
   .buttons-group {
-		padding: 0 6px;
-	}
+	padding: 0 6px;
+  }
 
-	.el-button {
-		font-size: 11px;
-		padding: 8px;
-		min-height: 20px;
-	}
+  .el-button {
+	font-size: 11px;
+	padding: 8px;
+	min-height: 20px;
+  }
 }
 
 .buttons-group {
@@ -80,13 +79,21 @@ h2 {
   display: flex;
   justify-content: flex-end;
 
-  .is-disabled {
-	color: black;
+  a {
+		margin: 0 5px;
+		padding: 0 15px;
+		line-height: 40px;
+		transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 
-	&:hover {
-	  color: black;
-	  cursor: default;
-	}
+		&.active, &:active {
+			background-color: #fff;
+			box-shadow: 2px 2px #eee;
+		}
+
+		&:hover {
+			color: $secondary-color;
+			border: 0;
+		}
   }
 }
 </style>
