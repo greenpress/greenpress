@@ -20,16 +20,16 @@
 	</div>
 </template>
 <script lang="ts">
+import {computed, PropType} from 'vue'
 import MenuKindInput from './MenuKindInput.vue'
 import PostSelector from './PostSelector.vue'
 import MenuHttpInput from './MenuHttpInput.vue'
 import CategorySelector from '../../categories/components/CategorySelector.vue'
-import {computed} from 'vue'
 
 export default {
 	components: {CategorySelector, MenuHttpInput, PostSelector, MenuKindInput},
 	props: {
-		value: Object
+		value: Object as PropType<{ value: string, category?: {_id: string} }>
 	},
 	emits: ['changed', 'removed'],
 	setup(props, {emit}) {

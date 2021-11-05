@@ -31,7 +31,7 @@ export default {
 	components: { GpItem },
 	setup() {
 		const route = useRoute();
-		const queryParams = computed(() => route.query);
+		const queryParams = computed(() => route.name === 'posts' ? (route.query || {}) : null);
 		const { posts, remove } = usePostsList(queryParams)
 		const { t } = useI18n();
 

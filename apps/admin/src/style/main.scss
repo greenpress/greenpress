@@ -40,10 +40,23 @@ a, .link {
   }
 }
 
-.small {
+.small, [small] {
   font-size: 80%;
 }
 
 p {
   padding: 5px 0;
+}
+
+[centered] {
+  display: flex;
+  justify-content: center;
+}
+
+.ck-editor .ck-editor__editable {
+  min-height: 60vh;
+}
+
+[large-editor] .ck-editor .ck-editor__editable {
+  min-height: 70vh;
 }

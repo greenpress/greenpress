@@ -64,7 +64,9 @@ export function usePostsList(filters) {
   watch(
     filters,
     () => {
-      fetchPosts(filters.value).then(list => posts.value = list)
+      if (filters.value) {
+        fetchPosts(filters.value).then(list => posts.value = list)
+      }
     },
     {immediate: true})
 
