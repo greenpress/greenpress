@@ -1,5 +1,5 @@
 import { computed, reactive } from 'vue'
-import { authStore, fetchAuthUser, login, logout } from '@/modules/core/store/auth'
+import { authStore, fetchAuthUser, login, logout } from '../store/auth'
 
 export function useAuthenticatedIntercept() {
   const isLoaded = computed(() => authStore.isLoaded)

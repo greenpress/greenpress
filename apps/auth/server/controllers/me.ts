@@ -14,7 +14,10 @@ export function getMe(req: AuthRequest, res: Response) {
 export async function setMe(req: AuthRequest, res: Response) {
   const {email, password, name} = req.body || {}
   try {
-    await updateUser(req.userPayload, {email, password, name})
+    await updateUser(
+      {_id: req.userPayload.sub, tenant: req.userPayload.tenant},
+      {email, password, name}
+    )
     res.status(200).json({
       _id: req.userPayload.sub,
       email: email || req.userPayload.email,

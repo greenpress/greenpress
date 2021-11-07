@@ -1,7 +1,6 @@
 import { reactive } from 'vue'
-import router from '@/router'
-import { computed } from 'vue'
-import { api } from '@/services/api'
+import router from '../../../router'
+import { api } from '../../../services/api'
 import { IAuthStore } from './types/auth-store'
 import { IUser } from './types/user'
 
@@ -11,18 +10,16 @@ export const authStore = reactive<IAuthStore>({
   userPromise: null
 })
 
-const isAdmin = () => !!(authStore.user?.roles.includes('admin'))
-
-export const useIsAdmin = () => {
-  return computed(isAdmin)
-}
-
 export const logout = () => {
   authStore.user = null
   authStore.isLoaded = false
   authStore.userPromise = null
   api.post('/api/logout')
   router.push({ name: 'login' })
+}
+
+export const updateProfile = async (changes: Partial<IUser>) => {
+  authStore.user = await api.post<IUser>('/api/me', changes).then(res => res.data)
 }
 
 export const fetchAuthUser = async () => {

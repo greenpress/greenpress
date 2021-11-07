@@ -53,8 +53,6 @@
 
       .toggle {
         border-radius: 0 8px 8px 0;
-        margin-left: 0;
-        margin-right: -20px;
       }
     }
 
@@ -70,7 +68,7 @@
     .toggle {
       cursor: pointer;
       margin-top: 200px;
-      margin-left: -20px;
+      margin-inline-start: -20px;
       width: 20px;
       height: 50px;
       display: flex;

@@ -17,12 +17,7 @@
 <style scoped lang="scss">
   h1 {
     span {
-      margin-right: 20px;
-
-      @at-root [dir="rtl"] #{&} {
-        margin-left: 20px;
-        margin-right: 0;
-      }
+      margin-inline-start: 20px;
     }
 
     > * {

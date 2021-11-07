@@ -1,5 +1,6 @@
 import User, {UserDocument, UserModel} from '../models/user';
 import {cookieTokenExpiration} from '../../config';
+import {Types} from 'mongoose';
 
 export async function getUser(query: any) {
   try {
@@ -14,25 +15,32 @@ export async function getUser(query: any) {
   throw {code: 'INCORRECT_CREDENTIALS'};
 }
 
-export function updateUser(
-  user: any,
+export async function updateUser(
+  user: UserDocument | {_id: string | Types.ObjectId, tenant: string},
   {email = null, password = null, name = null, roles = null}
 ) {
   let directUpdate;
   if (!(user instanceof User)) {
-    directUpdate = {_id: user._id, tenant: user.tenant};
-    user = {};
+    if (email || roles || password) {
+      console.log('loading the user: ', user)
+      user = await User.findOne(user);
+      console.log('this is the user:', user._id)
+    } else {
+      directUpdate = {_id: user._id, tenant: user.tenant};
+      user = {} as UserDocument;
+    }
   }
+
+  if (name) {
+    user.name = name;
+  }
+
   if (email) {
     user.email = email;
   }
 
   if (password) {
     user.password = password;
-  }
-
-  if (name) {
-    user.name = name;
   }
 
   if (roles) {

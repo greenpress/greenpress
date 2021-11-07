@@ -38,6 +38,6 @@ export const loadLanguageAsync = (lang = 'en') => {
 	})
 }
 
-export const translate = (key: string): string => {
-	return i18n.global.t(key) as string || key
+export const translate = (key: string, params: any = null): string => {
+	return i18n.global.t(key, params) as string || key
 }

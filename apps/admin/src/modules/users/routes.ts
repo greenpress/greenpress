@@ -2,6 +2,7 @@ import EmptyRoute from '../core/components/layout/EmptyRoute.vue'
 import Users from './Users.vue'
 import EditUser from './EditUser.vue'
 import CreateUser from './CreateUser.vue'
+import UpdateProfile from './UpdateProfile.vue'
 
 const usersRoutes = {
   path: 'users',
@@ -12,6 +13,11 @@ const usersRoutes = {
       path: '',
       name: 'users',
       component: Users
+    },
+    {
+      path: 'me',
+      name: 'updateProfile',
+      component: UpdateProfile
     },
     {
       path: 'new',
