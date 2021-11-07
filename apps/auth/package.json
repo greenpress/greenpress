@@ -1,6 +1,6 @@
 {
   "name": "@greenpress/auth",
-  "version": "2.0.10",
+  "version": "2.0.14",
   "description": "Express Passport authentication service",
   "keywords": [
     "express",
