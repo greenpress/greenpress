@@ -1,7 +1,25 @@
 import {GreenpressSDKOptions} from './types';
 import BaseSDK from './base-gp-sdk';
 
+export enum PostContentState {
+  EDITOR = 'editor',
+  HTML = 'html'
+}
+
 export interface IPost {
+  _id?: string;
+  title: string,
+  authors: any[];
+  thumbnail: string;
+  short: string;
+  contents: string[];
+  editorContentsStates: PostContentState[];
+  path: string;
+  tags: string[];
+  category: string;
+  isPublic: boolean;
+  isPinned: boolean;
+
   [key: string]: any;
 }
 
@@ -30,7 +48,7 @@ export default class GpPosts extends BaseSDK {
     return this.callJsonApi<IPost[]>(`${this.relativePath}?${queryParams}`);
   }
 
-  remove(path: string): Promise<IPost> {
+  remove(path: string): Promise<Response> {
     return this.callApi(`${this.relativePath}/${encodeURI(path)}`, {method: 'delete'});
   }
 
@@ -41,7 +59,7 @@ export default class GpPosts extends BaseSDK {
     )
   }
 
-  create(path: string, changes: Partial<IPost>): Promise<IPost> {
-    return this.callJsonApi<IPost>(this.relativePath, {method: 'post', body: JSON.stringify(changes)})
+  create(post: IPost): Promise<IPost> {
+    return this.callJsonApi<IPost>(this.relativePath, {method: 'post', body: JSON.stringify(post)})
   }
 }

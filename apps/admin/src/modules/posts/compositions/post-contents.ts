@@ -1,5 +1,5 @@
 import { computed, Ref } from 'vue'
-import { PostContent, PostContents, PostContentState } from '@/modules/posts/compositions/types/post-contents.ts'
+import { PostContent, PostContents, PostContentState } from './types/post-contents'
 
 export function usePostContents(editedPost, originalPost) {
   const editorContentsStates = computed(() => {
