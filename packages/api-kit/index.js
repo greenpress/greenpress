@@ -16,7 +16,7 @@ function createApp() {
     app.use(require('cors')())
   }
   if (config.bodyParser) {
-    app.use(require('body-parser')[config.bodyParser]())
+    app.use(express[config.bodyParser]())
   }
 
   return app;
