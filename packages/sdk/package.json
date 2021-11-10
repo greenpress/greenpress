@@ -1,0 +1,25 @@
+{
+  "name": "@greenpress/sdk",
+  "version": "2.0.14",
+  "description": "SDK for Greenpress API",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/greenpress/greenoress.git"
+  },
+  "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/greenpress/greenpress/issues"
+  },
+  "homepage": "https://github.com/greenpress/greenpress#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "typescript": "^4.2.4"
+  }
+}

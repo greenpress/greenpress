@@ -5,14 +5,14 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/greenpress/api-kit.git"
+    "url": "git+https://github.com/greenpress/greenoress.git"
   },
   "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/greenpress/api-kit/issues"
+    "url": "https://github.com/greenpress/greenpress/issues"
   },
-  "homepage": "https://github.com/greenpress/api-kit#readme",
+  "homepage": "https://github.com/greenpress/greenpress#readme",
   "publishConfig": {
     "access": "public"
   },
