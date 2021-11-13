@@ -13,49 +13,42 @@ const BlockSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  description: { //editors only in controller!
+  description: { // editors only in controller!
     type: String,
   },
-  contents: [],
-  contentType: {
+  content: String,
+  contentType: { // editors only in controller!
     type: String,
     enum: [
-      "content", // for regular blocks
-      "images", // for a gallery of images
-      "script", // for ads
+      "content",
+      "html",
     ],
   },
 });
 
+BlockSchema.index({ tenant: 1, _id: 1 }, { unique: true });
+
 // some useful methods
 
-BlockSchema.statics.Search = function Search(
-  query = {},
-  { limit, offset },
-) {
-  return this.find(query)
-    .limit(limit)
-    .offset(offset)
-    .then((list) => {
-      if (list && list.length) return JSON.stringify(list);
-      else return "[]";
-    });
+BlockSchema.statics.search = function search(query = {}, { limit, offset }) {
+  let dbRequest = this.find(query).lean();
+  if (limit) {
+    dbRequest = dbRequest.limit(limit);
+  }
+  if (offset) {
+    dbRequest = dbRequest.offset(offset);
+  }
+  return dbRequest;
 };
 
-BlockSchema.statics.SingleBlock = function SingleBlock(
-  blockId,
-  tenant,
-  useCache = false,
-) {
-  const cacheString = `${cachePrefix}single:${blockId}.${tenant}`;
-
+BlockSchema.statics.getSingleBlock = function getSingleBlock({ blockId, tenant, useCache = true }) {
   const q = () => this.findOne({ _id: blockId, tenant: tenant });
 
   if (useCache) {
-    return cacheManager.wrap(cacheString, q);
+    return cacheManager.wrap(`${cachePrefix}single:${blockId}.${tenant}`, q);
   } else {
     return q();
   }
-};
+}
 
 module.exports = mongoose.model("Block", BlockSchema);

@@ -19,7 +19,7 @@ module.exports = function (app) {
       getBlockById,
       singleBlock,
     )
-    .post("/api/blocks/", populateUser, onlyEditor, createBlock)
+    .post("/api/blocks", populateUser, onlyEditor, createBlock)
     .put(
       "/api/blocks/:blockId",
       populateUser,
