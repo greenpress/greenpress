@@ -19,6 +19,7 @@ const BlockSchema = new mongoose.Schema({
   content: String,
   contentType: { // editors only in controller!
     type: String,
+    default: 'content',
     enum: [
       "content",
       "html",
