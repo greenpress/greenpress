@@ -1,6 +1,6 @@
 {
   "name": "@greenpress/greenpress",
-  "version": "2.0.15",
+  "version": "2.0.16",
   "description": "Open-source blogs and content websites platform, made for the 21st century",
   "main": "index.js",
   "scripts": {
@@ -15,7 +15,7 @@
     "@greenpress/assets": "^2.0.15",
     "@greenpress/auth": "^2.0.15",
     "@greenpress/blog-front": "^2.0.10",
-    "@greenpress/content": "^2.0.15",
+    "@greenpress/content": "^2.0.16",
     "@greenpress/drafts": "^2.0.15",
     "@greenpress/pm2-launcher": "^2.0.10",
     "@greenpress/secrets": "^2.0.15"

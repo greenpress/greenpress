@@ -1,6 +1,6 @@
 {
   "name": "@greenpress/sdk",
-  "version": "2.0.15",
+  "version": "2.0.16",
   "description": "SDK for Greenpress API",
   "main": "./dist/index.js",
   "scripts": {
