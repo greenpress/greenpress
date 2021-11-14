@@ -43,13 +43,17 @@ BlockSchema.statics.search = function search(query = {}, { limit, offset }) {
 };
 
 BlockSchema.statics.getSingleBlock = function getSingleBlock({ blockId, tenant, useCache = true }) {
-  const q = () => this.findOne({ _id: blockId, tenant: tenant });
-
   if (useCache) {
-    return cacheManager.wrap(`${cachePrefix}single:${blockId}.${tenant}`, q);
-  } else {
-    return q();
+    return cacheManager.wrap(
+      `${cachePrefix}single:${blockId}.${tenant}`,
+      () => this.findOne({ _id: blockId, tenant })
+        .select('content')
+        .lean()
+        .exec()
+        .then(JSON.stringify)
+    );
   }
+  return this.findOne({ _id: blockId, tenant }).lean().exec().then(JSON.stringify);
 }
 
 module.exports = mongoose.model("Block", BlockSchema);

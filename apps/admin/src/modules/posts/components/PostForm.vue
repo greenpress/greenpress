@@ -78,12 +78,12 @@ import AddMore from '../../core/components/forms/AddMore.vue';
 export default {
   components: {AddMore, EditPostHeader, PostFormMetadata, AssetUploader, PostContentEditor, FormInput},
   props: {
-    post: Object,
+    post: Object as () => any,
     submitting: Boolean
   },
   emits: ['submit'],
   setup(props, {emit}) {
-    const editedPost = useNewPost().post
+    const editedPost: any = useNewPost().post
     const tagsContext = usePostTags(editedPost, props.post)
     const contentsContext = usePostContents(editedPost, props.post)
 

@@ -14,11 +14,7 @@ module.exports = function (app) {
   app
     .get("/api/blocks", populateUser, onlyEditor, getBlocksList)
     .get(
-      "/api/blocks/:blockId",
-      populateUser,
-      getBlockById,
-      singleBlock,
-    )
+      "/api/blocks/:blockId", populateUser, singleBlock)
     .post("/api/blocks", populateUser, onlyEditor, createBlock)
     .put(
       "/api/blocks/:blockId",
