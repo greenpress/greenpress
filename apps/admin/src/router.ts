@@ -8,9 +8,11 @@ import assetsRoutes from './modules/assets/routes'
 import postsRoutes from './modules/posts/routes'
 import usersRoutes from './modules/users/routes'
 import configurationsRoutes from './modules/configurations/routes'
-import { authStore, fetchAuthUser } from '@/modules/core/store/auth'
-import draftsRoutes from '@/modules/drafts/routes';
+import { authStore, fetchAuthUser } from './modules/core/store/auth'
+import draftsRoutes from './modules/drafts/routes';
+import blocksRoutes from './modules/blocks/routes';
 
+// @ts-ignore
 const BASE = import.meta.env.BASE_URL || '/gp-admin';
 
 const router = createRouter({
@@ -32,7 +34,8 @@ const router = createRouter({
 				assetsRoutes,
 				postsRoutes,
 				usersRoutes,
-				draftsRoutes
+				draftsRoutes,
+        blocksRoutes
 			]
 		},
 		{

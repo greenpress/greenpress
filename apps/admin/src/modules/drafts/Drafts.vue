@@ -5,7 +5,7 @@
 	</div>
 </template>
 <script lang="ts">
-  import PageTitle from '@/modules/core/components/semantics/PageTitle.vue'
+  import PageTitle from '../core/components/semantics/PageTitle.vue'
   import DraftsList from './components/DraftsList.vue'
 
   export default {

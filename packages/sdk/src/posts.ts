@@ -1,5 +1,6 @@
 import {GreenpressSDKOptions} from './types';
 import BaseSDK from './base-gp-sdk';
+import {ICategory} from './categories';
 
 export enum PostContentState {
   EDITOR = 'editor',
@@ -16,7 +17,7 @@ export interface IPost {
   editorContentsStates: PostContentState[];
   path: string;
   tags: string[];
-  category: string;
+  category: string | ICategory;
   isPublic: boolean;
   isPinned: boolean;
 

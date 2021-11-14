@@ -17,7 +17,7 @@ export default {
 		if (!route.query.tab) {
 			router.push({query: {tab: 'content'}})
 		}
-		return useEditPost(useRoute().params.postId)
+		return useEditPost(route.params.postId)
 	}
 }
 </script>

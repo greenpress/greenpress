@@ -1,5 +1,5 @@
 import { reactive } from 'vue'
-import categoriesService from '@/services/categories-service'
+import categoriesService from '../../../services/categories-service'
 
 export function enrichHomeCategory(category) {
   return {

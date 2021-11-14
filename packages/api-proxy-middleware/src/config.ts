@@ -28,6 +28,7 @@ export function getApiProxyConfig(): IApiProxyConfig {
         '/api/posts',
         '/api/menus',
         '/api/tags',
+        '/api/blocks',
         '/api/configurations',
       ]
     }),

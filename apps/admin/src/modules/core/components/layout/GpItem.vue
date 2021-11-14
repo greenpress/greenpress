@@ -1,13 +1,13 @@
 <template>
-	<div class="gp-item">
-		<h4 v-if="$slots.title">
-			<slot name="title"/>
-		</h4>
-		<slot/>
-		<div class="actions small">
-			<slot name="actions"/>
-		</div>
-	</div>
+  <div class="gp-item">
+    <h4 v-if="$slots.title">
+      <slot name="title"/>
+    </h4>
+    <slot/>
+    <div class="actions small">
+      <slot name="actions"/>
+    </div>
+  </div>
 </template>
 
 <style scoped lang="scss">
@@ -22,23 +22,23 @@
   box-shadow: 0 10px 6px -6px #777;
 
   &:hover {
-	opacity: 0.9;
-	box-shadow: 0 12px 6px -6px #777;
+    opacity: 0.9;
+    box-shadow: 0 12px 6px -6px #777;
   }
 
   ::v-deep(*) {
-	color: white;
+    color: white;
   }
 
   h4 {
-	padding-bottom: 15px;
-	font-size: 18px;
+    padding-bottom: 15px;
+    font-size: 18px;
   }
 }
 
 .actions {
   > ::v-deep(*) {
-	padding-inline-end: 10px;
+    padding-inline-end: 10px;
   }
 }
 </style>

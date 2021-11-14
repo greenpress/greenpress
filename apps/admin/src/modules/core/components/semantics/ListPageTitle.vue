@@ -17,7 +17,7 @@
 <style scoped lang="scss">
   h1 {
     span {
-      margin-inline-start: 20px;
+      margin-inline-end: 20px;
     }
 
     > * {

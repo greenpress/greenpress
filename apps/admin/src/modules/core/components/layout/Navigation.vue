@@ -24,6 +24,10 @@
 			<i class="el-icon-document"/>
 			<span>{{ $t('Posts') }}</span>
 		</router-link>
+    <router-link to="/blocks">
+      <i class="el-icon-box"/>
+      <span>{{ $t('Blocks') }}</span>
+    </router-link>
 		<router-link to="/users">
 			<i class="el-icon-user"/>
 			<span>{{ $t('Users') }}</span>

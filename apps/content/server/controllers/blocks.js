@@ -26,8 +26,7 @@ function getBlocksList(req, res) {
 function getBlockById(req, res, next) {
   const { blockId } = req.params || {};
   const { tenant } = req.headers || {};
-  const useCache = !req.user?.isEditor;
-  Block.getSingleBlock({ blockId, tenant, useCache }).then((block) => {
+  Block.findOne({ _id: blockId, tenant }).then((block) => {
     if (!block) {
       return Promise.reject(null);
     }
@@ -38,8 +37,20 @@ function getBlockById(req, res, next) {
   });
 }
 
-function singleBlock(req, res) {
-  res.status(200).json(req.block).end();
+async function singleBlock(req, res) {
+  const { blockId } = req.params || {};
+  const { tenant } = req.headers || {};
+  const useCache = !req.user?.isEditor;
+  try {
+    const block = await Block.getSingleBlock({ blockId, tenant, useCache });
+    if (block) {
+      res.status(200).set('Content-Type', 'application/json').end(block);
+      return;
+    }
+  } catch {
+    //
+  }
+  res.status(404).json({ message: "block not exists" }).end();
 }
 
 // create a block. accept all types

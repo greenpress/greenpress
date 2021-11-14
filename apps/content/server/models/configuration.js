@@ -40,12 +40,12 @@ Configuration.statics.getByKey = function getByKey (tenant, key, isAdmin) {
     })
   }
   return cacheManager.wrap(cachePrefix + tenant + ':' + key, () => {
-    return this.findOne({ key, public: true })
-      .select('tenant key metadata')
-      .lean()
-      .then(config => {
-        return JSON.stringify({ tenant, key, metadata: config.metadata })
-      })
+	  return this.findOne({ key, public: true })
+		  .select('tenant key metadata')
+		  .lean()
+		  .then(config => {
+			  return JSON.stringify({ tenant, key, metadata: config.metadata })
+		  })
   })
 }
 

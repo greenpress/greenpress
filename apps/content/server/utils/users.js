@@ -12,16 +12,13 @@ function getUsersFromApi(tenant, users) {
 module.exports = {
   getUsersMap(tenant, ids) {
     const users = ids.join(',')
-    return cacheManager.wrap(
-      cachePrefix + tenant + ':' + users,
-      () =>
-        getUsersFromApi(tenant, users)
-          .then(users => users.reduce((usersMap, user) => {
-            usersMap[user._id] = user
-            return usersMap
-          }, {}))
-          .then(JSON.stringify)
-          .catch(() => '{}')
-    )
+    return cacheManager.wrap(cachePrefix + tenant + ':' + users, () =>
+	    getUsersFromApi(tenant, users)
+		    .then(users => users.reduce((usersMap, user) => {
+			    usersMap[user._id] = user
+			    return usersMap
+		    }, {}))
+		    .then(JSON.stringify)
+		    .catch(() => '{}'))
   }
 }

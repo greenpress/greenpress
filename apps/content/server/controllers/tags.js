@@ -31,8 +31,8 @@ function getTagPosts (tenant, tag, limit, offset, isPublic = true) {
 
 function getTagsList (req, res) {
   cacheManager.wrap(cachePrefix + 'all:' + req.headers.tenant, () => Post.aggregate(getTagsAggregationQuery(req.headers.tenant))
-    .then(tags => JSON.stringify(tags) || '[]'))
-    .then(list => {
+	  .then(tags => JSON.stringify(tags) || '[]'))
+	  .then(list => {
       res.status(200).set('Content-Type', 'application/json').end(list)
     })
     .catch(() => res.status(500).json({ message: 'failed to load tags list' }).end())
@@ -47,7 +47,7 @@ function getPostsByTag (req, res) {
   const offset = parseInt(reqQuery.offset) || 0
 
   cacheManager.wrap(`${cachePrefix}postsByTag.strigified:${tenant}.${tag}.${limit}.${offset}`, () => getTagPosts(tenant, tag, limit, offset))
-    .then(list => {
+	  .then(list => {
       res.status(200).set('Content-Type', 'application/json').end(list)
     })
     .catch(() => {
