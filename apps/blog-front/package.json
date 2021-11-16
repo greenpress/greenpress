@@ -1,6 +1,6 @@
 {
   "name": "@greenpress/blog-front",
-  "version": "2.0.10",
+  "version": "2.0.17",
   "description": "vue blog project",
   "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
   "private": false,
@@ -13,7 +13,7 @@
     "envs-lookup": "node ./helpers/envs-lookup.js"
   },
   "dependencies": {
-    "@greenpress/api-proxy-middleware": "^2.0.10",
+    "@greenpress/api-proxy-middleware": "^2.0.17",
     "@nuxtjs/axios": "^5.12.5",
     "@nuxtjs/component-cache": "^1.1.6",
     "@nuxtjs/composition-api": "^0.18.1",
