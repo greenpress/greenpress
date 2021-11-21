@@ -3,13 +3,13 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "node app.mjs",
-    "build": "node build.mjs",
+    "build": "node app.mjs build",
     "start": "node app.mjs"
   },
   "dependencies": {
     "fastify": "^3.23.1",
-    "fastify-vite": "^2.2.3",
-    "fastify-vite-vue": "^2.2.3",
+    "fastify-vite": "^2.2.4",
+    "fastify-vite-vue": "^2.3.0",
     "vue": "^3.2.16"
   },
   "devDependencies": {
