@@ -44,8 +44,8 @@ jobs:
           # Command to execute, Bash syntax
           command: |
             echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{github.repository_owner}} --password-stdin
-            docker pull ghcr.io/${{github.repository_owner}}/blog-front:main
             cd compose
-            docker rm -f $(docker ps -q --filter name=blog-front)
-            docker-compose up -d --no-recreate
+            docker-compose pull
+            docker-compose up -d
+            docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
             exit
