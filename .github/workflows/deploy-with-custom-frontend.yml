@@ -1,4 +1,4 @@
-name: Build and deploy blog-front custom image
+name: Build and deploy greenpress app with blog-front custom image
 
 ## This pipeline will auto-deploy the main branch to your VM using docker-compose.
 ## It expects secret variables:
