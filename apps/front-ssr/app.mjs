@@ -17,4 +17,4 @@ await app.register(FastifyVite, {
   },
 })
 await app.vite.commands()
-await app.listen(3000)
+await app.listen(process.env.PORT || 3002)

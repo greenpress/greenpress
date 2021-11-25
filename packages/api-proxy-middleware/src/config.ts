@@ -47,6 +47,7 @@ export function getApiProxyConfig(): IApiProxyConfig {
       proxies: ['/api/assets', '/api/storage']
     }),
     adminPanel: getServiceFromEnvVars('admin', 'ADMIN_PANEL', { port: 3001, proxies: ['/gp-admin'] }),
+    frontService: getServiceFromEnvVars('front', 'FRONT', { port: 3002, proxies: ['/'] }),
     draftsService: getServiceFromEnvVars('drafts', 'DRAFTS_SERVICE', { port: 9005, proxies: ['/api/drafts'] }),
   };
 }
