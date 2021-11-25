@@ -105,17 +105,20 @@ module.exports = {
     ...authServiceRef
   }),
   front: getHttpServiceVariables('front', {
-    PORT: config.port,
-    THEME: services.front.theme,
+    PORT: services.front.port,
     NODE_ENV: DEV,
-    TENANT: config.tenant,
     APPLICATION_URL: config.applicationUrl,
-    ALTERNATIVE_HMR: config.alternativeHmr
   }),
   admin: getHttpServiceVariables('admin', {
     PORT: services.admin.port,
     BASE_URL: '/gp-admin',
     VUE_APP_MAIN_APP_URL: 'http://localhost:' + config.port,
     ALTERNATIVE_HMR: config.alternativeHmr
-  })
+  }),
+  gateway: getHttpServiceVariables('gateway', {
+    NODE_ENV: DEV,
+    PORT: config.port,
+    APPLICATION_URL: config.applicationUrl,
+  }),
+
 }

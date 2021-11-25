@@ -1,9 +1,9 @@
-# Contribute to Greenpress plugins-service
+# Contribute to Greenpress front-ssr
 
 ## Greenpress [Contribute Guide](https://docs.greenpress.info/guide/contribute/getting-started.html)
 
 ## Greenpress [Installation Guide](https://docs.greenpress.info/guide/getting-started.html)
 
-## Plugins service [README](./README.md)
+## front-ssr [README](./README.md)
 
 ## [Open Issues](https://github.com/greenpress/greenpress/issues)

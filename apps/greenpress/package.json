@@ -14,8 +14,9 @@
     "@greenpress/admin": "^2.0.19",
     "@greenpress/assets": "^2.0.19",
     "@greenpress/auth": "^2.0.19",
-    "@greenpress/blog-front": "^2.0.19",
-    "@greenpress/content": "^2.0.19",
+	"@greenpress/front-ssr": "^2.0.19",
+	"@greenpress/gateway": "^2.0.19",
+	"@greenpress/content": "^2.0.19",
     "@greenpress/drafts": "^2.0.19",
     "@greenpress/pm2-launcher": "^2.0.10",
     "@greenpress/secrets": "^2.0.19"

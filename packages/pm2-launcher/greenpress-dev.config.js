@@ -12,6 +12,7 @@ module.exports = {
     apps.drafts,
     apps.assets,
     apps.admin,
-    apps.front
+    apps.front,
+    apps.gateway,
   ].filter(({ name }) => !excludedServices.includes(name))
 };

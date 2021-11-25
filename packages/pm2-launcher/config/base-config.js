@@ -17,7 +17,7 @@ module.exports = {
   },
   tenant: process.env.BASIC_TENANT || '0',
   tempFolder: process.env.TEMP_FOLDER || (join(appAbsolutePath, 'tmp')),
-  excludedServices: process.env.npm_config_x ? process.env.npm_config_x.split(',') : ['db'],
+  excludedServices: process.env.npm_config_x ? process.env.npm_config_x.split(',') : [ 'db' ],
   noDocker: process.env.npm_config_noDocker || false,
   memoryLimitation: process.env.MAX_MEMORY_USAGE,
   mongoUri: process.env.MONGODB_URI || 'mongodb://localhost/greenpress',
@@ -69,12 +69,18 @@ module.exports = {
       port: process.env.ADMIN_PORT || 3001,
       ip: process.env.ADMIN_IP || localhost,
       cwd: process.env.ADMIN_SERVICE_CWD || join(appAbsolutePath, './node_modules/@greenpress/admin'),
-      script: process.env.ADMIN_SERVICE_SCRIPT ||  (IS_PROD ? 'server.js' : 'npm run dev')
+      script: process.env.ADMIN_SERVICE_SCRIPT || (IS_PROD ? 'server.js' : 'npm run dev')
     },
     front: {
-      theme: process.env.FRONT_THEME || 'damal',
-      cwd: process.env.FRONT_SERVICE_CWD || join(appAbsolutePath, './node_modules/@greenpress/blog-front'),
-      script: process.env.FRONT_SERVICE_SCRIPT || (IS_PROD ? 'npm run build && npm start' : 'npm run build && npm run dev')
-    }
+      port: process.env.ADMIN_PORT || 3002,
+      cwd: process.env.FRONT_SERVICE_CWD || join(appAbsolutePath, './node_modules/@greenpress/front-ssr'),
+      script: process.env.FRONT_SERVICE_SCRIPT || (IS_PROD ? 'npm start' : 'npm run dev')
+    },
+    gateway: {
+      port: process.env.GATEWAY_PORT || 3000,
+      ip: process.env.GATEWAY_IP || localhost,
+      cwd: process.env.GATEWAY_SERVICE_CWD || join(appAbsolutePath, './node_modules/@greenpress/gateway'),
+      script: process.env.GATEWAY_SERVICE_SCRIPT || 'dist/index.js'
+    },
   }
 }

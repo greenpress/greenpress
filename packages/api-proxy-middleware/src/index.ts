@@ -32,6 +32,7 @@ module.exports = function apiProxy(app: any, config: Partial<IApiProxyConfig>) {
     draftsService,
     tenant,
     applicationUrl,
+    frontService,
     excludedServices
   } = { ...getApiProxyConfig(), ...config }
 
@@ -89,4 +90,5 @@ module.exports = function apiProxy(app: any, config: Partial<IApiProxyConfig>) {
   useProxy(app, draftsService);
   useProxy(app, assetsService);
   useProxy(app, adminPanel);
+  useProxy(app, frontService);
 };
