@@ -1,4 +1,5 @@
 <template>
+  <router-link to="/">home</router-link>
   <Layout :layout="layout"/>
 </template>
 
