@@ -1,9 +1,12 @@
 import Fastify from 'fastify'
 import FastifyVite from 'fastify-vite'
 import renderer from 'fastify-vite-vue'
+import fetch from 'node-fetch'
 
 const root = import.meta.url
 const app = Fastify({ logger: true })
+
+globalThis.fetch = fetch;
 
 await app.register(FastifyVite, {
   root, renderer,

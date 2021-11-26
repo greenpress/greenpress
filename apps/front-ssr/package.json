@@ -2,7 +2,7 @@
   "name": "@greenpress/front-ssr",
   "version": "2.0.17",
   "scripts": {
-    "dev": "node app.mjs",
+    "dev": "node remove-dist.mjs && node app.mjs",
     "build": "node app.mjs build",
     "start": "node app.mjs"
   },
