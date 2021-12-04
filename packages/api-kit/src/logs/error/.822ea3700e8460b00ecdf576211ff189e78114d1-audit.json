@@ -1,0 +1,14 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 30
+    },
+    "auditLog": "/Users/naor/open-source/greenpress/packages/api-kit/src/logs/error/.822ea3700e8460b00ecdf576211ff189e78114d1-audit.json",
+    "files": [
+        {
+            "date": 1638642860653,
+            "name": "/Users/naor/open-source/greenpress/packages/api-kit/src/logs/error/2021-12-04.log",
+            "hash": "75b9a2288863c81da30020863d2c6b1c"
+        }
+    ]
+}

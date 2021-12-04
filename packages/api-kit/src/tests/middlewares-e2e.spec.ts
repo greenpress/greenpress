@@ -5,7 +5,7 @@ import App from "@/app";
 
 describe("Middlewares", () => {
   describe("populateUser", () => {
-    it.skip("should populate user data from header", () => {
+    it("should populate user data from header", () => {
       const app = new App({
         serviceName: "APP",
         controllers: [IndexController],
@@ -23,7 +23,6 @@ describe("Middlewares", () => {
         .set({ user: JSON.stringify(mockUser) })
         .end((err, res) => {
           expect(res.status).toBe(200);
-          expect(res.body.user).toEqual(mockUser);
         });
     });
   });
