@@ -9,7 +9,10 @@ afterAll(async () => {
 describe('Testing Index', () => {
   describe('[GET] /', () => {
     it('response statusCode 200', () => {
-      const app = new App([IndexController]);
+      const app = new App({
+        serviceName: 'APP',
+        controllers: [IndexController]
+      });
 
       return request(app.getServer()).get('/').expect(200);
     });
