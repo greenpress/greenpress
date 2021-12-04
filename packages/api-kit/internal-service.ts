@@ -1,4 +1,4 @@
-import axios, { AxiosPromise } from "axios";
+import axios, { AxiosPromise, AxiosRequestConfig } from "axios";
 
 interface InternalService {
   name: string;
@@ -9,7 +9,7 @@ interface InternalService {
 
 function callInternalService(
   service: InternalService,
-  options: Partial<InternalService>
+  options: AxiosRequestConfig
 ): AxiosPromise {
   return axios({
     ...options,
@@ -33,7 +33,7 @@ function createServiceDescriptor(
 
 module.exports = {
   callInternalService,
-  service: (name) => {
+  service: (name: string) => {
     const service = createServiceDescriptor(name);
     return (options: InternalService) => callInternalService(service, options);
   },

@@ -1,20 +1,28 @@
-import express from "express";
+import express, { Express } from "express";
 
-let app;
+import type {
+  AppConfigOptions,
+  BodyParserType,
+} from "./src/interfaces/app-config-options.interface";
 
-let config = {
+let app: Express;
+
+let config: AppConfigOptions = {
   cors: !!process.env.API_CORS || false,
-  bodyParser: process.env.API_BODY_PARSER || "json",
+  bodyParser: (process.env.API_BODY_PARSER as BodyParserType) || "json",
 };
 
 function createApp() {
   app = express();
+
   if (process.env.NODE_ENV !== "production") {
     app.use(require("morgan")("combined"));
   }
+
   if (config.cors) {
     app.use(require("cors")());
   }
+
   if (config.bodyParser) {
     app.use(express[config.bodyParser]());
   }
@@ -24,7 +32,7 @@ function createApp() {
 
 function startApp(
   serviceName = "APP",
-  port = process.env.PORT,
+  port = parseInt(process.env.PORT as string),
   ip = process.env.IP || "127.0.0.1"
 ): Promise<void> {
   app.set("port", port);
