@@ -7,7 +7,7 @@ interface InternalService {
   port: number;
 }
 
-function callInternalService(
+export function callInternalService(
   service: InternalService,
   options: AxiosRequestConfig
 ): AxiosPromise {
@@ -31,10 +31,9 @@ function createServiceDescriptor(
   };
 }
 
-module.exports = {
-  callInternalService,
-  service: (name: string) => {
-    const service = createServiceDescriptor(name);
-    return (options: InternalService) => callInternalService(service, options);
-  },
-};
+export function service(
+  name: string
+): (options: AxiosRequestConfig) => AxiosPromise {
+  const service = createServiceDescriptor(name);
+  return (options: AxiosRequestConfig) => callInternalService(service, options);
+}
