@@ -1,30 +1,34 @@
-const express = require('express')
+import express from "express";
 
 let app;
 
 let config = {
   cors: !!process.env.API_CORS || false,
-  bodyParser: process.env.API_BODY_PARSER || 'json',
+  bodyParser: process.env.API_BODY_PARSER || "json",
 };
 
 function createApp() {
-  app = express()
-  if (process.env.NODE_ENV !== 'production') {
-    app.use(require('morgan')('combined'))
+  app = express();
+  if (process.env.NODE_ENV !== "production") {
+    app.use(require("morgan")("combined"));
   }
   if (config.cors) {
-    app.use(require('cors')())
+    app.use(require("cors")());
   }
   if (config.bodyParser) {
-    app.use(express[config.bodyParser]())
+    app.use(express[config.bodyParser]());
   }
 
   return app;
 }
 
-function startApp(serviceName = 'APP', port = process.env.PORT, ip = (process.env.IP || '127.0.0.1')) {
-  app.set('port', port)
-  app.set('ip', ip)
+function startApp(
+  serviceName = "APP",
+  port = process.env.PORT,
+  ip = process.env.IP || "127.0.0.1"
+): Promise<void> {
+  app.set("port", port);
+  app.set("ip", ip);
 
   // start the server
   return new Promise((resolve) => {
@@ -32,7 +36,7 @@ function startApp(serviceName = 'APP', port = process.env.PORT, ip = (process.en
       console.log(`${serviceName} is running on port ${port}`);
       resolve();
     });
-  })
+  });
 }
 
 module.exports = {
@@ -41,5 +45,5 @@ module.exports = {
     return config;
   },
   app: () => app || createApp(),
-  start: startApp
-}
+  start: startApp,
+};
