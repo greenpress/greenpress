@@ -6,7 +6,7 @@ type RequestWithUserData = Request & {
   headers: IncomingHttpHeaders & { user?: string };
 };
 
-function populateUser(
+export function populateUser(
   req: RequestWithUserData,
   res: Response,
   next: NextFunction
@@ -19,7 +19,7 @@ function populateUser(
   }
 }
 
-function verifyUser(
+export function verifyUser(
   req: RequestWithUserData,
   res: Response,
   next: NextFunction
@@ -30,8 +30,3 @@ function verifyUser(
     res.status(401).end();
   }
 }
-
-module.exports = {
-  populateUser,
-  verifyUser,
-};
