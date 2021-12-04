@@ -5,14 +5,22 @@ import type {
   BodyParserType,
 } from "./src/interfaces/app-config-options.interface";
 
-let app: Express;
+export let app: Express = createApp();
 
-let config: AppConfigOptions = {
+export let config: AppConfigOptions = {
   cors: !!process.env.API_CORS || false,
   bodyParser: (process.env.API_BODY_PARSER as BodyParserType) || "json",
 };
 
-function createApp() {
+export function start(
+  serviceName = "APP",
+  port = parseInt(process.env.PORT as string),
+  ip = process.env.IP || "127.0.0.1"
+): Promise<void> {
+  return startApp(serviceName, port, ip);
+}
+
+function createApp(): Express {
   app = express();
 
   if (process.env.NODE_ENV !== "production") {
@@ -31,9 +39,9 @@ function createApp() {
 }
 
 function startApp(
-  serviceName = "APP",
-  port = parseInt(process.env.PORT as string),
-  ip = process.env.IP || "127.0.0.1"
+  serviceName: string,
+  port: number,
+  ip: string
 ): Promise<void> {
   app.set("port", port);
   app.set("ip", ip);
@@ -46,12 +54,3 @@ function startApp(
     });
   });
 }
-
-module.exports = {
-  config: (updatedConfig = config) => {
-    config = updatedConfig;
-    return config;
-  },
-  app: () => app || createApp(),
-  start: startApp,
-};
