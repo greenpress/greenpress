@@ -19,7 +19,7 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "importHelpers": true,
-    "baseUrl": "../../../../express-ts/typescript-express-starter/src",
+    "baseUrl": "src",
     "paths": {
       "@/*": ["*"],
       "@controllers/*": ["controllers/*"],
@@ -33,9 +33,9 @@
     }
   },
   "include": ["src/**/*.ts", "src/**/*.json",
-    "../../../../express-ts/typescript-express-starter/.env"
+    ".env"
   ],
   "exclude": [
-    "../../../../express-ts/typescript-express-starter/node_modules"
+    "node_modules"
   ]
 }
