@@ -1,7 +1,5 @@
 import { Router } from "express";
 
-module.exports = {
-  getRouter(): Router {
-    return Router();
-  },
-};
+export function getRouter(): Router {
+  return Router();
+}
