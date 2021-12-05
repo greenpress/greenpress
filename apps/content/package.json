@@ -20,7 +20,7 @@
   "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@greenpress/api-kit": "^2.0.15",
+    "@greenpress/api-kit": "^2.0.16",
     "@greenpress/cache-manager": "^2.0.15",
     "mongoose": "^5.10.5",
     "shortid": "^2.2.14"
