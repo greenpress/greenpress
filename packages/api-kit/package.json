@@ -21,11 +21,11 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "morgan": "^1.10.0",
-    "typescript": "^4.5.2"
+    "typescript": "^4.5.2",
+    "@types/express": "^4.17.13"
   },
   "gitHead": "e9b7e45274425af89f502ba0a3f43d68d83fe92e",
   "devDependencies": {
-    "@types/express": "^4.17.13",
     "@types/node": "^16.11.11",
     "prettier": "^2.5.1"
   }
