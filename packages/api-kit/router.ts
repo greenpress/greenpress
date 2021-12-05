@@ -1,5 +1,5 @@
 import { Router } from "express";
 
-export function getRouter(): Router {
+export function getRouter() {
   return Router();
 }
