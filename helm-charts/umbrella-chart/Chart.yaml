@@ -28,6 +28,7 @@ dependencies:
   - name: blog-front
     version: 0.1.0
     repository: "@blog-front-chart"
+    
   
   - name: assets
     version: 0.1.0
