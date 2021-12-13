@@ -6,31 +6,39 @@
 import {useHydration} from 'fastify-vite-vue/client.mjs'
 import sdk from '../src/services/sdk';
 import Layout from '../src/components/Layout.vue';
+import {LayoutItem} from '../src/components/types/layout';
 
 export const path = '/'
 
 export default {
   components: {Layout},
   async setup() {
-    const {$payload} = await useHydration({getPayload: true});
-    return $payload;
+    const {$payload} = await useHydration({getPayload: getPayload, getData: false});
+    return $payload as { layout: LayoutItem[] };
   }
 }
 
-let payloadFn = async () => null;
-
-if (import.meta.env.SSR) {
-  payloadFn = async function getPayload() {
+export const getPayload = import.meta.env.SSR ?
+  async function getPayload() {
+  const [posts, menu] = await Promise.all([
+    (sdk.posts.getList({target: 'front'}).catch(() => [])),
+    (sdk.menus.getMenu('main').catch(() => ({}))),
+  ])
     return {
       layout: [
         {
           component: 'header',
-          classes: ['my-header'],
           children: [
+            {
+              component: 'MainMenu',
+              props: {
+                menu
+              },
+              predefined: true,
+            },
             {
               component: 'SearchForm',
               predefined: true,
-              classes: ['my-search']
             },
           ]
         },
@@ -41,15 +49,13 @@ if (import.meta.env.SSR) {
               component: 'PostsList',
               predefined: true,
               props: {
-                posts: await (sdk.posts.getList({target: 'front'}).catch(() => []))
+                posts
               }
             }
           ]
         }
       ]
     }
-  }
-}
-
-export const getPayload = payloadFn;
+  } :
+  true;
 </script>
