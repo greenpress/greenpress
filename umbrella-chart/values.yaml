@@ -169,3 +169,7 @@ drafts:
   service:
     port: 9005
     type: ClusterIP
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: ""
