@@ -1,0 +1,171 @@
+# Default values for umbrella-chart-2.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: greenpress/blog-front
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+containerPort: 3000
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+autoscaling:
+  enabled: true 
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+#if you want you can also add a ingress to each one of the subcharts... 
+
+assets:
+  replicaCount: 1
+  containerPort: 9003
+  image:
+    repository: greenpress/assets
+    tag: latest
+  service: 
+    port: 9003
+    type: ClusterIP
+
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: ""
+
+
+
+auth:
+  replicaCount: 1
+  containerPort: 9004
+  image:
+    repository: greenpress/auth
+    tag: latest
+  service:
+    port: 9004
+    type: ClusterIP
+    
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: ""
+
+
+content:
+  replicaCount: 1
+  containerPort: 9001
+  image:
+    repository: greenpress/content
+    tag: latest
+  service:
+    port: 9001
+    type: ClusterIP
+  
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: ""
+
+admin:
+  replicaCount: 1
+  containerPort: 3001
+  image:
+    repository: greenpress/admin
+    tag: latest
+  service:
+    type: NodePort
+    port: 3001
+
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: ""
+
+secrets:
+  replicaCount: 1
+  containerPort: 9002
+  image:
+    repository: greenpress/secrets
+    tag: latest
+  service:
+    port: 9002
+    type: ClusterIP
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: ""
+drafts:
+  replicaCount: 1
+  containerPort: 9005
+  image:
+    repository: greenpress/drafts
+    tag: latest
+  service:
+    port: 9005
+    type: ClusterIP

@@ -1,0 +1,24 @@
+dependencies:
+- name: auth
+  repository: ""
+  version: ^0.1.0
+- name: admin
+  repository: ""
+  version: ^0.1.0
+- name: content
+  repository: ""
+  version: ^0.1.0
+- name: assets
+  repository: ""
+  version: ^0.1.0
+- name: secrets
+  repository: ""
+  version: ^0.1.0
+- name: mongodb
+  repository: https://charts.bitnami.com/bitnami
+  version: 10.30.6
+- name: redis
+  repository: https://charts.bitnami.com/bitnami
+  version: 15.6.4
+digest: sha256:1de78a8c4311e0dff702b866ae0820280f8f7da86c98653e1dae52f3a96c8d0b
+generated: "2021-12-13T04:53:37.28009+02:00"
