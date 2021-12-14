@@ -1,4 +1,7 @@
 export function clearNulls(obj) {
+  if (typeof obj !== 'object' || obj instanceof Array) {
+    return {};
+  }
   return Object.keys(obj).reduce((newObj, key) => {
     const val = obj[key]
     if (val !== null) {
@@ -7,3 +10,5 @@ export function clearNulls(obj) {
     return newObj
   }, {})
 }
+
+
