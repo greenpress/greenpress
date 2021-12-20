@@ -1,5 +1,4 @@
-import { reactive } from 'vue'
-import { computed } from 'vue'
+import { reactive, computed } from 'vue'
 import configurationsService from '../../../services/configurations-service';
 
 export const appConfigurationStore = reactive<{ loaded: false, data: any, promise: Promise<any> | null }>({
