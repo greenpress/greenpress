@@ -15,7 +15,7 @@ class Cloudinary {
     });
   }
 
-  async list(prefix = '/') {
+  list(prefix = '/') {
 
     if(prefix === '/') {
       // load all resources
@@ -30,8 +30,16 @@ class Cloudinary {
   }
 
 
-  async upload(file, options) {
+  upload(file, options) {
     return cloudinary.uploader.upload(file, options);
+  }
+
+  remove(publicId) {
+    return cloudinary.api.delete_resources([publicId]);
+  }
+
+  async rename(oldIdentifier, newFileName) {
+    return cloudinary.uploader.rename(oldIdentifier, newFileName);
   }
 }
 

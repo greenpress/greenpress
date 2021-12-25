@@ -56,10 +56,39 @@ async function uploadFile(storage, { identifier, file, extension, prefix }) {
   }
 
   return { success: true, publicUrl: asset.secure_url };
+}
 
+async function removeFile(storage, identifier) {
+  const cloudinary = new Cloudinary(storage);
+  const fullPath = path.join(storage.metadata.basePath || '/', identifier);
+
+  try {
+    await cloudinary.ready;
+    await cloudinary.remove(identifier);
+  } catch (e) {
+    throw new Error(e.message || 'failed to remove asset: ' + fullPath);
+  }
+
+  return { success: true };
+}
+
+async function renameFile(storage, oldIdentifier, newFileName) {
+  const cloudinary = new Cloudinary(storage);
+  const fullPath = path.join(storage.metadata.basePath || '/', oldIdentifier);
+
+  try {
+    await cloudinary.ready;
+    await cloudinary.rename(oldIdentifier, newFileName);
+  } catch (e) {
+    throw new Error(e.message || 'failed to remove asset: ' + fullPath);
+  }
+
+  return { success: true };
 }
 
 module.exports = {
   loadFiles,
-  uploadFile
+  uploadFile,
+  removeFile,
+  renameFile
 };
