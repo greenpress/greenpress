@@ -27,6 +27,7 @@
     "@greenpress/api-kit": "^2.0.15",
     "aws-sdk": "^2.860.0",
     "cloudinary": "^1.27.1",
+    "datauri": "^4.1.0",
     "ftp": "^0.3.10",
     "mongoose": "^5.10.5",
     "multer": "^1.4.2",

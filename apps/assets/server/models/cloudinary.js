@@ -15,20 +15,24 @@ class Cloudinary {
     });
   }
 
-  async list(path = '/') {
-    return new Promise((resolve, reject) => {
-      const options = { prefix: path.slice(1) };
-      cloudinary.api.resources(options, function (error, result) {
-        if (error) {
-          reject({ message: 'could not retrieve assets from storage: ' + this.name });
-        }
+  async list(prefix = '/') {
 
-        resolve(result);
-      });
+    if(prefix === '/') {
+      // load all resources
+      return cloudinary.api.resources();
+    }
 
-    });
+    // load resources in specific folder
+    prefix = prefix.startsWith('/') ? prefix.slice(1) : prefix;
+    return cloudinary.search.expression(
+      `folder:${prefix}*`
+    ).execute();
   }
 
+
+  async upload(file, options) {
+    return cloudinary.uploader.upload(file, options);
+  }
 }
 
 module.exports = Cloudinary;
