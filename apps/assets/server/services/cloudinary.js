@@ -44,7 +44,7 @@ async function uploadFile(storage, { identifier, file, extension, prefix }) {
   const options = Object.assign({
     public_id: prefix
   }, {
-    ...(folder !== '/' && { folder: folder })
+    ...(folder !== '/' && { folder })
   });
 
   let asset;
