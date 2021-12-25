@@ -17,7 +17,7 @@ class Cloudinary {
 
   list(prefix = '/') {
 
-    if(prefix === '/') {
+    if (prefix === '/') {
       // load all resources
       return cloudinary.api.resources();
     }
@@ -38,7 +38,7 @@ class Cloudinary {
     return cloudinary.api.delete_resources([publicId]);
   }
 
-  async rename(oldIdentifier, newFileName) {
+  rename(oldIdentifier, newFileName) {
     return cloudinary.uploader.rename(oldIdentifier, newFileName);
   }
 }
