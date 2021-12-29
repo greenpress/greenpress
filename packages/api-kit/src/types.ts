@@ -1,5 +1,4 @@
 import type { Request } from 'express';
-import { IncomingHttpHeaders } from 'http';
 
 export interface ApiConfig {
   cors: boolean,
