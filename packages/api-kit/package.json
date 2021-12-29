@@ -2,7 +2,9 @@
   "name": "@greenpress/api-kit",
   "version": "2.0.15",
   "description": "API-Kit package to help with greenpress infrastructure and reuse capabilities across services",
-  "main": "index.js",
+  "scripts": {
+    "build": "tsc"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/greenpress/greenoress.git"
