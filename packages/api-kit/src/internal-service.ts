@@ -1,27 +1,18 @@
-const axios = require('axios')
+import axios, { AxiosPromise, AxiosRequestConfig } from 'axios';
+import { Service, ServiceProtocol } from './types';
 
-/**
- *
- * @param service
- * @param options
- * @returns {AxiosPromise}
- */
-function callInternalService(service, options) {
+function callInternalService(service: Service, options: AxiosRequestConfig): AxiosPromise {
   return axios({
     ...options,
     url: `${service.protocol}://${service.url}:${service.port}${options.url}`,
   })
 }
 
-/**
- * get service url params from environment variables
- * @param {string} name
- */
-function createServiceDescriptor(name) {
+function createServiceDescriptor(name: string): Service {
   name = name.toUpperCase();
 
   return {
-    protocol: process.env[`${name}_SERVICE_PROTOCOL`] || 'http',
+    protocol: (process.env[`${name}_SERVICE_PROTOCOL`] as ServiceProtocol | undefined) || 'http',
     url: process.env[`${name}_SERVICE_URL`] || 'localhost',
     port: process.env[`${name}_SERVICE_PORT`] || 8080,
   }
@@ -30,7 +21,7 @@ function createServiceDescriptor(name) {
 
 module.exports = {
   callInternalService,
-  service: (name) => {
+  service: (name: string) => {
     const service = createServiceDescriptor(name);
     return options => callInternalService(service, options);
   }

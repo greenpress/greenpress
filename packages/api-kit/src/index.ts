@@ -1,14 +1,18 @@
-const express = require('express')
+import express, { Express } from 'express';
 
-let app;
+import type { ApiConfig, BodyParserType } from './types';
 
-let config = {
+let app: Express;
+let config: ApiConfig = {
   cors: !!process.env.API_CORS || false,
-  bodyParser: process.env.API_BODY_PARSER || 'json',
+  bodyParser: (process.env.API_BODY_PARSER as BodyParserType) || 'json',
+  port: parseInt(process.env?.PORT) || 3000,
+  ip: process.env.IP || '127.0.0.1'
 };
 
-function createApp() {
+function createApp(): Express {
   app = express()
+
   if (process.env.NODE_ENV !== 'production') {
     app.use(require('morgan')('combined'))
   }
@@ -22,7 +26,7 @@ function createApp() {
   return app;
 }
 
-function startApp(serviceName = 'APP', port = process.env.PORT, ip = (process.env.IP || '127.0.0.1')) {
+function startApp(serviceName = 'APP', port = config.port, ip = config.ip): Promise<void> {
   app.set('port', port)
   app.set('ip', ip)
 
