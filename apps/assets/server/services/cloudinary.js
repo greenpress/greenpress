@@ -22,20 +22,6 @@ async function loadFiles(storage, identifier = '/') {
     throw new Error(e.message || 'failed to get list of assets from: ' + fullPath);
   }
 
-  console.log(`resources.map((asset) => ({
-    name: asset.public_id,
-    identifier: path.join(identifier, asset.public_id),
-    type: cloudinaryAssetTypeToGreenpressAssetType(asset.resource_type),
-    publicUrl: asset.secure_url,
-    updated: asset.created_at,
-  })): ${JSON.stringify(resources.map((asset) => ({
-    name: asset.public_id,
-    identifier: path.join(identifier, asset.public_id),
-    type: cloudinaryAssetTypeToGreenpressAssetType(asset.resource_type),
-    publicUrl: asset.secure_url,
-    updated: asset.created_at,
-  })))}`);
-
   return resources.map((asset) => ({
     name: asset.public_id,
     identifier: path.join(identifier, asset.public_id),
