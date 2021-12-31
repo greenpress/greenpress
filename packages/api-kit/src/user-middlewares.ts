@@ -2,7 +2,7 @@ import type { Response, NextFunction } from 'express';
 
 import type { RequestWithUser } from './types';
 
-function populateUser(req: RequestWithUser, res: Response, next: NextFunction): void {
+export function populateUser(req: RequestWithUser, res: Response, next: NextFunction): void {
   try {
     req.user = req.headers.user ? JSON.parse(req.headers.user as string) : null;
     next();
@@ -11,7 +11,7 @@ function populateUser(req: RequestWithUser, res: Response, next: NextFunction): 
   }
 }
 
-function verifyUser(req: RequestWithUser, res: Response, next: NextFunction): void {
+export function verifyUser(req: RequestWithUser, res: Response, next: NextFunction): void {
   if (req.user) {
     next();
   } else {
@@ -19,7 +19,3 @@ function verifyUser(req: RequestWithUser, res: Response, next: NextFunction): vo
   }
 }
 
-module.exports = {
-  populateUser,
-  verifyUser,
-};

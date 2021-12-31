@@ -1,8 +1,8 @@
 import express, { Express } from 'express';
-
 import type { ApiConfig, BodyParserType } from './types';
 
 let app: Express;
+
 let config: ApiConfig = {
   cors: !!process.env.API_CORS || false,
   bodyParser: (process.env.API_BODY_PARSER as BodyParserType) || 'json',
@@ -10,7 +10,7 @@ let config: ApiConfig = {
   ip: process.env.IP || '127.0.0.1'
 };
 
-function createApp(): Express {
+function createApp() {
   app = express()
 
   if (process.env.NODE_ENV !== 'production') {
@@ -40,8 +40,8 @@ function startApp(serviceName = 'APP', port = config.port, ip = config.ip): Prom
 }
 
 module.exports = {
-  config: (updatedConfig = config) => {
-    config = updatedConfig;
+  config: (updatedConfig = config): ApiConfig => {
+    config = { ...config, ...updatedConfig };
     return config;
   },
   app: () => app || createApp(),
