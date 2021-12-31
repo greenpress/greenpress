@@ -6,10 +6,16 @@
     "sourceMap": true,
     "declaration": true,
     "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "paths": {
+      "*": [
+        "dist/*"
+      ]
+    }
   },
   "exclude": [
     "node_modules",
     "dist"
-  ]
+  ],
 }
