@@ -38,11 +38,10 @@ async function uploadFile(storage, { identifier, file, extension, prefix }) {
   const parser = new DatauriParser();
   const { content } = parser.format(filename, file);
 
-  const options = Object.assign({
-    public_id: prefix
-  }, {
+  const options = {
+    public_id: prefix,
     ...(folder !== '/' && { folder })
-  });
+  };
 
   let asset;
   try {
