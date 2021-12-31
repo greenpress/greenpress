@@ -4,6 +4,7 @@
   "description": "API-Kit package to help with greenpress infrastructure and reuse capabilities across services",
   "main": "dist/index.js",
   "scripts": {
+    "prebuild": "tsc",
     "build": "tsc"
   },
   "repository": {
