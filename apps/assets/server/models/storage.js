@@ -19,7 +19,7 @@ const StorageSchema = new mongoose.Schema({
   metadata: {
     publicUrl: {
       type: String,
-      required: true
+      required: isPublicUrlRequired
     },
     basePath: {
       type: String,
@@ -32,5 +32,10 @@ const StorageSchema = new mongoose.Schema({
   },
   authentication: String
 })
+
+
+function isPublicUrlRequired() {
+  return this.kind !== 'cloudinary';
+}
 
 module.exports = mongoose.model('Storage', StorageSchema)

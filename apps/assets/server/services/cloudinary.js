@@ -11,9 +11,6 @@ const cloudinaryAssetTypeToGreenpressAssetType = (assetType) => ({
 })[assetType]
 
 
-/*
-* For now returning the minimum 10 assets until instructed otherwise.
-* */
 async function loadFiles(storage, identifier = '/') {
   const cloudinary = new Cloudinary(storage);
   const fullPath = path.join(storage.metadata.basePath || '/', identifier);
@@ -25,12 +22,26 @@ async function loadFiles(storage, identifier = '/') {
     throw new Error(e.message || 'failed to get list of assets from: ' + fullPath);
   }
 
+  console.log(`resources.map((asset) => ({
+    name: asset.public_id,
+    identifier: path.join(identifier, asset.public_id),
+    type: cloudinaryAssetTypeToGreenpressAssetType(asset.resource_type),
+    publicUrl: asset.secure_url,
+    updated: asset.created_at,
+  })): ${JSON.stringify(resources.map((asset) => ({
+    name: asset.public_id,
+    identifier: path.join(identifier, asset.public_id),
+    type: cloudinaryAssetTypeToGreenpressAssetType(asset.resource_type),
+    publicUrl: asset.secure_url,
+    updated: asset.created_at,
+  })))}`);
+
   return resources.map((asset) => ({
     name: asset.public_id,
     identifier: path.join(identifier, asset.public_id),
     type: cloudinaryAssetTypeToGreenpressAssetType(asset.resource_type),
-    publicUrl: asset.secure_url
-    /*updated: ???, cloudinary does not provide updated data but it doest provide a created_at iso string */
+    publicUrl: asset.secure_url,
+    updated: asset.created_at,
   }));
 }
 
