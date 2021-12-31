@@ -70,13 +70,16 @@ async function removeFile(storage, identifier) {
 
 async function renameFile(storage, oldIdentifier, newFileName) {
   const cloudinary = new Cloudinary(storage);
-  const fullPath = path.join(storage.metadata.basePath || '/', oldIdentifier);
+  const oldFilename = oldIdentifier.replace(/^.*[\\\/]/, '');
+  const newIdentifier = oldIdentifier.split(oldFilename)[0] + newFileName;
+  const oldFullPath = path.join(storage.metadata.basePath || '/', oldIdentifier);
 
   try {
     await cloudinary.ready;
-    await cloudinary.rename(oldIdentifier, newFileName);
+    await cloudinary.rename(oldIdentifier, newIdentifier);
   } catch (e) {
-    throw new Error(e.message || 'failed to remove asset: ' + fullPath);
+    console.log({ e })
+    throw new Error(e.message || 'failed to rename asset: ' + oldFullPath);
   }
 
   return { success: true };

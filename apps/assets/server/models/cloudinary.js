@@ -31,8 +31,8 @@ class Cloudinary {
     return cloudinary.api.delete_resources([publicId]);
   }
 
-  rename(oldIdentifier, newFileName) {
-    return cloudinary.uploader.rename(oldIdentifier, newFileName);
+  rename(oldIdentifier, newIdentifier) {
+    return cloudinary.uploader.rename(oldIdentifier, newIdentifier);
   }
 }
 
