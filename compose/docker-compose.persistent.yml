@@ -8,6 +8,12 @@ services:
     image: redis
   admin:
     image: greenpress/admin-panel:${ADMIN_PANEL_VERSION}
+  front:
+    image: greenpress/admin-panel:${FRONT_SSR_VERSION}
+    links:
+      - gateway
+    environment:
+      GATEWAY_SERVICE_URL: gateway
   assets:
     image: greenpress/assets:${ASSETS_SERVICE_VERSION}
     restart: always
@@ -41,8 +47,8 @@ services:
       - mongo
     links:
       - mongo
-  blog-front:
-    image: greenpress/blog-front:${BLOG_FRONT_VERSION}
+  gateway:
+    image: greenpress/gateway:${GATEWAY_VERSION}
     ports:
       - ${PORT}:3000
     depends_on:
@@ -50,20 +56,22 @@ services:
       - auth
       - assets
       - admin
+      - front
     links:
       - content
       - auth
       - assets
       - admin
+      - front
     environment:
       IP: 0.0.0.0
-      THEME: ${THEME}
       TENANT: ${TENANT}
       APPLICATION_URL: ${APPLICATION_URL}
       CONTENT_SERVICE_URL: content
       AUTH_SERVICE_URL: auth
       ASSETS_SERVICE_URL: assets
       ADMIN_PANEL_URL: admin
+      FRONT_URL: front
   content:
     image: greenpress/content:${CONTENT_SERVICE_VERSION}
     restart: always
