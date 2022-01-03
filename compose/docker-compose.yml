@@ -22,6 +22,12 @@ services:
     links:
       - redis
       - secrets
+  front:
+    image: greenpress/admin-panel:${FRONT_SSR_VERSION}
+    links:
+      - gateway
+    environment:
+      GATEWAY_SERVICE_URL: gateway
   auth:
     image: greenpress/auth:${AUTH_SERVICE_VERSION}
     restart: always
@@ -31,8 +37,8 @@ services:
       JWT_SECRET: ${JWT_SECRET}
       REFRESH_TOKEN_SECRET: ${REFRESH_TOKEN_SECRET}
       APPLICATION_URL: ${APPLICATION_URL}
-  blog-front:
-    image: greenpress/blog-front:${BLOG_FRONT_VERSION}
+  gateway:
+    image: greenpress/gateway:${GATEWAY_VERSION}
     ports:
       - ${PORT}:3000
     depends_on:
@@ -40,23 +46,22 @@ services:
       - auth
       - assets
       - admin
-      - drafts
+      - front
     links:
       - content
       - auth
       - assets
       - admin
-      - drafts
+      - front
     environment:
       IP: 0.0.0.0
-      THEME: ${THEME}
       TENANT: ${TENANT}
       APPLICATION_URL: ${APPLICATION_URL}
       CONTENT_SERVICE_URL: content
       AUTH_SERVICE_URL: auth
       ASSETS_SERVICE_URL: assets
-      DRAFTS_SERVICE_URL: drafts
       ADMIN_PANEL_URL: admin
+      FRONT_URL: front
   content:
     image: greenpress/content:${CONTENT_SERVICE_VERSION}
     restart: always
