@@ -3,6 +3,7 @@ const path = require("path");
 const ASSET_TYPES = require('../../helpers/asset-types.json');
 const { generateIdentifier } = require("./identifier");
 const DatauriParser = require('datauri/parser');
+const { joinUrl } = require("./url");
 
 const cloudinaryAssetTypeToGreenpressAssetType = (assetType) => ({
   raw: ASSET_TYPES.ASSET,
@@ -22,13 +23,17 @@ async function loadFiles(storage, identifier = '/') {
     throw new Error(e.message || 'failed to get list of assets from: ' + fullPath);
   }
 
-  return resources.map((asset) => ({
-    name: asset.public_id,
-    identifier: path.join(identifier, asset.public_id),
-    type: cloudinaryAssetTypeToGreenpressAssetType(asset.resource_type),
-    publicUrl: asset.secure_url,
-    updated: asset.created_at,
-  }));
+  return resources.map((asset) => {
+    const fileIdentifier = path.join(identifier, asset.filename);
+
+    return ({
+      name: asset.public_id,
+      identifier: path.join(identifier, asset.public_id),
+      type: cloudinaryAssetTypeToGreenpressAssetType(asset.resource_type),
+      publicUrl: joinUrl(storage.metadata.publicUrl, fileIdentifier),
+      updated: asset.created_at,
+    });
+  });
 }
 
 async function uploadFile(storage, { identifier, file, extension, prefix }) {
