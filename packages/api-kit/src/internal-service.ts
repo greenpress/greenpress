@@ -1,4 +1,5 @@
 import axios, { AxiosPromise, AxiosRequestConfig } from 'axios';
+
 import { Service, ServiceProtocol } from './types';
 
 export function service(name: string): (options: AxiosRequestConfig) => AxiosPromise {
