@@ -1,55 +1,15 @@
 const Menu = require('../models/menu')
-const cacheManager = require('../utils/cache-manager')
-
-const cachePrefix = 'menu:'
-
-const categoryPopulation = {
-  path: 'links.category',
-  select: 'path name _id'
-}
-const linkPopulation = {
-  path: 'links.post',
-  select: 'path category _id title',
-  populate: {
-    path: 'category',
-    select: 'path _id'
-  }
-}
-
-function getCachedName (tenant, menuName) {
-  return cachePrefix + tenant + ':' + menuName
-}
-
-function getCachedMenu (req, res, next) {
-  const tenant = req.headers.tenant
-  const menuName = req.params.menuName
-  cacheManager.getItem(getCachedName(tenant, menuName)).then(menu => {
-    if (menu) {
-      res.status(200).set('Content-Type', 'application/json').end(menu)
-    } else {
-      next()
-    }
-  }).catch(() => {
-    next()
-  })
-}
-
-function setCachedMenu (menu) {
-  cacheManager.setItem(getCachedName(menu.tenant, menu.name), JSON.stringify(menu.toObject ? menu.toObject() : menu))
-}
-
-function populateMenu (menu) {
-  return menu.populate(categoryPopulation).populate(linkPopulation)
-}
 
 function getMenuByName (req, res, next) {
-  populateMenu(Menu.findOne({ name: req.params.menuName, tenant: req.headers.tenant })).then(menu => {
-    if (!menu) {
-      return Promise.reject(null)
-    }
-    req.menu = menu
-    setCachedMenu(menu)
-    next()
+  Menu.findOne({ name: req.params.menuName, tenant: req.headers.tenant })
+    .enrichment()
+    .exec()
+    .then(menu => {
+      if (!menu) {
+        return Promise.reject(null)
+      }
+      req.menu = menu
+      next()
   }).catch(() => {
     res.status(404).json({ message: 'menu not exists' }).end()
   })
@@ -68,8 +28,19 @@ function getMenusList (req, res) {
     })
 }
 
-function getMenu (req, res) {
-  res.status(200).json(req.menu).end()
+async function getMenu(req, res) {
+  const useCache = req.query.target === 'front' || !(req.user?.isEditor);
+
+  if (useCache) {
+    const menu = await Menu.findOne({ name: req.params.menuName, tenant: req.headers.tenant })
+    .enrichment().exec()
+    
+    res.status(200).json(menu).end()
+    menu.storeInCache();
+  } else {
+    const menu = Menu.getSingleMenu({ name: req.params.menuName, tenant: req.headers.tenant });
+    res.status(200).set('Content-Type', 'application/json').end(menu)
+  }
 }
 
 function createMenu (req, res) {
@@ -92,6 +63,7 @@ function createMenu (req, res) {
       if (!menu) {
         return Promise.reject(null)
       }
+      menu.storeInCache()
       res.status(200).json(menu).end()
     })
     .catch(() => {
@@ -113,6 +85,7 @@ function updateMenu (req, res) {
       if (!menu) {
         return Promise.reject(null)
       }
+      menu.storeInCache()
       res.status(200).json(menu).end()
     })
     .catch(() => {
@@ -125,6 +98,7 @@ function removeMenu (req, res) {
 
   menu.remove()
     .then(menu => {
+      menu.clearInCache()
       res.status(200).json(menu).end()
     })
     .catch(() => {
@@ -138,7 +112,7 @@ function saveAndPopulate (menu) {
       if (!menu) {
         return Promise.reject(null)
       }
-      return populateMenu(Menu.findOne({ name: menu.name })).lean()
+      return Menu.findOne({ name: menu.name, tenant: menu.tenant }).enrichment().exec();
     })
 }
 
@@ -172,5 +146,4 @@ module.exports = {
   createMenu,
   updateMenu,
   removeMenu,
-  getCachedMenu
 }
