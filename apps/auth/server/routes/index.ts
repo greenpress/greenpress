@@ -1,4 +1,4 @@
-const app = require('@greenpress/api-kit/dist').app();
+const app = require('@greenpress/api-kit').app();
 import {getMe, setMe} from '../controllers/me';
 import {onlyAuthenticated} from '../middleware/auth-check';
 import verifyUser from '../middleware/verify-user';
