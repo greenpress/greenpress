@@ -3,9 +3,7 @@
   "version": "2.0.15",
   "description": "API-Kit package to help with greenpress infrastructure and reuse capabilities across services",
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
   "scripts": {
-    "prebuild": "tsc",
     "build": "tsc"
   },
   "repository": {
