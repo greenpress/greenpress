@@ -3,6 +3,7 @@
   "version": "2.0.15",
   "description": "API-Kit package to help with greenpress infrastructure and reuse capabilities across services",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "prebuild": "tsc",
     "build": "tsc"
@@ -21,6 +22,7 @@
     "access": "public"
   },
   "dependencies": {
+    "@types/express": "^4.17.13",
     "axios": "^0.21.1",
     "cors": "^2.8.5",
     "express": "^4.17.1",
@@ -28,7 +30,6 @@
   },
   "gitHead": "e9b7e45274425af89f502ba0a3f43d68d83fe92e",
   "devDependencies": {
-    "@types/express": "^4.17.13",
     "@types/express-serve-static-core": "^4.17.27",
     "@types/node": "^17.0.5"
   }

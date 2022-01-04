@@ -1,4 +1,4 @@
-import {getRouter} from '@greenpress/api-kit/router'
+import {getRouter} from '@greenpress/api-kit/src/router'
 import {onlyAuthenticated} from '../middleware/auth-check';
 import verifyUser from '../middleware/verify-user';
 import {signin} from '../controllers/signin';
@@ -6,7 +6,7 @@ import {signup} from '../controllers/signup';
 import {refreshToken} from '../controllers/refresh-token';
 import {logout} from '../controllers/logout';
 
-const router = getRouter()
+const router: any = getRouter()
 
 router
   .post('/api/signin', signin)

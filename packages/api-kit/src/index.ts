@@ -6,7 +6,7 @@ let _app: Express;
 let _config: ApiConfig = {
   cors: !!process.env.API_CORS || false,
   bodyParser: (process.env.API_BODY_PARSER as BodyParserType) || 'json',
-  port: parseInt(process.env?.PORT) || 3000,
+  port: process.env?.PORT || '3000',
   ip: process.env.IP || '127.0.0.1'
 };
 
@@ -27,12 +27,8 @@ function createApp() {
 }
 
 function startApp(serviceName = 'APP', port = _config.port, ip = _config.ip): Promise<void> {
-  _app.set('_port', port)
-  _app.set('_ip', ip)
-
-  // start the server
   return new Promise((resolve) => {
-    _app.listen(port, ip, () => {
+    _app.listen(parseInt(port as string), ip, () => {
       console.log(`${serviceName} is running on port ${port}`);
       resolve();
     });

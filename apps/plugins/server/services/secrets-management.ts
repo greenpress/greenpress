@@ -1,5 +1,5 @@
 import {internalServicesSecret, secretsToken} from '../../config';
-import {service} from '@greenpress/api-kit/internal-service';
+import {service} from '@greenpress/api-kit/dist/internal-service';
 const secretsService = service('SECRETS');
 
 function callSecretsService(url: string, tenant: string, key: string, value?: any) {

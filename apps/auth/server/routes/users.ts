@@ -1,11 +1,11 @@
-import {getRouter} from '@greenpress/api-kit/router'
+import {getRouter} from '@greenpress/api-kit/src/router'
 import users from '../controllers/users'
 import verifyUser from '../middleware/verify-user'
 import {onlyPrivileged} from '../middleware/auth-check'
 import {AuthRequest} from '../../types';
 
 const {getUsers, createUser, getUser, updateUser, removeUser} = users
-const router = getRouter()
+const router: any = getRouter()
 
 router
   .get('/api/users', verifyUser, getUsers)

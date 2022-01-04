@@ -1,10 +1,10 @@
 import type { Request } from 'express';
 
 export interface ApiConfig {
-  cors: boolean,
-  bodyParser: BodyParserType,
-  port: number
-  ip: string
+  cors: boolean;
+  bodyParser: BodyParserType;
+  port: string | number;
+  ip: string;
 }
 
 export type BodyParserType = 'json' | 'urlencoded' | 'raw' | 'text';
