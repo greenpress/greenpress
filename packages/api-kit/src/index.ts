@@ -2,6 +2,7 @@ import express, { Express } from 'express';
 
 import type { ApiConfig, BodyParserType } from './types';
 
+
 export const config = (updatedConfig = config): ApiConfig => {
   _config = { ..._config, ...updatedConfig };
   return config;
@@ -20,7 +21,13 @@ let _config: ApiConfig = {
 function createApp() {
   _app = express()
 
-  if (process.env.NODE_ENV !== 'production') {
+  configureApp(_app);
+
+  return _app;
+}
+
+function configureApp(app: Express) {
+ if (process.env.NODE_ENV !== 'production') {
     _app.use(require('morgan')('combined'))
   }
   if (_config.cors) {
@@ -29,8 +36,6 @@ function createApp() {
   if (_config.bodyParser) {
     _app.use(express[_config.bodyParser]())
   }
-
-  return _app;
 }
 
 function startApp(serviceName = 'APP', port = _config.port, ip = _config.ip): Promise<void> {
