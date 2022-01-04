@@ -10,14 +10,16 @@ export function managePlugins() {
 
   router
     .route('/api/plugins')
-    .get(getAllPlugins, AUTHENTICATION_MIDDLEWARES)
-    .post(createPlugin, AUTHENTICATION_MIDDLEWARES);
+    .use(AUTHENTICATION_MIDDLEWARES)
+    .get(getAllPlugins)
+    .post(createPlugin);
 
   router
     .route('/api/plugins/:pluginId')
-    .get(getPlugin, AUTHENTICATION_MIDDLEWARES)
-    .put(updatePlugin, AUTHENTICATION_MIDDLEWARES)
-    .delete(removePlugin, AUTHENTICATION_MIDDLEWARES);
+    .use(AUTHENTICATION_MIDDLEWARES)
+    .get(getPlugin)
+    .put(updatePlugin)
+    .delete(removePlugin);
 
   return router;
 }
