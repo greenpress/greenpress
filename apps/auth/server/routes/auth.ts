@@ -6,7 +6,7 @@ import {signup} from '../controllers/signup';
 import {refreshToken} from '../controllers/refresh-token';
 import {logout} from '../controllers/logout';
 
-const router: any = getRouter()
+const router = getRouter()
 
 router
   .post('/api/signin', signin)

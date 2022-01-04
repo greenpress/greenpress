@@ -5,7 +5,7 @@ import {onlyPrivileged} from '../middleware/auth-check'
 import {AuthRequest} from '../../types';
 
 const {getUsers, createUser, getUser, updateUser, removeUser} = users
-const router: any = getRouter()
+const router = getRouter()
 
 router
   .get('/api/users', verifyUser, getUsers)
