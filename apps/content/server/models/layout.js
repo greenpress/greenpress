@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const cacheManager = require("../utils/cache-manager");
+const Menu = require('./menu');
 
 const cachePrefix = "layout:";
 
@@ -52,10 +53,19 @@ LayoutSchema.statics.getSingleLayout = function getSingleLayout({ kind, tenant, 
     return cacheManager.wrap(
       `${cachePrefix}single:${kind}.${tenant}`,
       () => this.findOne({ kind, tenant })
-        .select('content connectedData') // must retrieve connectedData and merge with content layout
+        .select('tenant content connectedData') // must retrieve connectedData and merge with content layout
         .lean()
         .exec()
-        .then(JSON.stringify)
+        .then(layout => {
+          layout.connectedData.forEach((item) => {
+            const { kind, identifier } = item;
+            let data;
+            switch (kind) {
+              case 'menu': data = await Menu.getSingleMenu({ name: identifier, tenant: layout.tenant });
+            }
+            item.data = data;
+          });
+        })
     );
   }
   return this.findOne({ kind, tenant }).lean().exec().then(JSON.stringify);
