@@ -1,4 +1,5 @@
 import express, { Express } from 'express';
+
 import type { ApiConfig, BodyParserType } from './types';
 
 export const config = (updatedConfig = config): ApiConfig => {

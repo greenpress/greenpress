@@ -1,5 +1,5 @@
-import express from 'express';
+import {Router} from 'express';
 
-export function getRouter() {
-  return express.Router();
+export function getRouter(): Router {
+  return Router();
 }
