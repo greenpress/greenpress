@@ -1,5 +1,5 @@
 const { editorsRoles, adminRole } = require('../../config')
-const { populateUser } = require('@greenpress/api-kit/user-middlewares')
+const { populateUser } = require('@greenpress/api-kit')
 
 /**
  *  Populate user on request

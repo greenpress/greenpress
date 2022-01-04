@@ -6,6 +6,7 @@
     "sourceMap": true,
     "declaration": true,
     "skipLibCheck": true,
+    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "paths": {

@@ -1,4 +1,4 @@
-import { populateUser, verifyUser } from '@greenpress/api-kit/dist/user-middlewares'
+import { populateUser, verifyUser } from '@greenpress/api-kit'
 import {
 	deleteDraft,
 	getDraft,

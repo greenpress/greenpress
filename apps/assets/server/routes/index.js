@@ -1,5 +1,5 @@
 const app = require('@greenpress/api-kit').app()
-const {verifyUser, populateUser} = require('@greenpress/api-kit/user-middlewares')
+const {verifyUser, populateUser} = require('@greenpress/api-kit')
 
 const editorCheck = require('../middleware/editor-check')
 

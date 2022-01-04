@@ -1,5 +1,4 @@
-import {getRouter} from '@greenpress/api-kit/dist/router';
-import {verifyUser, populateUser} from '@greenpress/api-kit/dist/user-middlewares'
+import {getRouter, verifyUser, populateUser} from '@greenpress/api-kit';
 import {createPlugin, getAllPlugins, getPlugin, removePlugin, updatePlugin} from '../controllers/manage-plugins';
 import onlyPrivileged from '../middlewares/privileged-check';
 

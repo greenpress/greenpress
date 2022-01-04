@@ -1,4 +1,4 @@
-import {getRouter} from '@greenpress/api-kit/dist/router';
+import {getRouter} from '@greenpress/api-kit';
 import {getPlugins} from '../controllers/play-plugins';
 import {createProxyMiddleware} from 'http-proxy-middleware';
 import {proxyApiPrefix} from '../../config';
