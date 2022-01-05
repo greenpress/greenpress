@@ -46,11 +46,11 @@ spec:
           #     path: /
           #     port: http
           env: 
-            - name: config_mongo_server
+            - name: MONGODB_URI
               valueFrom:
                 configMapKeyRef:
                   name: mongo-config
-                  key: database_url
+                  key: MONGODB_URI
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
