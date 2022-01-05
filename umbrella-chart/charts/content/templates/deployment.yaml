@@ -43,6 +43,12 @@ spec:
             httpGet:
               path: /
               port: {{ .Values.containerPort }}
+          env: 
+            - name: config_mongo_server
+              valueFrom:
+                configMapKeyRef:
+                  name: mongo-config
+                  key: database_url
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
