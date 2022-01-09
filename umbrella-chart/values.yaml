@@ -42,7 +42,6 @@ blog-front:
     minReplicas: 1
     maxReplicas: 3
     targetCPUUtilizationPercentage: 80
-
 assets:
   name: assets
   replicaCount: 1
@@ -145,8 +144,7 @@ mongodb:
     passwords: [admin]
     databases: [greenpress]
     enabled: true
-
-  architecture: replicaset
+  architecture: standalone
   
 
   
