@@ -46,33 +46,33 @@ spec:
           #     path: /
           #     port: http
           env: 
-          - name: MONGO_URI
-            valueFrom:
-              configMapKeyRef:
-                name: mongo-config
-                key: "MONGODB_URI"
-          - name: CONTENT_SERVICE_URL
-            valueFrom:
-              configMapKeyRef:
-                name: blog-front-config
-                key: "CONTENT_SERVICE_URL"
-          - name: AUTH_SERVICE_URL
-            valueFrom:
-              configMapKeyRef:
-                name: blog-front-config
-                key: "AUTH_SERVICE_URL"
-          - name: ASSETS_SERVICE_URL
-            valueFrom:
-              configMapKeyRef:
-                name: blog-front-config
-                key: "ASSETS_SERVICE_URL"
-          - name: ADMIN_PANEL_URL
-            valueFrom:
-              configMapKeyRef:
-                name: blog-front-config
-                key: "ADMIN_PANEL_URL"
-          - name: IP
-            value: 0.0.0.0
+            - name: MONGO_URI
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: "MONGO_URI"
+            - name: CONTENT_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: blog-front-config
+                  key: "CONTENT_SERVICE_URL"
+            - name: AUTH_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: blog-front-config
+                  key: "AUTH_SERVICE_URL"
+            - name: ASSETS_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: blog-front-config
+                  key: "ASSETS_SERVICE_URL"
+            - name: ADMIN_PANEL_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: blog-front-config
+                  key: "ADMIN_PANEL_URL"
+            - name: IP
+              value: "0.0.0.0"
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

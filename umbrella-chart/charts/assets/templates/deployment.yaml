@@ -5,9 +5,7 @@ metadata:
   labels:
     {{- include "assets.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
-  {{- end }}
   selector:
     matchLabels:
       {{- include "assets.selectorLabels" . | nindent 6 }}
@@ -35,39 +33,44 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: 80
+              containerPort: {{ .Values.containerPort }}
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
+          # livenessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          # readinessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
           env:
             - name: MONGO_URI
-              configMapKeyRef:
-                  name: assets-config
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
                   key: "ASSETS_MONGODB_URI"
             - name: REDIS_URL
-              configMapKeyRef:
-                name: assets-config
-                key: "REDIS_URL"
+              valueFrom:
+                configMapKeyRef:
+                  name: assets-config
+                  key: "REDIS_URL"
             - name: SECRETS_SERVICE_URL
-              configMapKeyRef:
-                name: assets-config
-                key: "SECRETS_SERVICE_URL"
+              valueFrom:
+                configMapKeyRef:
+                  name: assets-config
+                  key: "SECRETS_SERVICE_URL"
             - name: SECRETS_SERVICE_PORT
-              configMapKeyRef:
-                name: assets-config
-                key: "SECRETS_SERVICE_PORT"
+              valueFrom:
+                configMapKeyRef:
+                  name: assets-config
+                  key: "SECRETS_SERVICE_PORT"
             - name: AUTH_SERVICE_URL
-              configMapKeyRef:
-                name: assets-config
-                key: "AUTH_SERVICE_URL"
+              valueFrom:
+                configMapKeyRef:
+                  name: assets-config
+                  key: "AUTH_SERVICE_URL"
             - name: IP
-              value: 0.0.0.0
+              value: "0.0.0.0"
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

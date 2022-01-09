@@ -46,8 +46,8 @@ spec:
           env: 
             - name: MONGO_URI
               valueFrom:
-                configMapKeyRef:
-                  name: content-config
+                secretKeyRef:
+                  name: mongo-secret
                   key: "CONTENT_MONGODB_URI"
             - name: REDIS_URL
               valueFrom:
@@ -60,7 +60,7 @@ spec:
                   name: content-config
                   key: "AUTH_SERVICE_URL"
             - name: IP
-              value: 0.0.0.0      
+              value: "0.0.0.0"      
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

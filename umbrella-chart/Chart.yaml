@@ -29,8 +29,7 @@ dependencies:
     version: 10.30.6
     repository: "https://charts.bitnami.com/bitnami"
     condition: mongo.enabled
-  # - name: redis
-  #   version: 15.6.4
-  #   repository: "https://charts.bitnami.com/bitnami"
-  #   condition: redis.disabled
+  - name: redis
+    version: 15.6.4
+    repository: "https://charts.bitnami.com/bitnami"
 

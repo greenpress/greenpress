@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: mongo-config
+data:
+    MONGODB_URI: "mongodb://{{ .Release.Name }}-mongodb/greenpress"
+    ASSETS_MONGODB_URI: "mongodb://{{ .Release.Name }}-mongodb/greenpress"
+    AUTH_MONGODB_URI: "mongodb://{{ .Release.Name }}-mongodb/greenpress"
+    CONTENT_MONGODB_URI: "mongodb://{{ .Release.Name }}-mongodb/greenpress"
+    SECRETS_MONGODB_URI: "mongodb://{{ .Release.Name }}-mongodb/greenpress"
+    DRAFTS_MONGODB_URI: "mongodb://{{ .Release.Name }}-mongodb/greenpress"

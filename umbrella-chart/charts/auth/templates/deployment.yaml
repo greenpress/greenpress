@@ -46,14 +46,16 @@ spec:
           env: 
             - name: MONGO_URI
               valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: "AUTH_MONGODB_URI"
+            - name: REDIS_URL
+              valueFrom:
                 configMapKeyRef:
                   name: auth-config
-                  key: "AUTH_MONGODB_URI"
-
-           - name: APPLICATION_URL 
-              value: ${APPLICATION_URL}
+                  key: "REDIS_URL"
             - name: IP
-              value: 0.0.0.0 
+              value: "0.0.0.0" 
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

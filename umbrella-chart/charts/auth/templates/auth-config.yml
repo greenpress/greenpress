@@ -3,9 +3,9 @@ kind: ConfigMap
 metadata:
     name: auth-config
 data:
-    AUTH_MONGODB_URI: {{ .Values.global.mongo_service }}
-    REDIS_URL: {{ .Values.global.redis_url }}
-    AUTH_SERVICE_URL: auth
+    AUTH_MONGODB_URI: "mongodb://{{ .Release.Name }}-mongodb/greenpress"
+    REDIS_URL: "{{ .Values.global.redis_url }}"
+    AUTH_SERVICE_URL: "{{ .Release.Name }}-auth"
 
   
     

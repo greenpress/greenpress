@@ -145,7 +145,7 @@ admin:
     repository: greenpress/admin-panel
     tag: latest
   service:
-    type: NodePort
+    type: LoadBalancer
     port: 3001
 
   serviceAccount:
@@ -166,7 +166,7 @@ secrets:
   serviceAccount:
     create: true
     annotations: {}
-    name: ""
+    name: "secrets"
 drafts:
   name: drafts
   replicaCount: 1
@@ -182,7 +182,16 @@ drafts:
     annotations: {}
     name: ""
 
+mongodb:
+  auth.usernames: [user]
+  auth.passwords: [admin]
+  useStateFulSet: true
+  auth.enabled: true
+  architecture: standalone
+  
 
-global:
-  mongo_service: mongodb://{{ .Release.Name }}-mongodb/greenpress
-  redis_url: redis://{{ .Release.Name }}-redis/greenpress
+  
+
+
+
+

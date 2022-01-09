@@ -3,5 +3,5 @@ kind: ConfigMap
 metadata:
     name: drafts-config
 data:
-    DRAFTS_MONGODB_URI: {{ .Values.global.mongo_service }}
+    DRAFTS_MONGODB_URI: "mongodb://{{ .Release.Name }}-mongodb/greenpress"
 
