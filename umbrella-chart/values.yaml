@@ -184,4 +184,5 @@ drafts:
 
 
 global:
-  mongo_service: "mongo-mongodb"
+  mongo_service: mongodb://{{ .Release.Name }}-mongodb/greenpress
+  redis_url: redis://{{ .Release.Name }}-redis/greenpress

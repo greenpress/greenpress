@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: blog-front-config
+data:
+    THEME: ${THEME}
+    TENANT: ${TENANT}
+    APPLICATION_URL: ${APPLICATION_URL}
+    CONTENT_SERVICE_URL: "{{ .Release.Name }}-content"
+    AUTH_SERVICE_URL: "{{ .Release.Name }}-auth"
+    ASSETS_SERVICE_URL: "{{ .Release.Name }}-assets"
+    ADMIN_PANEL_URL: "{{ .Release.Name }}-admin"
+    

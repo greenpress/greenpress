@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-    name: blog-front-config
-data:
-    JWT_SECRET: WherReAreTHECHARTS?d.Levy
-    
