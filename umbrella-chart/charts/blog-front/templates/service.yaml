@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "umbrella-chart.fullname" . }}
+  name: {{ include "blog-front.fullname" . }}
   labels:
-    {{- include "umbrella-chart.labels" . | nindent 4 }}
+    {{- include "blog-front.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -12,4 +12,4 @@ spec:
       protocol: TCP
       name: http
   selector:
-    {{- include "umbrella-chart.selectorLabels" . | nindent 4 }}
+    {{- include "blog-front.selectorLabels" . | nindent 4 }}
