@@ -1,14 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "auth.fullname" . }}
+  name: {{ include "assets.fullname" . }}
   labels:
-    {{- include "auth.labels" . | nindent 4 }}
+    {{- include "assets.labels" . | nindent 4 }}
 spec:
+  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
+  {{- end }}
   selector:
     matchLabels:
-      {{- include "auth.selectorLabels" . | nindent 6 }}
+      {{- include "assets.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -16,13 +18,13 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "auth.selectorLabels" . | nindent 8 }}
+        {{- include "assets.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "auth.serviceAccountName" . }}
+      serviceAccountName: {{ include "assets.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -33,27 +35,39 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: {{ .Values.containerPort }}
+              containerPort: 80
               protocol: TCP
-          # livenessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: {{ .Values.containerPort }}
-          # readinessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: {{ .Values.containerPort }}
-          env: 
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          env:
             - name: MONGO_URI
-              valueFrom:
-                configMapKeyRef:
-                  name: auth-config
-                  key: "AUTH_MONGODB_URI"
-
-           - name: APPLICATION_URL 
-              value: ${APPLICATION_URL}
+              configMapKeyRef:
+                  name: assets-config
+                  key: "ASSETS_MONGODB_URI"
+            - name: REDIS_URL
+              configMapKeyRef:
+                name: assets-config
+                key: "REDIS_URL"
+            - name: SECRETS_SERVICE_URL
+              configMapKeyRef:
+                name: assets-config
+                key: "SECRETS_SERVICE_URL"
+            - name: SECRETS_SERVICE_PORT
+              configMapKeyRef:
+                name: assets-config
+                key: "SECRETS_SERVICE_PORT"
+            - name: AUTH_SERVICE_URL
+              configMapKeyRef:
+                name: assets-config
+                key: "AUTH_SERVICE_URL"
             - name: IP
-              value: 0.0.0.0 
+              value: 0.0.0.0
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

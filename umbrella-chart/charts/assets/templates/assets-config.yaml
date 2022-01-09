@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: assets-config
+data:
+    ASSETS_MONGODB_URI: {{ .Values.global.mongo_service }}
+    REDIS_URL: {{ .Values.global.redis_url }}
+    SECRETS_SERVICE_URL: "{{ .Release.Name }}-secrets"
+    SECRETS_SERVICE_PORT: 9002
+    AUTH_SERVICE_URL: "{{ .Release.Name}}-auth"
+    SECRETS_TOKEN: ${ASSETS_SECRETS_TOKEN}
+    INTERNAL_SECRET: ${INTERNAL_SECRET}
+    IP: 0.0.0.0

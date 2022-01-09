@@ -44,11 +44,23 @@ spec:
           #     path: /
           #     port: {{ .Values.containerPort }}
           env: 
-            - name: CONTENT_MONGODB_URI
+            - name: MONGO_URI
               valueFrom:
                 configMapKeyRef:
-                  name: mongo-config
-                  key: CONTENT_MONGODB_URI
+                  name: content-config
+                  key: "CONTENT_MONGODB_URI"
+            - name: REDIS_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: content-config
+                  key: "REDIS_URL"
+            - name: AUTH_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: content-config
+                  key: "AUTH_SERVICE_URL"
+            - name: IP
+              value: 0.0.0.0      
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

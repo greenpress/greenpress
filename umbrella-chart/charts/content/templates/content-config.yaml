@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: content-config
+data:
+    CONTENT_MONGODB_URI: {{ .Values.global.mongo_service }}
+    REDIS_URL: {{ .Values.global.redis_url }}
+    AUTH_SERVICE_URL: "{{ .Release.Name }}-auth"
