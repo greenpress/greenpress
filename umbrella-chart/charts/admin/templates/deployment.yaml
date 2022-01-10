@@ -35,14 +35,16 @@ spec:
             - name: http
               containerPort: 3001
               protocol: TCP
-          # livenessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: {{ .Values.containerPort }}
-          # readinessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: {{ .Values.containerPort }}
+          {{- if .Values.healthCheck.enabled }}
+          livenessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.containerPort }}
+          readinessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.containerPort }}
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

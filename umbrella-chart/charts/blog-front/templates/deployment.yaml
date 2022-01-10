@@ -35,16 +35,18 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: 3000
+              containerPort: {{ .Values.containerPort }}
               protocol: TCP
-          # livenessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: http
-          # readinessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: http
+          {{- if .Values.healthCheck.enabled }}
+          livenessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.containerPort }}
+          readinessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.containerPort }}
+          {{- end }}
           env: 
             - name: MONGO_URI
               valueFrom:
@@ -72,7 +74,15 @@ spec:
                   name: blog-front-config
                   key: "ADMIN_PANEL_URL"
             - name: IP
-              value: "0.0.0.0"
+              valueFrom:
+                configMapKeyRef:
+                  name: blog-front-config
+                  key: "IP"
+            - name: APPLICATION_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: blog-front-config
+                  key: "APPLICATION_URL"
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

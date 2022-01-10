@@ -6,3 +6,4 @@ data:
     CONTENT_MONGODB_URI: "mongodb://{{ .Release.Name }}-mongodb/greenpress"
     REDIS_URL: "{{ .Values.global.redis_url }}"
     AUTH_SERVICE_URL: "{{ .Release.Name }}-auth"
+    IP: "0.0.0.0"

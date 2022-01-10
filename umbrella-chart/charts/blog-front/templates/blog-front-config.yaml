@@ -5,9 +5,10 @@ metadata:
 data:
     THEME: ${THEME}
     TENANT: ${TENANT}
-    APPLICATION_URL: ${APPLICATION_URL}
+    APPLICATION_URL: "www.blog-front.k3d.localhost"
     CONTENT_SERVICE_URL: "{{ .Release.Name }}-content"
     AUTH_SERVICE_URL: "{{ .Release.Name }}-auth"
     ASSETS_SERVICE_URL: "{{ .Release.Name }}-assets"
     ADMIN_PANEL_URL: "{{ .Release.Name }}-admin"
+    IP: "0.0.0.0"
     

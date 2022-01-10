@@ -35,14 +35,16 @@ spec:
             - name: http
               containerPort: {{ .Values.containerPort }}
               protocol: TCP
-          # livenessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: {{ .Values.containerPort }}
-          # readinessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: {{ .Values.containerPort }}
+          {{- if .Values.healthCheck.enabled }}
+          livenessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.containerPort }}
+          readinessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.containerPort }}
+          {{- end }}
           env: 
             - name: MONGO_URI
               valueFrom:
@@ -55,7 +57,10 @@ spec:
                   name: auth-config
                   key: "REDIS_URL"
             - name: IP
-              value: "0.0.0.0" 
+              valueFrom:
+                configMapKeyRef:
+                  name: auth-config
+                  key: "IP"
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

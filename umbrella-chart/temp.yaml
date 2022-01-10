@@ -1,0 +1,1637 @@
+---
+# Source: umbrella/charts/admin/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: test-admin
+  labels:
+    helm.sh/chart: admin-0.1.0
+    app.kubernetes.io/name: admin
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: umbrella/charts/assets/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: test-assets
+  labels:
+    helm.sh/chart: assets-0.1.0
+    app.kubernetes.io/name: assets
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: umbrella/charts/auth/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: test-auth
+  labels:
+    helm.sh/chart: auth-0.1.0
+    app.kubernetes.io/name: auth
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: umbrella/charts/blog-front/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: test-blog-front
+  labels:
+    helm.sh/chart: blog-front-0.1.0
+    app.kubernetes.io/name: blog-front
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: umbrella/charts/content/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: test-content
+  labels:
+    helm.sh/chart: content-0.1.0
+    app.kubernetes.io/name: content
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: umbrella/charts/drafts/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: test-drafts
+  labels:
+    helm.sh/chart: drafts-0.1.0
+    app.kubernetes.io/name: drafts
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: umbrella/charts/mongodb/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: test-mongodb
+  namespace: default
+  labels:
+    app.kubernetes.io/name: mongodb
+    helm.sh/chart: mongodb-10.30.6
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/managed-by: Helm
+secrets:
+  - name: test-mongodb
+---
+# Source: umbrella/charts/redis/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+automountServiceAccountToken: true
+metadata:
+  name: test-redis
+  namespace: "default"
+  labels:
+    app.kubernetes.io/name: redis
+    helm.sh/chart: redis-15.6.4
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: umbrella/charts/secrets/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: secrets
+  labels:
+    helm.sh/chart: secrets-0.1.0
+    app.kubernetes.io/name: secrets
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: umbrella/charts/auth/templates/auth-secrets.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: auth-secrets
+type: Opaque
+data:
+    JWT_SECRET: and0X1NlY3JldA==
+    REFRESH_TOKEN_SECRET: cmVmcmVzaF9UT2tlbgo=
+---
+# Source: umbrella/charts/mongodb/templates/secrets.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: test-mongodb
+  namespace: default
+  labels:
+    app.kubernetes.io/name: mongodb
+    helm.sh/chart: mongodb-10.30.6
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: mongodb
+type: Opaque
+data:
+  mongodb-root-password: "Wng0cjJ2Z3BOTA=="
+  mongodb-passwords: "YWRtaW4="
+---
+# Source: umbrella/charts/redis/templates/secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: test-redis
+  namespace: "default"
+  labels:
+    app.kubernetes.io/name: redis
+    helm.sh/chart: redis-15.6.4
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/managed-by: Helm
+type: Opaque
+data:
+  redis-password: "bTJrTHNySmV2ag=="
+---
+# Source: umbrella/templates/mongo-secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mongo-secret
+type: Opaque
+stringData:
+    MONGO_URI: "mongodb://user:admin@test-mongodb/greenpress"
+    MONGODB_URI: "mongodb://user:admin@test-mongodb/greenpress"
+    ASSETS_MONGODB_URI: "mongodb://user:admin@test-mongodb/greenpress"
+    AUTH_MONGODB_URI:  "mongodb://user:admin@test-mongodb/greenpress"
+    CONTENT_MONGODB_URI: "mongodb://user:admin@test-mongodb/greenpress"
+    SECRETS_MONGODB_URI: "mongodb://user:admin@test-mongodb/greenpress"
+    DRAFTS_MONGODB_URI: "mongodb://user:admin@test-mongodb/greenpress"
+---
+# Source: umbrella/charts/assets/templates/assets-config.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: assets-config
+data:
+    ASSETS_MONGODB_URI: "mongodb://test-mongodb/greenpress"
+    REDIS_URL: ""
+    SECRETS_SERVICE_URL: "test-secrets"
+    SECRETS_SERVICE_PORT: "9002"
+    AUTH_SERVICE_URL: "test-auth"
+    SECRETS_TOKEN: "stamm"
+    INTERNAL_SECRET: "staaml"
+    IP: "0.0.0.0"
+---
+# Source: umbrella/charts/auth/templates/auth-config.yml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: auth-config
+data:
+    REDIS_URL: ""
+    AUTH_SERVICE_URL: "test-auth"
+    IP: "0.0.0.0"
+---
+# Source: umbrella/charts/blog-front/templates/blog-front-config.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: blog-front-config
+data:
+    THEME: ${THEME}
+    TENANT: ${TENANT}
+    APPLICATION_URL: ${APPLICATION_URL}
+    CONTENT_SERVICE_URL: "test-content"
+    AUTH_SERVICE_URL: "test-auth"
+    ASSETS_SERVICE_URL: "test-assets"
+    ADMIN_PANEL_URL: "test-admin"
+    IP: "0.0.0.0"
+---
+# Source: umbrella/charts/content/templates/content-config.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: content-config
+data:
+    CONTENT_MONGODB_URI: "mongodb://test-mongodb/greenpress"
+    REDIS_URL: ""
+    AUTH_SERVICE_URL: "test-auth"
+    IP: "0.0.0.0"
+---
+# Source: umbrella/charts/drafts/templates/drafts-config.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: drafts-config
+data:
+    DRAFTS_MONGODB_URI: "mongodb://test-mongodb/greenpress"
+---
+# Source: umbrella/charts/redis/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: test-redis-configuration
+  namespace: "default"
+  labels:
+    app.kubernetes.io/name: redis
+    helm.sh/chart: redis-15.6.4
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/managed-by: Helm
+data:
+  redis.conf: |-
+    # User-supplied common configuration:
+    # Enable AOF https://redis.io/topics/persistence#append-only-file
+    appendonly yes
+    # Disable RDB persistence, AOF persistence already enabled.
+    save ""
+    # End of common configuration
+  master.conf: |-
+    dir /data
+    # User-supplied master configuration:
+    rename-command FLUSHDB ""
+    rename-command FLUSHALL ""
+    # End of master configuration
+  replica.conf: |-
+    dir /data
+    slave-read-only yes
+    # User-supplied replica configuration:
+    rename-command FLUSHDB ""
+    rename-command FLUSHALL ""
+    # End of replica configuration
+---
+# Source: umbrella/charts/redis/templates/health-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: test-redis-health
+  namespace: "default"
+  labels:
+    app.kubernetes.io/name: redis
+    helm.sh/chart: redis-15.6.4
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/managed-by: Helm
+data:
+  ping_readiness_local.sh: |-
+    #!/bin/bash
+
+    [[ -f $REDIS_PASSWORD_FILE ]] && export REDIS_PASSWORD="$(< "${REDIS_PASSWORD_FILE}")"
+    [[ -n "$REDIS_PASSWORD" ]] && export REDISCLI_AUTH="$REDIS_PASSWORD"
+    response=$(
+      timeout -s 3 $1 \
+      redis-cli \
+        -h localhost \
+        -p $REDIS_PORT \
+        ping
+    )
+    if [ "$response" != "PONG" ]; then
+      echo "$response"
+      exit 1
+    fi
+  ping_liveness_local.sh: |-
+    #!/bin/bash
+
+    [[ -f $REDIS_PASSWORD_FILE ]] && export REDIS_PASSWORD="$(< "${REDIS_PASSWORD_FILE}")"
+    [[ -n "$REDIS_PASSWORD" ]] && export REDISCLI_AUTH="$REDIS_PASSWORD"
+    response=$(
+      timeout -s 3 $1 \
+      redis-cli \
+        -h localhost \
+        -p $REDIS_PORT \
+        ping
+    )
+    if [ "$response" != "PONG" ] && [ "$response" != "LOADING Redis is loading the dataset in memory" ]; then
+      echo "$response"
+      exit 1
+    fi
+  ping_readiness_master.sh: |-
+    #!/bin/bash
+
+    [[ -f $REDIS_MASTER_PASSWORD_FILE ]] && export REDIS_MASTER_PASSWORD="$(< "${REDIS_MASTER_PASSWORD_FILE}")"
+    [[ -n "$REDIS_MASTER_PASSWORD" ]] && export REDISCLI_AUTH="$REDIS_MASTER_PASSWORD"
+    response=$(
+      timeout -s 3 $1 \
+      redis-cli \
+        -h $REDIS_MASTER_HOST \
+        -p $REDIS_MASTER_PORT_NUMBER \
+        ping
+    )
+    if [ "$response" != "PONG" ]; then
+      echo "$response"
+      exit 1
+    fi
+  ping_liveness_master.sh: |-
+    #!/bin/bash
+
+    [[ -f $REDIS_MASTER_PASSWORD_FILE ]] && export REDIS_MASTER_PASSWORD="$(< "${REDIS_MASTER_PASSWORD_FILE}")"
+    [[ -n "$REDIS_MASTER_PASSWORD" ]] && export REDISCLI_AUTH="$REDIS_MASTER_PASSWORD"
+    response=$(
+      timeout -s 3 $1 \
+      redis-cli \
+        -h $REDIS_MASTER_HOST \
+        -p $REDIS_MASTER_PORT_NUMBER \
+        ping
+    )
+    if [ "$response" != "PONG" ] && [ "$response" != "LOADING Redis is loading the dataset in memory" ]; then
+      echo "$response"
+      exit 1
+    fi
+  ping_readiness_local_and_master.sh: |-
+    script_dir="$(dirname "$0")"
+    exit_status=0
+    "$script_dir/ping_readiness_local.sh" $1 || exit_status=$?
+    "$script_dir/ping_readiness_master.sh" $1 || exit_status=$?
+    exit $exit_status
+  ping_liveness_local_and_master.sh: |-
+    script_dir="$(dirname "$0")"
+    exit_status=0
+    "$script_dir/ping_liveness_local.sh" $1 || exit_status=$?
+    "$script_dir/ping_liveness_master.sh" $1 || exit_status=$?
+    exit $exit_status
+---
+# Source: umbrella/charts/redis/templates/scripts-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: test-redis-scripts
+  namespace: "default"
+  labels:
+    app.kubernetes.io/name: redis
+    helm.sh/chart: redis-15.6.4
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/managed-by: Helm
+data:
+  start-master.sh: |
+    #!/bin/bash
+
+    [[ -f $REDIS_PASSWORD_FILE ]] && export REDIS_PASSWORD="$(< "${REDIS_PASSWORD_FILE}")"
+    if [[ ! -f /opt/bitnami/redis/etc/master.conf ]];then
+        cp /opt/bitnami/redis/mounted-etc/master.conf /opt/bitnami/redis/etc/master.conf
+    fi
+    if [[ ! -f /opt/bitnami/redis/etc/redis.conf ]];then
+        cp /opt/bitnami/redis/mounted-etc/redis.conf /opt/bitnami/redis/etc/redis.conf
+    fi
+    ARGS=("--port" "${REDIS_PORT}")
+    ARGS+=("--requirepass" "${REDIS_PASSWORD}")
+    ARGS+=("--masterauth" "${REDIS_PASSWORD}")
+    ARGS+=("--include" "/opt/bitnami/redis/etc/redis.conf")
+    ARGS+=("--include" "/opt/bitnami/redis/etc/master.conf")
+    exec redis-server "${ARGS[@]}"
+  start-replica.sh: |
+    #!/bin/bash
+
+    get_port() {
+        hostname="$1"
+        type="$2"
+
+        port_var=$(echo "${hostname^^}_SERVICE_PORT_$type" | sed "s/-/_/g")
+        port=${!port_var}
+        
+        if [ -z "$port" ]; then
+            case $type in
+                "SENTINEL")
+                    echo 26379
+                    ;;
+                "REDIS")
+                    echo 6379
+                    ;;
+            esac
+        else
+            echo $port
+        fi
+    }
+
+    get_full_hostname() {
+        hostname="$1"
+        echo "${hostname}.${HEADLESS_SERVICE}"
+    }
+
+    REDISPORT=$(get_port "$HOSTNAME" "REDIS")
+    
+    [[ -f $REDIS_PASSWORD_FILE ]] && export REDIS_PASSWORD="$(< "${REDIS_PASSWORD_FILE}")"
+    [[ -f $REDIS_MASTER_PASSWORD_FILE ]] && export REDIS_MASTER_PASSWORD="$(< "${REDIS_MASTER_PASSWORD_FILE}")"
+    if [[ ! -f /opt/bitnami/redis/etc/replica.conf ]];then
+        cp /opt/bitnami/redis/mounted-etc/replica.conf /opt/bitnami/redis/etc/replica.conf
+    fi
+    if [[ ! -f /opt/bitnami/redis/etc/redis.conf ]];then
+        cp /opt/bitnami/redis/mounted-etc/redis.conf /opt/bitnami/redis/etc/redis.conf
+    fi
+
+    echo "" >> /opt/bitnami/redis/etc/replica.conf
+    echo "replica-announce-port $REDISPORT" >> /opt/bitnami/redis/etc/replica.conf
+    echo "replica-announce-ip $(get_full_hostname "$HOSTNAME")" >> /opt/bitnami/redis/etc/replica.conf
+    ARGS=("--port" "${REDIS_PORT}")
+    ARGS+=("--slaveof" "${REDIS_MASTER_HOST}" "${REDIS_MASTER_PORT_NUMBER}")
+    ARGS+=("--requirepass" "${REDIS_PASSWORD}")
+    ARGS+=("--masterauth" "${REDIS_MASTER_PASSWORD}")
+    ARGS+=("--include" "/opt/bitnami/redis/etc/redis.conf")
+    ARGS+=("--include" "/opt/bitnami/redis/etc/replica.conf")
+    exec redis-server "${ARGS[@]}"
+---
+# Source: umbrella/charts/secrets/templates/secrets-config.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: secrets-config
+    namespace: default
+data:
+    SECRETS_MONGODB_URI: "mongodb://test-mongodb/greenpress"
+    SECRET: ${SECRETS_SERVICE_SECRET}
+    INTERNAL_SECRET: ${INTERNAL_SECRET}
+---
+# Source: umbrella/charts/mongodb/templates/standalone/pvc.yaml
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: test-mongodb
+  namespace: default
+  labels:
+    app.kubernetes.io/name: mongodb
+    helm.sh/chart: mongodb-10.30.6
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: mongodb
+spec:
+  accessModes:
+    - "ReadWriteOnce"
+  resources:
+    requests:
+      storage: "8Gi"
+---
+# Source: umbrella/charts/admin/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-admin
+  labels:
+    helm.sh/chart: admin-0.1.0
+    app.kubernetes.io/name: admin
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3001
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: admin
+    app.kubernetes.io/instance: test
+---
+# Source: umbrella/charts/assets/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-assets
+  labels:
+    helm.sh/chart: assets-0.1.0
+    app.kubernetes.io/name: assets
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 9003
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: assets
+    app.kubernetes.io/instance: test
+---
+# Source: umbrella/charts/auth/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-auth
+  labels:
+    helm.sh/chart: auth-0.1.0
+    app.kubernetes.io/name: auth
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 9004
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: auth
+    app.kubernetes.io/instance: test
+---
+# Source: umbrella/charts/blog-front/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-blog-front
+  labels:
+    helm.sh/chart: blog-front-0.1.0
+    app.kubernetes.io/name: blog-front
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: blog-front
+    app.kubernetes.io/instance: test
+---
+# Source: umbrella/charts/content/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-content
+  labels:
+    helm.sh/chart: content-0.1.0
+    app.kubernetes.io/name: content
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 9001
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: content
+    app.kubernetes.io/instance: test
+---
+# Source: umbrella/charts/drafts/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-drafts
+  labels:
+    helm.sh/chart: drafts-0.1.0
+    app.kubernetes.io/name: drafts
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 9005
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: drafts
+    app.kubernetes.io/instance: test
+---
+# Source: umbrella/charts/mongodb/templates/standalone/svc.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-mongodb
+  namespace: default
+  labels:
+    app.kubernetes.io/name: mongodb
+    helm.sh/chart: mongodb-10.30.6
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: mongodb
+spec:
+  type: ClusterIP
+  ports:
+    - name: mongodb
+      port: 27017
+      targetPort: mongodb
+      nodePort: null
+  selector:
+    app.kubernetes.io/name: mongodb
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/component: mongodb
+---
+# Source: umbrella/charts/redis/templates/headless-svc.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-redis-headless
+  namespace: "default"
+  labels:
+    app.kubernetes.io/name: redis
+    helm.sh/chart: redis-15.6.4
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+    - name: tcp-redis
+      port: 6379
+      targetPort: redis
+  selector:
+    app.kubernetes.io/name: redis
+    app.kubernetes.io/instance: test
+---
+# Source: umbrella/charts/redis/templates/master/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-redis-master
+  namespace: "default"
+  labels:
+    app.kubernetes.io/name: redis
+    helm.sh/chart: redis-15.6.4
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: master
+spec:
+  type: ClusterIP
+  
+  ports:
+    - name: tcp-redis
+      port: 6379
+      targetPort: redis
+      nodePort: null
+  selector:
+    app.kubernetes.io/name: redis
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/component: master
+---
+# Source: umbrella/charts/redis/templates/replicas/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-redis-replicas
+  namespace: "default"
+  labels:
+    app.kubernetes.io/name: redis
+    helm.sh/chart: redis-15.6.4
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: replica
+spec:
+  type: ClusterIP
+  ports:
+    - name: tcp-redis
+      port: 6379
+      targetPort: redis
+      nodePort: null
+  selector:
+    app.kubernetes.io/name: redis
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/component: replica
+---
+# Source: umbrella/charts/secrets/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-secrets
+  labels:
+    helm.sh/chart: secrets-0.1.0
+    app.kubernetes.io/name: secrets
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 9002
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: secrets
+    app.kubernetes.io/instance: test
+---
+# Source: umbrella/charts/admin/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-admin
+  labels:
+    helm.sh/chart: admin-0.1.0
+    app.kubernetes.io/name: admin
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: admin
+      app.kubernetes.io/instance: test
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: admin
+        app.kubernetes.io/instance: test
+    spec:
+      serviceAccountName: test-admin
+      securityContext:
+        null
+      containers:
+        - name: admin
+          securityContext:
+            null
+          image: "greenpress/admin-panel:latest"
+          imagePullPolicy: 
+          ports:
+            - name: http
+              containerPort: 3001
+              protocol: TCP
+          resources:
+            null
+---
+# Source: umbrella/charts/assets/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-assets
+  labels:
+    helm.sh/chart: assets-0.1.0
+    app.kubernetes.io/name: assets
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: assets
+      app.kubernetes.io/instance: test
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: assets
+        app.kubernetes.io/instance: test
+    spec:
+      serviceAccountName: test-assets
+      securityContext:
+        null
+      containers:
+        - name: assets
+          securityContext:
+            null
+          image: "greenpress/assets:latest"
+          imagePullPolicy: 
+          ports:
+            - name: http
+              containerPort: 9003
+              protocol: TCP
+          # livenessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          # readinessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          env:
+            - name: MONGO_URI
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: "ASSETS_MONGODB_URI"
+            - name: REDIS_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: assets-config
+                  key: "REDIS_URL"
+            - name: SECRETS_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: assets-config
+                  key: "SECRETS_SERVICE_URL"
+            - name: SECRETS_SERVICE_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: assets-config
+                  key: "SECRETS_SERVICE_PORT"
+            - name: AUTH_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: assets-config
+                  key: "AUTH_SERVICE_URL"
+            - name: IP
+              value: "0.0.0.0"
+          resources:
+            null
+---
+# Source: umbrella/charts/auth/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-auth
+  labels:
+    helm.sh/chart: auth-0.1.0
+    app.kubernetes.io/name: auth
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: auth
+      app.kubernetes.io/instance: test
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: auth
+        app.kubernetes.io/instance: test
+    spec:
+      serviceAccountName: test-auth
+      securityContext:
+        null
+      containers:
+        - name: auth
+          securityContext:
+            null
+          image: "greenpress/auth:latest"
+          imagePullPolicy: 
+          ports:
+            - name: http
+              containerPort: 9004
+              protocol: TCP
+          env: 
+            - name: MONGO_URI
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: "AUTH_MONGODB_URI"
+            - name: REDIS_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: auth-config
+                  key: "REDIS_URL"
+            - name: IP
+              valueFrom:
+                configMapKeyRef:
+                  name: auth-config
+                  key: "IP"
+          resources:
+            null
+---
+# Source: umbrella/charts/blog-front/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-blog-front
+  labels:
+    helm.sh/chart: blog-front-0.1.0
+    app.kubernetes.io/name: blog-front
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: blog-front
+      app.kubernetes.io/instance: test
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: blog-front
+        app.kubernetes.io/instance: test
+    spec:
+      serviceAccountName: test-blog-front
+      securityContext:
+        null
+      containers:
+        - name: blog-front
+          securityContext:
+            null
+          image: "greenpress/blog-front:latest"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+          env: 
+            - name: MONGO_URI
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: "MONGO_URI"
+            - name: CONTENT_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: blog-front-config
+                  key: "CONTENT_SERVICE_URL"
+            - name: AUTH_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: blog-front-config
+                  key: "AUTH_SERVICE_URL"
+            - name: ASSETS_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: blog-front-config
+                  key: "ASSETS_SERVICE_URL"
+            - name: ADMIN_PANEL_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: blog-front-config
+                  key: "ADMIN_PANEL_URL"
+            - name: IP
+              valueFrom:
+                configMapKeyRef:
+                  name: blog-front-config
+                  key: "IP"
+          resources:
+            null
+---
+# Source: umbrella/charts/content/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-content
+  labels:
+    helm.sh/chart: content-0.1.0
+    app.kubernetes.io/name: content
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: content
+      app.kubernetes.io/instance: test
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: content
+        app.kubernetes.io/instance: test
+    spec:
+      serviceAccountName: test-content
+      securityContext:
+        null
+      containers:
+        - name: content
+          securityContext:
+            null
+          image: "greenpress/content:latest"
+          imagePullPolicy: 
+          ports:
+            - name: http
+              containerPort: 9001
+              protocol: TCP
+          env: 
+            - name: MONGO_URI
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: "CONTENT_MONGODB_URI"
+            - name: REDIS_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: content-config
+                  key: "REDIS_URL"
+            - name: AUTH_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: content-config
+                  key: "AUTH_SERVICE_URL"
+            - name: IP
+              valueFrom:
+                configMapKeyRef:
+                  name: content-config
+                  key: "IP"     
+          resources:
+            null
+---
+# Source: umbrella/charts/drafts/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-drafts
+  labels:
+    helm.sh/chart: drafts-0.1.0
+    app.kubernetes.io/name: drafts
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: drafts
+      app.kubernetes.io/instance: test
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: drafts
+        app.kubernetes.io/instance: test
+    spec:
+      serviceAccountName: test-drafts
+      securityContext:
+        null
+      containers:
+        - name: drafts
+          securityContext:
+            null
+          image: "greenpress/drafts:latest"
+          imagePullPolicy: 
+          ports:
+            - name: http
+              containerPort: 9005
+              protocol: TCP
+          env:
+            - name: MONGO_URI
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: "DRAFTS_MONGODB_URI"
+            - name: IP
+              value: "0.0.0.0"
+          resources:
+            null
+---
+# Source: umbrella/charts/mongodb/templates/standalone/dep-sts.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-mongodb
+  namespace: default
+  labels:
+    app.kubernetes.io/name: mongodb
+    helm.sh/chart: mongodb-10.30.6
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: mongodb
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: mongodb
+      app.kubernetes.io/instance: test
+      app.kubernetes.io/component: mongodb
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: mongodb
+        helm.sh/chart: mongodb-10.30.6
+        app.kubernetes.io/instance: test
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/component: mongodb
+    spec:
+      
+      serviceAccountName: test-mongodb
+      affinity:
+        podAffinity:
+          
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: mongodb
+                    app.kubernetes.io/instance: test
+                    app.kubernetes.io/component: mongodb
+                namespaces:
+                  - "default"
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+        nodeAffinity:
+          
+      securityContext:
+        fsGroup: 1001
+        sysctls: []
+      containers:
+        - name: mongodb
+          image: docker.io/bitnami/mongodb:4.4.10-debian-10-r44
+          imagePullPolicy: "IfNotPresent"
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1001
+          env:
+            - name: BITNAMI_DEBUG
+              value: "false"
+            - name: MONGODB_EXTRA_USERNAMES
+              value: "user"
+            - name: MONGODB_EXTRA_DATABASES
+              value: "greenpress"
+            - name: MONGODB_EXTRA_PASSWORDS
+              valueFrom:
+                secretKeyRef:
+                  name: test-mongodb
+                  key: mongodb-passwords
+            - name: MONGODB_ROOT_USER
+              value: "root"
+            - name: MONGODB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: test-mongodb
+                  key: mongodb-root-password
+            - name: ALLOW_EMPTY_PASSWORD
+              value: "no"
+            - name: MONGODB_SYSTEM_LOG_VERBOSITY
+              value: "0"
+            - name: MONGODB_DISABLE_SYSTEM_LOG
+              value: "no"
+            - name: MONGODB_DISABLE_JAVASCRIPT
+              value: "no"
+            - name: MONGODB_ENABLE_JOURNAL
+              value: "yes"
+            - name: MONGODB_ENABLE_IPV6
+              value: "no"
+            - name: MONGODB_ENABLE_DIRECTORY_PER_DB
+              value: "no"
+          ports:
+            - name: mongodb
+              containerPort: 27017
+          livenessProbe:
+            exec:
+              command:
+                - mongo
+                - --disableImplicitSessions
+                - --eval
+                - "db.adminCommand('ping')"
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 6
+          readinessProbe:
+            exec:
+              command:
+                - bash
+                - -ec
+                - |
+                  # Run the proper check depending on the version
+                  [[ $(mongo --version | grep "MongoDB shell") =~ ([0-9]+\.[0-9]+\.[0-9]+) ]] && VERSION=${BASH_REMATCH[1]}
+                  . /opt/bitnami/scripts/libversion.sh
+                  VERSION_MAJOR="$(get_sematic_version "$VERSION" 1)"
+                  VERSION_MINOR="$(get_sematic_version "$VERSION" 2)"
+                  VERSION_PATCH="$(get_sematic_version "$VERSION" 3)"
+                  if [[ "$VERSION_MAJOR" -ge 4 ]] && [[ "$VERSION_MINOR" -ge 4 ]] && [[ "$VERSION_PATCH" -ge 2 ]]; then
+                      mongo --disableImplicitSessions $TLS_OPTIONS --eval 'db.hello().isWritablePrimary || db.hello().secondary' | grep -q 'true'
+                  else
+                      mongo --disableImplicitSessions $TLS_OPTIONS --eval 'db.isMaster().ismaster || db.isMaster().secondary' | grep -q 'true'
+                  fi
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 6
+          resources:
+            limits: {}
+            requests: {}
+          volumeMounts:
+            - name: datadir
+              mountPath: /bitnami/mongodb
+              subPath: 
+      volumes:
+        - name: datadir
+          persistentVolumeClaim:
+            claimName: test-mongodb
+---
+# Source: umbrella/charts/secrets/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-secrets
+  labels:
+    helm.sh/chart: secrets-0.1.0
+    app.kubernetes.io/name: secrets
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: secrets
+      app.kubernetes.io/instance: test
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: secrets
+        app.kubernetes.io/instance: test
+    spec:
+      serviceAccountName: secrets
+      securityContext:
+        null
+      containers:
+        - name: secrets
+          securityContext:
+            null
+          image: "greenpress/secrets:latest"
+          imagePullPolicy: 
+          ports:
+            - name: http
+              containerPort: 9002
+              protocol: TCP
+          env: 
+            - name: MONGO_URI
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: "SECRETS_MONGODB_URI"
+            - name: SECRET
+              valueFrom:
+                configMapKeyRef:
+                  name: secrets-config
+                  key: "SECRET"
+            - name: INTERNAL_SECRET
+              valueFrom:
+                configMapKeyRef:
+                  name: secrets-config
+                  key: "INTERNAL_SECRET"
+            - name: IP 
+              value: "0.0.0.0"
+          resources:
+            null
+---
+# Source: umbrella/charts/blog-front/templates/hpa.yaml
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: test-blog-front
+  labels:
+    helm.sh/chart: blog-front-0.1.0
+    app.kubernetes.io/name: blog-front
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: test-blog-front
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: 80
+---
+# Source: umbrella/charts/redis/templates/master/statefulset.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: test-redis-master
+  namespace: "default"
+  labels:
+    app.kubernetes.io/name: redis
+    helm.sh/chart: redis-15.6.4
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: master
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: redis
+      app.kubernetes.io/instance: test
+      app.kubernetes.io/component: master
+  serviceName: test-redis-headless
+  updateStrategy:
+    rollingUpdate: {}
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: redis
+        helm.sh/chart: redis-15.6.4
+        app.kubernetes.io/instance: test
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/component: master
+      annotations:
+        checksum/configmap: b2e040810ca6b82ddfd877451b6b733dbc1da47d6bd3a94dfeca5cc59fa4cca7
+        checksum/health: 5620c366c8540b136da74215b31256fff89a9dd31c85a6e5a35497d36fea927a
+        checksum/scripts: fbeb51575f6e69e7b994d299840521564771e2ba577ede5279aa1b7fb64a6fd3
+        checksum/secret: 1fe5035456e9a03569b34d8d9847c8040c6b24c925c3c1b088b67709b8adb300
+    spec:
+      
+      securityContext:
+        fsGroup: 1001
+      serviceAccountName: test-redis
+      affinity:
+        podAffinity:
+          
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: redis
+                    app.kubernetes.io/instance: test
+                    app.kubernetes.io/component: master
+                namespaces:
+                  - "default"
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+        nodeAffinity:
+          
+      terminationGracePeriodSeconds: 30
+      containers:
+        - name: redis
+          image: docker.io/bitnami/redis:6.2.6-debian-10-r53
+          imagePullPolicy: "IfNotPresent"
+          securityContext:
+            runAsUser: 1001
+          command:
+            - /bin/bash
+          args:
+            - -c
+            - /opt/bitnami/scripts/start-scripts/start-master.sh
+          env:
+            - name: BITNAMI_DEBUG
+              value: "false"
+            - name: REDIS_REPLICATION_MODE
+              value: master
+            - name: ALLOW_EMPTY_PASSWORD
+              value: "no"
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: test-redis
+                  key: redis-password
+            - name: REDIS_TLS_ENABLED
+              value: "no"
+            - name: REDIS_PORT
+              value: "6379"
+          ports:
+            - name: redis
+              containerPort: 6379
+          livenessProbe:
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            # One second longer than command timeout should prevent generation of zombie processes.
+            timeoutSeconds: 6
+            successThreshold: 1
+            failureThreshold: 5
+            exec:
+              command:
+                - sh
+                - -c
+                - /health/ping_liveness_local.sh 5
+          readinessProbe:
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            timeoutSeconds: 2
+            successThreshold: 1
+            failureThreshold: 5
+            exec:
+              command:
+                - sh
+                - -c
+                - /health/ping_readiness_local.sh 1
+          resources:
+            limits: {}
+            requests: {}
+          volumeMounts:
+            - name: start-scripts
+              mountPath: /opt/bitnami/scripts/start-scripts
+            - name: health
+              mountPath: /health
+            - name: redis-data
+              mountPath: /data
+              subPath: 
+            - name: config
+              mountPath: /opt/bitnami/redis/mounted-etc
+            - name: redis-tmp-conf
+              mountPath: /opt/bitnami/redis/etc/
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: start-scripts
+          configMap:
+            name: test-redis-scripts
+            defaultMode: 0755
+        - name: health
+          configMap:
+            name: test-redis-health
+            defaultMode: 0755
+        - name: config
+          configMap:
+            name: test-redis-configuration
+        - name: redis-tmp-conf
+          emptyDir: {}
+        - name: tmp
+          emptyDir: {}
+  volumeClaimTemplates:
+    - metadata:
+        name: redis-data
+        labels:
+          app.kubernetes.io/name: redis
+          app.kubernetes.io/instance: test
+          app.kubernetes.io/component: master
+      spec:
+        accessModes:
+          - "ReadWriteOnce"
+        resources:
+          requests:
+            storage: "8Gi"
+---
+# Source: umbrella/charts/redis/templates/replicas/statefulset.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: test-redis-replicas
+  namespace: "default"
+  labels:
+    app.kubernetes.io/name: redis
+    helm.sh/chart: redis-15.6.4
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: replica
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: redis
+      app.kubernetes.io/instance: test
+      app.kubernetes.io/component: replica
+  serviceName: test-redis-headless
+  updateStrategy:
+    rollingUpdate: {}
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: redis
+        helm.sh/chart: redis-15.6.4
+        app.kubernetes.io/instance: test
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/component: replica
+      annotations:
+        checksum/configmap: b2e040810ca6b82ddfd877451b6b733dbc1da47d6bd3a94dfeca5cc59fa4cca7
+        checksum/health: 5620c366c8540b136da74215b31256fff89a9dd31c85a6e5a35497d36fea927a
+        checksum/scripts: fbeb51575f6e69e7b994d299840521564771e2ba577ede5279aa1b7fb64a6fd3
+        checksum/secret: 2aa7e810321da5b2cb9686ca1c64d86bd02f0b7bf75961e8441f68ada265e4c3
+    spec:
+      
+      securityContext:
+        fsGroup: 1001
+      serviceAccountName: test-redis
+      affinity:
+        podAffinity:
+          
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: redis
+                    app.kubernetes.io/instance: test
+                    app.kubernetes.io/component: replica
+                namespaces:
+                  - "default"
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+        nodeAffinity:
+          
+      terminationGracePeriodSeconds: 30
+      containers:
+        - name: redis
+          image: docker.io/bitnami/redis:6.2.6-debian-10-r53
+          imagePullPolicy: "IfNotPresent"
+          securityContext:
+            runAsUser: 1001
+          command:
+            - /bin/bash
+          args:
+            - -c
+            - /opt/bitnami/scripts/start-scripts/start-replica.sh
+          env:
+            - name: BITNAMI_DEBUG
+              value: "false"
+            - name: REDIS_REPLICATION_MODE
+              value: slave
+            - name: REDIS_MASTER_HOST
+              value: test-redis-master-0.test-redis-headless.default.svc.cluster.local
+            - name: REDIS_MASTER_PORT_NUMBER
+              value: "6379"
+            - name: ALLOW_EMPTY_PASSWORD
+              value: "no"
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: test-redis
+                  key: redis-password
+            - name: REDIS_MASTER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: test-redis
+                  key: redis-password
+            - name: REDIS_TLS_ENABLED
+              value: "no"
+            - name: REDIS_PORT
+              value: "6379"
+          ports:
+            - name: redis
+              containerPort: 6379
+          livenessProbe:
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            timeoutSeconds: 6
+            successThreshold: 1
+            failureThreshold: 5
+            exec:
+              command:
+                - sh
+                - -c
+                - /health/ping_liveness_local_and_master.sh 5
+          readinessProbe:
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            timeoutSeconds: 2
+            successThreshold: 1
+            failureThreshold: 5
+            exec:
+              command:
+                - sh
+                - -c
+                - /health/ping_readiness_local_and_master.sh 1
+          resources:
+            limits: {}
+            requests: {}
+          volumeMounts:
+            - name: start-scripts
+              mountPath: /opt/bitnami/scripts/start-scripts
+            - name: health
+              mountPath: /health
+            - name: redis-data
+              mountPath: /data
+              subPath: 
+            - name: config
+              mountPath: /opt/bitnami/redis/mounted-etc
+            - name: redis-tmp-conf
+              mountPath: /opt/bitnami/redis/etc
+      volumes:
+        - name: start-scripts
+          configMap:
+            name: test-redis-scripts
+            defaultMode: 0755
+        - name: health
+          configMap:
+            name: test-redis-health
+            defaultMode: 0755
+        - name: config
+          configMap:
+            name: test-redis-configuration
+        - name: redis-tmp-conf
+          emptyDir: {}
+  volumeClaimTemplates:
+    - metadata:
+        name: redis-data
+        labels:
+          app.kubernetes.io/name: redis
+          app.kubernetes.io/instance: test
+          app.kubernetes.io/component: replica
+      spec:
+        accessModes:
+          - "ReadWriteOnce"
+        resources:
+          requests:
+            storage: "8Gi"
+---
+# Source: umbrella/charts/blog-front/templates/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: test-blog-front
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  rules:
+  - host: www.blog-front.k3d.localhost
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: "test-blog-front"
+            port:
+              number: 80
+---
+# Source: umbrella/charts/blog-front/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "test-blog-front-test-connection"
+  labels:
+    helm.sh/chart: blog-front-0.1.0
+    app.kubernetes.io/name: blog-front
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['test-blog-front:80']
+  restartPolicy: Never

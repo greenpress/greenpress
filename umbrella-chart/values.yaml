@@ -4,6 +4,8 @@
 blog-front:
   replicaCount: 1
   name: blog-front
+  healthCheck:
+    enabled: false
 
   image:
     repository: greenpress/blog-front
@@ -22,20 +24,19 @@ blog-front:
   containerPort: 3000
 
   service:
-    type: LoadBalancer
+    type: ClusterIP
     port: 80
 
   ingress:
     enabled: true
     className: ""
-    annotations: {}
-    # kubernetes.io/ingress.class: nginx
+    annotations: {ingress.kubernetes.io/ssl-redirect: "false"}
+    # kubernetes.io/ingress.class: ngin
     # kubernetes.io/tls-acme: "true"
-    hosts:
-      - host: chart-example.local
-        paths:
-          - path: /
-            pathType: ImplementationSpecific
+    host: www.blog-front.k3d.localhost
+
+
+
 
   autoscaling:
     enabled: true 
@@ -57,6 +58,8 @@ assets:
     create: true
     annotations: {}
     name: ""
+  healthCheck:
+    enabled: false
 
 
 
@@ -75,6 +78,8 @@ auth:
     create: true
     annotations: {}
     name: ""
+  healthCheck:
+    enabled: false
 
 
 content:
@@ -92,6 +97,8 @@ content:
     create: true
     annotations: {}
     name: ""
+  healthCheck:
+    enabled: false
 
 admin:
   name: admin
@@ -101,13 +108,16 @@ admin:
     repository: greenpress/admin-panel
     tag: latest
   service:
-    type: LoadBalancer
+    type: ClusterIP
     port: 3001
 
   serviceAccount:
     create: true
     annotations: {}
     name: ""
+  healthCheck:
+    enabled: false
+
 
 secrets:
   name: secrets
@@ -123,6 +133,9 @@ secrets:
     create: true
     annotations: {}
     name: "secrets"
+  healthCheck:
+    enabled: false
+
 drafts:
   name: drafts
   replicaCount: 1
@@ -137,6 +150,8 @@ drafts:
     create: true
     annotations: {}
     name: ""
+  healthCheck:
+    enabled: false
 
 mongodb:
   auth: 
