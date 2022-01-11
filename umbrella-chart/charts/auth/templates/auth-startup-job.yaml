@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: auth-helper-runner
+spec:
+  template:
+    spec:
+      containers:
+      - name: auth-helper-runner
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        env:
+          - name: MONGO_URI
+            valueFrom:
+              secretKeyRef:
+                name: mongo-secret
+                key: "AUTH_MONGODB_URI"
+        command: 
+        - /bin/sh
+        - -c
+        - sleep 60; cd ./helpers; node init; echo "done";
+      restartPolicy: Never
+  backoffLimit: 4

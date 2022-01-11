@@ -7,6 +7,8 @@ blog-front:
   healthCheck:
     enabled: false
 
+  APPLICATION_URL: localhost:3000 # set this to the main dns of the app
+
   image:
     repository: greenpress/blog-front
     pullPolicy: IfNotPresent
@@ -117,6 +119,18 @@ admin:
     name: ""
   healthCheck:
     enabled: false
+
+auth-startup-job:
+  image:
+    repository: greenpress/auth
+    tag: latest
+
+
+content-startup-job:
+  image:
+    repository: greenpress/content
+    tag: latest
+
 
 
 secrets:

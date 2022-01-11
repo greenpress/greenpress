@@ -5,7 +5,7 @@ metadata:
 data:
     THEME: ${THEME}
     TENANT: ${TENANT}
-    APPLICATION_URL: "www.blog-front.k3d.localhost"
+    APPLICATION_URL: "{{ .Values.APPLICATION_URL }}"
     CONTENT_SERVICE_URL: "{{ .Release.Name }}-content"
     AUTH_SERVICE_URL: "{{ .Release.Name }}-auth"
     ASSETS_SERVICE_URL: "{{ .Release.Name }}-assets"
