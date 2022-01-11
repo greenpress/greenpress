@@ -175,9 +175,8 @@ mongodb:
     enabled: true
   architecture: standalone
   
-
-  
-
-
-
-
+argo-cd:
+  configs:
+    argocdServerAdminPassword: "stamSisma"
+  server:
+    

@@ -11,5 +11,4 @@ greenpress-*.tgz
 *.lerna_backup
 coverage
 *k8s
-umbrella-chart/charts/mongodb-10.30.6.tgz
-umbrella-chart/charts/redis-15.6.4.tgz
+*.tgz

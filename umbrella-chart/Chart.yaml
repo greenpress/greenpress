@@ -30,6 +30,8 @@ dependencies:
     repository: "https://charts.bitnami.com/bitnami"
     condition: mongo.enabled
   - name: redis
-    version: 15.6.4
+    version: 15.7.2
     repository: "https://charts.bitnami.com/bitnami"
-
+  - name: argo-cd
+    version: 3.29.5
+    repository: https://argoproj.github.io/argo-helm
