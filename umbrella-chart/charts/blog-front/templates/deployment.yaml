@@ -58,6 +58,11 @@ spec:
                 configMapKeyRef:
                   name: blog-front-config
                   key: "CONTENT_SERVICE_URL"
+            - name: DRAFTS_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: blog-front-config
+                  key: "DRAFTS_SERVICE_URL"
             - name: AUTH_SERVICE_URL
               valueFrom:
                 configMapKeyRef:

@@ -8,6 +8,7 @@ data:
     APPLICATION_URL: "{{ .Values.APPLICATION_URL }}"
     CONTENT_SERVICE_URL: "{{ .Release.Name }}-content"
     AUTH_SERVICE_URL: "{{ .Release.Name }}-auth"
+    DRAFTS_SERVICE_URL: "{{ .Release.Name }}-drafts"
     ASSETS_SERVICE_URL: "{{ .Release.Name }}-assets"
     ADMIN_PANEL_URL: "{{ .Release.Name }}-admin"
     IP: "0.0.0.0"

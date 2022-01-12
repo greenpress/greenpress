@@ -36,12 +36,9 @@ blog-front:
     # kubernetes.io/ingress.class: ngin
     # kubernetes.io/tls-acme: "true"
     host: www.blog-front.k3d.localhost
-
-
-
-
+  
   autoscaling:
-    enabled: true 
+    enabled: false
     minReplicas: 1
     maxReplicas: 3
     targetCPUUtilizationPercentage: 80

@@ -7,7 +7,8 @@ spec:
   project: default
   source:
     repoURL: https://github.com/tikokito123/greenpress.git
-    targetRevision: HEAD
+    targetRevision: helm-charts
+    chart: 
     path: umbrella-chart
   destination:
     server: https://kubernetes.default.svc
