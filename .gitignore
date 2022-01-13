@@ -12,3 +12,4 @@ greenpress-*.tgz
 coverage
 *k8s
 *.tgz
+Chart.lock
