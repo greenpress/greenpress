@@ -32,6 +32,4 @@ dependencies:
   - name: redis
     version: 15.7.2
     repository: "https://charts.bitnami.com/bitnami"
-  - name: argo-cd
-    version: 3.29.5
-    repository: https://argoproj.github.io/argo-helm
+
