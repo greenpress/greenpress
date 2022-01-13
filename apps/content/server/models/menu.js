@@ -44,14 +44,14 @@ MenuSchema.query.enrichment = function () {
 }
 
 MenuSchema.methods.storeInCache = function () {
-  return cacheManager.setItem(`${cachePrefix}single:${this.name}.${this.tenant}`, JSON.stringify(menu.toObject()))
+  return cacheManager.setItem(`${cachePrefix}single:${this.name}.${this.tenant}`, JSON.stringify(this.toObject()))
 }
 
 MenuSchema.methods.clearInCache = function () {
   return cacheManager.setItem(`${cachePrefix}single:${this.name}.${this.tenant}`, '')
 }
 
-MenuSchema.statics.getSingleMenu = function getSingleLayout({ tenant, name, useCache = true }) {
+MenuSchema.statics.getSingleMenu = function getSingleMenu({ tenant, name, useCache = true }) {
   if (useCache) {
     return cacheManager.wrap(
       `${cachePrefix}single:${name}.${tenant}`,
