@@ -6,3 +6,4 @@ require('./posts')(app);
 require('./menus')(app);
 require('./tags')(app);
 require('./blocks')(app);
+require('./layouts')(app);

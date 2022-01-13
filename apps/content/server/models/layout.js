@@ -11,7 +11,7 @@ const LayoutContentSchema = new mongoose.Schema({
   },
   predefined: Boolean,
   classes: String,
-  props: mongoose.Schema.Mixed,
+  props: mongoose.Schema.Types.Mixed,
 });
 LayoutContentSchema.add({
   children: [LayoutContentSchema]
@@ -56,15 +56,16 @@ LayoutSchema.statics.getSingleLayout = function getSingleLayout({ kind, tenant, 
         .select('tenant content connectedData') // must retrieve connectedData and merge with content layout
         .lean()
         .exec()
-        .then(layout => {
-          layout.connectedData.forEach((item) => {
+        .then(async (layout) => {
+          await Promise.all(layout.connectedData.map(async (item) => {
             const { kind, identifier } = item;
             let data;
             switch (kind) {
-              case 'menu': data = await Menu.getSingleMenu({ name: identifier, tenant: layout.tenant });
+              case 'menu': data = await Menu.getSingleMenu({ name: identifier, tenant });
             }
-            item.data = data;
-          });
+            item.data = JSON.parse(data);
+          }));
+          return JSON.stringify(layout);
         })
     );
   }

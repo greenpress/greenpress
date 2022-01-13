@@ -17,7 +17,7 @@ module.exports = {
   },
   tenant: process.env.BASIC_TENANT || '0',
   tempFolder: process.env.TEMP_FOLDER || (join(appAbsolutePath, 'tmp')),
-  excludedServices: process.env.npm_config_x ? process.env.npm_config_x.split(',') : [ 'db' ],
+  excludedServices: process.env.npm_config_x ? process.env.npm_config_x.split(',') : IS_PROD ? [ 'db' ] : [],
   noDocker: process.env.npm_config_noDocker || false,
   memoryLimitation: process.env.MAX_MEMORY_USAGE,
   mongoUri: process.env.MONGODB_URI || 'mongodb://localhost/greenpress',

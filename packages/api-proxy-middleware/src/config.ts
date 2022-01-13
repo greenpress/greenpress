@@ -30,6 +30,7 @@ export function getApiProxyConfig(): IApiProxyConfig {
         '/api/tags',
         '/api/blocks',
         '/api/configurations',
+        '/api/layouts'
       ]
     }),
     authService: getServiceFromEnvVars('auth', 'AUTH_SERVICE', {

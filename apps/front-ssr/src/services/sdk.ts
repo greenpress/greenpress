@@ -6,6 +6,15 @@ const appUrl = import.meta.env.SSR ?
 
 const fetchFn = globalThis.fetch;
 
-const sdk = new GreenpressSDK({appUrl, fetch: fetchFn})
+const sdk = new GreenpressSDK({ appUrl, fetch: fetchFn })
+
+export const loadLayoutPayload = import.meta.env.SSR ? (kind: string) => {
+  return sdk.layouts.getLayout(kind as any).then(layout => {
+    return {
+      layout: layout.content,
+      connectedData: layout.connectedData || []
+    }
+  })
+} : true;
 
 export default sdk;
