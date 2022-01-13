@@ -6,6 +6,7 @@ import GpMenus from './menus';
 import GpConfigurations from './configurations';
 import GpAuthentication from './authentication';
 import GpBlocks from './blocks';
+import GpLayouts from './layouts';
 
 export default class GreenpressSDK extends BaseSDK {
 
@@ -13,6 +14,7 @@ export default class GreenpressSDK extends BaseSDK {
   posts: GpPosts;
   menus: GpMenus;
   blocks: GpBlocks;
+  layouts: GpLayouts;
   configurations: GpConfigurations;
   authentication: GpAuthentication;
 
@@ -22,6 +24,7 @@ export default class GreenpressSDK extends BaseSDK {
     this.posts = new GpPosts(this.options);
     this.menus = new GpMenus(this.options);
     this.blocks = new GpBlocks(this.options);
+    this.layouts = new GpLayouts(this.options);
     this.configurations = new GpConfigurations(this.options);
     this.authentication = new GpAuthentication(this.options);
   }
