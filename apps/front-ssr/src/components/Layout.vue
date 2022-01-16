@@ -1,5 +1,5 @@
 <template>
-  <LayoutItems :items="layout" :internals="internalComponents"/>
+  <LayoutItems v-if="layout" :items="layout" :internals="internalComponents"/>
 </template>
 
 <script lang="ts">
@@ -12,11 +12,12 @@ export default {
   components: {LayoutItems},
   props: {
     layout: Array as () => LayoutItem[],
-    connectedData: Array as () => {kind: string, identifier: string, data: any, reference: string}[]
+    connectedData: Array as () => { kind: string, identifier: string, data: any, reference: string }[]
   },
   async setup(props: { layout: LayoutItem[], connectedData: any[] }) {
     const references = new Map<string, any>();
     props.connectedData.forEach(({reference, data}) => references.set(reference, data));
+
     const internalComponents = await getLazyLayoutComponents(props.layout, references);
 
     return {internalComponents}
