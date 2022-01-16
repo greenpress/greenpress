@@ -9,6 +9,7 @@ import Layout from '../src/components/Layout.vue';
 import {LayoutItem} from '../src/components/types/layout';
 
 export const path = '/'
+export const name = 'home'
 
 export default {
   components: {Layout},

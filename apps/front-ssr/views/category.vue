@@ -8,6 +8,8 @@ import Layout from '../src/components/Layout.vue';
 import {LayoutItem} from '../src/components/types/layout';
 
 export const path = '/:category'
+export const name = 'category'
+
 
 export default {
   components: {Layout},

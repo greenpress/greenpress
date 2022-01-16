@@ -9,6 +9,7 @@ import Layout from '../src/components/Layout.vue';
 import {LayoutItem} from '../src/components/types/layout';
 
 export const path = '/search'
+export const name = 'search'
 
 export default {
   components: {Layout},

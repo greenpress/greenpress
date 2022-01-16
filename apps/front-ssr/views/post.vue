@@ -8,6 +8,7 @@ import Layout from '../src/components/Layout.vue';
 import {LayoutItem} from '../src/components/types/layout';
 
 export const path = '/:category/:post'
+export const name = 'post'
 
 export default {
   components: {Layout},
