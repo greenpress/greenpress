@@ -8,6 +8,7 @@ import Layout from '../src/components/Layout.vue';
 import {LayoutItem} from '../src/components/types/layout';
 
 export const path = '/tag/:tag'
+export const name = 'tag'
 
 export default {
   components: {Layout},
