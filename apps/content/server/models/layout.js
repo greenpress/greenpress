@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
+const fetch = require('node-fetch');
 const cacheManager = require("../utils/cache-manager");
 const Menu = require('./menu');
+const Block = require('./block');
+
+
 
 const cachePrefix = "layout:";
 
@@ -32,8 +36,9 @@ const LayoutSchema = new mongoose.Schema({
     {
       kind: {
         type: String,
-        enum: ['block', 'menu', 'http']
+        enum: ['block', 'menu', 'http', 'posts', 'categoryPosts', 'category']
       },
+      context: mongoose.Schema.Types.Mixed,
       identifier: String,
       reference: String
     }
@@ -58,12 +63,19 @@ LayoutSchema.statics.getSingleLayout = function getSingleLayout({ kind, tenant, 
         .exec()
         .then(async (layout) => {
           await Promise.all(layout.connectedData.map(async (item) => {
-            const { kind, identifier } = item;
+            const { kind, identifier, context } = item;
             let data;
             switch (kind) {
-              case 'menu': data = await Menu.getSingleMenu({ name: identifier, tenant });
+              case 'menu': data = await Menu.getSingleMenu({ name: identifier, tenant }); break;
+              case 'block': data = await Block.getSingleBlock({ blockId: identifier, tenant }); break;
+              case 'http': data = (await fetch({
+                url: identifier,
+                method: context?.method || 'GET',
+                headers: { tenant },
+              })).then(res => res.text());
+              break;
             }
-            item.data = JSON.parse(data);
+            item.data = data && JSON.parse(data);
           }));
           return JSON.stringify(layout);
         })

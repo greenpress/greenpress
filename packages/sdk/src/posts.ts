@@ -31,6 +31,7 @@ export type GetPostsListOptions = {
   lean?: 'true',
   limit?: string,
   offset?: string,
+  category: string
 }
 
 export default class GpPosts extends BaseSDK {

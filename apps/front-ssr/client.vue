@@ -1,22 +1,43 @@
 <template>
-  <router-view v-slot="{ Component }">
-    <Suspense @resolve="hydrationDone">
-      <component :key="$route.path" :is="Component"/>
-    </Suspense>
-  </router-view>
+  <template v-if="error">
+    <Error :error="error" />
+  </template>
+  <template v-else>
+    <Router />
+  </template>
 </template>
 
 <script>
+import { computed, onErrorCaptured } from 'vue'
 import { useHead } from '@vueuse/head'
-import { hydrationDone } from 'fastify-vite-vue/client.mjs'
-import head from '@app/head.js'
+import { useIsomorphic } from 'fastify-vite-vue/app'
+
+import Router from '@app/router.vue'
+import Error from '@app/error.vue'
+
+import * as head from '@app/head.js'
 
 export default {
+  components: {
+    Error,
+    Router,
+  },
   setup() {
-    if (head) {
-      useHead(head)
+    const ctx = useIsomorphic()
+
+    if (typeof head?.default === 'function') {
+      useHead(head.default(ctx))
+    } else {
+      useHead(head.default ?? head)
     }
-    return { hydrationDone }
+
+    onErrorCaptured((error) => {
+      ctx.$error = error
+    })
+
+    return {
+      error: computed(() => ctx.$error)
+    }
   },
 }
 </script>

@@ -23,6 +23,7 @@
     "@greenpress/api-kit": "^2.0.19",
     "@greenpress/cache-manager": "^2.0.15",
     "mongoose": "^5.10.5",
+    "node-fetch": "^2.6.1",
     "shortid": "^2.2.14"
   },
   "publishConfig": {
