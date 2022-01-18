@@ -23,6 +23,7 @@ export interface ILayoutContent {
   component: string;
   predefined: boolean;
   classes: string;
+  children?: ILayoutContent[];
   props: {
     [key: string]: any;
   };

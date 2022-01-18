@@ -1,0 +1,39 @@
+view-builder,
+builder-plugins,
+builder-plugin-item,
+builder-layout,
+builder-layout-item {
+    display: block;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+view-builder {
+    display: flex;
+    flex-direction: row;
+}
+
+builder-layout {
+    flex: 1;
+}
+
+builder-plugin-item {
+    margin: 5px;
+    display: block;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 200ms linear;
+}
+
+builder-plugin-item:hover {
+    background-color: #eee;
+}
+
+builder-plugin-item.dragged {
+    display: block;
+    background-color: #ccc;
+}
+
+builder-layout.drag-enter {
+    background-color: #ccc;
+}
