@@ -6,6 +6,8 @@ export default class BuilderLayoutItem extends HTMLElement {
 
   #content!: ILayoutContent;
 
+  #childrenEl = document.createElement("div");
+
   get content() {
     return this.#content;
   }
@@ -41,31 +43,62 @@ export default class BuilderLayoutItem extends HTMLElement {
       }
     });
 
-    this.addEventListener("dragenter", () => {
+    this.addEventListener("dragenter", (e) => {
+      e.stopImmediatePropagation();
+      console.log("over me", this.#content);
+      state.dragOverContent = this.#content;
       this.classList.add("drag-enter");
     });
 
-    this.addEventListener("dragleave", () => {
+    this.addEventListener("dragleave", (e) => {
+      e.stopImmediatePropagation();
+
+      if (state.dragOverContent === this.#content) {
+        state.dragOverContent = undefined;
+      }
       this.classList.remove("drag-enter");
     });
 
-    this.addEventListener("drop", (event: DropEvent) => {
+    this.addEventListener("drop", (event: DragEvent) => {
       this.classList.remove("drag-enter");
-      const forComponent: string = event.dataTransfer.getData("for");
-      console.log("plugin dropped", forComponent);
-
-      this.#content.children!.push({
-        component: forComponent,
-        predefined: false,
-        classes: "",
-        props: {},
-        children: [],
-      });
+      const forComponent: string = event.dataTransfer!.getData("for");
+      if (state.dragOverContent === this.#content) {
+        this.#content.children!.push({
+          component: forComponent,
+          predefined: false,
+          classes: "",
+          props: {},
+          children: [],
+        });
+        this.renderChildren(this.#content.children);
+      }
     });
   }
 
   render() {
     this.innerHTML = `${this.#content?.component}!!`;
+    this.appendChild(this.#childrenEl);
+    this.renderChildren(this.#content?.children);
     this.draggable = true;
+  }
+
+  renderChildren(content: ILayoutContent[] = []) {
+    content.forEach((item, index) => {
+      const otherChildren = this.#childrenEl.children[
+        index
+      ] as BuilderLayoutItem;
+      if (otherChildren?.content === item) {
+        return;
+      }
+      const el = document.createElement(
+        "builder-layout-item"
+      ) as BuilderLayoutItem;
+      el.content = item;
+      if (otherChildren) {
+        this.#childrenEl.insertBefore(el, this.#childrenEl.children[index]);
+      } else {
+        this.#childrenEl.appendChild(el);
+      }
+    });
   }
 }
