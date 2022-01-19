@@ -9,7 +9,7 @@ const StorageSchema = new mongoose.Schema({
   },
   kind: {
     type: String,
-    enum: ['s3', 'gcs', 'ftp'],
+    enum: ['s3', 'gcs', 'ftp', 'cloudinary'],
     required: true
   },
   name: {
