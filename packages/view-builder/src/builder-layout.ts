@@ -20,19 +20,21 @@ export default class BuilderLayout extends HTMLElement {
       this.classList.remove("drag-enter");
     });
 
-    this.addEventListener("drop", (event: DropEvent) => {
+    this.addEventListener("drop", (event: DragEvent) => {
       this.classList.remove("drag-enter");
-      const forComponent: string = event.dataTransfer.getData("for");
-      console.log("plugin dropped", forComponent);
-
-      state.layout.content.push({
-        component: forComponent,
-        predefined: false,
-        classes: "",
-        props: {},
-        children: [],
-      });
-
+      const forComponent: string = event.dataTransfer!.getData("for");
+      console.log("there is content", state.dragOverContent);
+      if (!state.dragOverContent) {
+        console.log("add to root");
+        state.layout.content.push({
+          component: forComponent,
+          predefined: false,
+          classes: "",
+          props: {},
+          children: [],
+        });
+      }
+      state.dragOverContent = undefined;
       this.render(state.layout.content);
     });
 
@@ -41,7 +43,7 @@ export default class BuilderLayout extends HTMLElement {
     });
   }
 
-  render(content: ILayoutContent) {
+  render(content: ILayoutContent[]) {
     content.forEach((item, index) => {
       const otherChildren = this.children[index] as BuilderLayoutItem;
       if (otherChildren?.content === item) {
