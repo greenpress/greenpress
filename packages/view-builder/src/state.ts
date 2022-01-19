@@ -1,9 +1,10 @@
-import { IPlugin, ILayout } from "./types";
+import { IPlugin, ILayout, ILayoutContent } from "./types";
 
 class BuilderState {
   #plugins: IPlugin[] = [];
   #layout!: ILayout;
 
+  dragOverContent?: ILayoutContent;
   pluginsMap = new Map<string, IPlugin>();
 
   #watcher = document.createElement("div");
