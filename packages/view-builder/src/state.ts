@@ -4,13 +4,35 @@ class BuilderState {
   #plugins: IPlugin[] = [];
   #layout!: ILayout;
 
+  #watcher = document.createElement("div");
+  #draggedContent?: ILayoutContent;
+  #draggedContentCallback?: () => any;
+
   dragOverContent?: ILayoutContent;
   pluginsMap = new Map<string, IPlugin>();
 
-  #watcher = document.createElement("div");
+  get draggedContent() {
+    return this.#draggedContent;
+  }
 
   #emit(key: keyof BuilderState) {
     this.#watcher.dispatchEvent(new CustomEvent(key));
+  }
+
+  setDraggedContent(content: ILayoutContent, callback: () => any) {
+    this.#draggedContent = content;
+    this.#draggedContentCallback = callback;
+  }
+
+  relocateDraggedContent() {
+    this.#draggedContentCallback && this.#draggedContentCallback();
+    this.#draggedContent = undefined;
+    this.#draggedContentCallback = undefined;
+  }
+
+  abortDraggedContent() {
+    this.#draggedContent = undefined;
+    this.#draggedContentCallback = undefined;
   }
 
   watch<K extends keyof BuilderState>(
