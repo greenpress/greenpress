@@ -1,4 +1,5 @@
 import BuilderLayoutItem from "./builder-layout-item";
+import { getNewLayoutItem } from "./layout-service";
 import state from "./state";
 import { ILayoutContent } from "./types";
 
@@ -22,19 +23,15 @@ export default class BuilderLayout extends HTMLElement {
 
     this.addEventListener("drop", (event: DragEvent) => {
       this.classList.remove("drag-enter");
-      const forComponent: string = event.dataTransfer!.getData("for");
       if (!state.dragOverContent) {
-        state.layout.content.push(
-          state.draggedContent || {
-            component: forComponent,
-            predefined: false,
-            classes: "",
-            props: {},
-            children: [],
-          }
-        );
-        state.relocateDraggedContent();
-        this.render(state.layout.content);
+        const match: string = event.dataTransfer!.getData("for");
+
+        const newContentItem = state.draggedContent || getNewLayoutItem(match);
+        if (newContentItem) {
+          state.layout.content.push(newContentItem);
+          state.relocateDraggedContent();
+          this.render(state.layout.content);
+        }
       }
       state.dragOverContent = undefined;
     });
@@ -55,7 +52,7 @@ export default class BuilderLayout extends HTMLElement {
       ) as BuilderLayoutItem;
       el.content = item;
       el.addEventListener("remove", () => {
-        state.layout.content = content.filter(
+        state.layout.content = state.layout.content.filter(
           (content: ILayoutContent) => content !== item
         );
         el.remove();
