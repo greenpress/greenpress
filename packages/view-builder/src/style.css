@@ -13,3 +13,16 @@ body {
   color: #2c3e50;
   height: 100%;
 }
+
+#my-builder .flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+#my-builder .flex-row>* {
+  flex: 1;
+}
+
+#my-builder .blue {
+  background-color: rgb(196, 210, 236);
+}

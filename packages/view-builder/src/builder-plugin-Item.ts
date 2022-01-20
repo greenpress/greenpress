@@ -10,8 +10,8 @@ export default class BuilderPluginItem extends HTMLElement {
     return ["for"];
   }
 
-  attributeChangedCallback(_name: "for", _: string, forComponent: string = "") {
-    const plugin = state.pluginsMap.get(forComponent);
+  attributeChangedCallback(_name: "for", _: string, match: string = "") {
+    const plugin = state.pluginsMap.get(match);
     if (plugin) {
       this.#currentPlugin = plugin;
       this.render();
@@ -25,10 +25,7 @@ export default class BuilderPluginItem extends HTMLElement {
     this.addEventListener("dragstart", (event) => {
       this.classList.add("dragged");
       event.dataTransfer!.effectAllowed = "copy";
-      event.dataTransfer!.setData(
-        "for",
-        this.#currentPlugin.forComponent || ""
-      );
+      event.dataTransfer!.setData("for", this.#currentPlugin.match || "");
 
       document.addEventListener(
         "dragend",
@@ -42,8 +39,7 @@ export default class BuilderPluginItem extends HTMLElement {
 
   render() {
     if (this.#currentPlugin) {
-      const { title, description, classes = "" } = this.#currentPlugin;
-      this.setAttribute("class", classes);
+      const { title, description } = this.#currentPlugin;
       this.innerHTML = `
       <h4>${title}</h4>
       <p>${description}</p>

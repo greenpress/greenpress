@@ -19,6 +19,10 @@ class BuilderState {
     this.#watcher.dispatchEvent(new CustomEvent(key));
   }
 
+  matchPlugin(element: HTMLElement) {
+    return this.plugins.find((plugin) => element.matches(plugin.match));
+  }
+
   setDraggedContent(content: ILayoutContent, callback: () => any) {
     this.#draggedContent = content;
     this.#draggedContentCallback = callback;
@@ -50,11 +54,15 @@ class BuilderState {
   }
 
   set plugins(plugins: IPlugin[]) {
-    this.#plugins = plugins;
+    this.#plugins = plugins.map((plugin) => ({
+      ...plugin,
+      showChildren:
+        plugin.showChildren || !plugin.hasOwnProperty("showChildren"),
+      supportChildren:
+        plugin.supportChildren || !plugin.hasOwnProperty("supportChildren"),
+    }));
     this.pluginsMap.clear();
-    this.plugins.forEach((plugin) =>
-      this.pluginsMap.set(plugin.forComponent, plugin)
-    );
+    this.plugins.forEach((plugin) => this.pluginsMap.set(plugin.match, plugin));
     this.#emit("plugins");
   }
 

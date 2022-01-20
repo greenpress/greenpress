@@ -1,3 +1,4 @@
+import { getNewLayoutItem } from "./layout-service";
 import state from "./state";
 import { ILayoutContent, IPlugin } from "./types";
 
@@ -5,19 +6,36 @@ export default class BuilderLayoutItem extends HTMLElement {
   static tag = "builder-layout-item";
 
   #content!: ILayoutContent;
+  #relatedPlugin?: IPlugin;
 
-  #childrenEl = document.createElement("div");
+  #contentEl!: HTMLElement;
+
+  #remove() {
+    this.dispatchEvent(
+      new CustomEvent("remove", { detail: { content: this.#content } })
+    );
+  }
 
   get content() {
     return this.#content;
   }
   set content(content: ILayoutContent) {
     this.#content = content;
+    this.#contentEl = document.createElement(content.component);
+    this.#contentEl.setAttribute("class", content.classes);
+    this.#contentEl.setAttribute("data-actual-item", "");
+    Object.keys(content.props || {}).forEach((key) =>
+      this.#contentEl.setAttribute(key, content.props[key])
+    );
     this.render();
   }
 
-  get plugin(): IPlugin {
-    return state.pluginsMap.get(this.#content.component) as IPlugin;
+  get plugin(): IPlugin | undefined {
+    if (this.#relatedPlugin) {
+      return this.#relatedPlugin;
+    }
+    this.#relatedPlugin = state.matchPlugin(this.#contentEl);
+    return this.#relatedPlugin;
   }
 
   constructor() {
@@ -27,11 +45,9 @@ export default class BuilderLayoutItem extends HTMLElement {
       event.stopImmediatePropagation();
       this.classList.add("dragged");
       event.dataTransfer!.effectAllowed = "copy";
-      event.dataTransfer!.setData("for", this.plugin.forComponent || "");
+      event.dataTransfer!.setData("for", this.plugin?.match || "");
       state.setDraggedContent(this.#content, () => {
-        this.dispatchEvent(
-          new CustomEvent("remove", { detail: { content: this.#content } })
-        );
+        this.#remove();
       });
 
       document.addEventListener(
@@ -44,7 +60,7 @@ export default class BuilderLayoutItem extends HTMLElement {
     });
 
     this.addEventListener("dragover", (e) => {
-      if (this.plugin.showChildren) {
+      if (this.plugin?.showChildren) {
         e.preventDefault();
       }
     });
@@ -70,39 +86,39 @@ export default class BuilderLayoutItem extends HTMLElement {
       this.classList.remove("drag-enter");
 
       if (state.draggedContent === this.#content) {
-        console.log("drag on itself");
         state.abortDraggedContent();
         return;
       }
 
       if (state.dragOverContent === this.#content) {
-        const forComponent: string = event.dataTransfer!.getData("for");
-        this.#content.children!.push(
-          state.draggedContent || {
-            component: forComponent,
-            predefined: false,
-            classes: "",
-            props: {},
-            children: [],
-          }
-        );
-        state.relocateDraggedContent();
-        this.renderChildren(this.#content.children);
+        const match: string = event.dataTransfer!.getData("for");
+        const newContentItem = state.draggedContent || getNewLayoutItem(match);
+        if (newContentItem) {
+          this.#content.children!.push(newContentItem);
+          state.relocateDraggedContent();
+          this.renderChildren(this.#content.children);
+        }
         state.dragOverContent = undefined;
       }
     });
   }
 
   render() {
-    this.innerHTML = `${this.#content?.component}!!`;
-    this.appendChild(this.#childrenEl);
+    this.innerHTML = `
+    ${this.plugin?.title || this.content.component}!!
+    <div class="layout-item-actions">
+      <a href="#" class="remove" title="remove">🗑️</a>
+      <a href="#" class="edit" title="edit">📝</a>
+    </div>
+    `;
+    this.appendChild(this.#contentEl);
     this.renderChildren(this.#content?.children);
     this.draggable = true;
   }
 
   renderChildren(content: ILayoutContent[] = []) {
     content.forEach((item, index) => {
-      const otherChildren = this.#childrenEl.children[
+      const otherChildren = this.#contentEl.children[
         index
       ] as BuilderLayoutItem;
       if (otherChildren?.content === item) {
@@ -119,9 +135,9 @@ export default class BuilderLayoutItem extends HTMLElement {
         el.remove();
       });
       if (otherChildren) {
-        this.#childrenEl.insertBefore(el, this.#childrenEl.children[index]);
+        this.#contentEl.insertBefore(el, this.#contentEl.children[index]);
       } else {
-        this.#childrenEl.appendChild(el);
+        this.#contentEl.appendChild(el);
       }
     });
   }
