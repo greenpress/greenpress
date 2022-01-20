@@ -23,19 +23,20 @@ export default class BuilderLayout extends HTMLElement {
     this.addEventListener("drop", (event: DragEvent) => {
       this.classList.remove("drag-enter");
       const forComponent: string = event.dataTransfer!.getData("for");
-      console.log("there is content", state.dragOverContent);
       if (!state.dragOverContent) {
-        console.log("add to root");
-        state.layout.content.push({
-          component: forComponent,
-          predefined: false,
-          classes: "",
-          props: {},
-          children: [],
-        });
+        state.layout.content.push(
+          state.draggedContent || {
+            component: forComponent,
+            predefined: false,
+            classes: "",
+            props: {},
+            children: [],
+          }
+        );
+        state.relocateDraggedContent();
+        this.render(state.layout.content);
       }
       state.dragOverContent = undefined;
-      this.render(state.layout.content);
     });
 
     state.watch("layout", (newLayout) => {
@@ -53,6 +54,12 @@ export default class BuilderLayout extends HTMLElement {
         "builder-layout-item"
       ) as BuilderLayoutItem;
       el.content = item;
+      el.addEventListener("remove", () => {
+        state.layout.content = content.filter(
+          (content: ILayoutContent) => content !== item
+        );
+        el.remove();
+      });
       if (otherChildren) {
         this.insertBefore(el, this.children[index]);
       } else {
