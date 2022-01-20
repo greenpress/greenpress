@@ -37,7 +37,30 @@ builder-plugin-item.dragged {
 builder-layout-item {
     padding: 50px 10px;
     margin: 20px 0;
-} 
+    position: relative;
+}
+
+builder-layout-item .layout-item-actions {
+    position: absolute;
+    top: 10px;
+    font-size: 22px;
+}
+
+builder-layout-item .layout-item-actions a {
+    text-decoration: none;
+    cursor: pointer;
+    line-height: 26px;
+    transition: font-size 200ms linear;
+}
+
+builder-layout-item .layout-item-actions a:hover {
+    font-size: 26px;
+}
+
+builder-layout-item>[data-actual-item] {
+    padding: 10px;
+}
+
 builder-layout.drag-enter {
     background-color: #ccc;
 }

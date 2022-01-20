@@ -20,7 +20,8 @@ export interface ILayout {
 }
 
 export interface IPlugin {
-  forComponent: string;
+  component: string;
+  match: string;
 
   title: string;
   description: string;

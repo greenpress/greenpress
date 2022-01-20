@@ -6,24 +6,40 @@ await import("./index");
 
 app.innerHTML = `
   <h1>This is a demo page to render the builder</h1>
-  <view-builder id="builder"></view-builder>
+  <view-builder id="my-builder"></view-builder>
 `;
 
-const builder = document.getElementById("builder") as ViewBuilderElement;
+const builder = document.getElementById("my-builder") as ViewBuilderElement;
 builder.layout = {
   content: [],
   connectedData: [],
 };
 builder.plugins = [
   {
-    forComponent: "SearchBox",
+    match: "SearchBox",
+    component: "SearchBox",
     title: "search box",
     description: "wow!",
   },
   {
-    forComponent: "PostsList",
+    match: "PostsList",
+    component: "PostsList",
     title: "posts list",
     description: "mew!",
     classes: "posts-list",
+  },
+  {
+    match: "div.flex-row",
+    component: "div",
+    title: "row",
+    description: "wow!",
+    classes: "flex-row",
+  },
+  {
+    match: "div.blue",
+    component: "div",
+    title: "Blue",
+    description: "blue container",
+    classes: "blue",
   },
 ];
