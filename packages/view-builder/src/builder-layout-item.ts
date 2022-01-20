@@ -24,9 +24,15 @@ export default class BuilderLayoutItem extends HTMLElement {
     super();
 
     this.addEventListener("dragstart", (event) => {
+      event.stopImmediatePropagation();
       this.classList.add("dragged");
       event.dataTransfer!.effectAllowed = "copy";
       event.dataTransfer!.setData("for", this.plugin.forComponent || "");
+      state.setDraggedContent(this.#content, () => {
+        this.dispatchEvent(
+          new CustomEvent("remove", { detail: { content: this.#content } })
+        );
+      });
 
       document.addEventListener(
         "dragend",
@@ -45,7 +51,6 @@ export default class BuilderLayoutItem extends HTMLElement {
 
     this.addEventListener("dragenter", (e) => {
       e.stopImmediatePropagation();
-      console.log("over me", this.#content);
       state.dragOverContent = this.#content;
       this.classList.add("drag-enter");
     });
@@ -60,17 +65,30 @@ export default class BuilderLayoutItem extends HTMLElement {
     });
 
     this.addEventListener("drop", (event: DragEvent) => {
+      event.stopImmediatePropagation();
+
       this.classList.remove("drag-enter");
-      const forComponent: string = event.dataTransfer!.getData("for");
+
+      if (state.draggedContent === this.#content) {
+        console.log("drag on itself");
+        state.abortDraggedContent();
+        return;
+      }
+
       if (state.dragOverContent === this.#content) {
-        this.#content.children!.push({
-          component: forComponent,
-          predefined: false,
-          classes: "",
-          props: {},
-          children: [],
-        });
+        const forComponent: string = event.dataTransfer!.getData("for");
+        this.#content.children!.push(
+          state.draggedContent || {
+            component: forComponent,
+            predefined: false,
+            classes: "",
+            props: {},
+            children: [],
+          }
+        );
+        state.relocateDraggedContent();
         this.renderChildren(this.#content.children);
+        state.dragOverContent = undefined;
       }
     });
   }
@@ -94,6 +112,12 @@ export default class BuilderLayoutItem extends HTMLElement {
         "builder-layout-item"
       ) as BuilderLayoutItem;
       el.content = item;
+      el.addEventListener("remove", () => {
+        this.#content.children = this.#content.children!.filter(
+          (content) => content !== item
+        );
+        el.remove();
+      });
       if (otherChildren) {
         this.#childrenEl.insertBefore(el, this.#childrenEl.children[index]);
       } else {
