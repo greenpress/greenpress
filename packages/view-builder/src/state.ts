@@ -1,6 +1,8 @@
 import { IPlugin, ILayout, ILayoutContent } from "./types";
 
 class BuilderState {
+  #builderEl: HTMLElement;
+
   #plugins: IPlugin[] = [];
   #layout!: ILayout;
 
@@ -17,6 +19,14 @@ class BuilderState {
 
   #emit(key: keyof BuilderState) {
     this.#watcher.dispatchEvent(new CustomEvent(key));
+  }
+
+  emitAsBuilder(event: CustomEvent) {
+    this.#builderEl.dispatchEvent(event);
+  }
+
+  init(builderEl: HTMLElement) {
+    this.#builderEl = builderEl;
   }
 
   matchPlugin(element: HTMLElement) {

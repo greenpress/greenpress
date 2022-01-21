@@ -1,6 +1,6 @@
 import { getNewLayoutItem } from "./layout-service";
 import state from "./state";
-import { ILayoutContent, IPlugin } from "./types";
+import { ILayoutContent, IPlugin, IOnEditEventDetail } from "./types";
 
 export default class BuilderLayoutItem extends HTMLElement {
   static tag = "builder-layout-item";
@@ -14,6 +14,17 @@ export default class BuilderLayoutItem extends HTMLElement {
     this.dispatchEvent(
       new CustomEvent("remove", { detail: { content: this.#content } })
     );
+  }
+
+  #edit() {
+    const editEventDetail: IOnEditEventDetail = {
+      target: this,
+      plugin: this.plugin,
+      content: this.#content,
+      parent: (this.parentElement?.parentElement as BuilderLayoutItem)?.content,
+    };
+    state.emitAsBuilder(new CustomEvent("edit", { detail: editEventDetail }));
+    console.log("edit dispatched");
   }
 
   get content() {
@@ -105,12 +116,20 @@ export default class BuilderLayoutItem extends HTMLElement {
 
   render() {
     this.innerHTML = `
-    ${this.plugin?.title || this.content.component}!!
+    <h4>${this.plugin?.title || this.content.component}!!</h4>
     <div class="layout-item-actions">
       <a href="#" class="remove" title="remove">🗑️</a>
       <a href="#" class="edit" title="edit">📝</a>
     </div>
     `;
+    this.querySelector(".layout-item-actions .remove")!.addEventListener(
+      "click",
+      () => this.#remove()
+    );
+    this.querySelector(".layout-item-actions .edit")!.addEventListener(
+      "click",
+      () => this.#edit()
+    );
     this.appendChild(this.#contentEl);
     this.renderChildren(this.#content?.children);
     this.draggable = true;
@@ -129,7 +148,8 @@ export default class BuilderLayoutItem extends HTMLElement {
         "builder-layout-item"
       ) as BuilderLayoutItem;
       el.content = item;
-      el.addEventListener("remove", () => {
+      el.addEventListener("remove", (e) => {
+        e.stopImmediatePropagation();
         this.#content.children = this.#content.children!.filter(
           (content) => content !== item
         );
