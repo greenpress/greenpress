@@ -24,6 +24,7 @@ export default class ViewBuilderElement extends HTMLElement {
 
   constructor() {
     super();
+    state.init(this);
     this.appendChild(this.pluginsEl);
     this.appendChild(this.layoutEl);
   }

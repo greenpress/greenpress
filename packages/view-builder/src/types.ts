@@ -46,8 +46,7 @@ export interface IOnCreateEventDetail {
 
 export interface IOnEditEventDetail {
   target: HTMLElement;
-  plugin: IPlugin;
+  plugin?: IPlugin;
   content: ILayoutContent;
-  parent: ILayoutContent;
-  close: () => void;
+  parent?: ILayoutContent;
 }
