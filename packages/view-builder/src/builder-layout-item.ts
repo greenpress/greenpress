@@ -114,6 +114,7 @@ export default class BuilderLayoutItem extends HTMLElement {
     this.appendChild(this.#contentEl);
     this.renderChildren(this.#content?.children);
     this.draggable = true;
+    setTimeout(() => this.setAttribute("shown", ""), 1);
   }
 
   renderChildren(content: ILayoutContent[] = []) {
