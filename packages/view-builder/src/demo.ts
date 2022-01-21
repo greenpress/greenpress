@@ -1,4 +1,5 @@
 import "./style.css";
+import { IOnEditEventDetail } from "./types";
 import ViewBuilderElement from "./view-builder";
 const app = document.querySelector<HTMLDivElement>("#app")!;
 
@@ -43,3 +44,8 @@ builder.plugins = [
     classes: "blue",
   },
 ];
+
+builder.addEventListener("edit", (e) => {
+  alert("edit mode");
+  console.log("edit data", e.detail as IOnEditEventDetail);
+});

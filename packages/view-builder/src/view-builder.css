@@ -8,13 +8,16 @@ builder-plugin-item,
 builder-layout,
 builder-layout-item {
     display: block;
-    border: 1px solid #ccc;
     padding: 10px;
 }
 
 view-builder {
     display: flex;
     flex-direction: row;
+}
+
+builder-plugins {
+    border-inline-end: 1px solid #ccc;
 }
 
 builder-layout {
@@ -35,7 +38,6 @@ builder-plugin-item:hover {
 }
 
 builder-plugin-item.dragged {
-    display: block;
     background-color: #ccc;
 }
 
@@ -45,6 +47,7 @@ builder-layout-item {
     position: relative;
     transition: opacity 200ms linear, var(--background-trasition);
     opacity: 0;
+    border: 2px solid #e6e6e6;
     border-radius: 4px;
     background-color: #fff;
 }
