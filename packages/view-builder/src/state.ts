@@ -1,7 +1,7 @@
 import { IPlugin, ILayout, ILayoutContent } from "./types";
 
 class BuilderState {
-  #builderEl: HTMLElement;
+  #builderEl!: HTMLElement;
 
   #plugins: IPlugin[] = [];
   #layout!: ILayout;
@@ -9,6 +9,8 @@ class BuilderState {
   #watcher = document.createElement("div");
   #draggedContent?: ILayoutContent;
   #draggedContentCallback?: () => any;
+
+  #hoverItemElements: HTMLElement[] = [];
 
   dragOverContent?: ILayoutContent;
   pluginsMap = new Map<string, IPlugin>();
@@ -57,6 +59,22 @@ class BuilderState {
     this.#watcher.addEventListener(key, internalCallback);
 
     return () => this.#watcher.removeEventListener(key, internalCallback);
+  }
+
+  setHoverItem(element: HTMLElement) {
+    this.#hoverItemElements[
+      this.#hoverItemElements.length - 1
+    ]?.classList.remove("hover");
+    element.classList.add("hover");
+    this.#hoverItemElements.push(element);
+  }
+
+  removeHoverItem() {
+    this.#hoverItemElements.pop()?.classList.remove("hover");
+
+    const lastItem =
+      this.#hoverItemElements[this.#hoverItemElements.length - 1];
+    lastItem?.classList.add("hover");
   }
 
   get plugins(): IPlugin[] {

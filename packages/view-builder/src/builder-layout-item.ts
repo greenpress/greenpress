@@ -1,8 +1,19 @@
-import { getNewLayoutItem } from "./layout-service";
+import {
+  handleDraggableContent,
+  handleLayoutItemHover,
+} from "./layout-service";
 import state from "./state";
-import { ILayoutContent, IPlugin, IOnEditEventDetail } from "./types";
+import {
+  ILayoutContent,
+  IPlugin,
+  IOnEditEventDetail,
+  IBuilderLayoutItem,
+} from "./types";
 
-export default class BuilderLayoutItem extends HTMLElement {
+export default class BuilderLayoutItem
+  extends HTMLElement
+  implements IBuilderLayoutItem
+{
   static tag = "builder-layout-item";
 
   #content!: ILayoutContent;
@@ -25,6 +36,10 @@ export default class BuilderLayoutItem extends HTMLElement {
     };
     state.emitAsBuilder(new CustomEvent("edit", { detail: editEventDetail }));
     console.log("edit dispatched");
+  }
+
+  #handleDraggableContent() {
+    setTimeout(() => handleDraggableContent(this), 1);
   }
 
   get content() {
@@ -52,6 +67,8 @@ export default class BuilderLayoutItem extends HTMLElement {
   constructor() {
     super();
 
+    this.#handleDraggableContent();
+
     this.addEventListener("dragstart", (event) => {
       event.stopImmediatePropagation();
       this.classList.add("dragged");
@@ -76,47 +93,12 @@ export default class BuilderLayoutItem extends HTMLElement {
       }
     });
 
-    this.addEventListener("dragenter", (e) => {
-      e.stopImmediatePropagation();
-      state.dragOverContent = this.#content;
-      this.classList.add("drag-enter");
-    });
-
-    this.addEventListener("dragleave", (e) => {
-      e.stopImmediatePropagation();
-
-      if (state.dragOverContent === this.#content) {
-        state.dragOverContent = undefined;
-      }
-      this.classList.remove("drag-enter");
-    });
-
-    this.addEventListener("drop", (event: DragEvent) => {
-      event.stopImmediatePropagation();
-
-      this.classList.remove("drag-enter");
-
-      if (state.draggedContent === this.#content) {
-        state.abortDraggedContent();
-        return;
-      }
-
-      if (state.dragOverContent === this.#content) {
-        const match: string = event.dataTransfer!.getData("for");
-        const newContentItem = state.draggedContent || getNewLayoutItem(match);
-        if (newContentItem) {
-          this.#content.children!.push(newContentItem);
-          state.relocateDraggedContent();
-          this.renderChildren(this.#content.children);
-        }
-        state.dragOverContent = undefined;
-      }
-    });
+    handleLayoutItemHover(this);
   }
 
   render() {
     this.innerHTML = `
-    <h4>${this.plugin?.title || this.content.component}!!</h4>
+    <h4>${this.plugin?.title || this.content.component}</h4>
     <div class="layout-item-actions">
       <a href="#" class="remove" title="remove">🗑️</a>
       <a href="#" class="edit" title="edit">📝</a>
