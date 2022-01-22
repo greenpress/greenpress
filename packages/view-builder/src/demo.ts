@@ -21,6 +21,14 @@ builder.plugins = [
     component: "SearchBox",
     title: "search box",
     description: "wow!",
+    supportChildren: false,
+  },
+  {
+    match: "img",
+    component: "img",
+    title: "Image",
+    description: "free image",
+    supportChildren: false,
   },
   {
     match: "PostsList",
@@ -46,6 +54,12 @@ builder.plugins = [
 ];
 
 builder.addEventListener("edit", (e) => {
-  alert("edit mode");
-  console.log("edit data", e.detail as IOnEditEventDetail);
+  const detail: IOnEditEventDetail = e.detail;
+  console.log("edit data", detail);
+
+  if (detail.plugin?.component === "img") {
+    detail.content.props.src = prompt("image url?");
+    detail.content.props.style = "max-width: 100%;max-height: 400px;";
+    detail.target.content = detail.content;
+  }
 });

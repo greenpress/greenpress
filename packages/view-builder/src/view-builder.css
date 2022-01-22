@@ -57,6 +57,10 @@ builder-layout-item[shown] {
     background-color: #f9f9f9;
 }
 
+builder-layout-item[shown].hover {
+    background-color: #f3f3f3;
+}
+
 builder-layout-item .layout-item-actions {
     position: absolute;
     top: 10px;

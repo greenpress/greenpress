@@ -45,8 +45,15 @@ export interface IOnCreateEventDetail {
 }
 
 export interface IOnEditEventDetail {
-  target: HTMLElement;
+  target: IBuilderLayoutItem;
   plugin?: IPlugin;
   content: ILayoutContent;
   parent?: ILayoutContent;
+}
+
+export interface IBuilderLayoutItem extends HTMLElement {
+  content: ILayoutContent;
+  plugin?: IPlugin;
+  renderChildren: (content?: ILayoutContent[]) => void;
+  render: () => void;
 }
