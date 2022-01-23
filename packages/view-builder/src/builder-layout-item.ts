@@ -24,8 +24,6 @@ export default class BuilderLayoutItem
 
   #contentEl!: HTMLElement;
 
-  #displayEl: HTMLElement;
-
   #remove() {
     this.dispatchEvent(
       new CustomEvent("remove", { detail: { content: this.#content } })

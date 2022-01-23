@@ -1,9 +1,5 @@
 import "./style.css";
-import {
-  IOnEditEventDetail,
-  IOnCreateEventDetail,
-  ILayoutContent,
-} from "./types";
+import { IOnEditEventDetail, IOnCreateEventDetail } from "./types";
 import ViewBuilderElement from "./view-builder";
 const app = document.querySelector<HTMLDivElement>("#app")!;
 
@@ -69,6 +65,7 @@ builder.setContentDisplayCreator(({ content, plugin }) => {
 
   if (content.component === "BlockBox") {
     console.log(content);
+    console.log(plugin);
     div.innerHTML = "block id: " + content.props.block;
     return div;
   }
