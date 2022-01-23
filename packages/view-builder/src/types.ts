@@ -37,11 +37,15 @@ export interface IPlugin {
 }
 
 export interface IOnCreateEventDetail {
-  target: HTMLElement;
-  plugin: IPlugin;
+  target: IBuilderLayoutItem;
+  plugin?: IPlugin;
   content: ILayoutContent;
-  parent: ILayoutContent;
+  parent?: ILayoutContent;
   insertIndex: number;
+}
+
+export interface IOnCreateEvent extends CustomEvent<{}>, Event {
+  detail: IOnCreateEventDetail;
 }
 
 export interface IOnEditEventDetail {
@@ -51,9 +55,14 @@ export interface IOnEditEventDetail {
   parent?: ILayoutContent;
 }
 
+export interface IOnEditEvent extends CustomEvent<{}>, Event {
+  detail: IOnEditEventDetail;
+}
+
 export interface IBuilderLayoutItem extends HTMLElement {
   content: ILayoutContent;
   plugin?: IPlugin;
   renderChildren: (content?: ILayoutContent[]) => void;
   render: () => void;
+  addNewChild(content: ILayoutContent, plugin?: IPlugin): void;
 }

@@ -14,6 +14,11 @@ class BuilderState {
 
   dragOverContent?: ILayoutContent;
   pluginsMap = new Map<string, IPlugin>();
+  getDisplayElementForItem: (context: {
+    content: ILayoutContent;
+    plugin?: IPlugin;
+    target: HTMLElement;
+  }) => HTMLElement | null = () => null;
 
   get draggedContent() {
     return this.#draggedContent;
