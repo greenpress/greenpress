@@ -1,7 +1,12 @@
 import BuilderLayoutItem from "./builder-layout-item";
 import { getNewLayoutItem } from "./layout-service";
 import state from "./state";
-import { ILayoutContent } from "./types";
+import {
+  ILayoutContent,
+  IOnCreateEventDetail,
+  IPlugin,
+  IOnCreateEvent,
+} from "./types";
 
 export default class BuilderLayout extends HTMLElement {
   static tag = "builder-layout";
@@ -28,9 +33,8 @@ export default class BuilderLayout extends HTMLElement {
 
         const newContentItem = state.draggedContent || getNewLayoutItem(match);
         if (newContentItem) {
-          state.layout.content.push(newContentItem);
+          this.addNewChild(newContentItem, state.pluginsMap.get(match));
           state.relocateDraggedContent();
-          this.render(state.layout.content);
         }
       }
       state.dragOverContent = undefined;
@@ -41,24 +45,47 @@ export default class BuilderLayout extends HTMLElement {
     });
   }
 
+  #createNewChildElement(item: ILayoutContent): BuilderLayoutItem {
+    const el = document.createElement(
+      "builder-layout-item"
+    ) as BuilderLayoutItem;
+    el.content = item;
+    el.addEventListener("remove", (e) => {
+      e.stopImmediatePropagation();
+      state.layout.content = state.layout.content.filter(
+        (content) => content !== item
+      );
+      el.remove();
+    });
+
+    return el;
+  }
+
+  addNewChild(content: ILayoutContent, plugin?: IPlugin) {
+    const el = this.#createNewChildElement(content);
+    state.layout.content.push(content);
+    this.appendChild(el);
+    const createEventDetail: IOnCreateEventDetail = {
+      target: el,
+      plugin,
+      content,
+      insertIndex: state.layout.content.length - 1,
+      parent: undefined,
+    };
+    state.emitAsBuilder(
+      new CustomEvent("create", { detail: createEventDetail }) as IOnCreateEvent
+    );
+  }
+
   render(content: ILayoutContent[]) {
-    content.forEach((item, index) => {
-      const otherChildren = this.children[index] as BuilderLayoutItem;
+    content.forEach((item, i) => {
+      const otherChildren = this.children[i] as BuilderLayoutItem;
       if (otherChildren?.content === item) {
         return;
       }
-      const el = document.createElement(
-        "builder-layout-item"
-      ) as BuilderLayoutItem;
-      el.content = item;
-      el.addEventListener("remove", () => {
-        state.layout.content = state.layout.content.filter(
-          (content: ILayoutContent) => content !== item
-        );
-        el.remove();
-      });
+      const el = this.#createNewChildElement(item);
       if (otherChildren) {
-        this.insertBefore(el, this.children[index]);
+        this.insertBefore(el, this.children[i]);
       } else {
         this.appendChild(el);
       }
