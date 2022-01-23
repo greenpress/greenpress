@@ -7,7 +7,10 @@ import {
   ILayoutContent,
   IPlugin,
   IOnEditEventDetail,
+  IOnEditEvent,
   IBuilderLayoutItem,
+  IOnCreateEventDetail,
+  IOnCreateEvent,
 } from "./types";
 
 export default class BuilderLayoutItem
@@ -21,6 +24,8 @@ export default class BuilderLayoutItem
 
   #contentEl!: HTMLElement;
 
+  #displayEl: HTMLElement;
+
   #remove() {
     this.dispatchEvent(
       new CustomEvent("remove", { detail: { content: this.#content } })
@@ -31,11 +36,44 @@ export default class BuilderLayoutItem
     const editEventDetail: IOnEditEventDetail = {
       target: this,
       plugin: this.plugin,
-      content: this.#content,
+      content: this.content,
       parent: (this.parentElement?.parentElement as BuilderLayoutItem)?.content,
     };
-    state.emitAsBuilder(new CustomEvent("edit", { detail: editEventDetail }));
-    console.log("edit dispatched");
+    state.emitAsBuilder(
+      new CustomEvent("edit", { detail: editEventDetail }) as IOnEditEvent
+    );
+  }
+
+  addNewChild(content: ILayoutContent, plugin?: IPlugin) {
+    const el = this.#createNewChildElement(content);
+    this.content.children?.push(content);
+    this.#contentEl.appendChild(el);
+    const createEventDetail: IOnCreateEventDetail = {
+      target: el,
+      plugin,
+      content,
+      insertIndex: (this.content.children?.length || 1) - 1,
+      parent: this.content,
+    };
+    state.emitAsBuilder(
+      new CustomEvent("create", { detail: createEventDetail }) as IOnCreateEvent
+    );
+  }
+
+  #createNewChildElement(item: ILayoutContent): BuilderLayoutItem {
+    const el = document.createElement(
+      "builder-layout-item"
+    ) as BuilderLayoutItem;
+    el.content = item;
+    el.addEventListener("remove", (e) => {
+      e.stopImmediatePropagation();
+      this.content.children = this.content.children!.filter(
+        (content) => content !== item
+      );
+      el.remove();
+    });
+
+    return el;
   }
 
   #handleDraggableContent() {
@@ -113,32 +151,26 @@ export default class BuilderLayoutItem
       () => this.#edit()
     );
     this.appendChild(this.#contentEl);
-    this.renderChildren(this.#content?.children);
+    const displayEl = state.getDisplayElementForItem({
+      content: this.content,
+      plugin: this.plugin,
+      target: this,
+    });
+    displayEl && this.appendChild(displayEl);
+    this.renderChildren(this.content?.children);
     this.draggable = true;
     setTimeout(() => this.setAttribute("shown", ""), 1);
   }
 
   renderChildren(content: ILayoutContent[] = []) {
-    content.forEach((item, index) => {
-      const otherChildren = this.#contentEl.children[
-        index
-      ] as BuilderLayoutItem;
+    content.forEach((item, i) => {
+      const otherChildren = this.#contentEl.children[i] as BuilderLayoutItem;
       if (otherChildren?.content === item) {
         return;
       }
-      const el = document.createElement(
-        "builder-layout-item"
-      ) as BuilderLayoutItem;
-      el.content = item;
-      el.addEventListener("remove", (e) => {
-        e.stopImmediatePropagation();
-        this.#content.children = this.#content.children!.filter(
-          (content) => content !== item
-        );
-        el.remove();
-      });
+      const el = this.#createNewChildElement(item);
       if (otherChildren) {
-        this.#contentEl.insertBefore(el, this.#contentEl.children[index]);
+        this.#contentEl.insertBefore(el, this.#contentEl.children[i]);
       } else {
         this.#contentEl.appendChild(el);
       }

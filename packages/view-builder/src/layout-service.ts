@@ -1,5 +1,5 @@
 import state from "./state";
-import { ILayoutContent, IBuilderLayoutItem } from "./types";
+import { ILayoutContent, IBuilderLayoutItem, IPlugin } from "./types";
 
 export function getNewLayoutItem(match: string): ILayoutContent | undefined {
   const plugin = state.pluginsMap.get(match);
@@ -56,9 +56,11 @@ export function handleDraggableContent(element: IBuilderLayoutItem) {
         const match: string = event.dataTransfer!.getData("for");
         const newContentItem = state.draggedContent || getNewLayoutItem(match);
         if (newContentItem) {
-          element.content.children!.push(newContentItem);
+          element.addNewChild(
+            newContentItem,
+            state.pluginsMap.get(match) as IPlugin
+          );
           state.relocateDraggedContent();
-          element.renderChildren(element.content.children);
         }
         state.dragOverContent = undefined;
       }

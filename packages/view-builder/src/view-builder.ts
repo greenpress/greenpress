@@ -1,6 +1,6 @@
 import state from "./state";
 import "./view-builder.css";
-import { IPlugin } from "./types";
+import { ILayout, IPlugin, ILayoutContent } from "./types";
 
 export default class ViewBuilderElement extends HTMLElement {
   static tag = "view-builder";
@@ -15,11 +15,21 @@ export default class ViewBuilderElement extends HTMLElement {
     state.plugins = plugins;
   }
 
-  get layout() {
+  get layout(): ILayout {
     return state.layout;
   }
   set layout(layout: any) {
     state.layout = layout;
+  }
+
+  setContentDisplayCreator(
+    func: (context: {
+      content: ILayoutContent;
+      plugin?: IPlugin;
+      target: HTMLElement;
+    }) => HTMLElement | null
+  ): void {
+    state.getDisplayElementForItem = func;
   }
 
   constructor() {
