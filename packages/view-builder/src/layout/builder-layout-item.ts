@@ -2,7 +2,7 @@ import {
   handleDraggableContent,
   handleLayoutItemHover,
 } from "./layout-service";
-import state from "./state";
+import state from "../state";
 import {
   ILayoutContent,
   IPlugin,
@@ -11,7 +11,7 @@ import {
   IBuilderLayoutItem,
   IOnCreateEventDetail,
   IOnCreateEvent,
-} from "./types";
+} from "../types";
 
 export default class BuilderLayoutItem
   extends HTMLElement

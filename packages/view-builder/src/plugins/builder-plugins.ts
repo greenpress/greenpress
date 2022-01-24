@@ -1,5 +1,5 @@
-import state from "./state";
-import { IPlugin } from "./types";
+import state from "../state";
+import { IPlugin } from "../types";
 
 export default class BuilderPlugins extends HTMLElement {
   static tag = "builder-plugins";

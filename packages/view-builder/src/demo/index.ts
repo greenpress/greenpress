@@ -1,9 +1,9 @@
 import "./style.css";
-import { IOnEditEventDetail, IOnCreateEventDetail } from "./types";
-import ViewBuilderElement from "./view-builder";
+import { IOnEditEventDetail, IOnCreateEventDetail } from "../types";
+import ViewBuilderElement from "../view-builder";
 const app = document.querySelector<HTMLDivElement>("#app")!;
 
-await import("./index");
+await import("../index");
 
 app.innerHTML = `
   <h1>This is a demo page to render the builder</h1>
