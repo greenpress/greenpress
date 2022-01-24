@@ -1,12 +1,12 @@
 import BuilderLayoutItem from "./builder-layout-item";
 import { getNewLayoutItem } from "./layout-service";
-import state from "./state";
+import state from "../state";
 import {
   ILayoutContent,
   IOnCreateEventDetail,
   IPlugin,
   IOnCreateEvent,
-} from "./types";
+} from "../types";
 
 export default class BuilderLayout extends HTMLElement {
   static tag = "builder-layout";

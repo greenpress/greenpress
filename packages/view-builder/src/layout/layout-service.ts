@@ -1,5 +1,5 @@
-import state from "./state";
-import { ILayoutContent, IBuilderLayoutItem, IPlugin } from "./types";
+import state from "../state";
+import { ILayoutContent, IBuilderLayoutItem, IPlugin } from "../types";
 
 export function getNewLayoutItem(match: string): ILayoutContent | undefined {
   const plugin = state.pluginsMap.get(match);

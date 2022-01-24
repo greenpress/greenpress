@@ -1,8 +1,10 @@
-import BuilderPluginItem from "./builder-plugin-Item";
-import BuilderPlugins from "./builder-plugins";
-import BuilderLayout from "./builder-layout";
+import BuilderPluginItem from "./plugins/builder-plugin-Item";
+import BuilderPlugins from "./plugins/builder-plugins";
+import BuilderLayout from "./layout/builder-layout";
 import ViewBuilderElement from "./view-builder";
-import BuilderLayoutItem from "./builder-layout-item";
+import BuilderLayoutItem from "./layout/builder-layout-item";
+
+export * from "./types";
 
 customElements.define(ViewBuilderElement.tag, ViewBuilderElement);
 customElements.define(BuilderPlugins.tag, BuilderPlugins);
