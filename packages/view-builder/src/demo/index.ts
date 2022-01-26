@@ -75,7 +75,6 @@ builder.setContentDisplayCreator(({ content, plugin }) => {
 
 builder.addEventListener("edit", (e: any) => {
   const detail: IOnEditEventDetail = e.detail;
-  console.log("edit data", detail);
 
   if (detail.plugin?.component === "img") {
     detail.content.props.src = prompt("image url?", detail.content.props.src);
@@ -86,7 +85,6 @@ builder.addEventListener("edit", (e: any) => {
 
 builder.addEventListener("create", (e: any) => {
   const detail: IOnCreateEventDetail = e.detail;
-  console.log("create data", detail);
 
   const componentName = detail.plugin?.component;
 

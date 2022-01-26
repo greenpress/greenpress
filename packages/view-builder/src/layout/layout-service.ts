@@ -1,8 +1,7 @@
-import state from "../state";
-import { ILayoutContent, IBuilderLayoutItem, IPlugin } from "../types";
+import state from "../store/builder-store";
+import { IBuilderLayout, ILayoutContent, IPlugin } from "../types";
 
-export function getNewLayoutItem(match: string): ILayoutContent | undefined {
-  const plugin = state.pluginsMap.get(match);
+export function getNewLayoutItem(plugin?: IPlugin): ILayoutContent | undefined {
   if (!plugin) return;
 
   return {
@@ -14,7 +13,7 @@ export function getNewLayoutItem(match: string): ILayoutContent | undefined {
   };
 }
 
-export function handleLayoutItemHover(element: HTMLElement) {
+export function handleLayoutItemHover(element: IBuilderLayout) {
   element.addEventListener("mouseenter", (e) => {
     e.stopImmediatePropagation();
     state.setHoverItem(element);
@@ -23,47 +22,4 @@ export function handleLayoutItemHover(element: HTMLElement) {
     e.stopImmediatePropagation();
     state.removeHoverItem();
   });
-}
-
-export function handleDraggableContent(element: IBuilderLayoutItem) {
-  if (element.plugin?.supportChildren) {
-    element.addEventListener("dragenter", (e) => {
-      e.stopImmediatePropagation();
-      state.dragOverContent = element.content;
-      element.classList.add("drag-enter");
-    });
-
-    element.addEventListener("dragleave", (e) => {
-      e.stopImmediatePropagation();
-
-      if (state.dragOverContent === element.content) {
-        state.dragOverContent = undefined;
-      }
-      element.classList.remove("drag-enter");
-    });
-
-    element.addEventListener("drop", (event: DragEvent) => {
-      event.stopImmediatePropagation();
-
-      element.classList.remove("drag-enter");
-
-      if (state.draggedContent === element.content) {
-        state.abortDraggedContent();
-        return;
-      }
-
-      if (state.dragOverContent === element.content) {
-        const match: string = event.dataTransfer!.getData("for");
-        const newContentItem = state.draggedContent || getNewLayoutItem(match);
-        if (newContentItem) {
-          element.addNewChild(
-            newContentItem,
-            state.pluginsMap.get(match) as IPlugin
-          );
-          state.relocateDraggedContent();
-        }
-        state.dragOverContent = undefined;
-      }
-    });
-  }
 }
