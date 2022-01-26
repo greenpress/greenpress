@@ -1,8 +1,5 @@
-import {
-  handleDraggableContent,
-  handleLayoutItemHover,
-} from "./layout-service";
-import state from "../state";
+import { handleLayoutItemHover } from "./layout-service";
+import store from "../store/builder-store";
 import {
   ILayoutContent,
   IPlugin,
@@ -12,6 +9,7 @@ import {
   IOnCreateEventDetail,
   IOnCreateEvent,
 } from "../types";
+import dragAndDropStore from "../store/drag-drop-store";
 
 export default class BuilderLayoutItem
   extends HTMLElement
@@ -22,11 +20,11 @@ export default class BuilderLayoutItem
   #content!: ILayoutContent;
   #relatedPlugin?: IPlugin;
 
-  #contentEl!: HTMLElement;
+  contentEl!: HTMLElement;
 
   #remove() {
     this.dispatchEvent(
-      new CustomEvent("remove", { detail: { content: this.#content } })
+      new CustomEvent("remove", { detail: { content: this.content } })
     );
   }
 
@@ -37,23 +35,47 @@ export default class BuilderLayoutItem
       content: this.content,
       parent: (this.parentElement?.parentElement as BuilderLayoutItem)?.content,
     };
-    state.emitAsBuilder(
+    store.emitAsBuilder(
       new CustomEvent("edit", { detail: editEventDetail }) as IOnEditEvent
     );
   }
 
-  addNewChild(content: ILayoutContent, plugin?: IPlugin) {
-    const el = this.#createNewChildElement(content);
-    this.content.children?.push(content);
-    this.#contentEl.appendChild(el);
+  addNewChild(
+    content: ILayoutContent,
+    plugin?: IPlugin,
+    insertIndex: number = this.contentChildren.length
+  ) {
+    const cloneContent = { ...content };
+
+    const el = this.#createNewChildElement(cloneContent);
+    if (insertIndex >= this.contentChildren.length) {
+      insertIndex = this.contentChildren.length;
+      this.contentEl.appendChild(el);
+      this.contentChildren.push(cloneContent);
+    } else {
+      const beforeEl = (
+        Array.from(this.contentEl.children) as BuilderLayoutItem[]
+      ).find((el) => el.content === this.contentChildren[insertIndex]);
+      if (beforeEl) {
+        this.contentEl.insertBefore(el, beforeEl);
+        this.content.children = this.contentChildren
+          .slice(0, insertIndex)
+          .concat([cloneContent, ...this.contentChildren.slice(insertIndex)]);
+      } else {
+        insertIndex = this.contentChildren.length;
+        this.contentEl.appendChild(el);
+        this.contentChildren.push(cloneContent);
+      }
+    }
+
     const createEventDetail: IOnCreateEventDetail = {
       target: el,
       plugin,
-      content,
+      content: cloneContent,
       insertIndex: (this.content.children?.length || 1) - 1,
       parent: this.content,
     };
-    state.emitAsBuilder(
+    store.emitAsBuilder(
       new CustomEvent("create", { detail: createEventDetail }) as IOnCreateEvent
     );
   }
@@ -74,44 +96,48 @@ export default class BuilderLayoutItem
     return el;
   }
 
-  #handleDraggableContent() {
-    setTimeout(() => handleDraggableContent(this), 1);
-  }
-
   get content() {
     return this.#content;
   }
   set content(content: ILayoutContent) {
     this.#content = content;
-    this.#contentEl = document.createElement(content.component);
-    this.#contentEl.setAttribute("class", content.classes);
-    this.#contentEl.setAttribute("data-actual-item", "");
+    this.contentEl = document.createElement(content.component);
+    this.contentEl.setAttribute("class", content.classes);
+    this.contentEl.setAttribute("data-actual-item", "");
     Object.keys(content.props || {}).forEach((key) =>
-      this.#contentEl.setAttribute(key, content.props[key])
+      this.contentEl.setAttribute(key, content.props[key])
     );
     this.render();
+  }
+
+  get supportChildren() {
+    return !!this.plugin?.supportChildren;
+  }
+  get contentChildren() {
+    return this.content.children || [];
   }
 
   get plugin(): IPlugin | undefined {
     if (this.#relatedPlugin) {
       return this.#relatedPlugin;
     }
-    this.#relatedPlugin = state.matchPlugin(this.#contentEl);
+    this.#relatedPlugin = store.matchPlugin(this.contentEl);
     return this.#relatedPlugin;
   }
 
   constructor() {
     super();
 
-    this.#handleDraggableContent();
-
     this.addEventListener("dragstart", (event) => {
       event.stopImmediatePropagation();
       this.classList.add("dragged");
       event.dataTransfer!.effectAllowed = "copy";
-      event.dataTransfer!.setData("for", this.plugin?.match || "");
-      state.setDraggedContent(this.#content, () => {
-        this.#remove();
+      dragAndDropStore.start({
+        content: this.content,
+        plugin: this.plugin,
+        callback: () => {
+          this.#remove();
+        },
       });
 
       document.addEventListener(
@@ -121,12 +147,6 @@ export default class BuilderLayoutItem
         },
         { once: true }
       );
-    });
-
-    this.addEventListener("dragover", (e) => {
-      if (this.plugin?.showChildren) {
-        e.preventDefault();
-      }
     });
 
     handleLayoutItemHover(this);
@@ -148,8 +168,8 @@ export default class BuilderLayoutItem
       "click",
       () => this.#edit()
     );
-    this.appendChild(this.#contentEl);
-    const displayEl = state.getDisplayElementForItem({
+    this.appendChild(this.contentEl);
+    const displayEl = store.getDisplayElementForItem({
       content: this.content,
       plugin: this.plugin,
       target: this,
@@ -162,15 +182,15 @@ export default class BuilderLayoutItem
 
   renderChildren(content: ILayoutContent[] = []) {
     content.forEach((item, i) => {
-      const otherChildren = this.#contentEl.children[i] as BuilderLayoutItem;
+      const otherChildren = this.contentEl.children[i] as BuilderLayoutItem;
       if (otherChildren?.content === item) {
         return;
       }
       const el = this.#createNewChildElement(item);
       if (otherChildren) {
-        this.#contentEl.insertBefore(el, this.#contentEl.children[i]);
+        this.contentEl.insertBefore(el, this.contentEl.children[i]);
       } else {
-        this.#contentEl.appendChild(el);
+        this.contentEl.appendChild(el);
       }
     });
   }

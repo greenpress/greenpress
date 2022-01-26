@@ -1,4 +1,5 @@
-import state from "../state";
+import store from "../store/builder-store";
+import dragAndDropStore from "../store/drag-drop-store";
 import { IPlugin } from "../types";
 
 export default class BuilderPluginItem extends HTMLElement {
@@ -11,7 +12,7 @@ export default class BuilderPluginItem extends HTMLElement {
   }
 
   attributeChangedCallback(_name: "for", _: string, match: string = "") {
-    const plugin = state.pluginsMap.get(match);
+    const plugin = store.pluginsMap.get(match);
     if (plugin) {
       this.#currentPlugin = plugin;
       this.render();
@@ -25,7 +26,10 @@ export default class BuilderPluginItem extends HTMLElement {
     this.addEventListener("dragstart", (event) => {
       this.classList.add("dragged");
       event.dataTransfer!.effectAllowed = "copy";
-      event.dataTransfer!.setData("for", this.#currentPlugin.match || "");
+
+      dragAndDropStore.start({
+        plugin: this.#currentPlugin,
+      });
 
       document.addEventListener(
         "dragend",

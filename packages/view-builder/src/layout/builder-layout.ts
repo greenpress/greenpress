@@ -1,48 +1,32 @@
 import BuilderLayoutItem from "./builder-layout-item";
-import { getNewLayoutItem } from "./layout-service";
-import state from "../state";
+import store from "../store/builder-store";
 import {
   ILayoutContent,
   IOnCreateEventDetail,
   IPlugin,
   IOnCreateEvent,
+  IBuilderLayout,
 } from "../types";
 
-export default class BuilderLayout extends HTMLElement {
+export default class BuilderLayout
+  extends HTMLElement
+  implements IBuilderLayout
+{
   static tag = "builder-layout";
+
+  supportChildren = true;
+  contentEl = this;
 
   constructor() {
     super();
 
-    this.addEventListener("dragover", (e) => {
-      e.preventDefault();
-    });
-
-    this.addEventListener("dragenter", () => {
-      this.classList.add("drag-enter");
-    });
-
-    this.addEventListener("dragleave", () => {
-      this.classList.remove("drag-enter");
-    });
-
-    this.addEventListener("drop", (event: DragEvent) => {
-      this.classList.remove("drag-enter");
-      if (!state.dragOverContent) {
-        const match: string = event.dataTransfer!.getData("for");
-
-        const newContentItem = state.draggedContent || getNewLayoutItem(match);
-        if (newContentItem) {
-          this.addNewChild(newContentItem, state.pluginsMap.get(match));
-          state.relocateDraggedContent();
-        }
-      }
-      state.dragOverContent = undefined;
-    });
-
-    state.watch("layout", (newLayout) => {
+    store.watch("layout", (newLayout) => {
       this.render(newLayout.content);
     });
+  }
+
+  get contentChildren() {
+    return store.layout.content;
   }
 
   #createNewChildElement(item: ILayoutContent): BuilderLayoutItem {
@@ -52,7 +36,7 @@ export default class BuilderLayout extends HTMLElement {
     el.content = item;
     el.addEventListener("remove", (e) => {
       e.stopImmediatePropagation();
-      state.layout.content = state.layout.content.filter(
+      store.layout.content = store.layout.content.filter(
         (content) => content !== item
       );
       el.remove();
@@ -61,18 +45,42 @@ export default class BuilderLayout extends HTMLElement {
     return el;
   }
 
-  addNewChild(content: ILayoutContent, plugin?: IPlugin) {
-    const el = this.#createNewChildElement(content);
-    state.layout.content.push(content);
-    this.appendChild(el);
+  addNewChild(
+    content: ILayoutContent,
+    plugin?: IPlugin,
+    insertIndex: number = store.layout.content.length
+  ) {
+    const cloneContent = { ...content };
+
+    const el = this.#createNewChildElement(cloneContent);
+    if (insertIndex >= store.layout.content.length) {
+      insertIndex = store.layout.content.length;
+      this.appendChild(el);
+      store.layout.content.push(cloneContent);
+    } else {
+      const beforeEl = (Array.from(this.children) as BuilderLayoutItem[]).find(
+        (el) => el.content === store.layout.content[insertIndex]
+      );
+      if (beforeEl) {
+        this.insertBefore(el, beforeEl);
+        store.layout.content = store.layout.content
+          .slice(0, insertIndex)
+          .concat([cloneContent, ...store.layout.content.slice(insertIndex)])
+          .filter((item) => item !== content);
+      } else {
+        insertIndex = 0;
+        this.prepend(el);
+        store.layout.content.unshift(cloneContent);
+      }
+    }
     const createEventDetail: IOnCreateEventDetail = {
       target: el,
       plugin,
-      content,
-      insertIndex: state.layout.content.length - 1,
+      content: cloneContent,
+      insertIndex,
       parent: undefined,
     };
-    state.emitAsBuilder(
+    store.emitAsBuilder(
       new CustomEvent("create", { detail: createEventDetail }) as IOnCreateEvent
     );
   }
