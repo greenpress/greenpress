@@ -1,18 +1,16 @@
-import { IPlugin, ILayout, ILayoutContent } from "./types";
+import { IPlugin, ILayout, ILayoutContent } from "../types";
+import { IViewBuilderElement } from "../types/view-builder";
 
-class BuilderState {
-  #builderEl!: HTMLElement;
+class BuilderStore {
+  builderEl!: IViewBuilderElement;
 
   #plugins: IPlugin[] = [];
   #layout!: ILayout;
 
   #watcher = document.createElement("div");
-  #draggedContent?: ILayoutContent;
-  #draggedContentCallback?: () => any;
 
   #hoverItemElements: HTMLElement[] = [];
 
-  dragOverContent?: ILayoutContent;
   pluginsMap = new Map<string, IPlugin>();
   getDisplayElementForItem: (context: {
     content: ILayoutContent;
@@ -20,45 +18,25 @@ class BuilderState {
     target: HTMLElement;
   }) => HTMLElement | null = () => null;
 
-  get draggedContent() {
-    return this.#draggedContent;
-  }
-
-  #emit(key: keyof BuilderState) {
+  #emit(key: keyof BuilderStore) {
     this.#watcher.dispatchEvent(new CustomEvent(key));
   }
 
   emitAsBuilder(event: CustomEvent) {
-    this.#builderEl.dispatchEvent(event);
+    this.builderEl.dispatchEvent(event);
   }
 
-  init(builderEl: HTMLElement) {
-    this.#builderEl = builderEl;
+  init(builderEl: IViewBuilderElement) {
+    this.builderEl = builderEl;
   }
 
   matchPlugin(element: HTMLElement) {
     return this.plugins.find((plugin) => element.matches(plugin.match));
   }
 
-  setDraggedContent(content: ILayoutContent, callback: () => any) {
-    this.#draggedContent = content;
-    this.#draggedContentCallback = callback;
-  }
-
-  relocateDraggedContent() {
-    this.#draggedContentCallback && this.#draggedContentCallback();
-    this.#draggedContent = undefined;
-    this.#draggedContentCallback = undefined;
-  }
-
-  abortDraggedContent() {
-    this.#draggedContent = undefined;
-    this.#draggedContentCallback = undefined;
-  }
-
-  watch<K extends keyof BuilderState>(
+  watch<K extends keyof BuilderStore>(
     key: K,
-    callback: (newVal: BuilderState[K]) => any
+    callback: (newVal: BuilderStore[K]) => any
   ) {
     const internalCallback = () => callback(this[key]);
     this.#watcher.addEventListener(key, internalCallback);
@@ -109,6 +87,6 @@ class BuilderState {
   }
 }
 
-const state = new BuilderState();
+const store = new BuilderStore();
 
-export default state;
+export default store;

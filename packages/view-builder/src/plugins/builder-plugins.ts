@@ -1,4 +1,4 @@
-import state from "../state";
+import store from "../store/builder-store";
 import { IPlugin } from "../types";
 
 export default class BuilderPlugins extends HTMLElement {
@@ -7,7 +7,7 @@ export default class BuilderPlugins extends HTMLElement {
   constructor() {
     super();
 
-    state.watch("plugins", (plugins: IPlugin[]) => {
+    store.watch("plugins", (plugins: IPlugin[]) => {
       this.innerHTML = plugins
         .map(
           ({ match }) =>

@@ -1,25 +1,31 @@
-import state from "./state";
+import store from "./store/builder-store";
 import "./view-builder.css";
-import { ILayout, IPlugin, ILayoutContent } from "./types";
+import { ILayout, IPlugin, ILayoutContent, IBuilderLayout } from "./types";
+import { IViewBuilderElement } from "./types/view-builder";
 
-export default class ViewBuilderElement extends HTMLElement {
+export default class ViewBuilderElement
+  extends HTMLElement
+  implements IViewBuilderElement
+{
   static tag = "view-builder";
 
   pluginsEl: HTMLElement = document.createElement("builder-plugins");
-  layoutEl: HTMLElement = document.createElement("builder-layout");
+  layoutEl: IBuilderLayout = document.createElement(
+    "builder-layout"
+  ) as IBuilderLayout;
 
   get plugins() {
-    return state.plugins;
+    return store.plugins;
   }
   set plugins(plugins: IPlugin[]) {
-    state.plugins = plugins;
+    store.plugins = plugins;
   }
 
   get layout(): ILayout {
-    return state.layout;
+    return store.layout;
   }
   set layout(layout: any) {
-    state.layout = layout;
+    store.layout = layout;
   }
 
   setContentDisplayCreator(
@@ -29,12 +35,12 @@ export default class ViewBuilderElement extends HTMLElement {
       target: HTMLElement;
     }) => HTMLElement | null
   ): void {
-    state.getDisplayElementForItem = func;
+    store.getDisplayElementForItem = func;
   }
 
   constructor() {
     super();
-    state.init(this);
+    store.init(this);
     this.appendChild(this.pluginsEl);
     this.appendChild(this.layoutEl);
   }
