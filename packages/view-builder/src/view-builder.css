@@ -45,19 +45,21 @@ builder-plugin-item.dragged {
 }
 
 builder-layout-item {
-    padding: 50px 10px;
+	padding: 0;
     margin: 10px;
     position: relative;
-    transition: opacity 200ms linear, var(--background-trasition);
-    opacity: 0;
+    transition: var(--background-trasition), max-height 2s ease-in-out, padding 200ms linear;
+	overflow: hidden;
     border: 2px solid #e6e6e6;
     border-radius: 4px;
     background-color: #fff;
+	max-height: 0;
 }
 
 builder-layout-item[shown] {
-    opacity: 1;
-    background-color: #f9f9f9;
+    background-color: #fefefe;
+	padding: 50px 10px;
+	max-height: 100%;
 }
 
 builder-layout-item[shown].hover {
@@ -91,13 +93,14 @@ builder-layout-gap {
     flex: 0;
     min-height: 0;
     border: 2px dashed #ccc;
-    background-color: #f9f9f9;
-    transition: min-height 200ms linear, flex 200ms linear;
+    transition: min-height 200ms linear, flex 200ms linear,  var(--background-trasition);
 }
 
 builder-layout-gap[shown] {
     flex: 1;
     min-height: 30px;
+	background-color: #f6f6f6;
+
 }
 
 builder-layout-gap .drag-area {

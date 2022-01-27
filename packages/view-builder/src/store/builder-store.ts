@@ -1,5 +1,5 @@
-import { IPlugin, ILayout, ILayoutContent } from "../types";
-import { IViewBuilderElement } from "../types/view-builder";
+import {IPlugin, ILayout, ILayoutContent} from '../types';
+import {IViewBuilderElement} from '../types/view-builder';
 
 class BuilderStore {
   builderEl!: IViewBuilderElement;
@@ -7,7 +7,7 @@ class BuilderStore {
   #plugins: IPlugin[] = [];
   #layout!: ILayout;
 
-  #watcher = document.createElement("div");
+  #watcher = document.createElement('div');
 
   #hoverItemElements: HTMLElement[] = [];
 
@@ -28,6 +28,10 @@ class BuilderStore {
 
   init(builderEl: IViewBuilderElement) {
     this.builderEl = builderEl;
+    builderEl.addEventListener('mouseenter', () => {
+      this.#hoverItemElements.map(el => el.classList.remove('hover'));
+      this.#hoverItemElements.length = 0;
+    })
   }
 
   matchPlugin(element: HTMLElement) {
@@ -46,18 +50,22 @@ class BuilderStore {
 
   setHoverItem(element: HTMLElement) {
     this.#hoverItemElements[
-      this.#hoverItemElements.length - 1
-    ]?.classList.remove("hover");
-    element.classList.add("hover");
+    this.#hoverItemElements.length - 1
+      ]?.classList.remove('hover');
+    element.classList.add('hover');
     this.#hoverItemElements.push(element);
   }
 
   removeHoverItem() {
-    this.#hoverItemElements.pop()?.classList.remove("hover");
+    this.#hoverItemElements.pop()?.classList.remove('hover');
 
     const lastItem =
       this.#hoverItemElements[this.#hoverItemElements.length - 1];
-    lastItem?.classList.add("hover");
+    lastItem?.classList.add('hover');
+  }
+
+  emitLayoutChanged() {
+    this.emitAsBuilder(new CustomEvent('change', {detail: {layout: this.layout}}));
   }
 
   get plugins(): IPlugin[] {
@@ -68,13 +76,13 @@ class BuilderStore {
     this.#plugins = plugins.map((plugin) => ({
       ...plugin,
       showChildren:
-        plugin.showChildren || !plugin.hasOwnProperty("showChildren"),
+        plugin.showChildren || !plugin.hasOwnProperty('showChildren'),
       supportChildren:
-        plugin.supportChildren || !plugin.hasOwnProperty("supportChildren"),
+        plugin.supportChildren || !plugin.hasOwnProperty('supportChildren'),
     }));
     this.pluginsMap.clear();
     this.plugins.forEach((plugin) => this.pluginsMap.set(plugin.match, plugin));
-    this.#emit("plugins");
+    this.#emit('plugins');
   }
 
   get layout(): ILayout {
@@ -83,7 +91,7 @@ class BuilderStore {
 
   set layout(layout: ILayout) {
     this.#layout = layout;
-    this.#emit("layout");
+    this.#emit('layout');
   }
 }
 
