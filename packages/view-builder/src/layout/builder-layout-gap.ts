@@ -8,9 +8,9 @@ export default class BuilderLayoutGap extends HTMLElement {
   constructor() {
     super();
     this.dragArea.setAttribute("class", "drag-area");
-    this.dragArea.addEventListener("dragenter", (e) => {
+    this.dragArea.addEventListener("dragenter", () => {
     });
-    this.dragArea.addEventListener("dragleave", (e) => {
+    this.dragArea.addEventListener("dragleave", () => {
     });
     this.dragArea.addEventListener("drop", () => {
       dragAndDropStore.drop(this);
