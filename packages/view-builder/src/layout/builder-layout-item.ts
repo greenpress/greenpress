@@ -10,6 +10,7 @@ import {
   IOnCreateEvent,
 } from "../types";
 import dragAndDropStore from "../store/drag-drop-store";
+import builderStore from '../store/builder-store';
 
 export default class BuilderLayoutItem
   extends HTMLElement
@@ -91,6 +92,7 @@ export default class BuilderLayoutItem
         (content) => content !== item
       );
       el.remove();
+      builderStore.emitLayoutChanged();
     });
 
     return el;

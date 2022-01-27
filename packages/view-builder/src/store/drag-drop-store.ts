@@ -8,10 +8,6 @@ export interface IDraggedContent {
   callback?: () => any;
 }
 
-export enum DRAG_SERVICE_EVENT {
-  CREATE_GAPS = "1",
-}
-
 const GAP_EL_TAG = "builder-layout-gap";
 
 class DragDropStore {
@@ -59,6 +55,7 @@ class DragDropStore {
     container.addNewChild(content, plugin, insertIndex);
 
     this.#dragged?.callback && this.#dragged.callback();
+    builderStore.emitLayoutChanged();
     this.stop();
   }
 
