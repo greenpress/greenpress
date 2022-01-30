@@ -1,5 +1,5 @@
 import {internalServicesSecret} from '../../config';
-import {service} from '@greenpress/api-kit/internal-service';
+import {service} from '@greenpress/api-kit';
 const authService = service('AUTH');
 
 function callAuthService(url: string, method: 'POST' | 'DELETE', tenant: string, data?: any) {

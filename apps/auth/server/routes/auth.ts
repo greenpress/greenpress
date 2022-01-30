@@ -1,4 +1,4 @@
-import {getRouter} from '@greenpress/api-kit/router'
+import {getRouter} from '@greenpress/api-kit'
 import {onlyAuthenticated} from '../middleware/auth-check';
 import verifyUser from '../middleware/verify-user';
 import {signin} from '../controllers/signin';
