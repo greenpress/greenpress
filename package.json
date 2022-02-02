@@ -6,7 +6,7 @@
   "scripts": {
     "postinstall": "lerna bootstrap",
     "install:prod-only": "lerna bootstrap -- --production",
-    "prebuild": "lerna run prebuild",
+    "prebuild": "lerna run prebuild --parallel",
     "build": "npm run prebuild && lerna run build",
     "clean": "lerna clean --yes",
     "dev": "lerna exec npm run dev --scope=@greenpress/greenpress",
@@ -20,7 +20,7 @@
   "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
   "license": "MIT",
   "engines": {
-    "node": ">=15.x"
+    "node": ">=16.x"
   },
   "bugs": {
     "url": "https://github.com/greenpress/greenpress/issues"
@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "@types/jest": "^27.0.2",
-    "@types/node": "^15.14.0",
+    "@types/node": "^16.11.22",
     "jest": "^27.0.4",
     "lerna": "^4.0.0",
     "ts-node": "^10.2.1"

@@ -119,7 +119,6 @@ module.exports = {
     ALTERNATIVE_HMR: config.alternativeHmr
   }),
   gateway: getHttpServiceVariables('gateway', {
-    NODE_ENV: DEV,
     PORT: config.port,
     APPLICATION_URL: config.applicationUrl,
   }),

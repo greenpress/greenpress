@@ -5,7 +5,7 @@ RUN node tools/bundle-dependencies-polyfix ${SERVICE_NAME}
 RUN npm run pack-package --- --scope=@greenpress/${SERVICE_NAME}
 RUN npm run rename-pack --- --scope=@greenpress/${SERVICE_NAME}
 
-FROM node:15.14-alpine
+FROM node:16.5-alpine
 ENV NODE_ENV=production
 ENV PORT=9004
 EXPOSE $PORT

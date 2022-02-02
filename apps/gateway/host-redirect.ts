@@ -20,5 +20,5 @@ export function loadHostRedirect(app) {
   if (!applicationUrl) {
     return
   }
-  setHostRedirect(app, applicationUrl)
+  //setHostRedirect(app, applicationUrl)
 }

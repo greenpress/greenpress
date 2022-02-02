@@ -1,4 +1,4 @@
-FROM node:15.14 as base
+FROM node:16.5 as base
 COPY . .
 ENV NODE_ENV=development
 ARG THEME=damal
@@ -12,7 +12,7 @@ RUN node tools/bundle-dependencies-polyfix blog-front
 RUN npx lerna exec npm pack --scope=@greenpress/blog-front
 RUN npm run rename-pack --- --scope=@greenpress/blog-front
 
-FROM node:15.14-alpine
+FROM node:16.5-alpine
 ENV PORT=3000
 ENV NODE_ENV=production
 EXPOSE $PORT
