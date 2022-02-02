@@ -40,6 +40,7 @@ module.exports = function apiProxy(app: any, config: Partial<IApiProxyConfig>) {
 
   function useProxy(app, service: IServiceProxyConfig) {
     if (excludedServices.includes(service.name)) {
+      console.log('excluding proxy to ' + service.name);
       return;
     }
     app.use(service.proxies, getProxy(getProxyTarget(service), tenant));

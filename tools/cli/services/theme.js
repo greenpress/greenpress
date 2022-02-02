@@ -22,7 +22,7 @@ async function cloneFromGit(name, gitRepository) {
 	const { customThemePath, themesFolderPath } = createThemeFolder(name);
 
 	try {
-		fs.rmdirSync(customThemePath);
+		fs.rmSync(customThemePath, { recursive: true });
 		if (!(await execute(`git clone ${gitRepository} ${name}`, 'clone theme from git repository', {cwd: themesFolderPath}))) {
 			console.log(red(`Failed to clone ${gitRepository} content to ${name} folder`));
 			return false;
