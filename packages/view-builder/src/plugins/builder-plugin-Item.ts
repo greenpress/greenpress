@@ -22,23 +22,31 @@ export default class BuilderPluginItem extends HTMLElement {
   constructor() {
     super();
     this.render();
-    this.draggable = true;
-    this.addEventListener("dragstart", (event) => {
-      this.classList.add("dragged");
-      event.dataTransfer!.effectAllowed = "copy";
-
-      dragAndDropStore.start({
-        plugin: this.#currentPlugin,
+    if (dragAndDropStore.isMobile) {
+      this.addEventListener("click", () => {
+        dragAndDropStore.start({
+          plugin: this.#currentPlugin,
+        });
       });
+    } else {
+      this.draggable = true;
+      this.addEventListener("dragstart", (event) => {
+        this.classList.add("dragged");
+        event.dataTransfer!.effectAllowed = "copy";
 
-      document.addEventListener(
-        "dragend",
-        () => {
-          this.classList.remove("dragged");
-        },
-        { once: true }
-      );
-    });
+        dragAndDropStore.start({
+          plugin: this.#currentPlugin,
+        });
+
+        document.addEventListener(
+          "dragend",
+          () => {
+            this.classList.remove("dragged");
+          },
+          { once: true }
+        );
+      });
+    }
   }
 
   render() {
