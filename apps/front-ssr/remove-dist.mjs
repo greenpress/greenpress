@@ -1,4 +1,8 @@
-import { rmdir } from 'fs/promises'
+import { rm } from 'fs/promises'
 
 
-await rmdir('./dist', { recursive: true });
+try {
+  await rm('./dist', { recursive: true });
+} catch {
+  console.log('dist folder not found')
+}
