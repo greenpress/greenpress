@@ -10,7 +10,7 @@ import {
   IOnCreateEvent,
 } from "../types";
 import dragAndDropStore from "../store/drag-drop-store";
-import builderStore from '../store/builder-store';
+import builderStore from "../store/builder-store";
 
 export default class BuilderLayoutItem
   extends HTMLElement
@@ -130,26 +130,28 @@ export default class BuilderLayoutItem
   constructor() {
     super();
 
-    this.addEventListener("dragstart", (event) => {
-      event.stopImmediatePropagation();
-      this.classList.add("dragged");
-      event.dataTransfer!.effectAllowed = "copy";
-      dragAndDropStore.start({
-        content: this.content,
-        plugin: this.plugin,
-        callback: () => {
-          this.#remove();
-        },
-      });
+    if (!dragAndDropStore.isMobile) {
+      this.addEventListener("dragstart", (event) => {
+        event.stopImmediatePropagation();
+        this.classList.add("dragged");
+        event.dataTransfer!.effectAllowed = "copy";
+        dragAndDropStore.start({
+          content: this.content,
+          plugin: this.plugin,
+          callback: () => {
+            this.#remove();
+          },
+        });
 
-      document.addEventListener(
-        "dragend",
-        () => {
-          this.classList.remove("dragged");
-        },
-        { once: true }
-      );
-    });
+        document.addEventListener(
+          "dragend",
+          () => {
+            this.classList.remove("dragged");
+          },
+          { once: true }
+        );
+      });
+    }
 
     handleLayoutItemHover(this);
   }
@@ -160,15 +162,31 @@ export default class BuilderLayoutItem
     <div class="layout-item-actions">
       <a href="#" class="remove" title="remove">🗑️</a>
       <a href="#" class="edit" title="edit">📝</a>
+      ${
+        dragAndDropStore.isMobile
+          ? `<a href="#" class="drag" title="edit">↔️</a>`
+          : ""
+      }
     </div>
     `;
-    this.querySelector(".layout-item-actions .remove")!.addEventListener(
+    this.querySelector(".layout-item-actions .remove")?.addEventListener(
       "click",
       () => this.#remove()
     );
-    this.querySelector(".layout-item-actions .edit")!.addEventListener(
+    this.querySelector(".layout-item-actions .edit")?.addEventListener(
       "click",
       () => this.#edit()
+    );
+    this.querySelector(".layout-item-actions .drag")?.addEventListener(
+      "click",
+      () =>
+        dragAndDropStore.start({
+          content: this.content,
+          plugin: this.plugin,
+          callback: () => {
+            this.#remove();
+          },
+        })
     );
     this.appendChild(this.contentEl);
     const displayEl = store.getDisplayElementForItem({
