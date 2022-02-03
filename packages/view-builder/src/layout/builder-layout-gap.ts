@@ -9,15 +9,16 @@ export default class BuilderLayoutGap extends HTMLElement {
     super();
     this.dragArea.setAttribute("class", "drag-area");
     if(dragAndDropStore.isMobile) {
+      this.dragArea.addEventListener("click", () => {
+        dragAndDropStore.drop(this);
+      });
+    } else {
       this.dragArea.addEventListener("dragenter", () => {});
       this.dragArea.addEventListener("dragleave", () => {});
       this.dragArea.addEventListener("drop", () => {
         dragAndDropStore.drop(this);
       });
-    } else {
-      this.dragArea.addEventListener("click", () => {
-        dragAndDropStore.drop(this);
-      });
+
     }
 
     setTimeout(() => {

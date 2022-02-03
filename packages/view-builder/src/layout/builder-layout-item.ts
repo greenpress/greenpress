@@ -101,7 +101,7 @@ export default class BuilderLayoutItem
           callback: () => {
             this.#remove();
           },
-        });
+        }, this);
 
         document.addEventListener(
           "dragend",
@@ -146,7 +146,7 @@ export default class BuilderLayoutItem
           callback: () => {
             this.#remove();
           },
-        })
+        }, this)
     );
     this.appendChild(this.contentEl);
     const displayEl = store.getDisplayElementForItem({
