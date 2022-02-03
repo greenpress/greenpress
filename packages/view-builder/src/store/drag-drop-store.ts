@@ -51,12 +51,17 @@ class DragDropStore {
     contentEl.appendChild(lastGap);
   }
 
-  #createGaps() {
+  #createGaps(target?: HTMLElement) {
     this.#createGapsForLayoutItem(builderStore.builderEl.layoutEl);
 
     builderStore.builderEl
       .querySelectorAll("builder-layout-item")
-      .forEach((el: any) => this.#createGapsForLayoutItem(el));
+      .forEach((el: any) => {
+        if(el === target || !!Array.from(el.closest("builder-layout-item")).find(el => el === target)) {
+          return;
+        }
+        this.#createGapsForLayoutItem(el)
+      });
   }
 
   #removeGaps() {
@@ -65,10 +70,13 @@ class DragDropStore {
       .forEach((el) => el.remove());
   }
 
-  start(dragged?: IDraggedContent) {
-    this.isDragging = true;
+  start(dragged?: IDraggedContent, target?: HTMLElement) {
     this.#dragged = dragged;
-    this.#createGaps();
+    if(this.isDragging) {
+      return;
+    }
+    this.isDragging = true;
+    this.#createGaps(target);
 
     if (this.isMobile) {
       return;
