@@ -41,46 +41,6 @@ export default class BuilderLayoutItem
     );
   }
 
-  addNewChild(
-    content: ILayoutContent,
-    plugin?: IPlugin,
-    insertIndex: number = this.contentChildren.length
-  ) {
-    const cloneContent = { ...content };
-
-    const el = this.#createNewChildElement(cloneContent);
-    if (insertIndex >= this.contentChildren.length) {
-      insertIndex = this.contentChildren.length;
-      this.contentEl.appendChild(el);
-      this.contentChildren.push(cloneContent);
-    } else {
-      const beforeEl = (
-        Array.from(this.contentEl.children) as BuilderLayoutItem[]
-      ).find((el) => el.content === this.contentChildren[insertIndex]);
-      if (beforeEl) {
-        this.contentEl.insertBefore(el, beforeEl);
-        this.content.children = this.contentChildren
-          .slice(0, insertIndex)
-          .concat([cloneContent, ...this.contentChildren.slice(insertIndex)]);
-      } else {
-        insertIndex = this.contentChildren.length;
-        this.contentEl.appendChild(el);
-        this.contentChildren.push(cloneContent);
-      }
-    }
-
-    const createEventDetail: IOnCreateEventDetail = {
-      target: el,
-      plugin,
-      content: cloneContent,
-      insertIndex: (this.content.children?.length || 1) - 1,
-      parent: this.content,
-    };
-    store.emitAsBuilder(
-      new CustomEvent("create", { detail: createEventDetail }) as IOnCreateEvent
-    );
-  }
-
   #createNewChildElement(item: ILayoutContent): BuilderLayoutItem {
     const el = document.createElement(
       "builder-layout-item"
@@ -101,6 +61,7 @@ export default class BuilderLayoutItem
   get content() {
     return this.#content;
   }
+
   set content(content: ILayoutContent) {
     this.#content = content;
     this.contentEl = document.createElement(content.component);
@@ -111,14 +72,13 @@ export default class BuilderLayoutItem
     );
     this.render();
   }
-
   get supportChildren() {
     return !!this.plugin?.supportChildren;
   }
+
   get contentChildren() {
     return this.content.children || [];
   }
-
   get plugin(): IPlugin | undefined {
     if (this.#relatedPlugin) {
       return this.#relatedPlugin;
@@ -151,9 +111,9 @@ export default class BuilderLayoutItem
           { once: true }
         );
       });
-    }
 
-    handleLayoutItemHover(this);
+      handleLayoutItemHover(this);
+    }
   }
 
   render() {
@@ -213,5 +173,45 @@ export default class BuilderLayoutItem
         this.contentEl.appendChild(el);
       }
     });
+  }
+
+  addNewChild(
+    content: ILayoutContent,
+    plugin?: IPlugin,
+    insertIndex: number = this.contentChildren.length
+  ) {
+    const cloneContent = { ...content };
+
+    const el = this.#createNewChildElement(cloneContent);
+    if (insertIndex >= this.contentChildren.length) {
+      insertIndex = this.contentChildren.length;
+      this.contentEl.appendChild(el);
+      this.contentChildren.push(cloneContent);
+    } else {
+      const beforeEl = (
+        Array.from(this.contentEl.children) as BuilderLayoutItem[]
+      ).find((el) => el.content === this.contentChildren[insertIndex]);
+      if (beforeEl) {
+        this.contentEl.insertBefore(el, beforeEl);
+        this.content.children = this.contentChildren
+          .slice(0, insertIndex)
+          .concat([cloneContent, ...this.contentChildren.slice(insertIndex)]);
+      } else {
+        insertIndex = this.contentChildren.length;
+        this.contentEl.appendChild(el);
+        this.contentChildren.push(cloneContent);
+      }
+    }
+
+    const createEventDetail: IOnCreateEventDetail = {
+      target: el,
+      plugin,
+      content: cloneContent,
+      insertIndex: (this.content.children?.length || 1) - 1,
+      parent: this.content,
+    };
+    store.emitAsBuilder(
+      new CustomEvent("create", { detail: createEventDetail }) as IOnCreateEvent
+    );
   }
 }

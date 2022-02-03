@@ -3,6 +3,12 @@ import {IViewBuilderElement} from '../types/view-builder';
 
 class BuilderStore {
   builderEl!: IViewBuilderElement;
+  pluginsMap = new Map<string, IPlugin>();
+  getDisplayElementForItem: (context: {
+    content: ILayoutContent;
+    plugin?: IPlugin;
+    target: HTMLElement;
+  }) => HTMLElement | null = () => null;
 
   #plugins: IPlugin[] = [];
   #layout!: ILayout;
@@ -11,12 +17,31 @@ class BuilderStore {
 
   #hoverItemElements: HTMLElement[] = [];
 
-  pluginsMap = new Map<string, IPlugin>();
-  getDisplayElementForItem: (context: {
-    content: ILayoutContent;
-    plugin?: IPlugin;
-    target: HTMLElement;
-  }) => HTMLElement | null = () => null;
+  get plugins(): IPlugin[] {
+    return this.#plugins;
+  }
+
+  set plugins(plugins: IPlugin[]) {
+    this.#plugins = plugins.map((plugin) => ({
+      ...plugin,
+      showChildren:
+        plugin.showChildren || !plugin.hasOwnProperty('showChildren'),
+      supportChildren:
+        plugin.supportChildren || !plugin.hasOwnProperty('supportChildren'),
+    }));
+    this.pluginsMap.clear();
+    this.plugins.forEach((plugin) => this.pluginsMap.set(plugin.match, plugin));
+    this.#emit('plugins');
+  }
+
+  get layout(): ILayout {
+    return this.#layout;
+  }
+
+  set layout(layout: ILayout) {
+    this.#layout = layout;
+    this.#emit('layout');
+  }
 
   #emit(key: keyof BuilderStore) {
     this.#watcher.dispatchEvent(new CustomEvent(key));
@@ -66,32 +91,6 @@ class BuilderStore {
 
   emitLayoutChanged() {
     this.emitAsBuilder(new CustomEvent('change', {detail: {layout: this.layout}}));
-  }
-
-  get plugins(): IPlugin[] {
-    return this.#plugins;
-  }
-
-  set plugins(plugins: IPlugin[]) {
-    this.#plugins = plugins.map((plugin) => ({
-      ...plugin,
-      showChildren:
-        plugin.showChildren || !plugin.hasOwnProperty('showChildren'),
-      supportChildren:
-        plugin.supportChildren || !plugin.hasOwnProperty('supportChildren'),
-    }));
-    this.pluginsMap.clear();
-    this.plugins.forEach((plugin) => this.pluginsMap.set(plugin.match, plugin));
-    this.#emit('plugins');
-  }
-
-  get layout(): ILayout {
-    return this.#layout;
-  }
-
-  set layout(layout: ILayout) {
-    this.#layout = layout;
-    this.#emit('layout');
   }
 }
 

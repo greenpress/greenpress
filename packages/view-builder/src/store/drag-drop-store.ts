@@ -35,6 +35,36 @@ class DragDropStore {
     event.preventDefault();
   }
 
+  #createGapsForLayoutItem(element: IBuilderLayout) {
+    if (!element.supportChildren) {
+      return;
+    }
+    const contentEl = element.contentEl;
+    const length = element.contentChildren.length;
+    Array.from(contentEl.children).forEach((child, index) => {
+      const gap = document.createElement(GAP_EL_TAG);
+      gap.setAttribute("insert-index", index + "");
+      contentEl.insertBefore(gap, child);
+    });
+    const lastGap = document.createElement(GAP_EL_TAG);
+    lastGap.setAttribute("insert-index", length + "");
+    contentEl.appendChild(lastGap);
+  }
+
+  #createGaps() {
+    this.#createGapsForLayoutItem(builderStore.builderEl.layoutEl);
+
+    builderStore.builderEl
+      .querySelectorAll("builder-layout-item")
+      .forEach((el: any) => this.#createGapsForLayoutItem(el));
+  }
+
+  #removeGaps() {
+    builderStore.builderEl
+      .querySelectorAll("builder-layout-gap")
+      .forEach((el) => el.remove());
+  }
+
   start(dragged?: IDraggedContent) {
     this.isDragging = true;
     this.#dragged = dragged;
@@ -77,36 +107,6 @@ class DragDropStore {
     this.#dragged?.callback && this.#dragged.callback();
     builderStore.emitLayoutChanged();
     this.stop();
-  }
-
-  #createGapsForLayoutItem(element: IBuilderLayout) {
-    if (!element.supportChildren) {
-      return;
-    }
-    const contentEl = element.contentEl;
-    const length = element.contentChildren.length;
-    Array.from(contentEl.children).forEach((child, index) => {
-      const gap = document.createElement(GAP_EL_TAG);
-      gap.setAttribute("insert-index", index + "");
-      contentEl.insertBefore(gap, child);
-    });
-    const lastGap = document.createElement(GAP_EL_TAG);
-    lastGap.setAttribute("insert-index", length + "");
-    contentEl.appendChild(lastGap);
-  }
-
-  #createGaps() {
-    this.#createGapsForLayoutItem(builderStore.builderEl.layoutEl);
-
-    builderStore.builderEl
-      .querySelectorAll("builder-layout-item")
-      .forEach((el: any) => this.#createGapsForLayoutItem(el));
-  }
-
-  #removeGaps() {
-    builderStore.builderEl
-      .querySelectorAll("builder-layout-gap")
-      .forEach((el) => el.remove());
   }
 }
 
