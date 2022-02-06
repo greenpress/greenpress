@@ -23,9 +23,9 @@ export default class BuilderLayoutItem
 
   contentEl!: HTMLElement;
 
-  #remove() {
+  #remove(dragged: boolean = false) {
     this.dispatchEvent(
-      new CustomEvent("remove", { detail: { content: this.content } })
+      new CustomEvent("remove", { detail: { content: this.content, dragged } })
     );
   }
 
