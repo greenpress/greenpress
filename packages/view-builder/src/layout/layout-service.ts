@@ -6,7 +6,7 @@ export function getNewLayoutItem(plugin?: IPlugin): ILayoutContent | undefined {
 
   return {
     component: plugin.component,
-    predefined: false,
+    predefined: !!plugin.predefined,
     classes: plugin.classes || "",
     props: {},
     children: plugin.supportChildren ? [] : undefined,

@@ -31,3 +31,11 @@ h1 {
 #my-builder .blue {
   background-color: rgb(196, 210, 236);
 }
+
+#my-builder .green {
+	background-color: green;
+}
+
+#my-builder .rounded {
+	border-radius: 10px;
+}

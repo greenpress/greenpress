@@ -1,11 +1,13 @@
-import BuilderPluginItem from "./plugins/builder-plugin-Item";
-import BuilderPlugins from "./plugins/builder-plugins";
-import BuilderLayout from "./layout/builder-layout";
-import ViewBuilderElement from "./view-builder";
-import BuilderLayoutItem from "./layout/builder-layout-item";
-import BuilderLayoutGap from "./layout/builder-layout-gap";
+import BuilderPluginItem from './plugins/builder-plugin-Item';
+import BuilderPlugins from './plugins/builder-plugins';
+import BuilderLayout from './layout/builder-layout';
+import ViewBuilderElement from './view-builder';
+import BuilderLayoutItem from './layout/builder-layout-item';
+import BuilderLayoutGap from './layout/builder-layout-gap';
 
-export * from "./types";
+export * from './types';
+
+export {getLayoutClasses} from './utils/layout-classes'
 
 customElements.define(ViewBuilderElement.tag, ViewBuilderElement);
 customElements.define(BuilderPlugins.tag, BuilderPlugins);

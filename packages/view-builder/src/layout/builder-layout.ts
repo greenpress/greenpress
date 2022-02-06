@@ -7,6 +7,7 @@ import {
   IOnCreateEvent,
   IBuilderLayout,
 } from "../types";
+import builderStore from '../store/builder-store';
 
 export default class BuilderLayout
   extends HTMLElement
@@ -40,6 +41,7 @@ export default class BuilderLayout
         (content) => content !== item
       );
       el.remove();
+      builderStore.emitLayoutChanged();
     });
 
     return el;
