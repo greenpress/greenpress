@@ -12,5 +12,8 @@ export interface IPlugin {
   // should show children in viewer? default: true
   showChildren?: boolean;
 
+  // is that component predefined in your own system and needs to be loaded before usage? if so, set as true.
+  predefined?: boolean;
+
   [key: string]: any;
 }
