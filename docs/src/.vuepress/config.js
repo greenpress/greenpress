@@ -86,7 +86,6 @@ module.exports = {
 				path: '/services/',
 				children: [
 					'/services/admin-panel/',
-					'/services/blog-front/',
 					'/services/assets/',
 					'/services/content/',
 					'/services/secrets/',

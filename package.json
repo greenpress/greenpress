@@ -14,8 +14,7 @@
     "populate-db": "lerna exec npm run populate-db --scope=@greenpress/greenpress",
     "pack-package": "lerna exec npm pack",
     "rename-pack": "lerna exec node ../../tools/bundler/rename-pack.js",
-    "test": "lerna run test --parallel",
-    "build:custom-front": "docker build . -f Dockerfile.custom-blog-front"
+    "test": "lerna run test --parallel"
   },
   "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
   "license": "MIT",
