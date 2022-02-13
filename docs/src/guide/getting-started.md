@@ -7,7 +7,7 @@ We truly believe that it's the best to be the client of your own product, in ord
 ## Installation
 The best way to create your own application is with the same ways the rest of the users and developers (that aren't contributors) will do - use the Greenpress CLI:
 
-```
+```shell
 $ npm install -g @greenpress/cli
 $ greenpress create my-app
 $ cd my-app
