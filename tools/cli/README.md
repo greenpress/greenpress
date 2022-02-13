@@ -51,10 +51,3 @@ A command-line interface to help you create and manage your Greenpress applicati
       options:
       * -b/--branch <branch_name>: clones the services immeditaly to the requested branch (**if multiple services are requested, all must have the same branch name**)
 
-* **theme**: create custom themes.
-  usage: greenpress theme [options] [name]
-  options:
-  * --from <theme>  set base theme to be used
-    * a valid name will copy a theme from the blog-front repository's `themes` folder.
-    * a git repository (using ssh with `git@` prefix) will clone the theme from this repository.
-

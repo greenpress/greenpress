@@ -74,7 +74,6 @@ secretes | https://github.com/greenpress/secrets-service
 assets | https://github.com/greenpress/assets-service
 content | https://github.com/greenpress/content-service
 admin | https://github.com/greenpress/admin-panel
-front | https://github.com/greenpress/blog-front
 
 _Note: Running multiple dev / local services can be done by separating their designation with a comma._
 ##
