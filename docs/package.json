@@ -1,7 +1,7 @@
 {
   "name": "@greenpress/docs",
   "version": "0.0.1",
-  "description": "",
+  "description": "Content websites platforms for the 21st century",
   "main": "index.js",
   "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
   "scripts": {

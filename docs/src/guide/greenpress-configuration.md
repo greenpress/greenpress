@@ -211,7 +211,7 @@ module.exports = {
 }
 ```
 
-### Mail Provider 
+### Mail Provider
 
 The mail provider is an object which contains a few values.
 
@@ -230,25 +230,13 @@ Set the `service` by environment variable as **MAIL_PROVIDER_SERVICE**
 
 - `mailProvider.authType`
 You are able to set the authType to `'custom'` if you want to provide another email authentication method. **NOTE: Greenpress doesn't fully supports that yet.** <br />
-Set the `authType` by environment variable as **MAIL_PROVIDER_AUTH_TYPE** 
+Set the `authType` by environment variable as **MAIL_PROVIDER_AUTH_TYPE**
 
 - `mailProvider.email`, `mailProvider.password`
 Set the credentials for your email service with this values. <br />
 Set them by environment variables as **MAIL_PROVIDER_EMAIL** and **MAIL_PROVIDER_PW**
 
 ### Config Greenpress services
-
-You can also add configurations to the greenpress services, as described in each page:
-
-- [Blog Front](https://docs.greenpress.info/services/blog-front/#cofiguration)
-- [Admin panel](https://docs.greenpress.info/services/admin-panel/#configuration)
-- [Authentication service](https://docs.greenpress.info/services/auth/#configuration)
-- [Content service](https://docs.greenpress.info/services/content/#configuarion)
-- [Secrets service](https://docs.greenpress.info/services/secrets/#configuration)
-- [Assets service](https://docs.greenpress.info/services/assets/#configuration)
-- [Drafts service](https://docs.greenpress.info/services/drafts/#configuration)
-
-<!-- TODO: when mailing & drafts services configurations will be merged to the base config, document them as well -->
 
 To add the service configurations, use the `services` prop on the config file:
 
