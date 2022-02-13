@@ -1,6 +1,8 @@
 # Admin Panel
 
-WIP
+## About
+The admin panel is a frontend application written in Vue.js to manage all website's operations, such as:<br>
+Users, layouts, content, drafts, menus, blocks, site configurations, storage, plugins, email providers, etc.
 
 ## Configuration
 
