@@ -56,7 +56,6 @@ module.exports = {
 					'/guide/getting-started',
 					'/guide/greenpress-configuration',
 					'/guide/local-docker-composition',
-					'/guide/customize',
 					'/guide/permissions'
 				]
 			},
