@@ -1,6 +1,6 @@
 {
   "name": "@greenpress/greenpress",
-  "version": "2.0.18",
+  "version": "2.0.19",
   "description": "Open-source blogs and content websites platform, made for the 21st century",
   "main": "index.js",
   "scripts": {
@@ -11,14 +11,14 @@
   "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@greenpress/admin": "^2.0.18",
-    "@greenpress/assets": "^2.0.18",
-    "@greenpress/auth": "^2.0.18",
-    "@greenpress/blog-front": "^2.0.17",
-    "@greenpress/content": "^2.0.18",
-    "@greenpress/drafts": "^2.0.18",
+    "@greenpress/admin": "^2.0.19",
+    "@greenpress/assets": "^2.0.19",
+    "@greenpress/auth": "^2.0.19",
+    "@greenpress/blog-front": "^2.0.19",
+    "@greenpress/content": "^2.0.19",
+    "@greenpress/drafts": "^2.0.19",
     "@greenpress/pm2-launcher": "^2.0.10",
-    "@greenpress/secrets": "^2.0.18"
+    "@greenpress/secrets": "^2.0.19"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"
