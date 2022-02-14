@@ -1,6 +1,6 @@
 {
   "name": "@greenpress/gateway",
-  "version": "2.0.17",
+  "version": "2.0.19",
   "license": "MIT",
   "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
   "description": "Greenpress pure gateway",
