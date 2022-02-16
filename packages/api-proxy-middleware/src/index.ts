@@ -14,7 +14,7 @@ function getProxyTarget(service: IServiceProxyConfig) {
   return `${service.protocol}://${service.url}:${service.port}`;
 }
 
-export function apiProxy(app: any, config: Partial<IApiProxyConfig>, cacheManager) {
+export default function apiProxy(app: any, config: Partial<IApiProxyConfig>, cacheManager) {
   const {
     authService,
     contentService,
@@ -22,7 +22,7 @@ export function apiProxy(app: any, config: Partial<IApiProxyConfig>, cacheManage
     assetsService,
     draftsService,
     frontService,
-    tenant,
+    tenant: defaultTenant,
     applicationUrl,
     excludedServices,
   } = { ...getApiProxyConfig(), ...config };
@@ -35,6 +35,7 @@ export function apiProxy(app: any, config: Partial<IApiProxyConfig>, cacheManage
     app.use(service.proxies, getProxy(getProxyTarget(service)));
   }
 
+  const defaultApplicationHost = new URL(applicationUrl).host;
   const meUrl = getProxyTarget(authService) + "/api/me";
   const hostTenantUrl = getProxyTarget(contentService) + "/internal-api/host-tenant";
 
@@ -50,18 +51,20 @@ export function apiProxy(app: any, config: Partial<IApiProxyConfig>, cacheManage
     [...authService.proxies, ...contentService.proxies, ...assetsService.proxies, ...draftsService.proxies],
     require("cors")(async (req, callback) => {
       try {
-        const host = req.header("Origin");
-        if (host === applicationUrl) {
-          req.headers.tenant = tenant;
+        const host = req.header("host");
+        console.log("request from host: ", host);
+        if (host === defaultApplicationHost) {
+          console.log("use default host");
+          req.headers.tenant = defaultTenant;
         } else {
-          req.headers.tenant = await getTenantByHost(host);
+          req.headers.tenant = (await getTenantByHost(host)) || "";
         }
         if (!req.headers.tenant) {
           throw new Error("no tenant for request url");
         }
-        callback({ credentials: true });
+        callback(null, { credentials: true, origin: true });
       } catch {
-        callback(null, { origin: true, credentials: true });
+        callback(null, { origin: false, credentials: false });
       }
     })
   );
@@ -74,7 +77,7 @@ export function apiProxy(app: any, config: Partial<IApiProxyConfig>, cacheManage
     fetch(meUrl, {
       headers: {
         "Content-Type": "application/json",
-        tenant,
+        tenant: req.headers.tenant,
         cookie: req.headers.cookie,
         authorization: req.headers.authorization,
       },
