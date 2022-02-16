@@ -1,4 +1,3 @@
-import { clear } from "console";
 import { CacheManagerOptions } from "./cache-manager-options";
 import { ICache } from "./cache-type";
 
@@ -26,7 +25,7 @@ export function createMemoryCache(): ICache {
                 storage.delete(key);
             }
         });
-    }, 2000);
+    }, 5000);
 
     return { getItem, setItem };
 }

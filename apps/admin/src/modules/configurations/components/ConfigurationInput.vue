@@ -17,8 +17,8 @@
 </div>
 </template>
 
-<script>
-import { computed } from '@vue/runtime-core'
+<script lang="ts">
+import { computed } from 'vue'
   import FormInput from '../../core/components/forms/FormInput.vue'
 
   export default {
@@ -30,8 +30,8 @@ import { computed } from '@vue/runtime-core'
     },
     setup(props, { emit }) {
       const model = computed({
-        get: () => props.modelValue,
-        set: (value) => emit('update:modelValue', value)
+        get: () => props.modelValue instanceof Array ? props.modelValue.join(',') : props.modelValue,
+        set: (value) => emit('update:modelValue', props.modelValue instanceof Array ? value.split(',') : value)
       });
 
       return {
