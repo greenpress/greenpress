@@ -30,7 +30,7 @@ function getConfiguration (req, res) {
   }
 }
 
-function updateConfiguration (req, res) {
+async function updateConfiguration (req, res) {
   const body = req.body || {}
   delete body.tenant
   const configuration = req.configuration
@@ -39,7 +39,21 @@ function updateConfiguration (req, res) {
     configuration.description = body.description
   }
   if (body.metadata) {
-    configuration.metadata = Object.assign({}, configuration.metadata, body.metadata)
+    if (body.metadata.websiteUrls) {
+      // TODO: check if urls exists on other accounts
+      const existingTenantWithUrl = await Configuration.findOne({ _id: { $ne: configuration._id }, websiteUrls: { $in: body.metadata.websiteUrls } })
+        .select('_id')
+        .lean();
+      
+      if (existingTenantWithUrl) {
+        res.status(400).json({ message: 'URL already exists for another account' }).end()
+        retrun;
+      }
+    }
+    configuration.metadata = {
+      ...configuration.metadata,
+      ...body.metadata
+    }
   }
 
   configuration.save()
@@ -51,9 +65,20 @@ function updateConfiguration (req, res) {
     })
 }
 
+function getTenantByHost (req, res) {
+  Configuration.findOne({ key: 'app-configuration', 'metadata.websiteUrls': req.query.host })
+    .select('tenant metadata.websiteUrls')
+    .lean()
+    .then(appConfig => {
+      return res.status(200).json(appConfig).end()
+    })
+    .catch(() => res.status(401).json({ message: 'failed to load tenant from host' }).end())
+}
+
 module.exports = {
   getConfigurationsList,
   getConfigurationByKey,
   getConfiguration,
-  updateConfiguration
+  updateConfiguration,
+  getTenantByHost,
 }

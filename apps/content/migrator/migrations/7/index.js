@@ -3,27 +3,27 @@ const { appConfiguration } = require('../../../config')
 
 const Configuration = mongoose.model('Configuration')
 
-const APP_CONFIGS_WITHOUT_WEBSITE_URLS = { key: appConfiguration, metadata: { websiteUrls: { $exists: false } } };
+const APP_CONFIGS_WITHOUT_STYLE_URL = { key: appConfiguration, metadata: { themeStylesUrl: { $exists: false } } };
 
 /**
  * update site configuration
  */
 
 /**
- * check if app-configuration doesn't have websiteUrls propery
+ * check if app-configuration doesn't have themeStylesUrl propery
  */
 async function check () {
-  const hasMissingWebsiteUrlConfig = await Configuration.countDocuments(APP_CONFIGS_WITHOUT_WEBSITE_URLS)
-  return !hasMissingWebsiteUrlConfig
+  const hasMissingThemeConfig = await Configuration.countDocuments(APP_CONFIGS_WITHOUT_STYLE_URL)
+  return !hasMissingThemeConfig
 }
 
 /**
  * migrate relevant db rows to fit the new upgrade
  */
 function migrate () {
-  console.log('start appConfiguration.metadata.websiteUrls migration')
+  console.log('start appConfiguration.metadata.themeStylesUrl migration')
   return Configuration.aggregate([
-    { $match: APP_CONFIGS_WITHOUT_WEBSITE_URLS },
+    { $match: APP_CONFIGS_WITHOUT_STYLE_URL },
     { $limit: 20 },
     { $project: { _id: 1 } }
   ])
@@ -40,7 +40,7 @@ function migrate () {
         console.log('update appConfig: ', row._id)
         await Configuration.collection.updateOne({ _id: row._id },
           {
-            $set: { 'metadata.websiteUrls': [] }
+            $set: { 'metadata.themeStylesUrl': '' }
           })
       }
       return migrate()
@@ -51,7 +51,7 @@ function migrate () {
  * check if all migration changes done as expected
  */
 function verify () {
-  return Configuration.countDocuments(APP_CONFIGS_WITHOUT_WEBSITE_URLS).then(count => {
+  return Configuration.countDocuments(APP_CONFIGS_WITHOUT_STYLE_URL).then(count => {
     if (!count) return Promise.resolve()
   })
 }
