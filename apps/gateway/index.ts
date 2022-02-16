@@ -1,10 +1,9 @@
-import {start, config, app as getApp} from '@greenpress/api-kit';
-import {loadHostRedirect} from './host-redirect';
+import { start, config, app as getApp } from "@greenpress/api-kit";
+import cacheManager from "./cache-manager";
 
-config({cors: false, bodyParser: false});
+config({ cors: false, bodyParser: false });
 
 const app = getApp();
-loadHostRedirect(app)
-require('@greenpress/api-proxy-middleware')(app)
+require("@greenpress/api-proxy-middleware")(app, {}, cacheManager);
 
-start('Gateway', process.env.PORT || 3000, process.env.IP || '127.0.0.1')
+start("Gateway", process.env.PORT || 3000, process.env.IP || "0.0.0.0");

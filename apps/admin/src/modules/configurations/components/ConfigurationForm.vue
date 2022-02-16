@@ -9,7 +9,7 @@
 	</el-form>
 </template>
 
-<script>
+<script lang="ts">
   import { useEditMetadata } from '../compositions/metadata'
   import { clearNulls } from '../../core/utils/clear-nulls'
   import FormInput from '../../core/components/forms/FormInput.vue'
