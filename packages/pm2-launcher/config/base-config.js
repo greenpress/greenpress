@@ -81,7 +81,7 @@ module.exports = {
       port: process.env.GATEWAY_PORT || 3000,
       ip: process.env.GATEWAY_IP || localhost,
       cwd: process.env.GATEWAY_SERVICE_CWD || join(appAbsolutePath, './node_modules/@greenpress/gateway'),
-      script: process.env.GATEWAY_SERVICE_SCRIPT || 'dist/index.js'
+      script: process.env.GATEWAY_SERVICE_SCRIPT || 'dist/index.js',
     },
   }
 }

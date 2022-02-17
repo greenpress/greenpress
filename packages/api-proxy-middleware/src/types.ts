@@ -3,12 +3,13 @@ export interface IServiceProxyConfig {
   protocol: string;
   url: string;
   port: string | number;
-  proxies: Array<string>
+  proxies: Array<string>;
 }
 
 export interface IApiProxyConfig {
   tenant: string;
   applicationUrl: string;
+  internalUrl: string;
   excludedServices: Array<string>;
   contentService: IServiceProxyConfig;
   authService: IServiceProxyConfig;

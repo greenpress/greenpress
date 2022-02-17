@@ -24,6 +24,7 @@ export default function apiProxy(app: any, config: Partial<IApiProxyConfig>, cac
     frontService,
     tenant: defaultTenant,
     applicationUrl,
+    internalUrl,
     excludedServices,
   } = { ...getApiProxyConfig(), ...config };
 
@@ -47,23 +48,45 @@ export default function apiProxy(app: any, config: Partial<IApiProxyConfig>, cac
     });
   }
 
+  app.use(async (req, res, next) => {
+    const host = req.headers.host;
+    //disable cors when tenant defined from request headers:
+    if (req.headers.tenant) {
+      req.disableCors = true;
+      console.log("predefined tenant by headers: ", req.headers.tenant);
+    }
+    console.log("check host: ", req.headers.host);
+
+    if (host === defaultApplicationHost || host === internalUrl) {
+      req.headers.tenant = req.headers.tenant || defaultTenant;
+      console.log("new tenant of default ", req.headers.tenant);
+    } else {
+      try {
+        req.headers.tenant = (await getTenantByHost(host)) || "";
+      } catch {
+        //
+      }
+    }
+
+    console.log("tenant called: ", req.headers.tenant);
+
+    if (!req.headers.tenant) {
+      res
+        .status(400)
+        .json({ message: "no website for host: " + host })
+        .end();
+      return;
+    }
+    next();
+  });
+
   app.use(
     [...authService.proxies, ...contentService.proxies, ...assetsService.proxies, ...draftsService.proxies],
-    require("cors")(async (req, callback) => {
-      try {
-        const host = req.header("host");
-        console.log("request from host: ", host);
-        if (host === defaultApplicationHost) {
-          console.log("use default host");
-          req.headers.tenant = defaultTenant;
-        } else {
-          req.headers.tenant = (await getTenantByHost(host)) || "";
-        }
-        if (!req.headers.tenant) {
-          throw new Error("no tenant for request url");
-        }
+    require("cors")((req, callback) => {
+      // TODO: support subdomains of host
+      if (!req.disableCors && req.header("Origin") === req.header.host) {
         callback(null, { credentials: true, origin: true });
-      } catch {
+      } else {
         callback(null, { origin: false, credentials: false });
       }
     })

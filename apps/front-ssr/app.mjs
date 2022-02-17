@@ -8,6 +8,16 @@ const app = Fastify({ logger: true })
 
 globalThis.fetch = fetch;
 
+
+globalThis.gatewayUrl = (() => {
+  const protocol = process.env.GATEWAY_SERVICE_PROTOCOL || 'http';
+  const url = process.env.GATEWAY_SERVICE_URL || 'localhost';
+  const port = process.env.GATEWAY_SERVICE_PORT || '3000';
+  return `${protocol}://${url}:${port}`;
+})();
+
+console.log('gateway API is: ', globalThis.gatewayUrl)
+
 await app.register(FastifyVite, {
   root, renderer,
   build: process.argv.includes('build'),

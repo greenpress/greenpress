@@ -35,6 +35,7 @@ async function singleLayout(req, res) {
   const { tenant } = req.headers || {};
   const useCache = !req.user?.isEditor;
   try {
+    console.log('load layout of tenant: ', tenant)
     const layout = await Layout.getSingleLayout({ kind, tenant, useCache });
     if (layout) {
       res.status(200).set('Content-Type', 'application/json').end(layout);

@@ -52,29 +52,38 @@ export default class GpLayouts extends BaseSDK {
     super(options);
   }
 
-  getLayout(kind: LayoutKind) {
-    return this.callJsonApi<ILayout>(`${this.relativePath}/${kind}`);
+  getLayout(kind: LayoutKind, extra?: Partial<RequestInit>) {
+    return this.callJsonApi<ILayout>(`${this.relativePath}/${kind}`, extra);
   }
 
-  getList() {
-    return this.callJsonApi<ILayout[]>(this.relativePath);
+  getList(extra?: Partial<RequestInit>) {
+    return this.callJsonApi<ILayout[]>(this.relativePath, extra);
   }
 
-  remove(kind: LayoutKind): Promise<any> {
-    return this.callApi(`${this.relativePath}/${kind}`, { method: "delete" });
-  }
-
-  update(kind: LayoutKind, changes: Partial<ILayout>): Promise<ILayout> {
-    return this.callJsonApi<ILayout>(`${this.relativePath}/${kind}`, {
-      method: "put",
-      body: JSON.stringify(changes),
+  remove(kind: LayoutKind, extra?: Partial<RequestInit>): Promise<any> {
+    return this.callApi(`${this.relativePath}/${kind}`, {
+      method: "delete",
+      ...(extra || {}),
     });
   }
 
-  create(layout: ILayout): Promise<ILayout> {
+  update(
+    kind: LayoutKind,
+    changes: Partial<ILayout>,
+    extra?: Partial<RequestInit>
+  ): Promise<ILayout> {
+    return this.callJsonApi<ILayout>(`${this.relativePath}/${kind}`, {
+      method: "put",
+      body: JSON.stringify(changes),
+      ...(extra || {}),
+    });
+  }
+
+  create(layout: ILayout, extra?: Partial<RequestInit>): Promise<ILayout> {
     return this.callJsonApi<ILayout>(this.relativePath, {
       method: "post",
       body: JSON.stringify(layout),
+      ...(extra || {}),
     });
   }
 }
