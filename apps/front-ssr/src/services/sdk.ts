@@ -1,7 +1,9 @@
 import GreenpressSDK from "@greenpress/sdk";
 import { LayoutConnectedDataKind } from "@greenpress/sdk/dist/layouts";
 
-const appUrl = import.meta.env.SSR ? "http://localhost:3000" : location.origin;
+const appUrl = import.meta.env.SSR
+  ? ((globalThis as any).gatewayUrl as string)
+  : location.origin;
 
 const fetchFn = globalThis.fetch;
 
@@ -23,8 +25,9 @@ const fallbackLayout = import.meta.env.SSR
 
 export const loadLayoutPayload = import.meta.env.SSR
   ? (kind: string, { req }: any) => {
+      const extraRequest = { headers: { tenant: req.headers.tenant } };
       return sdk.layouts
-        .getLayout(kind as any)
+        .getLayout(kind as any, extraRequest)
         .then(async (layout) => {
           return {
             layout: layout.content || fallbackLayout(kind),
@@ -32,26 +35,34 @@ export const loadLayoutPayload = import.meta.env.SSR
               (layout.connectedData || []).map(async (cd) => {
                 switch (cd.kind) {
                   case LayoutConnectedDataKind.POSTS:
-                    cd.data = await sdk.posts.getList({
-                      ...cd.context,
-                      populate: "category",
-                    });
+                    cd.data = await sdk.posts.getList(
+                      {
+                        ...cd.context,
+                        populate: "category",
+                      },
+                      extraRequest
+                    );
                     break;
                   case LayoutConnectedDataKind.CATEGORY_POSTS:
-                    cd.data = await sdk.posts.getList({
-                      ...cd.context,
-                      category: req.params.category,
-                    });
+                    cd.data = await sdk.posts.getList(
+                      {
+                        ...cd.context,
+                        category: req.params.category,
+                      },
+                      extraRequest
+                    );
                     break;
                   case LayoutConnectedDataKind.CATEGORY:
                     cd.data = await sdk.categories.getByPath(
-                      req.params.category
+                      req.params.category,
+                      extraRequest
                     );
                     break;
                   case LayoutConnectedDataKind.POST:
                     cd.data = await sdk.posts.getByPath(
                       req.params.category,
-                      req.params.post
+                      req.params.post,
+                      extraRequest
                     );
                     break;
                 }

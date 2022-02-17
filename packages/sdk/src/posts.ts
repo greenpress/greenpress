@@ -1,15 +1,15 @@
-import {GreenpressSDKOptions} from './types';
-import BaseSDK from './base-gp-sdk';
-import {ICategory} from './categories';
+import { GreenpressSDKOptions } from "./types";
+import BaseSDK from "./base-gp-sdk";
+import { ICategory } from "./categories";
 
 export enum PostContentState {
-  EDITOR = 'editor',
-  HTML = 'html'
+  EDITOR = "editor",
+  HTML = "html",
 }
 
 export interface IPost {
   _id?: string;
-  title: string,
+  title: string;
   authors: any[];
   thumbnail: string;
   short: string;
@@ -25,43 +25,65 @@ export interface IPost {
 }
 
 export type GetPostsListOptions = {
-  target: 'front' | 'admin';
-  populate?: 'string';
+  target: "front" | "admin";
+  populate?: "string";
   q?: string;
-  lean?: 'true',
-  limit?: string,
-  offset?: string,
-  category: string
-}
+  lean?: "true";
+  limit?: string;
+  offset?: string;
+  category: string;
+};
 
 export default class GpPosts extends BaseSDK {
-  private relativePath = '/api/posts';
+  private relativePath = "/api/posts";
 
   constructor(options: GreenpressSDKOptions) {
-    super(options)
+    super(options);
   }
 
-  getByPath(categoryPath: string, postPath: string) {
-    return this.callJsonApi<IPost>(`${this.relativePath}/${encodeURI(categoryPath)}/${encodeURI(postPath)}`)
-  }
-
-  getList(options: GetPostsListOptions) {
-    const queryParams = new URLSearchParams(options);
-    return this.callJsonApi<IPost[]>(`${this.relativePath}?${queryParams}`);
-  }
-
-  remove(path: string): Promise<Response> {
-    return this.callApi(`${this.relativePath}/${encodeURI(path)}`, {method: 'delete'});
-  }
-
-  update(path: string, changes: Partial<IPost>): Promise<IPost> {
+  getByPath(
+    categoryPath: string,
+    postPath: string,
+    extra?: Partial<RequestInit>
+  ) {
     return this.callJsonApi<IPost>(
-      `${this.relativePath}/${encodeURI(path)}`,
-      {method: 'put', body: JSON.stringify(changes)}
-    )
+      `${this.relativePath}/${encodeURI(categoryPath)}/${encodeURI(postPath)}`,
+      extra
+    );
   }
 
-  create(post: IPost): Promise<IPost> {
-    return this.callJsonApi<IPost>(this.relativePath, {method: 'post', body: JSON.stringify(post)})
+  getList(options: GetPostsListOptions, extra?: Partial<RequestInit>) {
+    const queryParams = new URLSearchParams(options);
+    return this.callJsonApi<IPost[]>(
+      `${this.relativePath}?${queryParams}`,
+      extra
+    );
+  }
+
+  remove(path: string, extra?: Partial<RequestInit>): Promise<Response> {
+    return this.callApi(`${this.relativePath}/${encodeURI(path)}`, {
+      method: "delete",
+      ...(extra || {}),
+    });
+  }
+
+  update(
+    path: string,
+    changes: Partial<IPost>,
+    extra?: Partial<RequestInit>
+  ): Promise<IPost> {
+    return this.callJsonApi<IPost>(`${this.relativePath}/${encodeURI(path)}`, {
+      method: "put",
+      body: JSON.stringify(changes),
+      ...(extra || {}),
+    });
+  }
+
+  create(post: IPost, extra?: Partial<RequestInit>): Promise<IPost> {
+    return this.callJsonApi<IPost>(this.relativePath, {
+      method: "post",
+      body: JSON.stringify(post),
+      ...(extra || {}),
+    });
   }
 }

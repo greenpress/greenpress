@@ -109,7 +109,7 @@ module.exports = {
   front: getHttpServiceVariables('front', {
     PORT: services.front.port,
     NODE_ENV: DEV,
-    GATEWAY_SERVICE_URL: services.gateway.ip,
+    GATEWAY_SERVICE_URL: 'localhost',
     GATEWAY_SERVICE_PROTOCOL: services.gateway.protocol,
     GATEWAY_SERVICE_PORT: services.gateway.port,
     APPLICATION_URL: config.applicationUrl,
@@ -122,6 +122,7 @@ module.exports = {
   }),
   gateway: getHttpServiceVariables('gateway', {
     PORT: config.port,
+    BASIC_TENANT: config.tenant,
     APPLICATION_URL: config.applicationUrl,
   }),
 
