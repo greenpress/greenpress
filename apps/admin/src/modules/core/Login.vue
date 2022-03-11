@@ -6,15 +6,8 @@
 	</div>
 </template>
 
-<script>
-import LoginForm from './components/LoginForm.vue'
-
-export default {
-	name: 'Login',
-	components: {
-		LoginForm
-	}
-}
+<script setup lang="ts">
+	import LoginForm from './components/LoginForm.vue'
 </script>
 <style scoped lang="scss">
 @import "../../style/colors";

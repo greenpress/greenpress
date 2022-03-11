@@ -3,24 +3,17 @@
 		<router-view v-if="config"/>
 	</div>
 </template>
-<script lang="ts">
+<script lang="ts" setup>
 import {useAppConfiguration} from './modules/configurations/store/app-configuration'
 import {watch} from 'vue'
 import {translate, loadLanguageAsync} from './plugins/i18n'
 
-export default {
-	name: 'App',
-	setup() {
-		const config = useAppConfiguration()
+const config = useAppConfiguration()
 
-		watch(() => config.value?.metadata && config.value.metadata.language, async (language) => {
-			await loadLanguageAsync(language)
-			document.dir = translate('appDirection')
-		})
-
-		return {config}
-	}
-}
+watch(() => config.value?.metadata && config.value.metadata.language, async (language) => {
+	await loadLanguageAsync(language)
+	document.dir = translate('appDirection')
+})
 </script>
 <style lang="scss">
 #app {

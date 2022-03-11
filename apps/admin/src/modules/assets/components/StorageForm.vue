@@ -36,7 +36,10 @@
 		/>
 		<div class="authentication">
 			<h3 @click="showAuth = !showAuth">
-				<i :class="showAuth ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"/>
+				<el-icon>
+				<icon-arrow-down v-if="showAuth"/>
+				<icon-arrow-right v-else/>
+				</el-icon>
 				{{ $t('Authentication Secrets') }}
 			</h3>
 			<template v-if="showAuth">
@@ -57,29 +60,24 @@
 		<el-button native-type="submit" :loading="submitting">{{ $t('SAVE') }}</el-button>
 	</el-form>
 </template>
-<script>
+<script lang="ts" setup>
 import StorageFtpAuth from './StorageFtpAuth.vue'
 import StorageGcsAuth from './StorageGcsAuth.vue'
 import StorageS3Auth from './StorageS3Auth.vue'
 import FormInput from '../../core/components/forms/FormInput.vue'
 import { useStorageForm } from '../compositions/storages'
 
-export default {
-	name: 'StorageForm',
-	components: { FormInput, StorageFtpAuth, StorageGcsAuth, StorageS3Auth },
-	props: {
-		value: Object,
-		submitting: Boolean
-	},
-	setup(props, { emit }) {
-		const data = useStorageForm(props)
-		return {
-			...data,
-			submit() {
-				return emit('submitted', data.editedStorage)
-			}
-		}
-	}
+const props = defineProps({
+	value: Object,
+	submitting: Boolean
+})
+
+const emit = defineEmits(['submitted'])
+
+const { editedStorage, showAuth } = useStorageForm(props)
+
+const submit = () => {
+	return emit('submitted', editedStorage)
 }
 </script>
 <style scoped lang="scss">

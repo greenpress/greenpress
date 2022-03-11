@@ -17,28 +17,21 @@
 </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { computed } from 'vue'
-  import FormInput from '../../core/components/forms/FormInput.vue'
+import FormInput from '../../core/components/forms/FormInput.vue'
 
-  export default {
-    name: 'ConfigurationInput',
-    components: { FormInput },
-    props: {
-      valueType: Object,
-      modelValue: String,
-    },
-    setup(props, { emit }) {
-      const model = computed({
-        get: () => props.modelValue instanceof Array ? props.modelValue.join(',') : props.modelValue,
-        set: (value) => emit('update:modelValue', props.modelValue instanceof Array ? value.split(',') : value)
-      });
+const props = defineProps({
+  valueType: Object,
+  modelValue: [String, Array],
+})
 
-      return {
-        model
-      }
-    }
-  }
+const emit = defineEmits(['update:modelValue'])
+
+const model = computed({
+  get: () => props.modelValue instanceof Array ? props.modelValue.join(',') : props.modelValue,
+  set: (value) => emit('update:modelValue', props.modelValue instanceof Array ? value.split(',') : value)
+});
 </script>
 
 <style scoped>

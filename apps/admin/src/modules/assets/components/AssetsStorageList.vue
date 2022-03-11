@@ -17,23 +17,20 @@
           </td>
           <td>{{ item.kind }}</td>
           <td>
-            <a @click.prevent="remove(item)" class="el-icon-delete" />
+            <a @click.prevent="remove(item)"><icon-delete/></a>
           </td>
         </tr>
       </tbody>
     </table>
   </div>
 </template>
-<script lang="ts">
+<script lang="ts" setup>
   import { useStorageList } from '../compositions/storages'
   import { useConfirmAction } from '../../core/compositions/confirm-action'
 
-  export default {
-    name: 'AssetsStorageList',
-    setup() {
-      const { items, remove } = useStorageList()
-      return { items, remove: useConfirmAction(remove) }
-    }
-  }
+  const list = useStorageList();
+
+  const items = list.items;
+  const remove = useConfirmAction(list.remove)
 </script>
 <style scoped lang="scss"></style>

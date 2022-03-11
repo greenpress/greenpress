@@ -15,7 +15,7 @@
 			               @changed="changeValue"/>
 		</div>
 		<div class="actions">
-			<i @click="$emit('removed', value)" class="el-icon-delete"/>
+			<el-icon @click="$emit('removed', value)"><icon-delete/></el-icon>
 		</div>
 	</div>
 </template>

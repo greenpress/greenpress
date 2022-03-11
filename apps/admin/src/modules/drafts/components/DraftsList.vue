@@ -15,61 +15,53 @@
           <router-link :to="getDraftLink(draft)">{{ draft.contextDisplayName }}</router-link>
         </td>
         <td>
-          <a @click.prevent="deleteDraft(draft)" class="el-icon-delete"/>
+          <a @click.prevent="remove(draft)"><el-icon><icon-delete/></el-icon></a>
         </td>
       </tr>
       </tbody>
     </table>
   </div>
 </template>
-<script lang="ts">
+<script lang="ts" setup>
 import {ref} from 'vue'
 import {useConfirmAction} from '../../core/compositions/confirm-action'
-import {getAll, deleteDraft} from '../../../services/drafts-service'
+import {getAll, deleteDraft } from '../../../services/drafts-service'
 import {useNotifications} from '../../core/compositions/notifications'
 import {useSubmitting} from '../../core/compositions/submitting'
 
-export default {
-  name: 'DraftsList',
-  setup() {
-    const drafts = ref([])
-    const {error} = useNotifications()
-    getAll().then(list => drafts.value = list).catch(() => error('Failed to load drafts list'))
+const drafts = ref([])
+const {error} = useNotifications()
+getAll().then(list => drafts.value = list).catch(() => error('Failed to load drafts list'))
 
-    return {
-      drafts,
-      getDraftLink: (draft) => {
-        let routeName
-        switch (draft.contextType) {
-          case 'post':
-            routeName = draft.contextId ? 'editPost' : 'createPost'
-            break;
-          case 'category':
-            routeName = draft.contextId ? 'editCategory' : 'createCategory'
-            break;
-          case 'block':
-            routeName = draft.contextId ? 'editBlock' : 'createBlock'
-            break;
-          default:
-            routeName = '[no name]'
-        }
-
-        return {
-          name: routeName,
-          params: draft.contextRouteParams
-        }
-      },
-      deleteDraft: useConfirmAction(
-        useSubmitting(
-          async draft => {
-            await deleteDraft(draft.contextType, draft.contextId)
-            drafts.value = drafts.value.filter(d => d !== draft)
-          },
-          {success: 'Draft deleted successfully', error: 'Failed to remove draft'}
-        ).submit)
-    }
+const getDraftLink = (draft) => {
+  let routeName
+  switch (draft.contextType) {
+    case 'post':
+      routeName = draft.contextId ? 'editPost' : 'createPost'
+      break;
+    case 'category':
+      routeName = draft.contextId ? 'editCategory' : 'createCategory'
+      break;
+    case 'block':
+      routeName = draft.contextId ? 'editBlock' : 'createBlock'
+      break;
+    default:
+      routeName = '[no name]'
   }
-}
+
+  return {
+    name: routeName,
+    params: draft.contextRouteParams
+  }
+};
+const remove = useConfirmAction(
+  useSubmitting(
+    async draft => {
+      await deleteDraft(draft.contextType, draft.contextId)
+      drafts.value = drafts.value.filter(d => d !== draft)
+    },
+    {success: 'Draft deleted successfully', error: 'Failed to remove draft'}
+  ).submit)
 </script>
 <style scoped lang="scss">
 </style>

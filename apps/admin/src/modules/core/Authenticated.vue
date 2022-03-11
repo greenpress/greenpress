@@ -9,30 +9,21 @@
   </div>
 </template>
 
-<script lang="ts">
-  import { ref, defineComponent } from 'vue'
+<script lang="ts" setup>
+  import { ref } from 'vue'
   import { useAuthenticatedIntercept } from './compositions/authentication'
   import Header from './components/layout/Header.vue'
   import Navigation from './components/layout/Navigation.vue'
   import AssetsDetailsPanel from '@/modules/assets/components/AssetsDetailsPanel/AssetsDetailsPanel.vue'
 	import { useRouter } from 'vue-router'
 
-  export default defineComponent({
-    name: 'Authenticated',
-    components: { AssetsDetailsPanel, Header, Navigation },
-    setup() {
-			const router = useRouter()
+  const router = useRouter()
 
-			const navigationOpened = ref(false)
+  const navigationOpened = ref(false)
 
-      router.afterEach(() => navigationOpened.value = false)
+  const { isLoaded } = useAuthenticatedIntercept();
 
-      return {
-        ...useAuthenticatedIntercept(),
-        navigationOpened
-      }
-    }
-  })
+  router.afterEach(() => navigationOpened.value = false)
 </script>
 <style scoped lang="scss">
   .admin-panel {

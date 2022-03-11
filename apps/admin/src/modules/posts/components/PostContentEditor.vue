@@ -9,9 +9,7 @@
 			<el-button type="danger"
 			           native-type="button"
 			           size="mini"
-			           icon="el-icon-delete"
-			           @click="removeContent"
-			/>
+			           @click="removeContent"><el-icon><icon-delete/></el-icon></el-button>
 		</div>
 		<div>
 			<gp-editor v-if="state === 'editor'" :model-value="value" @input="changeContent" :config="editorConfig"/>

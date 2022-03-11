@@ -8,36 +8,27 @@
 				</router-link>
 		  </template>
 		  <div class="small metadata">
-			  <span v-if="category.isPublic"><i class="el-icon-check"/> {{$t('Public')}}</span>
+			  <span v-if="category.isPublic"><el-icon><icon-check/></el-icon> {{$t('Public')}}</span>
 			  <span v-if="!category.homePage">Path: <strong>{{ category.path }}</strong></span>
 		  </div>
 		  <template v-slot:actions>
-			  <a v-if="!category.homePage" @click.prevent="askBeforeRemove(category)"><i class="el-icon-delete"/> {{$t('Remove')}}</a>
-		  	<router-link v-if="!category.homePage" :to="{name: 'posts', query: {category: category.path}}"><i class="el-icon-document"/> {{ $t('Posts') }}</router-link>
+			  <a v-if="!category.homePage" @click.prevent="askBeforeRemove(category)"><el-icon><icon-delete/></el-icon> {{$t('Remove')}}</a>
+		  	<router-link v-if="!category.homePage" :to="{name: 'posts', query: {category: category.path}}"><el-icon><icon-document/></el-icon> {{ $t('Posts') }}</router-link>
 	  </template>
 	  </GpItem>
   </div>
 </template>
-<script>
+<script lang="ts" setup>
   import { computed } from 'vue'
   import { useCategoriesList } from '../compositions/categories'
   import { useConfirmAction } from '../../core/compositions/confirm-action'
   import CreateHomePage from './CreateHomePage.vue'
   import GpItem from '../../core/components/layout/GpItem.vue';
 
-  export default {
-    name: 'CategoriesList',
-    components: { CreateHomePage, GpItem },
-    setup() {
-      const { categories, removeCategory } = useCategoriesList()
+  const { categories, removeCategory } = useCategoriesList()
 
-      return {
-        categories,
-        askBeforeRemove: useConfirmAction(removeCategory),
-        noHomePage: computed(() => !categories.value.some(category => category.path === '-'))
-      }
-    }
-  }
+  const askBeforeRemove = useConfirmAction(removeCategory);
+  const noHomePage = computed(() => !categories.value.some(category => category.path === '-'));
 </script>
 <style scoped lang="scss">
 .metadata {

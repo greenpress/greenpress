@@ -5,6 +5,9 @@
 	  "@/*": [
 		"./src/*"
 	  ]
-	}
+	},
+	"types": [
+		"element-plus/global"
+	]
   }
 }

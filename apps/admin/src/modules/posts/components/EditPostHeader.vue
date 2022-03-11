@@ -5,31 +5,25 @@
 			<a @click="to('details')" :class="{active: $route.query.tab === 'details'}">{{ $t('Page details') }}</a>
 			<a @click="to('short')" :class="{active: $route.query.tab === 'short'}">{{ $t('Short') }}</a>
 			<a @click="to('content')" :class="{active: $route.query.tab === 'content'}">{{ $t('Content') }}</a>
-			<el-button native-type="submit" type="primary" :loading="submitting" icon="el-icon-s-promotion"/>
+			<el-button native-type="submit" type="primary" :loading="submitting"><el-icon><icon-promotion/></el-icon></el-button>
 		</div>
 	</div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import {computed} from 'vue';
 import {translate} from '../../../plugins/i18n';
 import {useRouter} from 'vue-router';
 
-export default {
-	name: 'EditPostHeader',
-	props: {
-		post: Object,
-		submitting: Boolean
-	},
-	setup({post}) {
-		const router = useRouter();
-		return {
-			title: computed(() => translate(post._id ? 'Edit Post' : 'Create Post')),
-			to: (tab) => {
-				router.push({query: {tab}})
-			}
-		}
-	}
+const props = defineProps({
+	post: Object,
+	submitting: Boolean
+})
+const router = useRouter();
+const title = computed(() => translate(props.post._id ? 'Edit Post' : 'Create Post'))
+
+const to = (tab) => {
+	router.push({query: {tab}})
 }
 </script>
 

@@ -1,25 +1,25 @@
-import {resolve} from 'path'
-import {defineConfig} from 'vite'
-import vue from '@vitejs/plugin-vue'
-import Components from 'unplugin-vue-components/vite'
+import { resolve } from "path";
+import { defineConfig } from "vite";
+import vue from "@vitejs/plugin-vue";
+import Components from "unplugin-vue-components/vite";
 
-import {ElementPlusResolver} from 'unplugin-vue-components/resolvers';
+import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 
-const BASE_URL = process.env.BASE_URL || '/gp-admin';
+const BASE_URL = process.env.BASE_URL || "/gp-admin";
 
 export default defineConfig({
   json: {
-    stringify: true
+    stringify: true,
   },
   base: BASE_URL,
   server: {
     port: Number(process.env.PORT || 3001),
     proxy: {
-      '/api': process.env.VUE_APP_MAIN_APP_URL || 'http://localhost:3000'
-    }
+      "/api": process.env.VUE_APP_MAIN_APP_URL || "http://localhost:3000",
+    },
   },
   define: {
-    BASE_URL: `"${BASE_URL}"`
+    BASE_URL: `"${BASE_URL}"`,
   },
   plugins: [
     vue(),
@@ -29,8 +29,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@': resolve(__dirname, './src')
-    }
-  }
-})
-
+      "@": resolve(__dirname, "./src"),
+    },
+  },
+});

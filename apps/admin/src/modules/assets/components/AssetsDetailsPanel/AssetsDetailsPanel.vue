@@ -1,7 +1,10 @@
 <template>
   <div :class="isOpen ? 'panel open' : 'panel'" :dir="$t('appDirection')">
     <a @click="togglePanel" class="toggle">
-      <i :class="isOpen ? 'el-icon-arrow-right' : 'el-icon-arrow-left'" />
+      <el-icon>
+      <icon-arrow-right v-if="isOpen" />
+      <icon-arrow-left v-else />
+      </el-icon>
     </a>
     <div class="content">
       <AssetsStorageSelector @change="selectedStorage = $event._id" />
@@ -12,25 +15,16 @@
     </div>
   </div>
 </template>
-<script lang="ts">
+<script lang="ts" setup>
   import { ref } from 'vue'
   import AssetsStorageSelector from '../AssetsStorageSelector.vue'
   import BasicFileUploader from '../BasicFileUploader.vue'
   import BasicAssetsList from './BasicAssetsList.vue'
 
-  export default {
-    name: 'AssetsDetailsPanel',
-    components: { BasicFileUploader, AssetsStorageSelector, BasicAssetsList },
-    setup() {
-      const isOpen = ref(false)
-      const selectedStorage = ref<string>()
-      return {
-        togglePanel: () => isOpen.value = !isOpen.value,
-        selectedStorage,
-        isOpen
-      }
-    }
-  }
+  const isOpen = ref(false)
+  const selectedStorage = ref<string>()
+
+  const togglePanel = () => isOpen.value = !isOpen.value
 </script>
 <style scoped lang="scss">
   .panel {

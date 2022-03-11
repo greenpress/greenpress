@@ -5,36 +5,27 @@
 		<FormInput title="Password" type="password" v-model="form.password"/>
 	</div>
 </template>
-<script>
+<script lang="ts" setup>
 import { watchEffect, reactive } from 'vue'
 import FormInput from '../../core/components/forms/FormInput.vue'
 
-export default {
-	name: 'StorageFtpAuth',
-	props: {
-		value: Object
-	},
-	components: { FormInput },
-	setup(props, { emit }) {
-		const form = reactive({
-			host: '',
-			username: '',
-			password: ''
-		})
-		if (props.value) {
-			form.host = props.value.host
-			form.username = props.value.username
-			form.password = props.value.password
-		}
+const props = defineProps({value: Object})
+const emit = defineEmits(['update:modelValue'])
 
-		function getFormInputs({ host, username, password }) {
-			return { host, username, password };
-		}
-
-		watchEffect(() => emit('update:modelValue', getFormInputs(form)))
-		return {
-			form
-		}
-	}
+const form = reactive({
+	host: '',
+	username: '',
+	password: ''
+})
+if (props.value) {
+	form.host = props.value.host
+	form.username = props.value.username
+	form.password = props.value.password
 }
+
+function getFormInputs({ host, username, password }) {
+	return { host, username, password };
+}
+
+watchEffect(() => emit('update:modelValue', getFormInputs(form)))
 </script>
