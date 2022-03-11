@@ -4,12 +4,7 @@
 		<PostsList/>
 	</div>
 </template>
-<script lang="ts">
+<script lang="ts" setup>
   import PostsList from './components/PostsList.vue'
   import ListPageTitle from '../core/components/semantics/ListPageTitle.vue'
-
-  export default {
-    name: 'Posts',
-    components: { ListPageTitle, PostsList }
-  }
 </script>
