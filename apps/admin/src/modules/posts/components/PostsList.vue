@@ -6,20 +6,20 @@
 			</router-link>
 		</template>
 		<div class="small metadata">
-			<span v-if="post.isPublic"><i class="el-icon-check"/> {{ $t('Public') }}</span>
-			<span v-if="post.isPinned"><i class="el-icon-check"/> {{ $t('Pinned') }}</span>
+			<span v-if="post.isPublic"><el-icon><icon-check/></el-icon> {{ $t('Public') }}</span>
+			<span v-if="post.isPinned"><el-icon><icon-check/></el-icon> {{ $t('Pinned') }}</span>
 			<span>Path: <strong>{{ getPath(post) }}</strong></span>
 			<router-link :to="{name: 'editCategory', params: {categoryPath: post.category.path}}">
-				<i class="el-icon-folder-opened"/>
+				<el-icon><icon-folder-opened/></el-icon>
 				{{ post.category.name }}
 			</router-link>
 		</div>
 		<template v-slot:actions>
-			<a @click.prevent="remove(post._id)"><i class="el-icon-delete"/> {{ $t('Remove') }}</a>
+			<a @click.prevent="remove(post._id)"><el-icon><icon-delete/></el-icon> {{ $t('Remove') }}</a>
 		</template>
 	</GpItem>
 </template>
-<script>
+<script lang="ts">
 import { usePostsList } from '../compositions/posts'
 import { useConfirmAction } from '../../core/compositions/confirm-action'
 import { useI18n } from 'vue-i18n';

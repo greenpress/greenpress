@@ -20,29 +20,21 @@
 			</td>
 			<td>{{join(user.roles)}}</td>
 			<td>
-				<a @click.prevent="remove(user)" class="el-icon-delete"/>
+				<a @click.prevent="remove(user)">
+					<el-icon><icon-delete/></el-icon>
+				</a>
 			</td>
 		</tr>
 		</tbody>
 	</table>
 </template>
-<script>
-  import { useUsersList, useRemoveUser } from '../compositions/users'
+<script lang="ts" setup>
+import { useUsersList, useRemoveUser } from '../compositions/users'
 
-  export default {
-    setup() {
-      const { users } = useUsersList()
-      const { remove } = useRemoveUser((id) => {
-        users.value = users.value.filter(user => user._id !== id)
-      })
-      return {
-        users,
-        remove,
-        join: (arr) => arr.join(', ')
-      }
-    }
-  }
+const { users } = useUsersList()
+const { remove } = useRemoveUser((id) => {
+users.value = users.value.filter(user => user._id !== id)
+})
+
+const join = (arr) => arr.join(', ')
 </script>
-<style scoped lang="scss">
-
-</style>

@@ -11,7 +11,7 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts">
 	import AssetUploader from '@/modules/assets/components/AssetUploader.vue'
 
 	export default {
@@ -32,7 +32,7 @@
 						emit('input', event);
 						emit('update:modelValue', event)
 					},
-					change: (event) => emit('chang', event)
+					change: (event) => emit('change', event)
 				}
 			}
 		}

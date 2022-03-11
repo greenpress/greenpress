@@ -5,35 +5,35 @@
 			<img alt="greenpress Admin Panel" src="../../../../assets/logo.png">
 		</router-link>
 		<router-link to="/configurations">
-			<i class="el-icon-setting"/>
+			<el-icon><icon-setting/></el-icon>
 			<span>{{ $t('Configurations') }}</span>
 		</router-link>
 		<router-link to="/assets">
-			<i class="el-icon-files"/>
+			<el-icon><icon-files/></el-icon>
 			<span>{{ $t('Storage & Assets') }}</span>
 		</router-link>
 		<router-link to="/menus">
-			<i class="el-icon-menu"/>
+			<el-icon><icon-menu/></el-icon>
 			<span>{{ $t('Menus') }}</span>
 		</router-link>
 		<router-link to="/categories">
-			<i class="el-icon-folder-opened"/>
+			<el-icon><icon-folder-opened/></el-icon>
 			<span>{{ $t('Categories') }}</span>
 		</router-link>
 		<router-link to="/posts">
-			<i class="el-icon-document"/>
+			<el-icon><icon-document/></el-icon>
 			<span>{{ $t('Posts') }}</span>
 		</router-link>
     <router-link to="/blocks">
-      <i class="el-icon-box"/>
+	  <el-icon><icon-box/></el-icon>
       <span>{{ $t('Blocks') }}</span>
     </router-link>
 		<router-link to="/users">
-			<i class="el-icon-user"/>
+			<el-icon><icon-user/></el-icon>
 			<span>{{ $t('Users') }}</span>
 		</router-link>
 		<router-link to="/drafts">
-			<i class="el-icon-document-copy"/>
+			<el-icon><icon-document-copy/></el-icon>
 			<span>{{ $t('Drafts') }}</span>
 		</router-link>
 		<a class="bottom" @click="logout" v-t="'Logout'"></a>
@@ -93,6 +93,7 @@ a {
   font-weight: bold;
   color: $negative-color;
   padding: 15px 3px;
+  display: inline-flex;
 
   &:hover {
 	text-decoration: none;
@@ -103,9 +104,9 @@ a {
   &.router-link-active {
 	color: $main-color;
   }
-
-  i {
-	padding: 0 7px;
+  .el-icon {
+	  padding-inline-start: 10px;
+	  padding-inline-end: 25px;
   }
 }
 

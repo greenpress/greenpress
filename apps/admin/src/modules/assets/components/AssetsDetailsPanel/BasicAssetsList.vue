@@ -2,45 +2,36 @@
 	<div v-if="loaded" class="assets-list">
 		<div v-for="asset in assets" :key="asset.identifier" class="asset-box">
 			<img v-if="asset.type === 'image'" :src="asset.publicUrl"/>
-			<i class="el-icon-warning-outline" v-else/>
+			<icon-warning-outline v-else/>
 		</div>
 	</div>
 </template>
-<script lang="ts">
-import {defineComponent, ref, watch} from 'vue'
-import {getAssetInStorage} from '../../compositions/assets'
+<script lang="ts" setup>
+import { ref, watch } from 'vue'
+import { getAssetInStorage } from '../../compositions/assets'
 
-export default defineComponent({
-	name: 'BasicAssetsList',
-	props: {
-		storage: {
-			type: String,
-			required: true
-		},
-		identifier: {
-			type: String,
-			default: '/'
-		}
+const props = defineProps({
+	storage: {
+		type: String,
+		required: true
 	},
-	setup(props) {
-		const loaded = ref(false)
-		const assets = ref([])
-
-		watch(() => props.storage + props.identifier, async () => {
-			loaded.value = false
-			try {
-				assets.value = await getAssetInStorage(props.storage, props.identifier)
-			} finally {
-				loaded.value = true
-			}
-		}, {immediate: true})
-
-		return {
-			loaded,
-			assets
-		}
+	identifier: {
+		type: String,
+		default: '/'
 	}
 })
+
+const loaded = ref(false)
+const assets = ref([])
+
+watch(() => props.storage + props.identifier, async () => {
+	loaded.value = false
+	try {
+		assets.value = await getAssetInStorage(props.storage, props.identifier)
+	} finally {
+		loaded.value = true
+	}
+}, {immediate: true})
 </script>
 <style scoped>
 .assets-list {

@@ -31,7 +31,7 @@
           <ul class="tags-list">
             <li v-for="tag in tags" :key="tag" class="tag">
               {{ tag }}
-              <i @click="removeTag(tag)" class="el-icon-delete"/>
+              <el-icon @click="removeTag(tag)"><icon-delete/></el-icon>
             </li>
           </ul>
         </FormInput>

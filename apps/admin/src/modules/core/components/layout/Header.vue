@@ -1,40 +1,33 @@
 <template>
   <header :dir="$t('appDirection')">
-    <el-button type="default" icon="el-icon-menu" class="btn" circle @click="open"/>
+    <el-button type="default" class="btn" circle @click="open">
+    <el-icon><icon-menu/></el-icon></el-button>
     <el-dropdown>
       <div class="el-dropdown-link user-welcome">
         <span v-html="greeting"/>
-        <i class="el-icon-arrow-down"/>
+        <el-icon><icon-arrow-down/></el-icon>
       </div>
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item>
-            <router-link :to="{name: 'updateProfile'}">{{t('Update profile')}}</router-link>
+            <router-link :to="{name: 'updateProfile'}">{{$t('Update profile')}}</router-link>
           </el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
   </header>
 </template>
-<script lang="ts">
+<script lang="ts" setup>
 import { computed } from 'vue';
 import { useAuth } from '../../compositions/authentication'
 import { translate } from '../../../../plugins/i18n';
 
-export default {
-  name: 'Header',
-  setup(_, { emit }) {
-    const { user } = useAuth()
+const emit = defineEmits(['open']);
+const { user } = useAuth()
 
-    const greeting = computed(() => translate('Hello {userName}', { userName: user.value?.name || '' }))
+const greeting = computed(() => translate('Hello {userName}', { userName: user.value?.name || '' }))
 
-    return {
-      greeting,
-      t: translate,
-      open: () => emit('open'),
-    }
-  }
-}
+const open = () => emit('open')
 </script>
 <style scoped lang="scss">
 @import "../../../../style/colors";

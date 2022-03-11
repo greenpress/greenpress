@@ -10,7 +10,7 @@
 			:on-success="onSuccess"
       :before-upload="beforeUpload"
     >
-      <i class="el-icon-upload"></i>
+      <el-icon><upload /></el-icon>
       <div class="el-upload__text">
         Drop file here or <em>click to upload</em>
       </div>

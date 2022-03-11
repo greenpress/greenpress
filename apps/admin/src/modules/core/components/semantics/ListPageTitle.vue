@@ -1,7 +1,9 @@
 <template>
   <h1>
     <span>{{ $t(title) }}</span>
-    <el-button type="primary" icon="el-icon-edit" @click="$router.push({name: createRoute})" />
+    <el-button type="primary" @click="$router.push({name: createRoute})">
+    <el-icon><icon-edit/></el-icon>
+    </el-button>
   </h1>
 </template>
 <script lang="ts">
