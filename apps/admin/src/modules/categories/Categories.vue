@@ -4,12 +4,7 @@
 		<CategoriesList/>
 	</div>
 </template>
-<script lang="ts">
+<script lang="ts" setup>
   import CategoriesList from './components/CategoriesList.vue'
   import ListPageTitle from '../core/components/semantics/ListPageTitle.vue'
-
-  export default {
-    name: 'Categories',
-    components: { ListPageTitle, CategoriesList }
-  }
 </script>

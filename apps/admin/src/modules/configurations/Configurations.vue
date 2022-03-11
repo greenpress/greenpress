@@ -4,11 +4,7 @@
 		<ConfigurationsList/>
 	</div>
 </template>
-<script>
+<script lang="ts" setup>
   import ConfigurationsList from './components/ConfigurationsList.vue'
   import PageTitle from '../core/components/semantics/PageTitle.vue'
-
-  export default {
-    components: { PageTitle, ConfigurationsList }
-  }
 </script>

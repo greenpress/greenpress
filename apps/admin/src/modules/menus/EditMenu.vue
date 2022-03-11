@@ -4,12 +4,7 @@
 		<MenuEditor :menu="$route.params.menuName"/>
 	</div>
 </template>
-<script>
+<script lang="ts" setup>
   import MenuEditor from './components/MenuEditor.vue'
   import PageTitle from '../core/components/semantics/PageTitle.vue'
-
-  export default {
-    name: 'EditMenu',
-    components: { PageTitle, MenuEditor }
-  }
 </script>

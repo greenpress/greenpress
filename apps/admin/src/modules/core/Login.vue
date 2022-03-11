@@ -1,6 +1,6 @@
 <template>
 	<div class="login-page">
-		<img alt="greenpress Admin Panel" src="../../assets/logo.png">
+		<img alt="Greenpress Admin Panel" src="../../assets/logo.png">
 		<h1>{{ $t('Please login') }}:</h1>
 		<LoginForm/>
 	</div>

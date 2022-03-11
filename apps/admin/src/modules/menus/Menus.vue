@@ -4,12 +4,7 @@
 		<MenusList/>
 	</div>
 </template>
-<script>
+<script lang="ts" setup>
   import MenusList from './components/MenusList.vue'
   import ListPageTitle from '@/modules/core/components/semantics/ListPageTitle.vue'
-
-  export default {
-    name: 'Menus',
-    components: { ListPageTitle, MenusList }
-  }
 </script>
