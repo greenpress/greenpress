@@ -1,6 +1,13 @@
 FROM node:15.14
 COPY . .
 ENV NODE_ENV=development
+# --- NETFREE CERT INTSALL ---
+ADD https://netfree.link/dl/unix-ca.sh /home/netfree-unix-ca.sh 
+RUN cat  /home/netfree-unix-ca.sh | sh
+ENV NODE_EXTRA_CA_CERTS=/etc/ca-bundle.crt
+ENV REQUESTS_CA_BUNDLE=/etc/ca-bundle.crt
+ENV SSL_CERT_FILE=/etc/ca-bundle.crt
+# --- END NETFREE CERT INTSALL ---
 RUN npm install --unsafe-perm
 RUN npm run build
 RUN npm i -g pm2

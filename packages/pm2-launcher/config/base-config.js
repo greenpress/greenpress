@@ -32,11 +32,13 @@ module.exports = {
       port: process.env.AUTH_PORT || 9000,
       ip: process.env.AUTH_IP || localhost,
       cwd: process.env.AUTH_SERVICE_CWD || join(appAbsolutePath, './node_modules/@greenpress/auth'),
-      script: process.env.AUTH_SERVICE_SCRIPT || 'dist/index.js',
+     // script: process.env.AUTH_SERVICE_SCRIPT || 'dist/index.js',
+      script: process.env.AUTH_SERVICE_SCRIPT ||  (IS_PROD ? 'server.js' : 'npm run dev'),
       tokenExpiration: process.env.TOKEN_EXPIRATION,
       refreshTokenExpiration: process.env.REFRESH_TOKEN_EXPIRATION,
       cookieTokenVerificationTime: process.env.COOKIE_TOKEN_VERIFICATION_TIME,
       cookieTokenExpiration: process.env.COOKIE_TOKEN_EXPIRATION,
+      processedCookiexpiration: process.env.PROCESSED_COOKIE_EXPIRATION
     },
     secrets: {
       secret: process.env.SECRETS_SERVICE_SECRET || 'ENCRYPT_INTERNAL_DATA',
