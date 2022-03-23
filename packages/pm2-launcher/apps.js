@@ -79,6 +79,7 @@ module.exports = {
     ROLES: config.roles.all,
     DEFAULT_ROLE: config.roles.default,
     PRIVILEGED_ROLES: config.roles.privileged,
+    REDIS_URL: config.redisUrl
   }),
   content: getHttpServiceVariables('content', {
     MONGO_URI: config.mongoUri,

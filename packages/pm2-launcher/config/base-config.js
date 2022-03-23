@@ -38,7 +38,7 @@ module.exports = {
       refreshTokenExpiration: process.env.REFRESH_TOKEN_EXPIRATION,
       cookieTokenVerificationTime: process.env.COOKIE_TOKEN_VERIFICATION_TIME,
       cookieTokenExpiration: process.env.COOKIE_TOKEN_EXPIRATION,
-      processedCookiExpiration: process.env.PROCESSED_COOKIE_EXPIRATION
+      processedCookiExpiration: process.env.PROCESSED_COOKIE_EXPIRATION,
     },
     secrets: {
       secret: process.env.SECRETS_SERVICE_SECRET || 'ENCRYPT_INTERNAL_DATA',
