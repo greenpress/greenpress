@@ -5,7 +5,7 @@ import {
   getSignedToken,
 } from '../services/tokens';
 import { getUserIfTokenExists, updateToken } from '../services/users';
-import { cookieTokenExpiration, privilegedRoles, cookieTokenVerificationTime, processedCookiexpiration } from '../../config';
+import { cookieTokenExpiration, privilegedRoles, cookieTokenVerificationTime, processedCookiExpiration } from '../../config';
 import { NextFunction, RequestHandler, Response } from 'express';
 import { AuthRequest } from '../../types';
 import { cacheManager } from "../utils/cache-manager";
@@ -30,19 +30,18 @@ async function cookieVerify(req: AuthRequest, res: Response, next: NextFunction)
   try {
     const payload: any = await verifyToken(token, tenant);
     const created = Number(payload.tokenIdentifier?.split(':')[0]);
-    if ((Date.now() - created < cookieTokenVerificationTime) || await isCookieProcessed(payload.tokenIdentifier)) //await isCookieProcessed(payload.sub) 
-    {
+    if ((Date.now() - created < cookieTokenVerificationTime) || await isCookieProcessed(payload.tokenIdentifier)) {
       setUserPayload(payload, req, next);
       return;
     }
 
-    await setCookieAsProcessed(payload.tokenIdentifier);
     const newCookieIdentifier = getUniqueId();
     const user = await getUserIfTokenExists(
       payload.tenant,
       payload.sub,
       payload.tokenIdentifier
     );
+    await setCookieAsProcessed(payload.tokenIdentifier);
     await updateToken(
       user,
       'cookie',
@@ -61,14 +60,14 @@ async function cookieVerify(req: AuthRequest, res: Response, next: NextFunction)
     next();
   }
 }
-// to do = handle errors 
+
 async function setCookieAsProcessed(tokenIdentifier: string) {
-  await cacheManager.setItem(tokenIdentifier,'val', { ttl:30 });
+  await cacheManager.setItem(tokenIdentifier, 'tokenIdentifier', processedCookiExpiration);
 }
 
 async function isCookieProcessed(tokenIdentifier: string) {
-  const res = await cacheManager.getItem(tokenIdentifier) ;
-  return res !== undefined ? true :false;
+  const res = await cacheManager.getItem(tokenIdentifier);
+  return res !== undefined ? true : false;
 }
 
 function setUserPayload(payload: any, req: AuthRequest, next: NextFunction) {

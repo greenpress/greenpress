@@ -17,7 +17,7 @@ export function createRedisCache(redisUrl: string): ICache {
 
     return {
         getItem,
-        async setItem (key: string, value: string, { ttl }: CacheManagerOptions): Promise<void> {
+        async setItem (key: string, value: string, ttl: number): Promise<void> {
             await setItem(key, value);
             if (ttl) {
                 client.expire(key, ttl);

@@ -72,7 +72,7 @@ module.exports = {
     TOKEN_EXPIRATION: services.auth.tokenExpiration,
     REFRESH_TOKEN_EXPIRATION: services.auth.refreshTokenExpiration,
     COOKIE_TOKEN_VERIFICATION_TIME: services.auth.cookieTokenVerificationTime,
-    PROCESSED_COOKIE_EXPIRATION:services.auth.processedCookiexpiration,
+    PROCESSED_COOKIE_EXPIRATION:services.auth.processedCookiExpiration,
     COOKIE_TOKEN_EXPIRATION: services.auth.cookieTokenExpiration,
     PORT: services.auth.port,
     IP: services.auth.ip,
