@@ -9,14 +9,14 @@ export interface CacheManager {
     wrap: (key: string, fallback: IDataProviderCallback) => Promise<string>;
 }
 
-export function createCacheManager(cacher: ICache, { ttl }: CacheManagerOptions = { ttl: 600 }): CacheManager {
+export function createCacheManager(cacher: ICache, applicationOptions: CacheManagerOptions = { ttl: 600 }): CacheManager {
 
     return {
         getItem: cacher.getItem,
-        setItem(key: string, value: string, options: CacheManagerOptions = { ttl }) {
-            return cacher.setItem(key, value, options);
+        setItem(key: string, value: string, options: Partial<CacheManagerOptions> = {}) {
+            return cacher.setItem(key, value, { ...applicationOptions, ...options });
         },
-        async wrap(key: string, fallback: IDataProviderCallback) {
+        async wrap(key: string, fallback: IDataProviderCallback, setterOptions: Partial<CacheManagerOptions> = {}) {
             let currentValue;
             try {
                 currentValue = await cacher.getItem(key);
@@ -31,7 +31,7 @@ export function createCacheManager(cacher: ICache, { ttl }: CacheManagerOptions 
 
                 // doing it in background
                 setImmediate(() => {
-                    cacher.setItem(key, currentValue, { ttl }).catch(() => console.warn('could not set value on cache provider', key));
+                    cacher.setItem(key, currentValue, { ...applicationOptions, ...setterOptions }).catch(() => console.warn('could not set value on cache provider', key));
                 });
             } catch {
 
