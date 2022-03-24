@@ -10,7 +10,7 @@ export function createMemoryCache(): ICache {
         return Promise.resolve(storage.get(key));
     }
 
-    const setItem = (key: string, value: string, ttl: number) => {
+    const setItem = (key: string, value: string, { ttl }: CacheManagerOptions) => {
         storage.set(key, value);
         if (ttl) {
             keysToRemove.set(key, Date.now() + (ttl * 1000));

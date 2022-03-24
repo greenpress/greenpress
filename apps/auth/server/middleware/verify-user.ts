@@ -5,7 +5,7 @@ import {
   getSignedToken,
 } from '../services/tokens';
 import { getUserIfTokenExists, updateToken } from '../services/users';
-import { cookieTokenExpiration, privilegedRoles, cookieTokenVerificationTime, processedCookiExpiration } from '../../config';
+import { cookieTokenExpiration, privilegedRoles, cookieTokenVerificationTime, processedCookieExpiration } from '../../config';
 import { NextFunction, RequestHandler, Response } from 'express';
 import { AuthRequest } from '../../types';
 import { cacheManager } from "../utils/cache-manager";
@@ -62,7 +62,7 @@ async function cookieVerify(req: AuthRequest, res: Response, next: NextFunction)
 }
 
 async function setCookieAsProcessed(tokenIdentifier: string) {
-  await cacheManager.setItem(tokenIdentifier, 'tokenIdentifier', processedCookiExpiration);
+  await cacheManager.setItem(tokenIdentifier, 'tokenIdentifier', processedCookieExpiration);
 }
 
 async function isCookieProcessed(tokenIdentifier: string) {

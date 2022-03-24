@@ -11,16 +11,6 @@ greenpress-*.tgz
 *.lerna_backup
 coverage
 .DS_Store
-apps/.DS_Store
-apps/admin/.DS_Store
-apps/assets/.DS_Store
-apps/auth/.DS_Store
-apps/content/.DS_Store
-apps/content/server/.DS_Store
-packages/.DS_Store
-apps/auth/server/.DS_Store
-packages/.DS_Store
-.gitignore
 
 
 
