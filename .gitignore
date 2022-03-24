@@ -10,3 +10,8 @@ common/temp
 greenpress-*.tgz
 *.lerna_backup
 coverage
+.DS_Store
+
+
+
+
