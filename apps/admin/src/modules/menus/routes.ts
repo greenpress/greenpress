@@ -1,7 +1,7 @@
-import Menus from './Menus.vue'
-import EditMenu from './EditMenu.vue'
 import EmptyRoute from '../core/components/layout/EmptyRoute.vue'
 import { RouteRecordRaw } from 'vue-router'
+
+const EditMenuAsync = async () => (await import('./EditMenu.vue')).default;
 
 const menusRoutes: RouteRecordRaw = {
   path: 'menus',
@@ -11,17 +11,17 @@ const menusRoutes: RouteRecordRaw = {
     {
       path: '',
       name: 'menus',
-      component: Menus
+      component: async () => (await import('./Menus.vue')).default
     },
     {
       path: 'new',
       name: 'createMenu',
-      component: EditMenu
+      component: EditMenuAsync
     },
     {
       path: ':menuName',
       name: 'editMenu',
-      component: EditMenu
+      component: EditMenuAsync
     }
   ]
 }

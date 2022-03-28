@@ -9,7 +9,7 @@
       <div class="metadata">{{ block.description }}</div>
       <template v-slot:actions>
         <a @click.prevent="askBeforeRemove(block)">
-          <el-icon>icon-delete</el-icon> {{ $t('Remove') }}
+          <el-icon><icon-delete/></el-icon> {{ $t('Remove') }}
         </a>
       </template>
     </GpItem>

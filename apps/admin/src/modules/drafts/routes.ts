@@ -1,10 +1,9 @@
 import { RouteRecordRaw } from 'vue-router'
-import Drafts from '@/modules/drafts/Drafts.vue'
 
 const draftsRoutes: RouteRecordRaw = {
   path: '/drafts',
   name: 'drafts',
-  component: Drafts
+  component: async () => (await import('./Drafts.vue')).default
 }
 
 export default draftsRoutes

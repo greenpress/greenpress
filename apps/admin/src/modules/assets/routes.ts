@@ -1,8 +1,5 @@
-import EmptyRoute from '../core/components/layout/EmptyRoute.vue'
-import StorageList from './StorageList.vue'
-import AddStorage from './AddStorage.vue'
-import EditStorage from './EditStorage.vue'
 import { RouteRecordRaw } from 'vue-router'
+import EmptyRoute from '../core/components/layout/EmptyRoute.vue'
 
 const assetsRoutes: RouteRecordRaw = {
   path: 'assets',
@@ -12,17 +9,17 @@ const assetsRoutes: RouteRecordRaw = {
     {
       path: '',
       name: 'storageList',
-      component: StorageList
+      component: async () => (await import('./StorageList.vue')).default
     },
     {
       path: 'new',
       name: 'addStorage',
-      component: AddStorage
+      component: async () => (await import('./AddStorage.vue')).default
     },
     {
       path: ':storageId',
       name: 'editStorage',
-      component: EditStorage
+      component: async () => (await import('./EditStorage.vue')).default
     }
   ]
 }
