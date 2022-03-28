@@ -1,8 +1,5 @@
-import Categories from './Categories.vue'
-import EditCategory from './EditCategory.vue'
-import CreateCategory from './CreateCategory.vue'
-import EmptyRoute from '../core/components/layout/EmptyRoute.vue'
 import { RouteRecordRaw } from 'vue-router'
+import EmptyRoute from '../core/components/layout/EmptyRoute.vue'
 
 const categoriesRoutes: RouteRecordRaw = {
   path: 'categories',
@@ -12,17 +9,17 @@ const categoriesRoutes: RouteRecordRaw = {
     {
       path: '',
       name: 'categories',
-      component: Categories
+      component: async () => (await import('./Categories.vue')).default
     },
     {
       path: 'new',
       name: 'createCategory',
-      component: CreateCategory
+      component: async () => (await import('./CreateCategory.vue')).default
     },
     {
       path: ':categoryPath',
       name: 'editCategory',
-      component: EditCategory
+      component: async () => (await import('./EditCategory.vue')).default
     }
   ]
 };

@@ -1,7 +1,5 @@
-import Configurations from './Configurations.vue'
-import EditConfiguration from './EditConfiguration.vue'
-import EmptyRoute from '../core/components/layout/EmptyRoute.vue'
 import { RouteRecordRaw } from 'vue-router'
+import EmptyRoute from '../core/components/layout/EmptyRoute.vue'
 
 const configurationsRoutes: RouteRecordRaw = {
   path: '/configurations',
@@ -11,12 +9,12 @@ const configurationsRoutes: RouteRecordRaw = {
     {
       path: '',
       name: 'configurations',
-      component: Configurations
+      component: async () => (await import('./Configurations.vue')).default
     },
     {
       path: ':key',
       name: 'editConfiguration',
-      component: EditConfiguration
+      component: async () => (await import('./EditConfiguration.vue')).default
     }
   ]
 }

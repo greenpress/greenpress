@@ -1,8 +1,5 @@
-import EditPost from './EditPost.vue'
-import CreatePost from './CreatePost.vue'
-import EmptyRoute from '../core/components/layout/EmptyRoute.vue'
-import Posts from './Posts.vue'
 import { RouteRecordRaw } from 'vue-router'
+import EmptyRoute from '../core/components/layout/EmptyRoute.vue'
 
 const postsRoutes: RouteRecordRaw = {
   path: 'posts',
@@ -12,17 +9,17 @@ const postsRoutes: RouteRecordRaw = {
     {
       path: '',
       name: 'posts',
-      component: Posts
+      component: async () => (await import('./Posts.vue')).default
     },
     {
       path: 'new',
       name: 'createPost',
-      component: CreatePost
+      component: async () => (await import('./CreatePost.vue')).default
     },
     {
       path: ':postId',
       name: 'editPost',
-      component: EditPost
+      component: async () => (await import('./EditPost.vue')).default
     }
   ]
 }

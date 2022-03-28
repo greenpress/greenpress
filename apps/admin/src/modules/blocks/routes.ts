@@ -1,8 +1,5 @@
-import EmptyRoute from '../core/components/layout/EmptyRoute.vue'
-import Blocks from './Blocks.vue'
-import CreateBlock from './CreateBlock.vue'
-import EditBlock from './EditBlock.vue'
 import {RouteRecordRaw} from 'vue-router'
+import EmptyRoute from '../core/components/layout/EmptyRoute.vue'
 
 const blocksRoutes: RouteRecordRaw = {
   path: 'blocks',
@@ -12,17 +9,17 @@ const blocksRoutes: RouteRecordRaw = {
     {
       path: '',
       name: 'blocks',
-      component: Blocks
+      component: async () => (await import('./Blocks.vue')).default
     },
     {
       path: 'new',
       name: 'createBlock',
-      component: CreateBlock
+      component: async () => (await import('./CreateBlock.vue')).default
     },
     {
       path: ':blockId',
       name: 'editBlock',
-      component: EditBlock
+      component: async () => (await import('./EditBlock.vue')).default
     }
   ]
 }
