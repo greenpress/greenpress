@@ -1,24 +1,24 @@
 <template>
-	<div class="category-page">
-		<PageTitle title="Create Category"/>
-		<CategoryForm :category="{}" @submitted="submit"/>
-	</div>
+  <div class="category-page">
+    <PageTitle title="Create Category"/>
+    <CategoryForm :category="{}" @submitted="submit"/>
+  </div>
 </template>
 <script lang="ts" setup>
 import CategoryForm from './components/CategoryForm.vue'
-import { createCategory } from './compositions/categories'
+import {createCategory} from './compositions/categories'
 import PageTitle from '../core/components/semantics/PageTitle.vue'
-import { removeUnsavedChanges } from '@/modules/drafts/compositions/unsaved-changes'
-import { useRouter } from 'vue-router'
+import {removeUnsavedChanges} from '@/modules/drafts/compositions/unsaved-changes'
+import {useRouter} from 'vue-router'
 
 const router = useRouter()
 
 async function submit(data) {
-	const { path } = await createCategory(data)
-	removeUnsavedChanges('category')
-	router.push({
-		name: 'editCategory',
-		params: { categoryPath: path }
-	})
+  const {path} = await createCategory(data)
+  removeUnsavedChanges('category')
+  await router.push({
+    name: 'editCategory',
+    params: {categoryPath: path}
+  })
 }
 </script>

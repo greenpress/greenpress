@@ -4,5 +4,6 @@ export interface ICategory {
   isPublic: boolean,
   name: string
   path: string
-  tenant: string
+  tenant: string,
+  homePage?: boolean
 }

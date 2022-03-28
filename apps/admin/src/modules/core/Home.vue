@@ -1,18 +1,24 @@
 <template>
-	<div class="home">
-		<router-link :to="{name: 'createPost'}">
-			<el-icon><icon-document /></el-icon>
-			<h3>{{ $t('Create Post') }}</h3>
-		</router-link>
-		<router-link :to="{name: 'createCategory'}">
-			<el-icon><icon-folder-opened/></el-icon>
-			<h3>{{ $t('Create Category') }}</h3>
-		</router-link>
-		<router-link :to="{name: 'editConfiguration', params: {key: 'app-configuration'}}">
-			<el-icon><icon-setting/></el-icon>
-			<h3>{{ $t('Edit website configuration') }}</h3>
-		</router-link>
-	</div>
+  <div class="home">
+    <router-link :to="{name: 'createPost'}">
+      <el-icon>
+        <icon-document/>
+      </el-icon>
+      <h3>{{ $t('Create Post') }}</h3>
+    </router-link>
+    <router-link :to="{name: 'createCategory'}">
+      <el-icon>
+        <icon-folder-opened/>
+      </el-icon>
+      <h3>{{ $t('Create Category') }}</h3>
+    </router-link>
+    <router-link :to="{name: 'editConfiguration', params: {key: 'app-configuration'}}">
+      <el-icon>
+        <icon-setting/>
+      </el-icon>
+      <h3>{{ $t('Edit website configuration') }}</h3>
+    </router-link>
+  </div>
 </template>
 <style scoped lang="scss">
 @import "../../style/colors";
@@ -28,7 +34,7 @@
 
 @media screen and (min-width: 1200px) {
   .home {
-	padding: 2%;
+    padding: 2%;
   }
 }
 
@@ -44,6 +50,6 @@
 .home > a:hover {
   text-decoration: none;
   background: $secondary-color;
-	color: white;
+  color: white;
 }
 </style>
