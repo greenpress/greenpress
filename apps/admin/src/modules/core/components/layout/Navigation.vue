@@ -40,27 +40,22 @@
 	</nav>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import {useAuth} from '../../compositions/authentication';
 import {useRouter} from 'vue-router';
 
-export default {
-	name: 'Navigation',
-	props: {
-		opened: Boolean
-	},
-	setup(_, {emit}) {
-		const {logout} = useAuth()
-		const router = useRouter()
+const router = useRouter()
 
-		return {
-			close: () => emit('close'),
-			logout: async () => {
-				await logout()
-				router.push('login')
-			}
-		}
-	}
+defineProps({ opened: Boolean })
+const emit = defineEmits(['close'])
+
+const {logout: logoutApi} = useAuth()
+
+const close = () => emit('close')
+
+const logout = async () => {
+	await logoutApi()
+	router.push('login')
 }
 </script>
 <style scoped lang="scss">
@@ -81,7 +76,7 @@ nav {
 .home-logo {
   padding: 5px 0 10px 0;
   height: 75px;
-  text-align: center;
+  align-self: center;
 
   img {
 	max-width: 100%;
