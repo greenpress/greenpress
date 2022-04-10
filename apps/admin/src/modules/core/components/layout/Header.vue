@@ -1,31 +1,49 @@
 <template>
   <header :dir="$t('appDirection')">
-    <el-button type="default" class="btn" circle @click="open">
-    <el-icon><icon-menu/></el-icon></el-button>
-    <el-dropdown>
-      <div class="el-dropdown-link user-welcome">
-        <span v-html="greeting"/>
-        <el-icon><icon-arrow-down/></el-icon>
-      </div>
-      <template #dropdown>
-        <el-dropdown-menu>
-          <el-dropdown-item>
-            <router-link :to="{name: 'updateProfile'}">{{$t('Update profile')}}</router-link>
-          </el-dropdown-item>
-        </el-dropdown-menu>
-      </template>
-    </el-dropdown>
+    <div class="welcome">
+      <el-button type="default" class="btn" circle @click="open">
+        <el-icon>
+          <icon-menu/>
+        </el-icon>
+      </el-button>
+
+      <el-dropdown>
+        <div class="el-dropdown-link user-welcome">
+          <span v-html="greeting"/>
+          <el-icon>
+            <icon-arrow-down/>
+          </el-icon>
+        </div>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item>
+              <router-link :to="{name: 'updateProfile'}">{{ $t('Update profile') }}</router-link>
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+
+    </div>
+    <router-link :to="{name: 'createPost'}" class="quick-action">
+      <el-icon>
+        <icon-document/>
+      </el-icon>
+    </router-link>
+    <router-link :to="{name: 'createCategory'}" class="quick-action">
+      <el-icon>
+        <icon-folder-opened/>
+      </el-icon>
+    </router-link>
   </header>
 </template>
 <script lang="ts" setup>
-import { computed } from 'vue';
-import { useAuth } from '../../compositions/authentication'
-import { translate } from '../../../../plugins/i18n';
-
+import {computed} from 'vue';
+import {useAuth} from '../../compositions/authentication'
+import {translate} from '../../../../plugins/i18n';
 const emit = defineEmits(['open']);
-const { user } = useAuth()
+const {user} = useAuth()
 
-const greeting = computed(() => translate('Hello {userName}', { userName: user.value?.name || '' }))
+const greeting = computed(() => translate('Hello {userName}', {userName: user.value?.name || ''}))
 
 const open = () => emit('open')
 </script>
@@ -40,6 +58,12 @@ header {
   justify-content: flex-start;
   height: 70px;
   background-color: $negative-color;
+  align-items: center;
+}
+
+.welcome {
+  margin-right: auto;
+  display: flex;
   align-items: center;
 }
 
@@ -75,6 +99,17 @@ a {
 .actions {
   margin-inline-start: auto;
   margin-inline-end: 10px;
+}
+
+.quick-action {
+  font-size: 1.3em;
+  padding: 5px;
+  height: auto;
+  border: 0;
+}
+
+.quick-action:hover {
+  color: white;
 }
 
 @media (max-width: 600px) {
