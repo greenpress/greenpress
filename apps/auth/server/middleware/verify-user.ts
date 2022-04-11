@@ -62,7 +62,7 @@ async function cookieVerify(req: AuthRequest, res: Response, next: NextFunction)
 }
 
 async function setCookieAsProcessed(tokenIdentifier: string) {
-  await cacheManager.setItem(tokenIdentifier, 'tokenIdentifier', processedCookieExpiration);
+  await cacheManager.setItem(tokenIdentifier, 'tokenIdentifier', {ttl: processedCookieExpiration});
 }
 
 async function isCookieProcessed(tokenIdentifier: string) {
