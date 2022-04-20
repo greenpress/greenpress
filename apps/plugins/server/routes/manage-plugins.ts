@@ -1,19 +1,21 @@
-import {getRouter} from '@greenpress/api-kit/router';
-import {verifyUser, populateUser} from '@greenpress/api-kit/user-middlewares'
+import {getRouter, verifyUser, populateUser} from '@greenpress/api-kit';
 import {createPlugin, getAllPlugins, getPlugin, removePlugin, updatePlugin} from '../controllers/manage-plugins';
 import onlyPrivileged from '../middlewares/privileged-check';
 
 export function managePlugins() {
   const router = getRouter();
+
+  const AUTHENTICATION_MIDDLEWARES = [populateUser, verifyUser, onlyPrivileged]
+
   router
     .route('/api/plugins')
-    .use(populateUser, verifyUser, onlyPrivileged)
+    .use(AUTHENTICATION_MIDDLEWARES)
     .get(getAllPlugins)
     .post(createPlugin);
 
   router
     .route('/api/plugins/:pluginId')
-    .use(populateUser, verifyUser, onlyPrivileged)
+    .use(AUTHENTICATION_MIDDLEWARES)
     .get(getPlugin)
     .put(updatePlugin)
     .delete(removePlugin);

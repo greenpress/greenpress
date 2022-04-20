@@ -1,8 +1,12 @@
 {
   "name": "@greenpress/api-kit",
-  "version": "2.0.15",
+  "version": "2.0.19",
   "description": "API-Kit package to help with greenpress infrastructure and reuse capabilities across services",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/greenpress/greenoress.git"
@@ -22,5 +26,8 @@
     "express": "^4.17.1",
     "morgan": "^1.10.0"
   },
-  "gitHead": "e9b7e45274425af89f502ba0a3f43d68d83fe92e"
+  "gitHead": "a9ae998e3c44ef67c4527d20b93a3a8983aaf1e6",
+  "devDependencies": {
+    "@types/node": "^17.0.5"
+  }
 }

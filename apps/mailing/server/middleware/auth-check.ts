@@ -1,4 +1,4 @@
-const authService = require('@greenpress/api-kit/internal-service').service('AUTH')
+const authService = require('@greenpress/api-kit').service('AUTH')
 
 /**
  *  The Auth Checker middleware function.

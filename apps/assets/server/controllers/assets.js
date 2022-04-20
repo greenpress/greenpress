@@ -1,16 +1,14 @@
 const ftpService = require('../services/ftp');
 const gcsService = require('../services/gcs');
 const s3Service = require('../services/s3');
+const cloudinaryService = require('../services/cloudinary');
 
-function getService({ kind }) {
-  if (kind === 'gcs') {
-    return gcsService;
-  } else if (kind === 'ftp') {
-    return ftpService;
-  } else if (kind === 's3') {
-    return s3Service;
-  }
-}
+const getService = ({ kind }) => ({
+  gcs: gcsService,
+  ftp: ftpService,
+  s3: s3Service,
+  cloudinary: cloudinaryService
+})[kind];
 
 function getStorageAssets(req, res) {
   const identifier = req.query.identifier;

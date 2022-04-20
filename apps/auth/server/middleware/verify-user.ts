@@ -4,10 +4,11 @@ import {
   setCookie,
   getSignedToken,
 } from '../services/tokens';
-import {getUserIfTokenExists, updateToken} from '../services/users';
-import {cookieTokenExpiration, privilegedRoles, cookieTokenVerificationTime} from '../../config';
-import {NextFunction, RequestHandler, Response} from 'express';
-import {AuthRequest} from '../../types';
+import { getUserIfTokenExists, updateToken } from '../services/users';
+import { cookieTokenExpiration, privilegedRoles, cookieTokenVerificationTime, processedCookieExpiration } from '../../config';
+import { NextFunction, RequestHandler, Response } from 'express';
+import { AuthRequest } from '../../types';
+import { cacheManager } from "../utils/cache-manager";
 
 function oAuthVerify(req: AuthRequest, _res: Response, next: NextFunction): Promise<void> {
   // get the last part from a authorization header string like "bearer token-value"
@@ -29,23 +30,25 @@ async function cookieVerify(req: AuthRequest, res: Response, next: NextFunction)
   try {
     const payload: any = await verifyToken(token, tenant);
     const created = Number(payload.tokenIdentifier?.split(':')[0]);
-    if (Date.now() - created < cookieTokenVerificationTime) {
+    if ((Date.now() - created < cookieTokenVerificationTime) || await isCookieProcessed(payload.tokenIdentifier)) {
       setUserPayload(payload, req, next);
       return;
     }
+
     const newCookieIdentifier = getUniqueId();
     const user = await getUserIfTokenExists(
       payload.tenant,
       payload.sub,
       payload.tokenIdentifier
     );
+    await setCookieAsProcessed(payload.tokenIdentifier);
     await updateToken(
       user,
       'cookie',
       payload.tokenIdentifier,
       newCookieIdentifier
     );
-    const {token: newToken, payload: newPayload} = getSignedToken(
+    const { token: newToken, payload: newPayload } = getSignedToken(
       user,
       newCookieIdentifier,
       String(cookieTokenExpiration / 1000)
@@ -56,6 +59,15 @@ async function cookieVerify(req: AuthRequest, res: Response, next: NextFunction)
   } catch (e) {
     next();
   }
+}
+
+async function setCookieAsProcessed(tokenIdentifier: string) {
+  await cacheManager.setItem(tokenIdentifier, 'tokenIdentifier', processedCookieExpiration);
+}
+
+async function isCookieProcessed(tokenIdentifier: string) {
+  const res = await cacheManager.getItem(tokenIdentifier);
+  return res !== undefined ? true : false;
 }
 
 function setUserPayload(payload: any, req: AuthRequest, next: NextFunction) {

@@ -72,12 +72,14 @@ module.exports = {
     TOKEN_EXPIRATION: services.auth.tokenExpiration,
     REFRESH_TOKEN_EXPIRATION: services.auth.refreshTokenExpiration,
     COOKIE_TOKEN_VERIFICATION_TIME: services.auth.cookieTokenVerificationTime,
+    PROCESSED_COOKIE_EXPIRATION: services.auth.processedCookieExpiration,
     COOKIE_TOKEN_EXPIRATION: services.auth.cookieTokenExpiration,
     PORT: services.auth.port,
     IP: services.auth.ip,
     ROLES: config.roles.all,
     DEFAULT_ROLE: config.roles.default,
     PRIVILEGED_ROLES: config.roles.privileged,
+    REDIS_URL: config.redisUrl
   }),
   content: getHttpServiceVariables('content', {
     MONGO_URI: config.mongoUri,

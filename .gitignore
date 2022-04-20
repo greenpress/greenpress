@@ -13,3 +13,4 @@ coverage
 *k8s
 *.tgz
 Chart.lock
+.DS_Store
