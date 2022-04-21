@@ -24,13 +24,14 @@
 				>
 					<el-option value="s3" label="Amazon S3"/>
 					<el-option value="gcs" label="Google Cloud"/>
+					<el-option value="cloudinary" label="Cloudinary"/>
 					<el-option value="ftp" label="FTP"/>
 				</el-select>
 			</label>
 		</p>
 		<FormInput
 				v-if="editedStorage.kind !== 'ftp'"
-				title="Bucket Name"
+				:title="editedStorage.kind === 'cloudinary' ? 'Cloud Name' : 'Bucket Name'"
 				:model-value="editedStorage.metadata.bucketName"
 				@input="editedStorage.metadata.bucketName = $event"
 		/>
@@ -52,6 +53,10 @@
 						v-else-if="editedStorage.kind === 's3'"
 						v-model="editedStorage.authentication"
 				/>
+        <StorageCloudinaryAuth
+          v-if="editedStorage.kind === 'cloudinary'"
+          v-model="editedStorage.authentication"
+        />
 			</template>
 		</div>
 		<el-button native-type="submit" :loading="submitting">{{ $t('SAVE') }}</el-button>
@@ -61,12 +66,13 @@
 import StorageFtpAuth from './StorageFtpAuth.vue'
 import StorageGcsAuth from './StorageGcsAuth.vue'
 import StorageS3Auth from './StorageS3Auth.vue'
+import StorageCloudinaryAuth from './StorageCloudinaryAuth.vue'
 import FormInput from '../../core/components/forms/FormInput.vue'
 import { useStorageForm } from '../compositions/storages'
 
 export default {
 	name: 'StorageForm',
-	components: { FormInput, StorageFtpAuth, StorageGcsAuth, StorageS3Auth },
+	components: { FormInput, StorageFtpAuth, StorageGcsAuth, StorageS3Auth, StorageCloudinaryAuth },
 	props: {
 		value: Object,
 		submitting: Boolean
