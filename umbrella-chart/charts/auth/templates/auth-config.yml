@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: auth-config
+data:
+    REDIS_URL: "{{ .Values.global.redis_url }}"
+    AUTH_SERVICE_URL: "{{ .Release.Name }}-auth"
+    IP: "0.0.0.0"
+
+  
+    

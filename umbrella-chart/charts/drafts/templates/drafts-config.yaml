@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: drafts-config
+data:
+    DRAFTS_MONGODB_URI: "mongodb://{{ .Release.Name }}-mongodb/greenpress"
+

@@ -10,8 +10,7 @@ common/temp
 greenpress-*.tgz
 *.lerna_backup
 coverage
+*k8s
+*.tgz
+Chart.lock
 .DS_Store
-
-
-
-

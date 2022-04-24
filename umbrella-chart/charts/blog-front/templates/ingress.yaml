@@ -1,0 +1,23 @@
+{{- if .Values.ingress.enabled }}
+{{- $fullName := include "blog-front.fullname" . -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ $fullName }}
+  {{- with .Values.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  rules:
+  - host: {{ .Values.ingress.host }}
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: "{{ .Release.Name }}-blog-front"
+            port:
+              number: 80
+{{- end}}
