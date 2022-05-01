@@ -35,6 +35,7 @@ export default class GpAuthentication extends BaseSDK {
   signin(credentials: ICredentials) {
     return this.callJsonApi<{ payload: BasicPayload }>('/api/signin', {
       method: 'post',
+      headers: {'content-type': 'application/json'},
       body: JSON.stringify(credentials)
     })
   }
@@ -44,6 +45,7 @@ export default class GpAuthentication extends BaseSDK {
       '/api/signin',
       {
         method: 'post',
+        headers: {'content-type': 'application/json'},
         body: JSON.stringify({...credentials, authType: 'oauth'})
       })
   }
@@ -53,6 +55,7 @@ export default class GpAuthentication extends BaseSDK {
       '/api/signup',
       {
         method: 'post',
+        headers: {'content-type': 'application/json'},
         body: JSON.stringify(information)
       })
   }
@@ -62,6 +65,7 @@ export default class GpAuthentication extends BaseSDK {
       '/api/signup',
       {
         method: 'post',
+        headers: {'content-type': 'application/json'},
         body: JSON.stringify({...information, authType: 'oauth'})
       })
   }
@@ -86,6 +90,9 @@ export default class GpAuthentication extends BaseSDK {
   }
 
   updateLoggedInUser(changes: Partial<IUser & { password?: string }>): Promise<IUser> {
-    return this.callJsonApi<IUser>('/api/me', {method: 'post', body: JSON.stringify(changes)})
+    return this.callJsonApi<IUser>('/api/me', {
+      method: 'post',
+      headers: {'content-type': 'application/json'},
+      body: JSON.stringify(changes)})
   }
 }

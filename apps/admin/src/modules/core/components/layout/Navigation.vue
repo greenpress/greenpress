@@ -28,6 +28,10 @@
 	  <el-icon><icon-box/></el-icon>
       <span>{{ $t('Blocks') }}</span>
     </router-link>
+    <router-link to="/layouts">
+      <el-icon><icon-grid /></el-icon>
+      <span>{{ $t('Layouts') }}</span>
+    </router-link>
 		<router-link to="/users">
 			<el-icon><icon-user/></el-icon>
 			<span>{{ $t('Users') }}</span>

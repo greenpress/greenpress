@@ -74,6 +74,7 @@ export default class GpPosts extends BaseSDK {
   ): Promise<IPost> {
     return this.callJsonApi<IPost>(`${this.relativePath}/${encodeURI(path)}`, {
       method: "put",
+      headers: {'content-type': 'application/json'},
       body: JSON.stringify(changes),
       ...(extra || {}),
     });
@@ -82,6 +83,7 @@ export default class GpPosts extends BaseSDK {
   create(post: IPost, extra?: Partial<RequestInit>): Promise<IPost> {
     return this.callJsonApi<IPost>(this.relativePath, {
       method: "post",
+      headers: {'content-type': 'application/json'},
       body: JSON.stringify(post),
       ...(extra || {}),
     });
