@@ -1,0 +1,24 @@
+{
+  "name": "create-press",
+  "version": "1.0.0",
+  "description": "Create a new Greenpress application",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/greenpress/greenoress.git"
+  },
+  "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/greenpress/greenpress/issues"
+  },
+  "homepage": "https://github.com/greenpress/greenpress#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "bin": {
+    "create-press": "index.mjs"
+  }
+}

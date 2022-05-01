@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+${fragments.head?.preload}
+${fragments.head?.tags}
+</head>
+<body>
+${fragments.hydration}
+<div id="app">${fragments.element}</div>
+<script type="module" src="/entry/client.js"></script>
+</body>
+</html>

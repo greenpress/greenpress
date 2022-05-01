@@ -1,25 +1,16 @@
 {
+  "type": "module",
   "name": "@greenpress/front-ssr",
   "version": "2.0.19",
   "scripts": {
-    "dev": "node remove-dist.mjs && node app.mjs",
-    "build": "node build-workaround.mjs && node app.mjs build",
-    "start": "node app.mjs"
+    "dev": "dx dev",
+    "build": "node build-workaround.mjs && dx build",
+    "start": "dx start"
   },
   "dependencies": {
-    "fastify": "^3.25.3",
-    "fastify-vite": "3.0.0-next.1",
-    "fastify-vite-vue": "3.0.0-next.1",
-    "node-fetch": "^2.6.1",
-    "pinia": "^2.0.4",
-    "vue": "^3.2.16"
-  },
-  "devDependencies": {
     "@greenpress/sdk": "2.0.17",
-    "@types/node-fetch": "^2.5.12",
-    "@vitejs/plugin-vue": "^1.9.3",
-    "typescript": "^4.4.3",
-    "vite": "^2.6.4",
-    "vue-tsc": "^0.3.0"
+    "fastify-dx": "0.0.19",
+    "fastify-vite-vue": "^3.0.0-beta.3",
+    "node-fetch": "^2.6.1"
   }
 }
