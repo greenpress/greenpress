@@ -34,14 +34,15 @@ async function cookieVerify(req: AuthRequest, res: Response, next: NextFunction)
       setUserPayload(payload, req, next);
       return;
     }
-
     const newCookieIdentifier = getUniqueId();
-    const user = await getUserIfTokenExists(
-      payload.tenant,
-      payload.sub,
-      payload.tokenIdentifier
-    );
-    await setCookieAsProcessed(payload.tokenIdentifier);
+    const [user] = await Promise.all([
+      getUserIfTokenExists(
+          payload.tenant,
+          payload.sub,
+          payload.tokenIdentifier
+      ),
+      setCookieAsProcessed(payload.tokenIdentifier)
+    ]);
     await updateToken(
       user,
       'cookie',
