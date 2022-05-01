@@ -73,7 +73,7 @@ module.exports = {
       script: process.env.ADMIN_SERVICE_SCRIPT || (IS_PROD ? 'server.js' : 'npm run dev')
     },
     front: {
-      port: process.env.ADMIN_PORT || 3002,
+      port: process.env.FRONT_SERVICE_PORT || 3002,
       cwd: process.env.FRONT_SERVICE_CWD || join(appAbsolutePath, './node_modules/@greenpress/front-ssr'),
       script: process.env.FRONT_SERVICE_SCRIPT || (IS_PROD ? 'npm start' : 'npm run dev')
     },
