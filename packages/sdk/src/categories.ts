@@ -43,14 +43,18 @@ export default class GpCategories extends BaseSDK {
 
   update(path: string, changes: Partial<ICategory>): Promise<ICategory> {
     return this.callJsonApi<ICategory>(
-      `${this.relativePath}/${encodeURI(path)}`,
-      { method: "put", body: JSON.stringify(changes) }
+      `${this.relativePath}/${encodeURI(path)}`, {
+        method: "put",
+        headers: {'content-type': 'application/json'},
+        body: JSON.stringify(changes)
+      }
     );
   }
 
   create(category: ICategory): Promise<ICategory> {
     return this.callJsonApi<ICategory>(this.relativePath, {
       method: "post",
+      headers: {'content-type': 'application/json'},
       body: JSON.stringify(category),
     });
   }

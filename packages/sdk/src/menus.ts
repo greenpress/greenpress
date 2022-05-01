@@ -50,12 +50,18 @@ export default class GpMenus extends BaseSDK {
 
   update(name: string, changes: Partial<IMenu>): Promise<IMenu> {
     return this.callJsonApi<IMenu>(
-      `${this.relativePath}/${encodeURI(name)}`,
-      {method: 'put', body: JSON.stringify(changes)}
+      `${this.relativePath}/${encodeURI(name)}`, {
+        method: 'put',
+        headers: {'content-type': 'application/json'},
+        body: JSON.stringify(changes)
+      }
     )
   }
 
   create(menu: IMenu): Promise<IMenu> {
-    return this.callJsonApi<IMenu>(this.relativePath, {method: 'post', body: JSON.stringify(menu)})
+    return this.callJsonApi<IMenu>(this.relativePath, {
+      method: 'post',
+      headers: {'content-type': 'application/json'},
+      body: JSON.stringify(menu)})
   }
 }

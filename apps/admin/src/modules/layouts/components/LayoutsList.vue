@@ -1,14 +1,14 @@
 <template>
   <div>
-    <GpItem v-for="block in blocks" :key="block._id">
+    <GpItem v-for="layout in layouts" :key="layout.kind">
       <template v-slot:title>
-        <router-link :to="{name: 'editBlock', params: {blockId: block._id}}">
-          {{ block.name }}
+        <router-link :to="{name: 'editLayout', params: {kind: layout.kind}}">
+          {{ layout.kind }}
         </router-link>
       </template>
-      <div class="metadata">{{ block.description }}</div>
+      <div class="metadata"></div>
       <template v-slot:actions>
-        <a @click.prevent="askBeforeRemove(block)">
+        <a @click.prevent="askBeforeRemove(layout)">
           <el-icon><icon-delete/></el-icon> {{ $t('Remove') }}
         </a>
       </template>
@@ -16,13 +16,13 @@
   </div>
 </template>
 <script lang="ts" setup>
-import {useBlocksList} from '../compositions/blocks'
+import {useLayoutsList} from '../compositions/layouts'
 import {useConfirmAction} from '../../core/compositions/confirm-action'
 import GpItem from '../../core/components/layout/GpItem.vue';
 
-const {blocks, removeBlock} = useBlocksList()
+const {layouts, removeLayout} = useLayoutsList()
 
-const askBeforeRemove = useConfirmAction(removeBlock);
+const askBeforeRemove = useConfirmAction(removeLayout);
 </script>
 <style scoped>
 .metadata {

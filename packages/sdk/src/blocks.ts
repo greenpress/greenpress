@@ -32,11 +32,18 @@ export default class GpBlocks extends BaseSDK {
   update(blockId: string, changes: Partial<IBlock>): Promise<IBlock> {
     return this.callJsonApi<IBlock>(
       `${this.relativePath}/${blockId}`,
-      {method: 'put', body: JSON.stringify(changes)}
+      {
+        method: 'put',
+        headers: {'content-type': 'application/json'},
+        body: JSON.stringify(changes)}
     )
   }
 
   create(block: IBlock): Promise<IBlock> {
-    return this.callJsonApi<IBlock>(this.relativePath, {method: 'post', body: JSON.stringify(block)})
+    return this.callJsonApi<IBlock>(this.relativePath, {
+      method: 'post',
+      headers: {'content-type': 'application/json'},
+      body: JSON.stringify(block)
+    })
   }
 }

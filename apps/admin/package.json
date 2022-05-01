@@ -18,6 +18,7 @@
     "express": "^4.17.1"
   },
   "devDependencies": {
+    "@greenpress/sdk": "2.0.17",
     "@greenpress/gp-editor": "^2.0.0",
     "@types/jest": "^27.0.3",
     "@vitejs/plugin-vue": "^2.2.4",

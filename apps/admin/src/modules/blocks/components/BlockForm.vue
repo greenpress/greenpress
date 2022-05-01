@@ -3,22 +3,22 @@
     <div>
       <FormInput
         title="Name"
-        v-model="name"
+        v-model="data.name"
       />
       <FormInput
         title="Description"
-        v-model="description"
+        v-model="data.description"
       />
       <el-form-item label="Content" class="form-item-flex">
         <div>
-          <gp-editor v-model="content" :config="editorConfig"/>
+          <gp-editor v-model="data.content" :config="editorConfig"/>
         </div>
       </el-form-item>
       <el-button native-type="submit" :loading="submitting">{{ $t('SAVE') }}</el-button>
     </div>
   </el-form>
 </template>
-<script lang="ts">
+<script lang="ts" setup>
 import {computed} from 'vue'
 import FormInput from '../../core/components/forms/FormInput.vue'
 import {clearNulls} from '../../core/utils/clear-nulls'
@@ -27,25 +27,19 @@ import {useEditorConfig} from '../../posts/compositions/gp-editor'
 import {useUnsavedChanges} from '../../drafts/compositions/unsaved-changes'
 import {IBlock} from '../../../services/types/block';
 
-export default {
-  name: 'BlockForm',
-  components: {FormInput},
-  props: {
-    block: Object as () => IBlock,
-    submitting: Boolean
-  },
-  setup(props, {emit}) {
-    const data = useBlockForm(props)
+const props = defineProps({
+  block: Object as () => IBlock,
+  submitting: Boolean
+})
 
-    useUnsavedChanges('block', props.block._id, computed(() => props.block.name), data.editedBlock)
+const emit = defineEmits(['submitted'])
 
-    return {
-      ...data,
-      ...useEditorConfig(),
-      submit: () => emit('submitted', clearNulls(data.editedBlock))
-    }
-  }
-}
+const data = useBlockForm(props)
+const {editorConfig} = useEditorConfig()
+
+useUnsavedChanges('block', props.block._id, computed(() => props.block.name), data.editedBlock)
+
+const submit = () => emit('submitted', clearNulls(data.editedBlock))
 </script>
 <style scoped>
 .block-form {

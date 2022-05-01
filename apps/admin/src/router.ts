@@ -10,6 +10,7 @@ import configurationsRoutes from './modules/configurations/routes'
 import {authStore, fetchAuthUser} from './modules/core/store/auth'
 import draftsRoutes from './modules/drafts/routes';
 import blocksRoutes from './modules/blocks/routes';
+import layoutsRoutes from '@/modules/layouts/routes';
 
 // @ts-ignore
 const BASE = import.meta.env.BASE_URL || '/gp-admin';
@@ -34,7 +35,8 @@ const router = createRouter({
                 postsRoutes,
                 usersRoutes,
                 draftsRoutes,
-                blocksRoutes
+                blocksRoutes,
+                layoutsRoutes,
             ]
         },
         {

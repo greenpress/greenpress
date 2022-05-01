@@ -30,6 +30,7 @@ export default class GpConfigurations extends BaseSDK {
   update(changes: Partial<IAppConfiguration>): Promise<IAppConfiguration> {
     return this.callJsonApi<IAppConfiguration>(this.relativePath, {
       method: "put",
+      headers: {'content-type': 'application/json'},
       body: JSON.stringify(changes),
     });
   }

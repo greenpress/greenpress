@@ -74,6 +74,7 @@ export default class GpLayouts extends BaseSDK {
   ): Promise<ILayout> {
     return this.callJsonApi<ILayout>(`${this.relativePath}/${kind}`, {
       method: "put",
+      headers: {'content-type': 'application/json'},
       body: JSON.stringify(changes),
       ...(extra || {}),
     });
@@ -82,6 +83,7 @@ export default class GpLayouts extends BaseSDK {
   create(layout: ILayout, extra?: Partial<RequestInit>): Promise<ILayout> {
     return this.callJsonApi<ILayout>(this.relativePath, {
       method: "post",
+      headers: {'content-type': 'application/json'},
       body: JSON.stringify(layout),
       ...(extra || {}),
     });

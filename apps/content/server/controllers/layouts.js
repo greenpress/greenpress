@@ -26,7 +26,7 @@ function getLayoutByKind(req, res, next) {
     req.layout = layout;
     next();
   }).catch(() => {
-    res.status(404).json({ message: "block not exists" }).end()
+    res.status(404).json({ message: "layout not exists" }).end()
   });
 }
 
@@ -35,7 +35,6 @@ async function singleLayout(req, res) {
   const { tenant } = req.headers || {};
   const useCache = !req.user?.isEditor;
   try {
-    console.log('load layout of tenant: ', tenant)
     const layout = await Layout.getSingleLayout({ kind, tenant, useCache });
     if (layout) {
       res.status(200).set('Content-Type', 'application/json').end(layout);
@@ -68,10 +67,18 @@ function createLayout(req, res) {
 }
 
 function updateLayout(req, res) {
-  const { layout: currLayout, body } = req;
-  delete body.tenant;
+  console.log('update layout');
+  const { layout: currLayout } = req;
 
-  Object.assign(currLayout, body).save()
+  if (req.body.content) {
+    currLayout.content = req.body.content;
+  }
+
+  if (req.body.connectedData) {
+    currLayout.connectedData = req.body.connectedData;
+  }
+
+  currLayout.save()
     .then((newLayout) => {
       res.status(200).json(newLayout).end();
     })
