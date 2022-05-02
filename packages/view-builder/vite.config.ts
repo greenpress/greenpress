@@ -6,7 +6,7 @@ export default defineConfig({
     lib: {
       entry: "./src/index.ts",
       name: "ViewBuilder",
-      fileName: (format) => `my-lib.${format}.js`,
+      fileName: (format) => `index.${format}.js`,
     },
   },
 });
