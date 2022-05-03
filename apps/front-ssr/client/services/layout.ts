@@ -8,16 +8,18 @@ function getAllUniqueComponents(items: LayoutItem[], references: Map<string, any
     if (item.predefined) {
       components[item.component as string] = true;
     }
-    if (item.children) {
-      return {...components, ...getAllUniqueComponents(item.children, references)}
-    }
     if (typeof item.props === 'object') {
       for (const prop in item.props) {
         const refer = item.props[prop];
+        console.log('refer', refer)
         if (references.has(refer)) {
+          console.log('refer exists on connected data', refer)
           item.props[prop] = references.get(refer);
         }
       }
+    }
+    if (item.children && item.children.length) {
+      return {...components, ...getAllUniqueComponents(item.children, references)}
     }
     return components;
   }, {});

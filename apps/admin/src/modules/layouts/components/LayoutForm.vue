@@ -9,14 +9,14 @@
         <el-option label="Tags" value="tag"/>
       </el-select>
 
-      <div ref="builderWrapper"></div>
+      <view-builder ref="builder" :layout="layout" @change="setLayoutFromBuilder"></view-builder>
 
       <el-button native-type="submit" :loading="submitting">{{ $t('SAVE') }}</el-button>
     </div>
   </el-form>
 </template>
 <script lang="ts" setup>
-import {computed, ref, onMounted, nextTick} from 'vue'
+import {computed} from 'vue'
 import {ILayout} from '@greenpress/sdk/dist/layouts';
 import {clearNulls} from '../../core/utils/clear-nulls'
 import {useUnsavedChanges} from '../../drafts/compositions/unsaved-changes'
@@ -32,17 +32,11 @@ const props = defineProps({
 
 const emit = defineEmits(['submitted'])
 
-const builderWrapper = ref<HTMLElement>()
-onMounted(async () => {
-  await nextTick()
-  let builder = document.createElement('view-builder');
-  builderWrapper.value.appendChild(builder);
-  await nextTick()
-  builder.plugins = [];
-  builder.layout = { content: props.layout.content, connectedData: props.layout.connectedData };
-})
-
 const data = useLayoutForm(props)
+
+function setLayoutFromBuilder(event) {
+  data.editedLayout.content = event.detail.layout.content;
+}
 
 useUnsavedChanges('layout', props.layout._id, computed(() => props.layout.kind), data.editedLayout)
 

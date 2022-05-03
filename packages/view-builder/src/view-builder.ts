@@ -24,7 +24,7 @@ export default class ViewBuilderElement
   get layout(): ILayout {
     return store.layout;
   }
-  set layout(layout: any) {
+  set layout(layout: ILayout) {
     store.layout = layout;
   }
 
@@ -41,7 +41,9 @@ export default class ViewBuilderElement
   constructor() {
     super();
     store.init(this);
-    this.appendChild(this.pluginsEl);
-    this.appendChild(this.layoutEl);
+    setTimeout(() => {
+      this.appendChild(this.pluginsEl);
+      this.appendChild(this.layoutEl);
+    }, 0);
   }
 }
