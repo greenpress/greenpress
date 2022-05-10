@@ -3,6 +3,15 @@ import {LayoutItem} from '../components/types/layout';
 
 export type ComponentsMap = { [key: string]: Component };
 
+function loadComponent(componentName: string) {
+  if (import.meta.env.SSR) {
+    const components = import.meta.globEager('../components/layouts/*.vue');
+    return Promise.resolve(components[`../components/layouts/${componentName}.vue`]);
+  } else {
+    return import(`../components/layouts/${componentName}.vue`);
+  }
+}
+
 function getAllUniqueComponents(items: LayoutItem[], references: Map<string, any>): { [key: string]: boolean } {
   return items.reduce((components: { [key: string]: boolean }, item) => {
     if (item.predefined) {
@@ -11,9 +20,7 @@ function getAllUniqueComponents(items: LayoutItem[], references: Map<string, any
     if (typeof item.props === 'object') {
       for (const prop in item.props) {
         const refer = item.props[prop];
-        console.log('refer', refer)
         if (references.has(refer)) {
-          console.log('refer exists on connected data', refer)
           item.props[prop] = references.get(refer);
         }
       }
@@ -29,7 +36,7 @@ export async function getLazyLayoutComponents(layout: LayoutItem[], references: 
   const components = getAllUniqueComponents(layout, references) as ComponentsMap & any;
 
   await Promise.all(Object.keys(components).map(componentName => {
-    return import(`../components/layouts/${componentName}.vue`).then(component => {
+    return loadComponent(componentName).then(component => {
       components[componentName] = component.default;
     })
   }));

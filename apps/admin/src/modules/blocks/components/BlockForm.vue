@@ -3,15 +3,15 @@
     <div>
       <FormInput
         title="Name"
-        v-model="data.name"
+        v-model="name"
       />
       <FormInput
         title="Description"
-        v-model="data.description"
+        v-model="description"
       />
       <el-form-item label="Content" class="form-item-flex">
         <div>
-          <gp-editor v-model="data.content" :config="editorConfig"/>
+          <gp-editor :model-value="content" @input="content = $event" :config="editorConfig"/>
         </div>
       </el-form-item>
       <el-button native-type="submit" :loading="submitting">{{ $t('SAVE') }}</el-button>
@@ -34,12 +34,12 @@ const props = defineProps({
 
 const emit = defineEmits(['submitted'])
 
-const data = useBlockForm(props)
+const {editedBlock, name, content, description} = useBlockForm(props)
 const {editorConfig} = useEditorConfig()
 
-useUnsavedChanges('block', props.block._id, computed(() => props.block.name), data.editedBlock)
+useUnsavedChanges('block', props.block._id, computed(() => props.block.name), editedBlock)
 
-const submit = () => emit('submitted', clearNulls(data.editedBlock))
+const submit = () => emit('submitted', clearNulls(editedBlock))
 </script>
 <style scoped>
 .block-form {

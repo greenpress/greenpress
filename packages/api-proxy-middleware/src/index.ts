@@ -53,13 +53,10 @@ export default function apiProxy(app: any, config: Partial<IApiProxyConfig>, cac
     //disable cors when tenant defined from request headers:
     if (req.headers.tenant) {
       req.disableCors = true;
-      console.log("predefined tenant by headers: ", req.headers.tenant);
     }
-    console.log("check host: ", req.headers.host);
 
     if (host === defaultApplicationHost || host === internalUrl) {
       req.headers.tenant = req.headers.tenant || defaultTenant;
-      console.log("new tenant of default ", req.headers.tenant);
     } else {
       try {
         req.headers.tenant = (await getTenantByHost(host)) || "";
@@ -67,8 +64,6 @@ export default function apiProxy(app: any, config: Partial<IApiProxyConfig>, cac
         //
       }
     }
-
-    console.log("tenant called: ", req.headers.tenant);
 
     if (!req.headers.tenant) {
       res

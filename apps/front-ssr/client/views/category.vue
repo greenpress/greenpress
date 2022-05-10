@@ -7,7 +7,7 @@ import {loadLayoutPayload} from '../services/sdk';
 import Layout from '../components/Layout.vue';
 import {LayoutItem} from '../components/types/layout';
 
-export const route = '/:category/'
+export const route = '/:category'
 export const name = 'category'
 
 export default {

@@ -4,10 +4,10 @@
 			<a :href="link.value.url" :target="link.value.newWindow ? '_blank' : '_self'">{{ link.value.text }}</a>
 		</template>
     <template v-if="link.kind === 'category'">
-			<router-link :to="link.category.path || '/'">{{ link.category.name }}</router-link>
+			<router-link :to="{name: 'category', params: {category: link.category.path || '/'}}">{{ link.category.name }}</router-link>
 		</template>
     <template v-if="link.kind === 'post'">
-			<router-link :to="link.post.category.path + '/' + link.post.path">{{ link.post.title }}</router-link>
+			<router-link :to="{name: 'post', params: {post: link.post.path, category: link.post.category.path}}">{{ link.post.title }}</router-link>
 		</template>
 	</span>
 </template>

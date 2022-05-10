@@ -1,5 +1,5 @@
 <template>
-  <div v-html="category.content"/>
+  <div v-if="category.content" v-html="category.content"/>
 </template>
 <script lang="ts">
 import {ICategory} from '@greenpress/sdk/dist/categories';

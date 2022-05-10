@@ -38,7 +38,7 @@
       </div>
 
       <el-form-item v-else-if="$route.query.tab === 'short'" label="Short">
-        <gp-editor :model-value="post.short || editedPost.short" @input="editedPost.short = $event"
+        <gp-editor :model-value="post.short || editedPost.short" @update:modelValue="editedPost.short = $event"
                    large-editor
                    :config="editorConfig"/>
       </el-form-item>
@@ -49,6 +49,7 @@
                              :key="item.index"
                              :value="item.content"
                              :state="item.state"
+                             :editor-config="editorConfig"
                              @remove="removeContent(item.index)"
                              @contentChange="setContent(item.index, $event)"
                              @typeChange="setContentsStates(item.index, $event)"/>
