@@ -22,6 +22,7 @@ export default class BuilderLayout
     super();
 
     store.watch("layout", (newLayout) => {
+      this.innerHTML =  '';
       this.render(newLayout.content);
     });
   }
