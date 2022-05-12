@@ -9,7 +9,7 @@
         <el-option label="Tags" value="tag"/>
       </el-select>
 
-      <view-builder ref="builder" :layout="layout" @change="setLayoutFromBuilder"></view-builder>
+      <view-builder ref="builder" :layout="layout" :plugins="plugins" @change="setLayoutFromBuilder"></view-builder>
 
       <el-button native-type="submit" :loading="submitting">{{ $t('SAVE') }}</el-button>
     </div>
@@ -24,11 +24,32 @@ import {useLayoutForm} from '../compositions/layouts';
 
 import '@greenpress/view-builder/dist/index.es.js';
 import '@greenpress/view-builder/dist/style.css';
+import {IPlugin} from '@greenpress/view-builder/src';
 
 const props = defineProps({
   layout: Object as () => ILayout,
   submitting: Boolean
 })
+
+const plugins: IPlugin[] = [
+  {
+    match: 'div.flex-row',
+    component: 'div',
+    title: 'Row',
+    description: 'Flex Row Div',
+    classes: 'flex-row',
+  },
+  ...['div', 'header', 'footer', 'main', 'aside', 'section'].map(tag => {
+    return {
+      match: tag,
+      component: tag,
+      title: tag,
+      description: tag,
+      supportChildren: true,
+      showChildren: true,
+    }
+  }),
+];
 
 const emit = defineEmits(['submitted'])
 

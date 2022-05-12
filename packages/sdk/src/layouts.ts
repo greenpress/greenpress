@@ -31,15 +31,13 @@ export interface ILayoutContent {
 
 export interface ILayout {
   kind: LayoutKind;
-  connectedData: [
-    {
-      kind: LayoutConnectedDataKind;
-      data?: any;
-      identifier: string;
-      reference: string;
-      context?: any;
-    }
-  ];
+  connectedData: Array<{
+    kind: LayoutConnectedDataKind;
+    data?: any;
+    identifier: string;
+    reference: string;
+    context?: any;
+  }>;
   content: ILayoutContent[];
 
   [key: string]: any;

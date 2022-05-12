@@ -1,4 +1,13 @@
 /*
-This is the first CSS loaded 
+This is the first CSS loaded
 by the default base layout.
 */
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-row > * {
+    flex: 1;
+}

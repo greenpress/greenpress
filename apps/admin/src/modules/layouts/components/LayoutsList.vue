@@ -3,26 +3,23 @@
     <GpItem v-for="layout in layouts" :key="layout.kind">
       <template v-slot:title>
         <router-link :to="{name: 'editLayout', params: {kind: layout.kind}}">
-          {{ layout.kind }}
+          {{ layout.displayName }}
         </router-link>
       </template>
       <div class="metadata"></div>
-      <template v-slot:actions>
-        <a @click.prevent="askBeforeRemove(layout)">
-          <el-icon><icon-delete/></el-icon> {{ $t('Remove') }}
-        </a>
-      </template>
     </GpItem>
   </div>
 </template>
 <script lang="ts" setup>
-import {useLayoutsList} from '../compositions/layouts'
-import {useConfirmAction} from '../../core/compositions/confirm-action'
 import GpItem from '../../core/components/layout/GpItem.vue';
 
-const {layouts, removeLayout} = useLayoutsList()
-
-const askBeforeRemove = useConfirmAction(removeLayout);
+const layouts = [
+  {kind: 'index', displayName: 'Index / Home'},
+  {kind: 'category', displayName: 'Category'},
+  {kind: 'post', displayName: 'Post'},
+  {kind: 'tag', displayName: 'Tags List'},
+  {kind: 'search', displayName: 'Search'},
+]
 </script>
 <style scoped>
 .metadata {
