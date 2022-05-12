@@ -4,7 +4,6 @@
   "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
-    "prebuild": "npm install",
     "build": "vite build --base=/gp-admin/",
     "build:no-base": "vite build --base=/",
     "serve": "vite",
@@ -14,12 +13,13 @@
   },
   "main": "server.js",
   "dependencies": {
-    "@element-plus/icons-vue": "^1.1.1",
     "express": "^4.17.1"
   },
   "devDependencies": {
     "@greenpress/sdk": "2.0.17",
-    "@greenpress/gp-editor": "^2.0.0",
+    "@greenpress/gp-editor": "^2.1.1",
+    "@greenpress/view-builder": "^2.0.19",
+    "@element-plus/icons-vue": "^1.1.1",
     "@types/jest": "^27.0.3",
     "@vitejs/plugin-vue": "^2.2.4",
     "axios": "^0.24.0",

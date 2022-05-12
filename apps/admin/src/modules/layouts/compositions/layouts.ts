@@ -3,6 +3,8 @@ import {useDispatcher} from '../../core/compositions/dispatcher'
 import {ILayout, LayoutKind} from '@greenpress/sdk/dist/layouts';
 import sdk from '@/services/sdk';
 import {removeUnsavedChanges} from '@/modules/drafts/compositions/unsaved-changes';
+import {reactive} from 'vue';
+import {useEditedInputModels} from '@/modules/core/compositions/edited-inputs';
 
 export function useLayoutsList() {
   const {loading, result} = useDispatcher<ILayout[]>(() => {
@@ -44,5 +46,19 @@ export function useEditLayout(kind: LayoutKind) {
         layout,
         updateLayout: submit,
         submitting
+    }
+}
+
+
+export function useLayoutForm(props) {
+    const editedLayout = reactive<Partial<ILayout>>({
+        kind: null,
+        connectedData: null,
+        content: null,
+    })
+
+    return {
+        editedLayout,
+        ...useEditedInputModels(editedLayout, props.layout, ['kind', 'connectedData', 'content']),
     }
 }

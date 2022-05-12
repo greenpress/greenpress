@@ -22,7 +22,13 @@ export default defineConfig({
     BASE_URL: `"${BASE_URL}"`,
   },
   plugins: [
-    vue(),
+    vue({
+      template: {
+        compilerOptions: {
+          isCustomElement: (tag) => ['view-builder'].includes(tag)
+        }
+      }
+    }),
     Components({
       resolvers: [ElementPlusResolver()],
     }),

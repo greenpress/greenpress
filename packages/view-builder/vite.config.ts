@@ -1,4 +1,5 @@
 import { defineConfig } from "vite";
+import dts from 'vite-plugin-dts'
 
 export default defineConfig({
   build: {
@@ -6,7 +7,8 @@ export default defineConfig({
     lib: {
       entry: "./src/index.ts",
       name: "ViewBuilder",
-      fileName: (format) => `my-lib.${format}.js`,
+      fileName: (format) => `index.${format}.js`,
     },
   },
+  plugins: [dts()]
 });

@@ -12,7 +12,7 @@
 			           @click="removeContent"><el-icon><icon-delete/></el-icon></el-button>
 		</div>
 		<div>
-			<gp-editor v-if="state === 'editor'" :model-value="value" @input="changeContent" :config="editorConfig"/>
+			<gp-editor v-if="state === 'editor'" :model-value="value" @update:model-value="changeContent" :config="editorConfig"/>
 			<textarea v-else-if="state === 'html'" :value="value" @input="changeContent($event.target.value)"/>
 			<iframe v-else-if="state === 'view'" :src="iFrameSrc"/>
 		</div>
@@ -26,14 +26,17 @@
     name: 'PostContentEditor',
     props: {
       value: String,
-      state: String
+      state: String,
+      editorConfig: Object,
     },
     setup(props, { emit }) {
       return {
         ...useEditorConfig(),
         iFrameSrc: computed(() => 'data:text/html, ' + props.value),
         changeType: ($event) => emit('typeChange', $event),
-        changeContent: ($event) => emit('contentChange', $event),
+        changeContent: ($event) => {
+          emit('contentChange', $event)
+        },
         removeContent: () => emit('remove', props.value)
       }
     }

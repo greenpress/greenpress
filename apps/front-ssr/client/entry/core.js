@@ -222,9 +222,9 @@ export function getRoutes (views) {
     }
   }
   return routes.sort((a, b) => {
-    if (b.path > a.path) {
+    if (a.path.startsWith(b.path) || b.path > a.path) {
       return 1
-    } else if (a.path > b.path) {
+    } else if (b.path.startsWith(a.path) || a.path > b.path) {
       return -1
     } else {
       return 0

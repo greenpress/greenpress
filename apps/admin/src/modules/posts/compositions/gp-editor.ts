@@ -3,9 +3,15 @@ import { useAppConfiguration } from '../../configurations/store/app-configuratio
 
 export function useEditorConfig() {
 	const config = useAppConfiguration()
-	const editorConfig = ref({})
+	const editorConfig = ref({ language: 'en-gb' })
 
-	const language = computed(() => (config.value && config.value.metadata.language) || 'en')
+	const language = computed(() => {
+		const lang = config.value?.metadata.language;
+		if(!lang || lang === 'en') {
+			return 'en-gb';
+		}
+		return lang
+	})
 
 	watch(language, async language => {
 		await import(`../../../../node_modules/@greenpress/gp-editor/translations/${language}.js`).catch(() => {
