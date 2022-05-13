@@ -9,7 +9,8 @@
         <el-option label="Tags" value="tag"/>
       </el-select>
 
-      <view-builder ref="builder" :layout="layout" :plugins="plugins" @change="setLayoutFromBuilder"></view-builder>
+      <view-builder ref="builder" :layout="layout" :plugins="plugins" @create="itemCreated"
+                    @change="setLayoutFromBuilder"></view-builder>
 
       <el-button native-type="submit" :loading="submitting">{{ $t('SAVE') }}</el-button>
     </div>
@@ -24,32 +25,15 @@ import {useLayoutForm} from '../compositions/layouts';
 
 import '@greenpress/view-builder/dist/index.es.js';
 import '@greenpress/view-builder/dist/style.css';
-import {IPlugin} from '@greenpress/view-builder/src';
+import {usePlugins} from '@/modules/layouts/compositions/layout-plugins';
+import {IOnCreateEventDetail} from '@greenpress/view-builder/src';
 
 const props = defineProps({
   layout: Object as () => ILayout,
   submitting: Boolean
 })
 
-const plugins: IPlugin[] = [
-  {
-    match: 'div.flex-row',
-    component: 'div',
-    title: 'Row',
-    description: 'Flex Row Div',
-    classes: 'flex-row',
-  },
-  ...['div', 'header', 'footer', 'main', 'aside', 'section'].map(tag => {
-    return {
-      match: tag,
-      component: tag,
-      title: tag,
-      description: tag,
-      supportChildren: true,
-      showChildren: true,
-    }
-  }),
-];
+const plugins = usePlugins(props.layout.kind)
 
 const emit = defineEmits(['submitted'])
 
@@ -57,6 +41,20 @@ const data = useLayoutForm(props)
 
 function setLayoutFromBuilder(event) {
   data.editedLayout.content = event.detail.layout.content;
+}
+
+function itemCreated(e) {
+  const detail: IOnCreateEventDetail = e.detail;
+  const plugin = detail.plugin;
+  if (!plugin) {
+    return;
+  }
+  if (plugin.connectedData) {
+    const existingReference = data.editedLayout.connectedData.find(cd => cd.reference === plugin.connectedData.reference);
+    if (!existingReference) {
+      data.editedLayout.connectedData.push(plugin.connectedData);
+    }
+  }
 }
 
 useUnsavedChanges('layout', props.layout._id, computed(() => props.layout.kind), data.editedLayout)
