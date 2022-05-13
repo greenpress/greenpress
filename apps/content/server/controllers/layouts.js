@@ -67,7 +67,6 @@ function createLayout(req, res) {
 }
 
 function updateLayout(req, res) {
-  console.log('update layout');
   const { layout: currLayout } = req;
 
   if (req.body.content) {
