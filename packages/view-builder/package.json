@@ -10,8 +10,8 @@
     "preview": "vite preview --config vite-demo.config.ts"
   },
   "devDependencies": {
-    "typescript": "^4.4.4",
-    "vite": "^2.7.2",
+    "typescript": "^4.6.4",
+    "vite": "^2.9.1",
     "vite-plugin-dts": "^1.1.1"
   }
 }

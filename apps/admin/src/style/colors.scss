@@ -3,3 +3,11 @@ $negative-color: #254044;
 $secondary-color: #0a7080;
 $link: $negative-color;
 $border-color: #eee;
+
+:root {
+  --main-color: #4fc370;
+  --negative-color: #254044;
+  --secondary-color: #0a7080;
+  --link: var(--negative-color);
+  --border-color: #eee;
+}

@@ -39,4 +39,5 @@ const DraftSchema = new mongoose.Schema<IDraft>({
   },
 });
 
+// @ts-ignore
 export default mongoose.model<IDraft>("Draft", DraftSchema);

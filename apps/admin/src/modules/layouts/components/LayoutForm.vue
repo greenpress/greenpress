@@ -1,13 +1,15 @@
 <template>
   <el-form class="layout-form" @submit.native.prevent="submit">
     <div>
-      <el-select v-model="data.kind" class="m-2" placeholder="Select" size="large">
-        <el-option label="Index" value="index"/>
-        <el-option label="Category" value="category"/>
-        <el-option label="Post" value="post"/>
-        <el-option label="Search" value="search"/>
-        <el-option label="Tags" value="tag"/>
-      </el-select>
+<!--      <el-select v-model="kind" class="m-2" placeholder="Select" size="large">-->
+<!--        <el-option label="Index" value="index"/>-->
+<!--        <el-option label="Category" value="category"/>-->
+<!--        <el-option label="Post" value="post"/>-->
+<!--        <el-option label="Search" value="search"/>-->
+<!--        <el-option label="Tags" value="tag"/>-->
+<!--      </el-select>-->
+      <LayoutConnectedData :connected-data="connectedData"
+                           @remove="removeConnectedData"/>
 
       <view-builder ref="builder" :layout="layout" :plugins="plugins" @create="itemCreated"
                     @change="setLayoutFromBuilder"></view-builder>
@@ -27,6 +29,7 @@ import '@greenpress/view-builder/dist/index.es.js';
 import '@greenpress/view-builder/dist/style.css';
 import {usePlugins} from '@/modules/layouts/compositions/layout-plugins';
 import {IOnCreateEventDetail} from '@greenpress/view-builder/src';
+import LayoutConnectedData from '@/modules/layouts/components/LayoutConnectedData.vue';
 
 const props = defineProps({
   layout: Object as () => ILayout,
@@ -37,10 +40,10 @@ const plugins = usePlugins(props.layout.kind)
 
 const emit = defineEmits(['submitted'])
 
-const data = useLayoutForm(props)
+const {editedLayout, content, connectedData, kind} = useLayoutForm(props)
 
 function setLayoutFromBuilder(event) {
-  data.editedLayout.content = event.detail.layout.content;
+  content.value = event.detail.layout.content;
 }
 
 function itemCreated(e) {
@@ -50,16 +53,20 @@ function itemCreated(e) {
     return;
   }
   if (plugin.connectedData) {
-    const existingReference = data.editedLayout.connectedData.find(cd => cd.reference === plugin.connectedData.reference);
+    const existingReference = editedLayout.connectedData.find(cd => cd.reference === plugin.connectedData.reference);
     if (!existingReference) {
-      data.editedLayout.connectedData.push(plugin.connectedData);
+      editedLayout.connectedData.push(plugin.connectedData);
     }
   }
 }
 
-useUnsavedChanges('layout', props.layout._id, computed(() => props.layout.kind), data.editedLayout)
+function removeConnectedData(itemToRemove) {
+  connectedData.value = connectedData.value.filter(cd => cd !== itemToRemove);
+}
 
-const submit = () => emit('submitted', clearNulls(data.editedLayout))
+useUnsavedChanges('layout', props.layout._id, computed(() => props.layout.kind), editedLayout)
+
+const submit = () => emit('submitted', clearNulls(editedLayout))
 </script>
 <style scoped>
 .layout-form {

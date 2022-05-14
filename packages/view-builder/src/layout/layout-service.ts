@@ -8,7 +8,8 @@ export function getNewLayoutItem(plugin?: IPlugin): ILayoutContent | undefined {
     component: plugin.component,
     predefined: !!plugin.predefined,
     classes: plugin.classes || "",
-    props: {},
+    // @ts-ignore
+    props: structuredClone(plugin.props),
     children: plugin.supportChildren ? [] : undefined,
   };
 }
@@ -23,3 +24,5 @@ export function handleLayoutItemHover(element: IBuilderLayout) {
     state.removeHoverItem();
   });
 }
+
+

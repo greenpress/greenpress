@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "@types/redis": "^2.8.31",
-    "typescript": "^4.2.4"
+    "typescript": "^4.6.3"
   },
   "publishConfig": {
     "access": "public"
