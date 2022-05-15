@@ -7,6 +7,7 @@ export interface ICategory {
   isPublic: boolean;
   name: string;
   path: string;
+  content?: string;
   [key: string]: any;
 }
 

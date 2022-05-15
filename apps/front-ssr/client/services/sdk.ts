@@ -26,7 +26,6 @@ const fallbackLayout = import.meta.env.SSR
 export const loadLayoutPayload = import.meta.env.SSR
     ? (kind: string, {req}: any) => {
         const extraRequest = {headers: {tenant: req.headers.tenant}};
-        console.log('load kind: ' + kind, req.params.category)
         return sdk.layouts
             .getLayout(kind as any, extraRequest)
             .then(async (layout) => {
