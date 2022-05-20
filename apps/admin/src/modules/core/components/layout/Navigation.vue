@@ -137,6 +137,7 @@ a {
 }
 
 .bottom {
+  display: block;
   margin-top: auto;
 	text-align: center;
 }

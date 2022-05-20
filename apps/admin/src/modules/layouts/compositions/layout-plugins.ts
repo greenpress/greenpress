@@ -1,7 +1,9 @@
 import {IPlugin} from '@greenpress/view-builder/src';
 import {LayoutConnectedDataKind} from '@greenpress/sdk/dist/layouts';
+import {useBlocksList} from '@/modules/blocks/compositions/blocks-list';
+import {computed, ref} from 'vue';
 
-const customPlugins: Record<string, IPlugin[] > = {
+const customPlugins: Record<string, IPlugin[]> = {
     category: [
         {
             match: 'CategoryTitle',
@@ -71,9 +73,36 @@ const basicPlugins: IPlugin[] = [
     }),
 ];
 
+function getBlockPlugin({_id, name}) {
+    const reference = 'block_' + _id;
+    return {
+        match: `BlockBox[block=${reference}]`,
+        component: 'BlockBox',
+        title: 'Block: ' + name,
+        description: 'Managed Content from Blocks',
+        supportChildren: false,
+        predefined: true,
+        props: {
+            block: reference
+        },
+        connectedData: {
+            kind: LayoutConnectedDataKind.BLOCK,
+            reference,
+            identifier: _id,
+        }
+    };
+}
+
 export function usePlugins(kind: string) {
-    return [
+    const {blocks} = useBlocksList();
+
+    const plugins = ref([
         ...(customPlugins[kind] || []),
         ...basicPlugins
-    ]
+    ]);
+
+    return computed(() => [
+        ...plugins.value,
+        ...(blocks.value || []).map(getBlockPlugin),
+    ]);
 }

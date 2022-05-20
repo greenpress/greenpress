@@ -53,9 +53,9 @@ function itemCreated(e) {
     return;
   }
   if (plugin.connectedData) {
-    const existingReference = editedLayout.connectedData.find(cd => cd.reference === plugin.connectedData.reference);
+    const existingReference = connectedData.value.find(cd => cd.reference === plugin.connectedData.reference);
     if (!existingReference) {
-      editedLayout.connectedData.push(plugin.connectedData);
+      editedLayout.connectedData = connectedData.value.concat([plugin.connectedData]);
     }
   }
 }

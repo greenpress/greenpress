@@ -27,26 +27,6 @@ export function useEditBlock(blockId: string) {
   }
 }
 
-export function useBlocksList() {
-  const {loading, result} = useDispatcher<IBlock[]>(() => blocksService.getAll());
-  const {submit} = useSubmitting(
-    ({_id}) =>
-      blocksService.remove(_id).then(() => {
-        result.value = result.value.filter((block) => block._id !== _id);
-      }),
-    {
-      success: 'Block removed successfully',
-      error: 'Failed to remove block'
-    }
-  )
-
-  return {
-    loading,
-    blocks: result,
-    removeBlock: submit
-  }
-}
-
 export function useBlockForm(props) {
   const editedBlock = reactive<Partial<IBlock>>({
     name: null,

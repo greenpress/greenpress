@@ -12,9 +12,11 @@
   </div>
 </template>
 <script lang="ts">
+import {IPost} from '@greenpress/sdk/dist/posts';
+
 export default {
   props: {
-    posts: Array
+    posts: Array as () => IPost[],
   }
 }
 </script>
