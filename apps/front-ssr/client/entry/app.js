@@ -22,6 +22,7 @@ export async function createApp (ctx) {
   if (import.meta.env.SSR) {
     router.beforeEach(createBeforeEachSSRHandler(resolvedRoutes, ctx))
   } else {
+    console.log('client routes', resolvedRoutes);
     router.beforeEach(createBeforeEachHandler(resolvedRoutes))
   }
   app.use(createPinia())

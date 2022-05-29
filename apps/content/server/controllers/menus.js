@@ -34,11 +34,11 @@ async function getMenu(req, res) {
   if (useCache) {
     const menu = await Menu.findOne({ name: req.params.menuName, tenant: req.headers.tenant })
     .enrichment().exec()
-    
+
     res.status(200).json(menu).end()
     menu.storeInCache();
   } else {
-    const menu = Menu.getSingleMenu({ name: req.params.menuName, tenant: req.headers.tenant });
+    const menu = await Menu.getSingleMenu({ name: req.params.menuName, tenant: req.headers.tenant });
     res.status(200).set('Content-Type', 'application/json').end(menu)
   }
 }

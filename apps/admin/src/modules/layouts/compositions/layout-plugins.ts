@@ -98,7 +98,7 @@ export function usePlugins(kind: string) {
 
     const plugins = ref([
         ...(customPlugins[kind] || []),
-        ...basicPlugins
+        ...basicPlugins,
     ]);
 
     return computed(() => [
