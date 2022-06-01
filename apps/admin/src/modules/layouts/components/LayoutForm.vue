@@ -11,7 +11,10 @@
       <LayoutConnectedData :connected-data="connectedData"
                            @remove="removeConnectedData"/>
 
-      <view-builder ref="builder" :layout="layout" :plugins="plugins" @create="itemCreated"
+      <view-builder ref="builder"
+                    :layout="layout" :plugins="plugins"
+                    @create="itemCreated"
+                    @edit="onEditItem"
                     @change="setLayoutFromBuilder"></view-builder>
 
       <el-button native-type="submit" :loading="submitting">{{ $t('SAVE') }}</el-button>
@@ -19,7 +22,7 @@
   </el-form>
 </template>
 <script lang="ts" setup>
-import {computed} from 'vue'
+import {computed, onMounted, ref} from 'vue'
 import {ILayout} from '@greenpress/sdk/dist/layouts';
 import {clearNulls} from '../../core/utils/clear-nulls'
 import {useUnsavedChanges} from '../../drafts/compositions/unsaved-changes'
@@ -35,6 +38,8 @@ const props = defineProps({
   layout: Object as () => ILayout,
   submitting: Boolean
 })
+
+const builder = ref();
 
 const plugins = usePlugins(props.layout.kind)
 
@@ -64,9 +69,35 @@ function removeConnectedData(itemToRemove) {
   connectedData.value = connectedData.value.filter(cd => cd !== itemToRemove);
 }
 
+function onEditItem(event) {
+  console.log('edit item', event.detail);
+  const content = event.detail.content;
+  const props = prompt('edit your props', JSON.stringify(content.props));
+  if (props) {
+    content.props = JSON.parse(props);
+  }
+  event.detail.target.render();
+}
+
+const contentDisplayElement = ({content, plugin}) => {
+  const div = document.createElement('div');
+
+  if(content.props) {
+    div.innerHTML = 'Properties: ' + JSON.stringify(content.props);
+    return div;
+  }
+
+  return null;
+}
+
 useUnsavedChanges('layout', props.layout._id, computed(() => props.layout.kind), editedLayout)
 
 const submit = () => emit('submitted', clearNulls(editedLayout))
+
+onMounted(() => {
+  builder.value.setContentDisplayCreator(contentDisplayElement);
+  builder.value.layout = props.layout;
+})
 </script>
 <style scoped>
 .layout-form {

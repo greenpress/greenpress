@@ -1,6 +1,5 @@
 <template>
   <h1 v-html="category.name"/>
-
 </template>
 <script lang="ts">
 import {ICategory} from '@greenpress/sdk/dist/categories';

@@ -9,7 +9,7 @@ export function getNewLayoutItem(plugin?: IPlugin): ILayoutContent | undefined {
     predefined: !!plugin.predefined,
     classes: plugin.classes || "",
     // @ts-ignore
-    props: structuredClone(plugin.props),
+    props: structuredClone({...plugin.props}),
     children: plugin.supportChildren ? [] : undefined,
   };
 }
