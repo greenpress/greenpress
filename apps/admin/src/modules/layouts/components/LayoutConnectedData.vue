@@ -1,7 +1,7 @@
 <template>
   <div class="list">
     <router-link v-for="(cd, index) in connectedData" :key="index" class="item" :to="getRouteParams(cd)">
-      <el-icon class="delete" @click="$emit('remove', cd)">
+      <el-icon class="delete" @click.native.prevent="$emit('remove', cd)">
         <icon-delete/>
       </el-icon>
       <h4>{{ cd.reference }}</h4>

@@ -1,106 +1,81 @@
 <template>
   <el-form class="layout-form" @submit.native.prevent="submit">
     <div>
-<!--      <el-select v-model="kind" class="m-2" placeholder="Select" size="large">-->
-<!--        <el-option label="Index" value="index"/>-->
-<!--        <el-option label="Category" value="category"/>-->
-<!--        <el-option label="Post" value="post"/>-->
-<!--        <el-option label="Search" value="search"/>-->
-<!--        <el-option label="Tags" value="tag"/>-->
-<!--      </el-select>-->
       <LayoutConnectedData :connected-data="connectedData"
                            @remove="removeConnectedData"/>
 
       <view-builder ref="builder"
                     :layout="layout" :plugins="plugins"
-                    @create="itemCreated"
+                    @create="onCreateItem"
                     @edit="onEditItem"
-                    @change="setLayoutFromBuilder"></view-builder>
+                    @change="onChangeItem"></view-builder>
 
       <el-button native-type="submit" :loading="submitting">{{ $t('SAVE') }}</el-button>
     </div>
+    <LayoutItemPropsModal v-if="editedItem" :item-props="editedItem.content.props" @cancel="editedItem = null"
+                          @submit="onChangeProps"/>
   </el-form>
+
 </template>
 <script lang="ts" setup>
-import {computed, onMounted, ref} from 'vue'
+import {toRef} from 'vue'
 import {ILayout} from '@greenpress/sdk/dist/layouts';
 import {clearNulls} from '../../core/utils/clear-nulls'
-import {useUnsavedChanges} from '../../drafts/compositions/unsaved-changes'
 import {useLayoutForm} from '../compositions/layouts';
 
 import '@greenpress/view-builder/dist/index.es.js';
 import '@greenpress/view-builder/dist/style.css';
 import {usePlugins} from '@/modules/layouts/compositions/layout-plugins';
-import {IOnCreateEventDetail} from '@greenpress/view-builder/src';
 import LayoutConnectedData from '@/modules/layouts/components/LayoutConnectedData.vue';
+import LayoutItemPropsModal from '@/modules/layouts/components/LayoutItemPropsModal.vue';
+import {useLayoutBuilder} from '@/modules/layouts/compositions/layout-builder';
+
 
 const props = defineProps({
   layout: Object as () => ILayout,
   submitting: Boolean
 })
 
-const builder = ref();
-
 const plugins = usePlugins(props.layout.kind)
 
 const emit = defineEmits(['submitted'])
 
 const {editedLayout, content, connectedData, kind} = useLayoutForm(props)
-
-function setLayoutFromBuilder(event) {
-  content.value = event.detail.layout.content;
-}
-
-function itemCreated(e) {
-  const detail: IOnCreateEventDetail = e.detail;
-  const plugin = detail.plugin;
-  if (!plugin) {
-    return;
-  }
-  if (plugin.connectedData) {
-    const existingReference = connectedData.value.find(cd => cd.reference === plugin.connectedData.reference);
-    if (!existingReference) {
-      editedLayout.connectedData = connectedData.value.concat([plugin.connectedData]);
-    }
-  }
-}
+const {builder, editedItem, onChangeItem, onCreateItem, onEditItem, onChangeProps} = useLayoutBuilder({
+  content,
+  connectedData,
+  layout: toRef(props, 'layout')
+})
 
 function removeConnectedData(itemToRemove) {
   connectedData.value = connectedData.value.filter(cd => cd !== itemToRemove);
 }
 
-function onEditItem(event) {
-  console.log('edit item', event.detail);
-  const content = event.detail.content;
-  const props = prompt('edit your props', JSON.stringify(content.props));
-  if (props) {
-    content.props = JSON.parse(props);
-  }
-  event.detail.target.render();
-}
-
-const contentDisplayElement = ({content, plugin}) => {
-  const div = document.createElement('div');
-
-  if(content.props) {
-    div.innerHTML = 'Properties: ' + JSON.stringify(content.props);
-    return div;
-  }
-
-  return null;
-}
-
-useUnsavedChanges('layout', props.layout._id, computed(() => props.layout.kind), editedLayout)
+// useUnsavedChanges('layout', props.layout._id, computed(() => props.layout.kind), editedLayout)
 
 const submit = () => emit('submitted', clearNulls(editedLayout))
 
-onMounted(() => {
-  builder.value.setContentDisplayCreator(contentDisplayElement);
-  builder.value.layout = props.layout;
-})
 </script>
 <style scoped>
 .layout-form {
   padding: 0 10px;
+}
+</style>
+<style>
+view-builder {
+  margin: 10px 0;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+builder-plugins {
+  max-width: 150px;
+}
+
+builder-layout-item[shown] {
+  background-color: transparent;
+}
+
+builder-layout-item[shown].hover {
+  background: rgba(255, 255, 255, 0.3);
 }
 </style>
