@@ -1,47 +1,65 @@
 <template>
-	<nav :class="{show: opened}">
-		<div class="mobile-mask" @click="close"/>
-		<router-link to="/" class="home-logo">
-			<img alt="greenpress Admin Panel" src="../../../../assets/logo.png">
-		</router-link>
-		<router-link to="/configurations">
-			<el-icon><icon-setting/></el-icon>
-			<span>{{ $t('Configurations') }}</span>
-		</router-link>
-		<router-link to="/assets">
-			<el-icon><icon-files/></el-icon>
-			<span>{{ $t('Storage & Assets') }}</span>
-		</router-link>
-		<router-link to="/menus">
-			<el-icon><icon-menu/></el-icon>
-			<span>{{ $t('Menus') }}</span>
-		</router-link>
-		<router-link to="/categories">
-			<el-icon><icon-folder-opened/></el-icon>
-			<span>{{ $t('Categories') }}</span>
-		</router-link>
-		<router-link to="/posts">
-			<el-icon><icon-document/></el-icon>
-			<span>{{ $t('Posts') }}</span>
-		</router-link>
+  <nav :class="{show: opened}">
+    <div class="mobile-mask" @click="close"/>
+    <router-link to="/" class="home-logo">
+      <img alt="greenpress Admin Panel" src="../../../../assets/logo.png">
+    </router-link>
+    <router-link to="/configurations">
+      <el-icon>
+        <icon-setting/>
+      </el-icon>
+      <span>{{ $t('Configurations') }}</span>
+    </router-link>
+    <router-link to="/assets">
+      <el-icon>
+        <icon-files/>
+      </el-icon>
+      <span>{{ $t('Storage & Assets') }}</span>
+    </router-link>
+    <router-link to="/menus">
+      <el-icon>
+        <icon-menu/>
+      </el-icon>
+      <span>{{ $t('Menus') }}</span>
+    </router-link>
+    <router-link to="/categories">
+      <el-icon>
+        <icon-folder-opened/>
+      </el-icon>
+      <span>{{ $t('Categories') }}</span>
+    </router-link>
+    <router-link to="/posts">
+      <el-icon>
+        <icon-document/>
+      </el-icon>
+      <span>{{ $t('Posts') }}</span>
+    </router-link>
     <router-link to="/blocks">
-	  <el-icon><icon-box/></el-icon>
+      <el-icon>
+        <icon-box/>
+      </el-icon>
       <span>{{ $t('Blocks') }}</span>
     </router-link>
     <router-link to="/layouts">
-      <el-icon><icon-grid /></el-icon>
+      <el-icon>
+        <icon-grid/>
+      </el-icon>
       <span>{{ $t('Layouts') }}</span>
     </router-link>
-		<router-link to="/users">
-			<el-icon><icon-user/></el-icon>
-			<span>{{ $t('Users') }}</span>
-		</router-link>
-		<router-link to="/drafts">
-			<el-icon><icon-document-copy/></el-icon>
-			<span>{{ $t('Drafts') }}</span>
-		</router-link>
-		<a class="bottom" @click="logout" v-t="'Logout'"></a>
-	</nav>
+    <router-link to="/users">
+      <el-icon>
+        <icon-user/>
+      </el-icon>
+      <span>{{ $t('Users') }}</span>
+    </router-link>
+    <router-link to="/drafts">
+      <el-icon>
+        <icon-document-copy/>
+      </el-icon>
+      <span>{{ $t('Drafts') }}</span>
+    </router-link>
+    <a class="bottom" @click="logout" v-t="'Logout'"></a>
+  </nav>
 </template>
 
 <script lang="ts" setup>
@@ -50,7 +68,7 @@ import {useRouter} from 'vue-router';
 
 const router = useRouter()
 
-defineProps({ opened: Boolean })
+defineProps({opened: Boolean})
 const emit = defineEmits(['close'])
 
 const {logout: logoutApi} = useAuth()
@@ -58,8 +76,8 @@ const {logout: logoutApi} = useAuth()
 const close = () => emit('close')
 
 const logout = async () => {
-	await logoutApi()
-	router.push('login')
+  await logoutApi()
+  router.push('login')
 }
 </script>
 <style scoped lang="scss">
@@ -86,7 +104,7 @@ nav:hover {
 }
 
 .home-logo {
-  display:block;
+  display: block;
   width: 100%;
   padding: 5px 0 10px 0;
   height: 75px;
@@ -95,14 +113,15 @@ nav:hover {
 
   img {
     display: none;
-	max-width: 100%;
-	max-height: 100%;
+    max-width: 100%;
+    max-height: 100%;
   }
 }
 
 nav:hover .home-logo {
   width: $nav-width;
 }
+
 nav:hover .home-logo img {
   display: inline-block;
 }
@@ -115,50 +134,56 @@ a {
   display: inline-flex;
 
   &:hover {
-	text-decoration: none;
-	background-color: #e4e4e4;
-	border: none;
+    text-decoration: none;
+    background-color: #e4e4e4;
+    border: none;
   }
 
   &.router-link-active {
-	color: $main-color;
+    color: $main-color;
   }
+
   .el-icon {
-	  padding-inline-start: 10px;
-	  padding-inline-end: 25px;
+    padding-inline-start: 10px;
+    padding-inline-end: 25px;
   }
 }
 
 @media (max-width: 600px) {
   nav {
-	position: absolute;
-	left: -100%;
-	top: 0;
-	bottom: 0;
-	overflow: hidden;
-	transition: left 0.2s ease-in-out;
-	z-index: 2;
+    position: absolute;
+    width: auto;
+    left: -100%;
+    top: 0;
+    bottom: 0;
+    overflow: hidden;
+    transition: left 0.2s ease-in-out;
+    z-index: 2;
 
-	&.show {
-	  display: flex;
-	  left: 0;
+    &.show {
+      display: flex;
+      left: 0;
 
-	  .mobile-mask {
-		display: block;
-		position: fixed;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		z-index: -1;
-	  }
-	}
+      .mobile-mask {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: -1;
+      }
+    }
   }
+}
+
+.home-logo img {
+  display: inline;
 }
 
 .bottom {
   display: block;
   margin-top: auto;
-	text-align: center;
+  text-align: center;
 }
 </style>
