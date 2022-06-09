@@ -12,8 +12,8 @@
 
       <el-button native-type="submit" :loading="submitting">{{ $t('SAVE') }}</el-button>
     </div>
-    <LayoutItemPropsModal v-if="editedItem" :item-props="editedItem.content.props" @cancel="editedItem = null"
-                          @submit="onChangeProps"/>
+    <LayoutItemModal v-if="editedItem" :layout-item="editedItem.content" @cancel="editedItem = null"
+                          @submit="onChangeContent"/>
   </el-form>
 
 </template>
@@ -27,7 +27,7 @@ import '@greenpress/view-builder/dist/index.es.js';
 import '@greenpress/view-builder/dist/style.css';
 import {usePlugins} from '@/modules/layouts/compositions/layout-plugins';
 import LayoutConnectedData from '@/modules/layouts/components/LayoutConnectedData.vue';
-import LayoutItemPropsModal from '@/modules/layouts/components/LayoutItemPropsModal.vue';
+import LayoutItemModal from '@/modules/layouts/components/LayoutItemModal.vue';
 import {useLayoutBuilder} from '@/modules/layouts/compositions/layout-builder';
 
 
@@ -41,7 +41,7 @@ const plugins = usePlugins(props.layout.kind)
 const emit = defineEmits(['submitted'])
 
 const {editedLayout, content, connectedData, kind} = useLayoutForm(props)
-const {builder, editedItem, onChangeItem, onCreateItem, onEditItem, onChangeProps} = useLayoutBuilder({
+const {builder, editedItem, onChangeItem, onCreateItem, onEditItem, onChangeContent} = useLayoutBuilder({
   content,
   connectedData,
   layout: toRef(props, 'layout')
@@ -77,5 +77,14 @@ builder-layout-item[shown] {
 
 builder-layout-item[shown].hover {
   background: rgba(255, 255, 255, 0.3);
+}
+
+builder-layout .flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+builder-layout .flex-row > * {
+  flex: 1;
 }
 </style>

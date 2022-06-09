@@ -65,12 +65,20 @@ const logout = async () => {
 <style scoped lang="scss">
 @import "../../../../style/colors";
 
+$nav-width: 220px;
+
 nav {
   display: flex;
   flex-direction: column;
-  width: 220px;
-  background-color: #eee;
-  box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.4);
+  width: 38px;
+  background-color: #e7e7e7;
+  box-shadow: 1px 1px 4px 0 rgb(0 0 0 / 40%);
+  overflow: hidden;
+  transition: width .2s linear;
+}
+
+nav:hover {
+  width: $nav-width;
 }
 
 .mobile-mask {
@@ -78,17 +86,29 @@ nav {
 }
 
 .home-logo {
+  display:block;
+  width: 100%;
   padding: 5px 0 10px 0;
   height: 75px;
   align-self: center;
+  text-align: center;
 
   img {
+    display: none;
 	max-width: 100%;
 	max-height: 100%;
   }
 }
 
+nav:hover .home-logo {
+  width: $nav-width;
+}
+nav:hover .home-logo img {
+  display: inline-block;
+}
+
 a {
+  width: $nav-width;
   font-weight: bold;
   color: $negative-color;
   padding: 15px 3px;

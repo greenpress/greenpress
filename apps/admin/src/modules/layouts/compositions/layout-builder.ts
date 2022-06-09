@@ -27,11 +27,13 @@ export function useLayoutBuilder({content, connectedData, layout}) {
         editedItem.value = event.detail;
     }
 
-    function onChangeProps(newProps) {
+    function onChangeContent({ props, classes }) {
         const itemContent = editedItem.value.content;
-        if (newProps) {
-            itemContent.props = newProps;
+        if (props) {
+            itemContent.props = props;
         }
+        itemContent.classes = classes;
+
         editedItem.value.target.content = itemContent;
         content.value = builder.value.layout.content;
         editedItem.value = null;
@@ -59,6 +61,6 @@ export function useLayoutBuilder({content, connectedData, layout}) {
         onChangeItem,
         onCreateItem,
         onEditItem,
-        onChangeProps,
+        onChangeContent,
     }
 }
