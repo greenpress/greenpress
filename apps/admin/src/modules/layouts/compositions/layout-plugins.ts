@@ -61,6 +61,17 @@ const basicPlugins: IPlugin[] = [
         description: 'Flex Row Div',
         classes: 'flex-row',
     },
+    {
+        match: 'link[rel=stylesheet]',
+        component: 'link',
+        title: 'Resource Link to CSS',
+        description: 'Load CSS file in page',
+        supportChildren: false,
+        props: {
+            rel: 'stylesheet',
+            href: '',
+        },
+    },
     ...['div', 'header', 'footer', 'main', 'aside', 'section'].map(tag => {
         return {
             match: tag,

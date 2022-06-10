@@ -13,7 +13,8 @@
       <el-button native-type="submit" :loading="submitting">{{ $t('SAVE') }}</el-button>
     </div>
     <LayoutItemModal v-if="editedItem" :layout-item="editedItem.content" @cancel="editedItem = null"
-                          @submit="onChangeContent"/>
+                     :styles="layoutStyles"
+                     @submit="onChangeContent($event); check();"/>
   </el-form>
 
 </template>
@@ -29,7 +30,7 @@ import {usePlugins} from '@/modules/layouts/compositions/layout-plugins';
 import LayoutConnectedData from '@/modules/layouts/components/LayoutConnectedData.vue';
 import LayoutItemModal from '@/modules/layouts/components/LayoutItemModal.vue';
 import {useLayoutBuilder} from '@/modules/layouts/compositions/layout-builder';
-
+import {useLayoutStyles} from '@/modules/layouts/compositions/layout-styles';
 
 const props = defineProps({
   layout: Object as () => ILayout,
@@ -46,6 +47,7 @@ const {builder, editedItem, onChangeItem, onCreateItem, onEditItem, onChangeCont
   connectedData,
   layout: toRef(props, 'layout')
 })
+const {layoutStyles, check} = useLayoutStyles(content)
 
 function removeConnectedData(itemToRemove) {
   connectedData.value = connectedData.value.filter(cd => cd !== itemToRemove);

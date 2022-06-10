@@ -5,9 +5,11 @@
       width="80%"
       destroy-on-close
       center>
-    <h3>{{$t('Classes')}}</h3>
-    <FormInput v-model="classes"/>
-    <h3>{{$t('Properties')}}</h3>
+    <template v-if="layoutItem.component !== 'link'">
+      <h3>{{ $t('Classes') }}</h3>
+      <FormInput v-model="classes"/>
+    </template>
+    <h3>{{ $t('Properties') }}</h3>
     <div v-for="(_, index) in propsArr" :key="index" centered>
       <span><el-icon @click="removeRow(index)" class="icon"><icon-delete/></el-icon></span>
       <FormInput class="name-input" v-model="propsArr[index][0]"/>
@@ -15,12 +17,14 @@
       <FormInput class="value-input" v-model="propsArr[index][1]"/>
     </div>
     <div centered>
-      <el-icon class="icon" @click="propsArr.push(['', ''])"><icon-plus/></el-icon>
+      <el-icon class="icon" @click="propsArr.push(['', ''])">
+        <icon-plus/>
+      </el-icon>
     </div>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="cancel">{{$t('Cancel')}}</el-button>
-        <el-button type="primary" @click="submit">{{$t('Confirm')}}</el-button>
+        <el-button @click="cancel">{{ $t('Cancel') }}</el-button>
+        <el-button type="primary" @click="submit">{{ $t('Confirm') }}</el-button>
       </span>
     </template>
   </el-dialog>
@@ -30,9 +34,11 @@
 import {ref, watch} from 'vue';
 import FormInput from '@/modules/core/components/forms/FormInput.vue';
 import {ILayoutContent} from '@greenpress/sdk/src/layouts';
+import {StylesMatches} from '@/modules/layouts/compositions/layout-styles';
 
 const props = defineProps({
-  layoutItem: Object as () => ILayoutContent
+  layoutItem: Object as () => ILayoutContent,
+  styles: Object as () => StylesMatches
 });
 
 const emit = defineEmits(['cancel', 'submit']);
@@ -53,7 +59,7 @@ function cancel() {
 watch(isOpen, (isOpen) => !isOpen && cancel())
 
 function submit() {
-  emit('submit', { props: Object.fromEntries(propsArr.value), classes: classes.value });
+  emit('submit', {props: Object.fromEntries(propsArr.value), classes: classes.value});
 }
 </script>
 
