@@ -107,9 +107,11 @@ nav:hover {
   display: block;
   width: 100%;
   padding: 5px 0 10px 0;
-  height: 75px;
+  height: 70px;
   align-self: center;
   text-align: center;
+  background: #4fc370;
+  transition: background 0.1s linear;
 
   img {
     display: none;
@@ -119,6 +121,7 @@ nav:hover {
 }
 
 nav:hover .home-logo {
+  background: transparent;
   width: $nav-width;
 }
 
@@ -175,10 +178,13 @@ a {
       }
     }
   }
-}
 
-.home-logo img {
-  display: inline;
+  .home-logo {
+    background: transparent;
+    img {
+      display: inline;
+    }
+  }
 }
 
 .bottom {
