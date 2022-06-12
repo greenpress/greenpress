@@ -1,6 +1,42 @@
 # Default values for umbrella-chart-2.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
+gateway:
+  name: gateway
+  replicaCount: 1
+  containerPort: 3000
+  image:
+    pullPolicy: IfNotPresent
+    repository: greenpress/gateway
+    tag: latest
+  service:
+    port: 80
+    type: ClusterIP
+
+  imagePullSecrets: []
+  nameOverride: ""
+  fullnameOverride: ""
+
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: ""
+  healthCheck:
+    enabled: false
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 3
+    targetCPUUtilizationPercentage: 80
+
+  ingress:
+    enabled: true
+    className: ""
+    annotations: {ingress.kubernetes.io/ssl-redirect: "false"}
+    # kubernetes.io/ingress.class: ngin
+    # kubernetes.io/tls-acme: "true"
+    host: www.gateway.k3d.localhost
+
 front-ssr:
   replicaCount: 1
   name: front-ssr
@@ -11,12 +47,7 @@ front-ssr:
 
   image:
     repository: greenpress/front-ssr
-    pullPolicy: IfNotPresent
-    tag: "latest"
-
-  imagePullSecrets: []
-  nameOverride: ""
-  fullnameOverride: ""
+    tag: latest
 
   serviceAccount:
     create: true
@@ -46,37 +77,6 @@ assets:
     name: ""
   healthCheck:
     enabled: false
-
-gateway:
-  name: gateway
-  replicaCount: 1
-  containerPort: 3000
-  image:
-    repository: greenpress/gateway
-    tag: latest
-  service:
-    port: 80
-    type: ClusterIP
-
-  serviceAccount:
-    create: true
-    annotations: {}
-    name: ""
-  healthCheck:
-    enabled: false
-  autoscaling:
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 3
-    targetCPUUtilizationPercentage: 80
-
-  ingress:
-    enabled: true
-    className: ""
-    annotations: {ingress.kubernetes.io/ssl-redirect: "false"}
-    # kubernetes.io/ingress.class: ngin
-    # kubernetes.io/tls-acme: "true"
-    host: www.gateway.k3d.localhost
 
 
 auth:
