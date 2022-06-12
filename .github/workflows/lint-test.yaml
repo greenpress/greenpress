@@ -5,7 +5,6 @@ on: pull_request
 env:
   HELM_TEST: "false"
 
-
 jobs:
   lint-test:
     runs-on: ubuntu-latest
@@ -49,4 +48,4 @@ jobs:
         if: steps.list-changed.outputs.changed == 'true'
 
       - name: Run chart-testing (install)
-       run: ct install --config ct.yaml
+      run: ct install --config ct.yaml
