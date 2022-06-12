@@ -28,11 +28,6 @@ front-ssr:
   service:
     type: ClusterIP
     port: 3002
-  autoscaling:
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 3
-    targetCPUUtilizationPercentage: 80
 
 assets:
   name: assets
@@ -69,6 +64,11 @@ gateway:
     name: ""
   healthCheck:
     enabled: false
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 3
+    targetCPUUtilizationPercentage: 80
 
   ingress:
     enabled: true
