@@ -43,7 +43,8 @@ export function useLayoutBuilder({content, connectedData, layout}) {
         const div = document.createElement('div');
 
         if(content.props) {
-            div.innerHTML = 'Properties: ' + JSON.stringify(content.props);
+            div.innerHTML = 'Properties: ' + Object.entries(content.props)
+                .map(([key, value]: [string, string]) => `<span class="item-label" title="${value}">${key}: <strong>${value.length > 20 ? (value.slice(0, 20) + '...') : value}</strong></span>`).join('')
             return div;
         }
 

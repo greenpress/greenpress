@@ -1,6 +1,5 @@
 <template>
   <div v-if="layout">
-    <PageTitle :title="'Edit Layout'" :item-name="layout.kind"/>
     <LayoutForm :layout="layout" :submitting="submitting" @submitted="updateLayout" />
   </div>
 </template>
@@ -9,7 +8,6 @@
 import {useRoute} from 'vue-router'
 import {useEditLayout} from './compositions/layouts'
 import LayoutForm from './components/LayoutForm.vue';
-import PageTitle from '../core/components/semantics/PageTitle.vue'
 import {LayoutKind} from '@greenpress/sdk/dist/layouts';
 
 const kind = useRoute().params.kind as LayoutKind;

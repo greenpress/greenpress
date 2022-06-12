@@ -1,5 +1,9 @@
 <template>
   <el-form class="layout-form" @submit.native.prevent="submit">
+    <div class="flex-row">
+      <PageTitle :title="'Edit Layout'" :item-name="layout.kind"/>
+      <el-button native-type="submit" :loading="submitting" class="save-btn">{{ $t('SAVE') }}</el-button>
+    </div>
     <div>
       <LayoutConnectedData :connected-data="connectedData"
                            @remove="removeConnectedData"/>
@@ -10,7 +14,6 @@
                     @edit="onEditItem"
                     @change="onChangeItem"></view-builder>
 
-      <el-button native-type="submit" :loading="submitting">{{ $t('SAVE') }}</el-button>
     </div>
     <LayoutItemModal v-if="editedItem"
                      :layout-item="editedItem"
@@ -33,6 +36,7 @@ import LayoutConnectedData from '@/modules/layouts/components/LayoutConnectedDat
 import LayoutItemModal from '@/modules/layouts/components/LayoutItemModal.vue';
 import {useLayoutBuilder} from '@/modules/layouts/compositions/layout-builder';
 import {useLayoutStyles} from '@/modules/layouts/compositions/layout-styles';
+import PageTitle from '@/modules/core/components/semantics/PageTitle.vue';
 
 const props = defineProps({
   layout: Object as () => ILayout,
@@ -64,6 +68,12 @@ const submit = () => emit('submitted', clearNulls(editedLayout))
 .layout-form {
   padding: 0 10px;
 }
+
+.save-btn {
+  margin-inline: auto 0;
+  align-self: center;
+  flex: 0;
+}
 </style>
 <style>
 view-builder {
@@ -71,8 +81,17 @@ view-builder {
   background: rgba(0, 0, 0, 0.2);
 }
 
+builder-plugins, builder-layout {
+  max-height: 72vh;
+  overflow: auto;
+}
+
 builder-plugins {
-  max-width: 150px;
+  max-width: 180px;
+}
+
+builder-layout {
+  display: block;
 }
 
 builder-layout-item[shown] {
@@ -90,5 +109,18 @@ builder-layout .flex-row {
 
 builder-layout .flex-row > * {
   flex: 1;
+}
+
+builder-layout .item-label {
+  line-height: 40px;
+  padding: 5px;
+  margin: 0 5px;
+  border-radius: 4px;
+  background-color: #eee;
+  color: #000;
+}
+
+builder-layout .item-label strong {
+  color: #0a7080;
 }
 </style>

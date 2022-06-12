@@ -1,16 +1,19 @@
 <template>
   <el-dialog
       v-model="isOpen"
-      title="Edit Component Props"
+      title="Edit Component"
       width="80%"
       destroy-on-close
       center>
     <template v-if="canHaveClasses">
       <h3>{{ $t('Classes') }}</h3>
       <FormInput v-model="classes"/>
-      <div v-if="optionalClasses.length">
-        <strong>{{$t('Available classes')}}</strong>
-        <span v-for="cls in optionalClasses">{{cls}}</span>
+      <div v-if="optionalClasses.length" class="optional-classes">
+        <strong>{{ $t('Available classes') }}</strong>
+        <span v-for="item in optionalClasses"
+              class="label"
+              :key="item.className"
+              :data-active.attr="item.exists" @click="toggleClass(item)">{{item.className}}</span>
       </div>
     </template>
     <h3>{{ $t('Properties') }}</h3>
@@ -35,7 +38,7 @@
 </template>
 
 <script lang="ts" setup>
-import {ref, watch} from 'vue';
+import {computed, ref, watch} from 'vue';
 import FormInput from '@/modules/core/components/forms/FormInput.vue';
 import {StylesMatches} from '@/modules/layouts/compositions/layout-styles';
 import {IOnCreateEventDetail} from '@greenpress/view-builder/src';
@@ -50,19 +53,36 @@ const emit = defineEmits(['cancel', 'submit']);
 const isOpen = ref(true);
 
 const propsArr = ref(Object.entries(props.layoutItem.content.props || {}));
-const classes = ref(props.layoutItem.content.classes);
+const classes = ref(props.layoutItem.content.classes || '');
 const canHaveClasses = props.layoutItem.content.component !== 'link';
 
-let optionalClasses;
-if (canHaveClasses) {
-  optionalClasses = Array.from(new Set(Object.entries(props.styles).reduce((all, [selector, classes]) => {
+const classesArr = computed(() => classes.value.split(' '))
+
+const optionalClasses = ref(canHaveClasses ? getOptionalClasses() : null)
+
+function getOptionalClasses(): Array<{ className: string, exists: boolean }> {
+  return Array.from(new Set(Object.entries(props.styles).reduce((all, [selector, classes]) => {
     if (props.layoutItem.target.contentEl.matches(selector)) {
       return all.concat(classes);
     }
     return all;
   }, [])))
+      .map(className => {
+        return {
+          className,
+          exists: classesArr.value.includes(className)
+        }
+      })
 }
 
+function toggleClass(item) {
+  if (item.exists) {
+    classes.value = classesArr.value.filter(cls => cls !== item.className).join(' ');
+  } else {
+    classes.value += ' ' + item.className;
+  }
+  item.exists = !item.exists;
+}
 
 function removeRow(index) {
   propsArr.value.splice(index, 1);
@@ -97,7 +117,23 @@ function submit() {
   flex: 2;
 }
 
-span {
+[centered] span {
   margin-bottom: 22px;
+}
+
+.optional-classes {
+  margin-bottom: 20px;
+}
+
+.optional-classes .label {
+  margin: 0 5px;
+  padding: 5px;
+  border-radius:4px;
+  background-color: #eee;
+  cursor: pointer;
+}
+
+.optional-classes .label[data-active="true"] {
+  background-color: #c4ecd0;
 }
 </style>
