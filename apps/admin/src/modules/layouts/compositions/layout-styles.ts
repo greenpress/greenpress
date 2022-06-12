@@ -18,8 +18,8 @@ function cachedFetch(url): Promise<StylesMatches> {
     const promise: Promise<StylesMatches> = storedMatches[url] ||
         (
             storedMatches[url] = fetch(url)
-            .then(res => res.json())
-            .catch(() => ({}))
+                .then(res => res.json())
+                .catch(() => ({}))
         );
     return promise;
 }
@@ -50,7 +50,7 @@ export function useLayoutStyles(layoutContent: Ref<ILayoutContent[]>) {
         layoutStyles.value = mergedStyles;
     }
 
-    watch(layoutContent, check);
+    watch(layoutContent, check, {immediate: true});
 
     return {
         layoutStyles,

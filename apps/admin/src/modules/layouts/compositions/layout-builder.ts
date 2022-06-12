@@ -3,7 +3,7 @@ import {IOnCreateEventDetail} from '@greenpress/view-builder/src';
 
 export function useLayoutBuilder({content, connectedData, layout}) {
     const builder = ref();
-    const editedItem = ref(null)
+    const editedItem = ref<IOnCreateEventDetail>(null)
 
     function onChangeItem(event) {
         content.value = event.detail.layout.content;

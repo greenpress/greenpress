@@ -5,9 +5,13 @@
       width="80%"
       destroy-on-close
       center>
-    <template v-if="layoutItem.component !== 'link'">
+    <template v-if="canHaveClasses">
       <h3>{{ $t('Classes') }}</h3>
       <FormInput v-model="classes"/>
+      <div v-if="optionalClasses.length">
+        <strong>{{$t('Available classes')}}</strong>
+        <span v-for="cls in optionalClasses">{{cls}}</span>
+      </div>
     </template>
     <h3>{{ $t('Properties') }}</h3>
     <div v-for="(_, index) in propsArr" :key="index" centered>
@@ -33,11 +37,11 @@
 <script lang="ts" setup>
 import {ref, watch} from 'vue';
 import FormInput from '@/modules/core/components/forms/FormInput.vue';
-import {ILayoutContent} from '@greenpress/sdk/src/layouts';
 import {StylesMatches} from '@/modules/layouts/compositions/layout-styles';
+import {IOnCreateEventDetail} from '@greenpress/view-builder/src';
 
 const props = defineProps({
-  layoutItem: Object as () => ILayoutContent,
+  layoutItem: Object as () => IOnCreateEventDetail,
   styles: Object as () => StylesMatches
 });
 
@@ -45,8 +49,20 @@ const emit = defineEmits(['cancel', 'submit']);
 
 const isOpen = ref(true);
 
-const propsArr = ref(Object.entries(props.layoutItem.props));
-const classes = ref(props.layoutItem.classes);
+const propsArr = ref(Object.entries(props.layoutItem.content.props || {}));
+const classes = ref(props.layoutItem.content.classes);
+const canHaveClasses = props.layoutItem.content.component !== 'link';
+
+let optionalClasses;
+if (canHaveClasses) {
+  optionalClasses = Array.from(new Set(Object.entries(props.styles).reduce((all, [selector, classes]) => {
+    if (props.layoutItem.target.contentEl.matches(selector)) {
+      return all.concat(classes);
+    }
+    return all;
+  }, [])))
+}
+
 
 function removeRow(index) {
   propsArr.value.splice(index, 1);

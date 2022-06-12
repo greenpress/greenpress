@@ -12,8 +12,10 @@
 
       <el-button native-type="submit" :loading="submitting">{{ $t('SAVE') }}</el-button>
     </div>
-    <LayoutItemModal v-if="editedItem" :layout-item="editedItem.content" @cancel="editedItem = null"
+    <LayoutItemModal v-if="editedItem"
+                     :layout-item="editedItem"
                      :styles="layoutStyles"
+                     @cancel="editedItem = null"
                      @submit="onChangeContent($event); check();"/>
   </el-form>
 
