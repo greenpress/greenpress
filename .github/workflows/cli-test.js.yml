@@ -21,6 +21,5 @@ jobs:
         cache: 'npm'
     - working-directory: tools/cli
       run: npm install
-    - run: export CI=false
     - working-directory: tools/cli
-      run: npm test
+      run: CI=false npm test
