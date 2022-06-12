@@ -1,5 +1,5 @@
 {{- if .Values.ingress.enabled }}
-{{- $fullName := include "blog-front.fullname" . -}}
+{{- $fullName := include "gateway.fullname" . -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -17,7 +17,7 @@ spec:
         path: "/"
         backend:
           service:
-            name: "{{ .Release.Name }}-blog-front"
+            name: "{{ .Release.Name }}-gateway"
             port:
               number: 80
 {{- end}}

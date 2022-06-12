@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "blog-front.fullname" . }}
+  name: {{ include "gateway.fullname" . }}
   labels:
-    {{- include "blog-front.labels" . | nindent 4 }}
+    {{- include "gateway.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "blog-front.selectorLabels" . | nindent 6 }}
+      {{- include "gateway.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,13 +18,13 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "blog-front.selectorLabels" . | nindent 8 }}
+        {{- include "gateway.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "blog-front.serviceAccountName" . }}
+      serviceAccountName: {{ include "gateway.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -47,7 +47,7 @@ spec:
               path: /
               port: {{ .Values.containerPort }}
           {{- end }}
-          env: 
+          env:
             - name: MONGO_URI
               valueFrom:
                 secretKeyRef:
@@ -56,38 +56,38 @@ spec:
             - name: CONTENT_SERVICE_URL
               valueFrom:
                 configMapKeyRef:
-                  name: blog-front-config
+                  name: gateway-config
                   key: "CONTENT_SERVICE_URL"
             - name: DRAFTS_SERVICE_URL
               valueFrom:
                 configMapKeyRef:
-                  name: blog-front-config
+                  name: gateway-config
                   key: "DRAFTS_SERVICE_URL"
             - name: AUTH_SERVICE_URL
               valueFrom:
                 configMapKeyRef:
-                  name: blog-front-config
+                  name: gateway-config
                   key: "AUTH_SERVICE_URL"
             - name: ASSETS_SERVICE_URL
               valueFrom:
                 configMapKeyRef:
-                  name: blog-front-config
+                  name: gateway-config
                   key: "ASSETS_SERVICE_URL"
             - name: ADMIN_PANEL_URL
               valueFrom:
                 configMapKeyRef:
-                  name: blog-front-config
+                  name: gateway-config
                   key: "ADMIN_PANEL_URL"
             - name: IP
               valueFrom:
                 configMapKeyRef:
-                  name: blog-front-config
+                  name: gateway-config
                   key: "IP"
-            - name: APPLICATION_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: blog-front-config
-                  key: "APPLICATION_URL"
+#            - name: APPLICATION_URL
+#              valueFrom:
+#                configMapKeyRef:
+#                  name: gateway-config
+#                  key: "APPLICATION_URL"
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

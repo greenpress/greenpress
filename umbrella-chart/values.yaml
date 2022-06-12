@@ -1,16 +1,16 @@
 # Default values for umbrella-chart-2.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
-blog-front:
+front-ssr:
   replicaCount: 1
-  name: blog-front
+  name: front-ssr
   healthCheck:
     enabled: false
 
   APPLICATION_URL: localhost:3000 # set this to the main dns of the app
 
   image:
-    repository: greenpress/blog-front
+    repository: greenpress/front-ssr
     pullPolicy: IfNotPresent
     tag: "latest"
 
@@ -22,26 +22,18 @@ blog-front:
     create: true
     annotations: {}
     name: ""
-  
-  containerPort: 3000
+
+  containerPort: 3002
 
   service:
     type: ClusterIP
-    port: 80
-
-  ingress:
-    enabled: true
-    className: ""
-    annotations: {ingress.kubernetes.io/ssl-redirect: "false"}
-    # kubernetes.io/ingress.class: ngin
-    # kubernetes.io/tls-acme: "true"
-    host: www.blog-front.k3d.localhost
-  
+    port: 3002
   autoscaling:
     enabled: false
     minReplicas: 1
     maxReplicas: 3
     targetCPUUtilizationPercentage: 80
+
 assets:
   name: assets
   replicaCount: 1
@@ -49,7 +41,7 @@ assets:
   image:
     repository: greenpress/assets
     tag: latest
-  service: 
+  service:
     port: 9003
     type: ClusterIP
 
@@ -60,6 +52,31 @@ assets:
   healthCheck:
     enabled: false
 
+gateway:
+  name: gateway
+  replicaCount: 1
+  containerPort: 3000
+  image:
+    repository: greenpress/gateway
+    tag: latest
+  service:
+    port: 80
+    type: ClusterIP
+
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: ""
+  healthCheck:
+    enabled: false
+
+  ingress:
+    enabled: true
+    className: ""
+    annotations: {ingress.kubernetes.io/ssl-redirect: "false"}
+    # kubernetes.io/ingress.class: ngin
+    # kubernetes.io/tls-acme: "true"
+    host: www.gateway.k3d.localhost
 
 
 auth:
@@ -72,7 +89,7 @@ auth:
   service:
     port: 9004
     type: ClusterIP
-    
+
   serviceAccount:
     create: true
     annotations: {}
@@ -91,7 +108,7 @@ content:
   service:
     port: 9001
     type: ClusterIP
-  
+
   serviceAccount:
     create: true
     annotations: {}
@@ -165,15 +182,14 @@ drafts:
     enabled: false
 
 mongodb:
-  auth: 
+  auth:
     usernames: [user]
     passwords: [admin]
     databases: [greenpress]
     enabled: true
   architecture: standalone
-  
+
 argo-cd:
   configs:
     argocdServerAdminPassword: "stamSisma"
   server:
-    
