@@ -9,7 +9,8 @@
     "serve": "vite",
     "prepublishOnly": "(NODE_ENV=development && npm run build)",
     "start": "node server.js",
-    "test": "vitest"
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "main": "server.js",
   "dependencies": {
