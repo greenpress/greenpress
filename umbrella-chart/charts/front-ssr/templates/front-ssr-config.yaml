@@ -3,7 +3,6 @@ kind: ConfigMap
 metadata:
     name: front-ssr-config
 data:
-    THEME: ${THEME}
     TENANT: ${TENANT}
     GATEWAY_SERVICE_URL: "{{ .Release.Name }}-gateway"
     IP: "0.0.0.0"

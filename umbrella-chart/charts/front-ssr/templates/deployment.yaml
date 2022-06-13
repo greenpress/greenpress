@@ -5,9 +5,7 @@ metadata:
   labels:
     {{- include "front-ssr.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
-  {{- end }}
   selector:
     matchLabels:
       {{- include "front-ssr.selectorLabels" . | nindent 6 }}
@@ -48,46 +46,21 @@ spec:
               port: {{ .Values.containerPort }}
           {{- end }}
           env:
-            - name: MONGO_URI
-              valueFrom:
-                secretKeyRef:
-                  name: mongo-secret
-                  key: "MONGO_URI"
-            - name: CONTENT_SERVICE_URL
+            - name: TENANT
               valueFrom:
                 configMapKeyRef:
                   name: front-ssr-config
-                  key: "CONTENT_SERVICE_URL"
-            - name: DRAFTS_SERVICE_URL
+                  key: "TENANT"
+            - name: GATEWAY_SERVICE_URL
               valueFrom:
                 configMapKeyRef:
                   name: front-ssr-config
-                  key: "DRAFTS_SERVICE_URL"
-            - name: AUTH_SERVICE_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: front-ssr-config
-                  key: "AUTH_SERVICE_URL"
-            - name: ASSETS_SERVICE_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: front-ssr-config
-                  key: "ASSETS_SERVICE_URL"
-            - name: ADMIN_PANEL_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: front-ssr-config
-                  key: "ADMIN_PANEL_URL"
+                  key: "GATEWAY_SERVICE_URL"
             - name: IP
               valueFrom:
                 configMapKeyRef:
                   name: front-ssr-config
                   key: "IP"
-            - name: APPLICATION_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: front-ssr-config
-                  key: "APPLICATION_URL"
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
