@@ -53,7 +53,7 @@ jobs:
           command: echo "$DOCKER_PASS" | docker login --username $DOCKER_USER --password-stdin
       - run: |
           cd compose/builders
-          docker build . -f admin.Dockerfile -t greenpress/admin-panel:$BRANCH_NAME
+          docker build . -f admin.Dockerfile -t greenpress/admin-panel:$BRANCH_NAME --build-arg MONOREPO_VERSION=$BRANCH_NAME
           docker push greenpress/admin-panel:$BRANCH_NAME
           localVersion=v$(docker run -it greenpress/admin-panel:$BRANCH_NAME sed 's/.*"version": "\(.*\)".*/\1/;t;d' ./package.json)
           localVersion=$(echo ${localVersion} | tr -d "^@" | tr -d "\r")
@@ -67,7 +67,7 @@ jobs:
           fi
       - run: |
           cd compose/builders
-          docker build . -f auth.Dockerfile -t greenpress/auth:$BRANCH_NAME
+          docker build . -f auth.Dockerfile -t greenpress/auth:$BRANCH_NAME --build-arg MONOREPO_VERSION=$BRANCH_NAME
           docker push greenpress/auth:$BRANCH_NAME
           localVersion=v$(docker run -it greenpress/auth:$BRANCH_NAME sed 's/.*"version": "\(.*\)".*/\1/;t;d' ./package.json)
           localVersion=$(echo ${localVersion} | tr -d "^@" | tr -d "\r")
@@ -81,7 +81,7 @@ jobs:
           fi
       - run: |
           cd compose/builders
-          docker build . -f assets.Dockerfile -t greenpress/assets:$BRANCH_NAME
+          docker build . -f assets.Dockerfile -t greenpress/assets:$BRANCH_NAME --build-arg MONOREPO_VERSION=$BRANCH_NAME
           docker push greenpress/assets:$BRANCH_NAME
           localVersion=v$(docker run -it greenpress/assets:$BRANCH_NAME sed 's/.*"version": "\(.*\)".*/\1/;t;d' ./package.json)
           localVersion=$(echo ${localVersion} | tr -d "^@" | tr -d "\r")
@@ -95,7 +95,7 @@ jobs:
           fi
       - run: |
           cd compose/builders
-          docker build . -f content.Dockerfile -t greenpress/content:$BRANCH_NAME
+          docker build . -f content.Dockerfile -t greenpress/content:$BRANCH_NAME --build-arg MONOREPO_VERSION=$BRANCH_NAME
           docker push greenpress/content:$BRANCH_NAME
           localVersion=v$(docker run -it greenpress/content:$BRANCH_NAME sed 's/.*"version": "\(.*\)".*/\1/;t;d' ./package.json)
           localVersion=$(echo ${localVersion} | tr -d "^@" | tr -d "\r")
@@ -109,7 +109,7 @@ jobs:
           fi
       - run: |
           cd compose/builders
-          docker build . -f drafts.Dockerfile -t greenpress/drafts:$BRANCH_NAME
+          docker build . -f drafts.Dockerfile -t greenpress/drafts:$BRANCH_NAME --build-arg MONOREPO_VERSION=$BRANCH_NAME
           docker push greenpress/drafts:$BRANCH_NAME
           localVersion=v$(docker run -it greenpress/drafts:$BRANCH_NAME sed 's/.*"version": "\(.*\)".*/\1/;t;d' ./package.json)
           localVersion=$(echo ${localVersion} | tr -d "^@" | tr -d "\r")
@@ -123,7 +123,7 @@ jobs:
           fi
       - run: |
           cd compose/builders
-          docker build . -f greenpress.Dockerfile -t greenpress/greenpress:$BRANCH_NAME
+          docker build . -f greenpress.Dockerfile -t greenpress/greenpress:$BRANCH_NAME --build-arg MONOREPO_VERSION=$BRANCH_NAME
           docker push greenpress/greenpress:$BRANCH_NAME
           localVersion=v$(docker run -it greenpress/greenpress:$BRANCH_NAME sed 's/.*"version": "\(.*\)".*/\1/;t;d' ./package.json)
           localVersion=$(echo ${localVersion} | tr -d "^@" | tr -d "\r")
@@ -137,7 +137,7 @@ jobs:
           fi
       - run: |
           cd compose/builders
-          docker build . -f mailing.Dockerfile -t greenpress/mailing:$BRANCH_NAME
+          docker build . -f mailing.Dockerfile -t greenpress/mailing:$BRANCH_NAME --build-arg MONOREPO_VERSION=$BRANCH_NAME
           docker push greenpress/mailing:$BRANCH_NAME
           localVersion=v$(docker run -it greenpress/mailing:$BRANCH_NAME sed 's/.*"version": "\(.*\)".*/\1/;t;d' ./package.json)
           localVersion=$(echo ${localVersion} | tr -d "^@" | tr -d "\r")
@@ -151,7 +151,7 @@ jobs:
           fi
       - run: |
           cd compose/builders
-          docker build . -f secrets.Dockerfile -t greenpress/secrets:$BRANCH_NAME
+          docker build . -f secrets.Dockerfile -t greenpress/secrets:$BRANCH_NAME --build-arg MONOREPO_VERSION=$BRANCH_NAME
           docker push greenpress/secrets:$BRANCH_NAME
           localVersion=v$(docker run -it greenpress/secrets:$BRANCH_NAME sed 's/.*"version": "\(.*\)".*/\1/;t;d' ./package.json)
           localVersion=$(echo ${localVersion} | tr -d "^@" | tr -d "\r")
@@ -165,7 +165,7 @@ jobs:
           fi
       - run: |
           cd compose/builders
-          docker build . -f front-ssr.Dockerfile -t greenpress/front-ssr:$BRANCH_NAME
+          docker build . -f front-ssr.Dockerfile -t greenpress/front-ssr:$BRANCH_NAME --build-arg MONOREPO_VERSION=$BRANCH_NAME
           docker push greenpress/front-ssr:$BRANCH_NAME
           localVersion=v$(docker run -it greenpress/front-ssr:$BRANCH_NAME sed 's/.*"version": "\(.*\)".*/\1/;t;d' ./package.json)
           localVersion=$(echo ${localVersion} | tr -d "^@" | tr -d "\r")
@@ -179,7 +179,7 @@ jobs:
           fi
       - run: |
           cd compose/builders
-          docker build . -f gateway.Dockerfile -t greenpress/gateway:$BRANCH_NAME
+          docker build . -f gateway.Dockerfile -t greenpress/gateway:$BRANCH_NAME --build-arg MONOREPO_VERSION=$BRANCH_NAME
           docker push greenpress/gateway:$BRANCH_NAME
           localVersion=v$(docker run -it greenpress/gateway:$BRANCH_NAME sed 's/.*"version": "\(.*\)".*/\1/;t;d' ./package.json)
           localVersion=$(echo ${localVersion} | tr -d "^@" | tr -d "\r")

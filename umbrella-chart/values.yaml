@@ -35,7 +35,7 @@ gateway:
     annotations: {ingress.kubernetes.io/ssl-redirect: "false"}
     # kubernetes.io/ingress.class: ngin
     # kubernetes.io/tls-acme: "true"
-    host: www.gateway.k3d.localhost
+    host: demo-playground.greenpress.info
 
 front-ssr:
   replicaCount: 1
