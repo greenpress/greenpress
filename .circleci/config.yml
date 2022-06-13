@@ -165,7 +165,7 @@ jobs:
           fi
       - run: |
           cd compose/builders
-          docker build . -f secrets.Dockerfile -t greenpress/front-ssr:$BRANCH_NAME
+          docker build . -f front-ssr.Dockerfile -t greenpress/front-ssr:$BRANCH_NAME
           docker push greenpress/front-ssr:$BRANCH_NAME
           localVersion=v$(docker run -it greenpress/front-ssr:$BRANCH_NAME sed 's/.*"version": "\(.*\)".*/\1/;t;d' ./package.json)
           localVersion=$(echo ${localVersion} | tr -d "^@" | tr -d "\r")
@@ -179,7 +179,7 @@ jobs:
           fi
       - run: |
           cd compose/builders
-          docker build . -f secrets.Dockerfile -t greenpress/gateway:$BRANCH_NAME
+          docker build . -f gateway.Dockerfile -t greenpress/gateway:$BRANCH_NAME
           docker push greenpress/gateway:$BRANCH_NAME
           localVersion=v$(docker run -it greenpress/gateway:$BRANCH_NAME sed 's/.*"version": "\(.*\)".*/\1/;t;d' ./package.json)
           localVersion=$(echo ${localVersion} | tr -d "^@" | tr -d "\r")
