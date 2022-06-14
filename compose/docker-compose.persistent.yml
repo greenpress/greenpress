@@ -45,6 +45,7 @@ services:
     environment:
       IP: 0.0.0.0
       BASIC_TENANT: ${BASIC_TENANT}
+      INTERNAL_URL: ${INTERNAL_URL}
       APPLICATION_URL: ${APPLICATION_URL}
       CONTENT_SERVICE_URL: content
       AUTH_SERVICE_URL: auth
