@@ -44,7 +44,7 @@ services:
       - ${PORT}:3000
     environment:
       IP: 0.0.0.0
-      TENANT: ${TENANT}
+      BASIC_TENANT: ${BASIC_TENANT}
       APPLICATION_URL: ${APPLICATION_URL}
       CONTENT_SERVICE_URL: content
       AUTH_SERVICE_URL: auth
