@@ -9,7 +9,7 @@ FROM node:16.5-alpine
 ENV PORT=3002
 ENV NODE_ENV=production
 EXPOSE $PORT
-COPY --from=base /apps/admin/greenpress-front-ssr.tgz .
+COPY --from=base /apps/front-ssr/greenpress-front-ssr.tgz .
 RUN tar zxvf ./greenpress-front-ssr.tgz -C ./
 WORKDIR /package
 CMD npm start

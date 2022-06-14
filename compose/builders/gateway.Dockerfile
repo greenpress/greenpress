@@ -9,7 +9,7 @@ FROM node:16.5-alpine
 ENV PORT=3000
 ENV NODE_ENV=production
 EXPOSE $PORT
-COPY --from=base /apps/admin/greenpress-gateway.tgz .
+COPY --from=base /apps/gateway/greenpress-gateway.tgz .
 RUN tar zxvf ./greenpress-gateway.tgz -C ./
 WORKDIR /package
 CMD npm start
