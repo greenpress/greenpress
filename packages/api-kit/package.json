@@ -1,6 +1,6 @@
 {
   "name": "@greenpress/api-kit",
-  "version": "2.0.19",
+  "version": "2.0.20",
   "description": "API-Kit package to help with greenpress infrastructure and reuse capabilities across services",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

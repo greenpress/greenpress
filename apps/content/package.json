@@ -1,6 +1,6 @@
 {
   "name": "@greenpress/content",
-  "version": "2.0.19",
+  "version": "2.0.20",
   "migrationVersion": 7,
   "description": "Content API for greenpress platform",
   "keywords": [
@@ -20,8 +20,8 @@
   "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@greenpress/api-kit": "^2.0.19",
-    "@greenpress/cache-manager": "^2.0.15",
+    "@greenpress/api-kit": "^2.0.20",
+    "@greenpress/cache-manager": "^2.0.20",
     "mongoose": "^5.10.5",
     "node-fetch": "^2.6.1",
     "shortid": "^2.2.14"

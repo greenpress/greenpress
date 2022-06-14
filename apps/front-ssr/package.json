@@ -1,14 +1,14 @@
 {
   "type": "module",
   "name": "@greenpress/front-ssr",
-  "version": "2.0.19",
+  "version": "2.0.20",
   "scripts": {
     "dev": "dx dev",
     "build": "node build-workaround.mjs && dx build",
     "start": "dx start"
   },
   "dependencies": {
-    "@greenpress/sdk": "2.0.17",
+    "@greenpress/sdk": "^2.0.20",
     "fastify-dx": "0.0.19",
     "fastify-vite-vue": "^3.0.0-beta.3",
     "node-fetch": "^2.6.1"
