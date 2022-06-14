@@ -41,12 +41,6 @@ services:
     image: greenpress/gateway:${GATEWAY_VERSION}
     ports:
       - ${PORT}:3000
-    depends_on:
-      - content
-      - auth
-      - assets
-      - admin
-      - front
     links:
       - content
       - auth
