@@ -23,7 +23,7 @@ services:
       - redis
       - secrets
   front:
-    image: greenpress/admin-panel:${FRONT_SSR_VERSION}
+    image: greenpress/front-ssr:${FRONT_SSR_VERSION}
     links:
       - gateway
     environment:
@@ -55,7 +55,7 @@ services:
       - front
     environment:
       IP: 0.0.0.0
-      TENANT: ${TENANT}
+      BASIC_TENANT: ${BASIC_TENANT}
       APPLICATION_URL: ${APPLICATION_URL}
       CONTENT_SERVICE_URL: content
       AUTH_SERVICE_URL: auth
