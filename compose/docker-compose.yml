@@ -19,9 +19,6 @@ services:
     depends_on:
       - redis
       - secrets
-    links:
-      - redis
-      - secrets
   front:
     image: greenpress/front-ssr:${FRONT_SSR_VERSION}
     links:
@@ -41,12 +38,6 @@ services:
     image: greenpress/gateway:${GATEWAY_VERSION}
     ports:
       - ${PORT}:3000
-    links:
-      - content
-      - auth
-      - assets
-      - admin
-      - front
     environment:
       IP: 0.0.0.0
       BASIC_TENANT: ${BASIC_TENANT}
@@ -65,9 +56,6 @@ services:
       IP: 0.0.0.0
       AUTH_SERVICE_URL: auth
     depends_on:
-      - redis
-      - auth
-    links:
       - redis
       - auth
   secrets:
