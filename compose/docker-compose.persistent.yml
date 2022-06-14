@@ -10,8 +10,6 @@ services:
     image: greenpress/admin-panel:${ADMIN_PANEL_VERSION}
   front:
     image: greenpress/front-ssr:${FRONT_SSR_VERSION}
-    links:
-      - gateway
     environment:
       GATEWAY_SERVICE_URL: gateway
   assets:
@@ -27,10 +25,6 @@ services:
       REFRESH_TOKEN_SECRET: ${REFRESH_TOKEN_SECRET}
       IP: 0.0.0.0
     depends_on:
-      - mongo
-      - redis
-      - secrets
-    links:
       - mongo
       - redis
       - secrets
@@ -51,18 +45,6 @@ services:
     image: greenpress/gateway:${GATEWAY_VERSION}
     ports:
       - ${PORT}:3000
-    depends_on:
-      - content
-      - auth
-      - assets
-      - admin
-      - front
-    links:
-      - content
-      - auth
-      - assets
-      - admin
-      - front
     environment:
       IP: 0.0.0.0
       TENANT: ${TENANT}
@@ -83,11 +65,6 @@ services:
     depends_on:
       - mongo
       - redis
-      - auth
-    links:
-      - mongo
-      - redis
-      - auth
   secrets:
     image: greenpress/secrets:${SECRETS_SERVICE_VERSION}
     restart: always
@@ -98,8 +75,6 @@ services:
       INTERNAL_SECRET: ${INTERNAL_SECRET}
     depends_on:
       - mongo
-    links:
-      - mongo
   drafts:
     image: greenpress/drafts:${DRAFTS_SERVICE_VERSION}
     restart: always
@@ -107,8 +82,6 @@ services:
       MONGO_URI: ${DRAFTS_MONGODB_URI}
       IP: 0.0.0.0
     depends_on:
-      - mongo
-    links:
       - mongo
 
 networks:

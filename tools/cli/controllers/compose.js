@@ -1,7 +1,7 @@
 const { join } = require('path')
 const execute = require('../utils/execute');
 
-async function composeCommand({ action, branch, tag }) {
+async function composeCommand({ action, branch, tag, mongo }) {
 
 	if (!tag) {
 		execute(`git clone --branch ${branch} https://github.com/greenpress/greenpress.git`);
@@ -11,7 +11,7 @@ async function composeCommand({ action, branch, tag }) {
 
 	switch (action) {
 		case 'create':
-			require('./compose/create')({ tag, branch });
+			require('./compose/create')({ tag, branch, mongo });
 	}
 
 }

@@ -21,6 +21,11 @@ function setComposeCommand(program) {
             describe: 'Select a tag to pull docker images (default: the tag version mentioned in branch)',
             type: 'string'
           })
+          .option('mongo', {
+            alias: 'm',
+            describe: 'Use MongoDB from given URL',
+            type: 'string'
+          })
       },
       composeCommand)
 }
