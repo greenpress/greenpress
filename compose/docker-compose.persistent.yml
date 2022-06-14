@@ -27,7 +27,6 @@ services:
     depends_on:
       - mongo
       - redis
-      - secrets
   auth:
     image: greenpress/auth:${AUTH_SERVICE_VERSION}
     restart: always
@@ -38,8 +37,6 @@ services:
       REFRESH_TOKEN_SECRET: ${REFRESH_TOKEN_SECRET}
       APPLICATION_URL: ${APPLICATION_URL}
     depends_on:
-      - mongo
-    links:
       - mongo
   gateway:
     image: greenpress/gateway:${GATEWAY_VERSION}
