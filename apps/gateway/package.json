@@ -39,5 +39,6 @@
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/greenpress/greenpress.git"
-  }
+  },
+  "gitHead": "ee4fab5a3c5d5e10586dc0c04d4e694bb57c3af7"
 }
