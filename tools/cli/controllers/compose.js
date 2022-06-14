@@ -12,6 +12,10 @@ async function composeCommand({ action, branch, tag, mongo }) {
 	switch (action) {
 		case 'create':
 			require('./compose/create')({ tag, branch, mongo });
+			break;
+		case 'start':
+			execute('docker-compose -f docker-compose.yml -p greenpress up -d');
+			break;
 	}
 
 }

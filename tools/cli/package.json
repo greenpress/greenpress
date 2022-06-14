@@ -1,6 +1,6 @@
 {
   "name": "@greenpress/cli",
-  "version": "0.9.7",
+  "version": "0.9.8",
   "description": "CLI to install greenpress",
   "main": "cli.js",
   "bin": {
