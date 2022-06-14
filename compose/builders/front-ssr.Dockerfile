@@ -1,7 +1,7 @@
 ARG MONOREPO_VERSION=main
 FROM greenpress/monorepo:${MONOREPO_VERSION} as base
 
-FROM node:16.5-alpine
+FROM node:16.15
 ENV PORT=3002
 ENV NODE_ENV=production
 EXPOSE $PORT
