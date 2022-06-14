@@ -165,20 +165,6 @@ jobs:
           fi
       - run: |
           cd compose/builders
-          docker build . -f front-ssr.Dockerfile -t greenpress/front-ssr:$BRANCH_NAME --build-arg MONOREPO_VERSION=$BRANCH_NAME
-          docker push greenpress/front-ssr:$BRANCH_NAME
-          localVersion=v$(docker run -it greenpress/front-ssr:$BRANCH_NAME sed 's/.*"version": "\(.*\)".*/\1/;t;d' ./package.json)
-          localVersion=$(echo ${localVersion} | tr -d "^@" | tr -d "\r")
-          dockerHubVersion=$(wget -q -O- "https://index.docker.io/v1/repositories/greenpress/front-ssr/tags/${localVersion}" || true)
-          if [ "$dockerHubVersion" = "[]"  ]; then
-          echo "version: ${localVersion} already exist in docker hub";
-          else docker tag greenpress/front-ssr:$BRANCH_NAME greenpress/front-ssr:latest
-          docker push greenpress/front-ssr:latest
-          docker tag greenpress/front-ssr:latest greenpress/front-ssr:${localVersion}
-          docker push greenpress/front-ssr:${localVersion};
-          fi
-      - run: |
-          cd compose/builders
           docker build . -f gateway.Dockerfile -t greenpress/gateway:$BRANCH_NAME --build-arg MONOREPO_VERSION=$BRANCH_NAME
           docker push greenpress/gateway:$BRANCH_NAME
           localVersion=v$(docker run -it greenpress/gateway:$BRANCH_NAME sed 's/.*"version": "\(.*\)".*/\1/;t;d' ./package.json)
@@ -190,6 +176,20 @@ jobs:
           docker push greenpress/gateway:latest
           docker tag greenpress/gateway:latest greenpress/gateway:${localVersion}
           docker push greenpress/gateway:${localVersion};
+          fi
+      - run: |
+          cd compose/builders
+          docker build . -f front-ssr.Dockerfile -t greenpress/front-ssr:$BRANCH_NAME --build-arg MONOREPO_VERSION=$BRANCH_NAME
+          docker push greenpress/front-ssr:$BRANCH_NAME
+          localVersion=v$(docker run -it greenpress/front-ssr:$BRANCH_NAME sed 's/.*"version": "\(.*\)".*/\1/;t;d' ./package.json)
+          localVersion=$(echo ${localVersion} | tr -d "^@" | tr -d "\r")
+          dockerHubVersion=$(wget -q -O- "https://index.docker.io/v1/repositories/greenpress/front-ssr/tags/${localVersion}" || true)
+          if [ "$dockerHubVersion" = "[]"  ]; then
+          echo "version: ${localVersion} already exist in docker hub";
+          else docker tag greenpress/front-ssr:$BRANCH_NAME greenpress/front-ssr:latest
+          docker push greenpress/front-ssr:latest
+          docker tag greenpress/front-ssr:latest greenpress/front-ssr:${localVersion}
+          docker push greenpress/front-ssr:${localVersion};
           fi
   test:
     executor: test-machine
