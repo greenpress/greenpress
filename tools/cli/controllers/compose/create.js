@@ -23,10 +23,10 @@ module.exports = function ({ tag, branch, mongo }) {
 		.replaceAll('latest', tag.startsWith('v') ? tag : `v${tag}`)
 		.replaceAll('mongodb://mongo/greenpress', mongo || 'mongodb://mongo/greenpress')
 
-	const yamlName = mongo ? 'docker-compose.persistent.yml' : 'docker-compose.yml';
+	const yamlName = mongo ? 'docker-compose.yml' : 'docker-compose.persistent.yml';
 
 	writeFileSync(join(process.cwd(), '.env'), newEnvFile);
-	writeFileSync(join(process.cwd(), yamlName), readFileSync(join(process.cwd(), 'greenpress', 'compose', 'docker-compose.yml'), 'utf-8'));
+	writeFileSync(join(process.cwd(), 'docker-compose.yml'), readFileSync(join(process.cwd(), 'greenpress', 'compose', yamlName), 'utf-8'));
 
 	execute(`rm -rf greenpress`);
 }
