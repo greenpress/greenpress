@@ -97,7 +97,7 @@ export default function apiProxy(app: any, config: Partial<IApiProxyConfig>, cac
         "Content-Type": "application/json",
         tenant: req.headers.tenant,
         cookie: req.headers.cookie,
-        host: req.headers.host,
+        tenanthost: req.headers.host,
         authorization: req.headers.authorization,
       },
     })

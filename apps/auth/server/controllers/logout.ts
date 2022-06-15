@@ -22,7 +22,7 @@ export async function logout(req: AuthRequest, res: Response) {
   if (req.cookies.token || req.signedCookies.token) {
     token = req.cookies.token || req.signedCookies.token;
     authType = "cookie";
-    setCookie(res, "", -1, req.headers.host);
+    setCookie(res, "", -1, req.headers.tenanthost);
   } else {
     token = req.headers.authorization?.split(" ")[1] ?? "";
     authType = "oauth";

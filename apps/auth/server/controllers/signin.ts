@@ -1,8 +1,9 @@
 import passport from "passport";
-import {Request, Response, NextFunction} from "express";
+import {Response, NextFunction} from "express";
 import { validateSignInForm, tokenPayload } from "./signin-signup-token";
+import {AuthRequest} from '../../types';
 
-export function signin(req: Request, res: Response, next: NextFunction) {
+export function signin(req: AuthRequest, res: Response, next: NextFunction) {
   const validationErrors = validateSignInForm(req.body);
 
   if (Object.keys(validationErrors).length > 0) {
@@ -13,7 +14,7 @@ export function signin(req: Request, res: Response, next: NextFunction) {
     if (error !== null) {
       return res.status(401).json({
         errors: {
-          [error.code === "INCORRECT_CREDENTIALS" ? "password" : ""]: error,
+          [error.code === "INCORRECT_CREDENTIALS" ? "password" : "general"]: error,
         },
       });
     }
@@ -25,7 +26,7 @@ export function signin(req: Request, res: Response, next: NextFunction) {
       });
     }
 
-    tokenPayload(req.headers.host, res, data);
+    tokenPayload(req.headers.tenanthost, res, data);
   })(req, res, next);
 }
 

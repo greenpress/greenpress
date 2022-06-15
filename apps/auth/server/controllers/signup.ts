@@ -1,8 +1,9 @@
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Response } from 'express';
 import passport from 'passport';
 import { validateSignUpForm, tokenPayload } from './signin-signup-token';
+import {AuthRequest} from '../../types';
 
-export function signup (req:Request, res:Response, next:NextFunction) {
+export function signup (req:AuthRequest, res:Response, next:NextFunction) {
   const validationErrors = validateSignUpForm(req.body)
 
   if (Object.keys(validationErrors).length > 0) {
@@ -27,7 +28,7 @@ export function signup (req:Request, res:Response, next:NextFunction) {
       })
     }
 
-    tokenPayload(req.headers.host, res, data);
+    tokenPayload(req.headers.tenanthost, res, data);
 
   })(req, res, next)
 }

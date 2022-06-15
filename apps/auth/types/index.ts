@@ -4,7 +4,7 @@ export interface AuthRequest extends Request {
   headers: {
     tenant: string,
     authorization?: string,
-    host: string,
+    tenanthost: string,
   }
   userPayload: {
     sub: string,
