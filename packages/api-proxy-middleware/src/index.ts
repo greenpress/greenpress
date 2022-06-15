@@ -72,6 +72,7 @@ export default function apiProxy(app: any, config: Partial<IApiProxyConfig>, cac
         .end();
       return;
     }
+    req.headers.tenanthost = req.headers.host;
     next();
   });
 
@@ -112,7 +113,6 @@ export default function apiProxy(app: any, config: Partial<IApiProxyConfig>, cac
       })
       .then((user = "") => {
         req.headers.user = user;
-        req.headers.tenanthost = req.headers.host;
 
         next();
       })
