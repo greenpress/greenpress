@@ -9,13 +9,23 @@ async function composeCommand({ action, branch, tag, mongo }) {
 		execute('rm -rf greenpress');
 	}
 
+	const start = require('./compose/start');
+	const pull = require('./compose/pull');
+
 	switch (action) {
 		case 'create':
 			require('./compose/create')({ tag, branch, mongo });
 			break;
 		case 'start':
-			require('./compose/start')();
+			start();
 			break;
+		case 'pull':
+			pull();
+			break;
+		case 'restart':
+			pull();
+			start();
+			setTimeout(require('./compose/prune'), 5000);
 	}
 
 }

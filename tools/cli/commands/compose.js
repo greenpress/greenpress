@@ -7,7 +7,7 @@ function setComposeCommand(program) {
         return yargs
           .positional('action', {
             describe: 'what to do?!',
-            enum: ['create', 'pull', 'start'],
+            enum: ['create', 'pull', 'start', 'restart'],
             type: 'string'
           })
           .option('branch', {
