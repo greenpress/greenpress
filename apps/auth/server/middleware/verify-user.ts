@@ -55,7 +55,7 @@ async function cookieVerify(req: AuthRequest, res: Response, next: NextFunction)
       String(cookieTokenExpiration / 1000)
     );
 
-    setCookie(res, newToken);
+    setCookie(res, newToken, null, req.headers.host);
     setUserPayload(newPayload, req, next);
   } catch (e) {
     next();

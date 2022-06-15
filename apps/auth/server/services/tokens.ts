@@ -32,10 +32,10 @@ export function getUniqueId(creationTime = Date.now().toString()) {
 	return creationTime + ':' + Buffer.from(Math.random().toString()).toString('base64')
 }
 
-function getCookieParameters(cookieId:string, maxAge:string) {
+function getCookieParameters(cookieId:string, maxAge:string, domain?: string) {
 	let cookieParams:any = { maxAge, httpOnly: true }
 	if (cookieBaseDomain) {
-		cookieParams.domain = cookieBaseDomain
+		cookieParams.domain = domain || cookieBaseDomain
 		cookieParams.sameSite = 'None'
 		cookieParams.secure = true
 	}
@@ -43,8 +43,8 @@ function getCookieParameters(cookieId:string, maxAge:string) {
 	return ['token', cookieId, cookieParams]
 }
 
-export function setCookie(res:Response, cookieId:string, maxAge = cookieTokenExpiration) {
-	const [type, id, parameters] = getCookieParameters(cookieId, maxAge.toString())
+export function setCookie(res:Response, cookieId:string, maxAge?: number | string, domain?: string) {
+	const [type, id, parameters] = getCookieParameters(cookieId, (maxAge || cookieTokenExpiration).toString(), domain)
 	res.cookie(type, id, parameters)
 	return res
 }

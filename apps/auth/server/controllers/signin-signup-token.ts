@@ -59,11 +59,11 @@ export function validateSignInForm(payload: any) {
   return errors;
 }
 
-export function tokenPayload(res: Response, data: any) {
+export function tokenPayload(host: string, res: Response, data: any) {
   const { token, refreshToken, cookieToken, user } = data;
 
   if (cookieToken) {
-    res = setCookie(res, cookieToken);
+    res = setCookie(res, cookieToken, host);
     return res
       .status(200)
       .json({

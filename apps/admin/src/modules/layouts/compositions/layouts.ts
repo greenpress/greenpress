@@ -8,13 +8,23 @@ import {useEditedInputModels} from '@/modules/core/compositions/edited-inputs';
 
 
 export function useEditLayout(kind: LayoutKind) {
-    const {result: layout} = useDispatcher<ILayout>(() => sdk.layouts.getLayout(kind).then((layout) => {
-        return layout || {
-            kind,
-            connectedData: [],
-            content: []
-        };
-    }))
+    const {result: layout} = useDispatcher<ILayout>(
+        () => sdk.layouts.getLayout(kind)
+            .then((layout): ILayout => {
+                return layout || {
+                    kind,
+                    connectedData: [],
+                    content: []
+                };
+            })
+            .catch(() => {
+                return {
+                    kind,
+                    connectedData: [],
+                    content: []
+                }
+            })
+    )
 
     const {submit, submitting} = useSubmitting(
         (payload) => sdk.layouts.update(kind, payload).then((newLayout) => {
