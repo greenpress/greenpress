@@ -11,6 +11,7 @@ services:
   front:
     image: greenpress/front-ssr:${FRONT_SSR_VERSION}
     environment:
+      IP: 0.0.0.0
       GATEWAY_SERVICE_URL: gateway
   assets:
     image: greenpress/assets:${ASSETS_SERVICE_VERSION}
@@ -44,6 +45,7 @@ services:
       - ${PORT}:3000
     environment:
       IP: 0.0.0.0
+      REDIS_URL: redis://redis
       BASIC_TENANT: ${BASIC_TENANT}
       INTERNAL_URL: ${INTERNAL_URL}
       APPLICATION_URL: ${APPLICATION_URL}

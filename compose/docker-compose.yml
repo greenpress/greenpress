@@ -24,6 +24,7 @@ services:
     links:
       - gateway
     environment:
+      IP: 0.0.0.0
       GATEWAY_SERVICE_URL: gateway
   auth:
     image: greenpress/auth:${AUTH_SERVICE_VERSION}
@@ -40,6 +41,7 @@ services:
       - ${PORT}:3000
     environment:
       IP: 0.0.0.0
+      REDIS_URL: redis://redis
       BASIC_TENANT: ${BASIC_TENANT}
       APPLICATION_URL: ${APPLICATION_URL}
       CONTENT_SERVICE_URL: content
