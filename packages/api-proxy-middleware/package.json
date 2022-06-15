@@ -1,6 +1,6 @@
 {
   "name": "@greenpress/api-proxy-middleware",
-  "version": "2.0.20",
+  "version": "2.0.21",
   "description": "api proxy middleware",
   "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
   "homepage": "https://github.com/greenpress/greenpress#readme",
