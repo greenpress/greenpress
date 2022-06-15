@@ -21,7 +21,7 @@ function getLayoutByKind(req, res, next) {
   const { tenant } = req.headers || {};
   Layout.findOne({ kind, tenant }).then((layout) => {
     if (!layout) {
-      return Promise.reject(null);
+      layout = new Layout({ kind, tenant });
     }
     req.layout = layout;
     next();
