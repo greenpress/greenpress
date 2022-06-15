@@ -63,7 +63,7 @@ export function tokenPayload(host: string, res: Response, data: any) {
   const { token, refreshToken, cookieToken, user } = data;
 
   if (cookieToken) {
-    res = setCookie(res, cookieToken, host);
+    res = setCookie(res, cookieToken, null, host);
     return res
       .status(200)
       .json({
