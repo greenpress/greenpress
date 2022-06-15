@@ -25,7 +25,8 @@ async function composeCommand({ action, branch, tag, mongo }) {
 		case 'restart':
 			pull();
 			start();
-			setTimeout(require('./compose/prune'), 5000);
+			console.log('Will prune old unused images soon...');
+			setTimeout(require('./compose/prune'), 20000);
 	}
 
 }
