@@ -2,6 +2,7 @@ import { NextFunction, Response } from 'express';
 import passport from 'passport';
 import { validateSignUpForm, tokenPayload } from './signin-signup-token';
 import {AuthRequest} from '../../types';
+import {getRequestHost} from '../services/req-host';
 
 export function signup (req:AuthRequest, res:Response, next:NextFunction) {
   const validationErrors = validateSignUpForm(req.body)
@@ -28,7 +29,7 @@ export function signup (req:AuthRequest, res:Response, next:NextFunction) {
       })
     }
 
-    tokenPayload(req.headers.tenanthost, res, data);
+    tokenPayload(getRequestHost(req), res, data);
 
   })(req, res, next)
 }

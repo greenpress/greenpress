@@ -34,7 +34,7 @@ export function getUniqueId(creationTime = Date.now().toString()) {
 
 function getCookieParameters(cookieId:string, maxAge:string, domain?: string) {
 	let cookieParams:any = { maxAge, httpOnly: true }
-	if (cookieBaseDomain) {
+	if (domain || cookieBaseDomain) {
 		cookieParams.domain = domain || cookieBaseDomain
 		cookieParams.sameSite = 'None'
 		cookieParams.secure = true

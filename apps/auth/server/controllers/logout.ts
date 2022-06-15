@@ -1,6 +1,7 @@
 import { Response } from "express";
 import { AuthRequest } from "../../types";
 import { deleteToken } from "../services/users";
+import {getRequestHost} from '../services/req-host';
 const { setCookie } = require("../services/tokens");
 
 function removeToken(
@@ -22,7 +23,7 @@ export async function logout(req: AuthRequest, res: Response) {
   if (req.cookies.token || req.signedCookies.token) {
     token = req.cookies.token || req.signedCookies.token;
     authType = "cookie";
-    setCookie(res, "", -1, req.headers.tenanthost);
+    setCookie(res, "", -1, getRequestHost(req));
   } else {
     token = req.headers.authorization?.split(" ")[1] ?? "";
     authType = "oauth";

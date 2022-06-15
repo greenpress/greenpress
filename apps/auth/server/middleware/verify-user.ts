@@ -9,6 +9,7 @@ import { cookieTokenExpiration, privilegedRoles, cookieTokenVerificationTime, pr
 import { NextFunction, RequestHandler, Response } from 'express';
 import { AuthRequest } from '../../types';
 import { cacheManager } from "../utils/cache-manager";
+import {getRequestHost} from '../services/req-host';
 
 function oAuthVerify(req: AuthRequest, _res: Response, next: NextFunction): Promise<void> {
   // get the last part from a authorization header string like "bearer token-value"
@@ -55,7 +56,7 @@ async function cookieVerify(req: AuthRequest, res: Response, next: NextFunction)
       String(cookieTokenExpiration / 1000)
     );
 
-    setCookie(res, newToken, null, req.headers.tenanthost);
+    setCookie(res, newToken, null, getRequestHost(req));
     setUserPayload(newPayload, req, next);
   } catch (e) {
     next();
