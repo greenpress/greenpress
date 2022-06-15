@@ -3,10 +3,6 @@
   "version": "2.0.21",
   "description": "Open-source blogs and content websites platform, made for the 21st century",
   "main": "index.js",
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
   "scripts": {
     "postinstall": "lerna bootstrap",
     "install:prod-only": "lerna bootstrap -- --production",
