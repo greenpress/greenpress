@@ -88,7 +88,7 @@ LayoutSchema.statics.getSingleLayout = function getSingleLayout({ kind, tenant, 
 }
 
 LayoutSchema.post('save', function () {
-	cacheManager.setItem(`${cachePrefix}single:${this.kind}.${this.tenant}`, null, { ttl: 1 })
+	cacheManager.setItem(`${cachePrefix}single:${this.kind}.${this.tenant}`, '', { ttl: 1 })
 })
 
 module.exports = mongoose.model("Layout", LayoutSchema);
