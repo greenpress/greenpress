@@ -44,6 +44,7 @@ services:
       REDIS_URL: redis://redis
       BASIC_TENANT: ${BASIC_TENANT}
       APPLICATION_URL: ${APPLICATION_URL}
+      INTERNAL_URL: ${INTERNAL_URL}
       CONTENT_SERVICE_URL: content
       AUTH_SERVICE_URL: auth
       ASSETS_SERVICE_URL: assets
