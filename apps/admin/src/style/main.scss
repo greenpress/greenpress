@@ -48,6 +48,11 @@ p {
   padding: 5px 0;
 }
 
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
 [centered] {
   display: flex;
   justify-content: center;
