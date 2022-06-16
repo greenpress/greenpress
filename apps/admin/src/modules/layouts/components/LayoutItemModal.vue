@@ -13,7 +13,7 @@
         <span v-for="item in optionalClasses"
               class="label"
               :key="item.className"
-              :data-active.attr="item.exists" @click="toggleClass(item)">{{item.className}}</span>
+              :data-active.attr="item.exists" @click="toggleClass(item)">{{ item.className }}</span>
       </div>
     </template>
     <h3>{{ $t('Properties') }}</h3>
@@ -60,6 +60,10 @@ const classesArr = computed(() => classes.value.split(' '))
 
 const optionalClasses = ref(canHaveClasses ? getOptionalClasses() : null)
 
+function isClassExists(className: string) {
+  return classesArr.value.includes(className)
+}
+
 function getOptionalClasses(): Array<{ className: string, exists: boolean }> {
   return Array.from(new Set(Object.entries(props.styles).reduce((all, [selector, classes]) => {
     if (props.layoutItem.target.contentEl.matches(selector)) {
@@ -70,12 +74,13 @@ function getOptionalClasses(): Array<{ className: string, exists: boolean }> {
       .map(className => {
         return {
           className,
-          exists: classesArr.value.includes(className)
+          exists: isClassExists(className)
         }
       })
 }
 
 function toggleClass(item) {
+  item.exists = isClassExists(item.className);
   if (item.exists) {
     classes.value = classesArr.value.filter(cls => cls !== item.className).join(' ');
   } else {
@@ -128,7 +133,7 @@ function submit() {
 .optional-classes .label {
   margin: 0 5px;
   padding: 5px;
-  border-radius:4px;
+  border-radius: 4px;
   background-color: #eee;
   cursor: pointer;
 }
