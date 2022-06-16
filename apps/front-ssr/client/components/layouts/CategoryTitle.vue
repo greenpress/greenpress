@@ -1,12 +1,10 @@
 <template>
-  <h1 v-html="category.name"/>
+  <h1 class="category-title" v-html="category.name"/>
 </template>
-<script lang="ts">
+<script lang="ts" setup>
 import {ICategory} from '@greenpress/sdk/dist/categories';
 
-export default {
-  props: {
-    category: Object as () => ICategory,
-  }
-}
+defineProps({
+  category: Object as () => ICategory,
+})
 </script>

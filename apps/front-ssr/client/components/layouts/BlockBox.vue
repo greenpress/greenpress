@@ -1,5 +1,5 @@
 <template>
-  <div v-html="block.content"/>
+  <div class="block-box" v-html="block.content"/>
 </template>
 <script lang="ts">
 import {IBlock} from '@greenpress/sdk/dist/blocks';

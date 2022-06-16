@@ -1,5 +1,5 @@
 <template>
-	<span>
+	<span class="menu-link">
 		<template v-if="link.kind === 'http'">
 			<a :href="link.value.url" :target="link.value.newWindow ? '_blank' : '_self'">{{ link.value.text }}</a>
 		</template>
@@ -11,11 +11,9 @@
 		</template>
 	</span>
 </template>
-<script lang="ts">
-export default {
-  name: 'MenuLink',
-  props: {
-    link: Object
-  }
-}
+<script lang="ts" setup>
+
+defineProps({
+  link: Object
+})
 </script>

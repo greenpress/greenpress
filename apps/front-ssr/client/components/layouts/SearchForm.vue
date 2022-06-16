@@ -1,34 +1,31 @@
 <template>
-  <form @submit.prevent="search">
+  <form @submit.prevent="search" class="search-form">
     <label>
-      <span>Search posts</span>
-      <input :value="route.query.q" ref="input" placeholder="Search posts..">
+      <span>{{label || 'Search Posts'}}</span>
+      <input :value="route.query.q" ref="input" :placeholder="placeholder || 'Search posts..'">
     </label>
   </form>
 </template>
-<script lang="ts">
+<script lang="ts" setup>
 import {ref} from 'vue';
 import {useRouter, useRoute} from 'vue-router';
 
-export default {
-  setup() {
-    const router = useRouter()
-    const route = useRoute();
-    const input = ref<HTMLInputElement>()
+defineProps({
+  label: String,
+  placeholder: String
+})
 
-    return {
-      route,
-      input,
-      search() {
-        router.push({
-          name: 'search',
-          query: {
-            q: input.value?.value.trim()
-          }
-        })
-      }
+const router = useRouter()
+const route = useRoute();
+const input = ref<HTMLInputElement>()
+
+function search() {
+  router.push({
+    name: 'search',
+    query: {
+      q: input.value?.value.trim()
     }
-  }
+  })
 }
 </script>
 <style scoped>
