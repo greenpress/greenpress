@@ -7,6 +7,10 @@ const { green } = require('../../utils/colors');
 module.exports = function ({ tag, branch, mongo }) {
 	execute(`git clone --branch ${branch} https://github.com/greenpress/greenpress.git`);
 
+	if (!tag) {
+		tag = 'v' + require(join(process.cwd(), 'greenpress', 'package.json')).version;
+	}
+
 	const envs = readFileSync(join(process.cwd(), 'greenpress', 'compose', '.env.example'), 'utf-8');
 
 	const secrets = [

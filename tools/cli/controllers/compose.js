@@ -1,15 +1,4 @@
-const { join } = require('path')
-const execute = require('../utils/execute');
-const prune = require('./compose/prune');
-
 async function composeCommand({ action, branch, tag, mongo, populate, tenant, host }) {
-
-	if (!tag) {
-		execute(`git clone --branch ${branch} https://github.com/greenpress/greenpress.git`);
-		tag = require(join(process.cwd(), 'greenpress', 'package.json')).version;
-		execute('rm -rf greenpress');
-	}
-
 	const start = require('./compose/start');
 	const pull = require('./compose/pull');
 	const prune = require('./compose/prune');
