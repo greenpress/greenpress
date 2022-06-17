@@ -5,12 +5,13 @@ const config = require('../config');
 const mongoose = require('mongoose');
 require('../server/models').connect(config.mongoUri);
 
+const TENANT = process.env.TENANT || '0';
 const Category = mongoose.model('Category');
 const Menu = mongoose.model('Menu');
 const Post = mongoose.model('Post');
 
 const category = new Category({
-	tenant: '0',
+	tenant: TENANT,
 	name: 'Test Category',
 	path: 'test-cat',
 	isPublic: true,
@@ -18,7 +19,7 @@ const category = new Category({
 
 
 const cat2 = new Category({
-	tenant: '0',
+	tenant: TENANT,
 	name: 'Second Category',
 	path: 'test2-cat',
 	isPublic: true,
@@ -34,7 +35,7 @@ Promise.all([
 	.then(async ([newCategory, secondCat]) => {
 
 		await (new Post({
-			tenant: '0',
+			tenant: TENANT,
 			category: newCategory._id,
 			isPublic: true,
 			authors: [],
@@ -49,12 +50,12 @@ Promise.all([
     I can only hope you cloned it from github, and you should find all the help you need inside thr readme.md files (there's one on each service).
 </p><p>
 This platform is separated to different services, each one is supposed to do one thing.<br>
-Authentication service is responsible of the authentication mechanism and users, and can be used as a standalone for any other platform,
+Authentication service is responsible for the authentication mechanism and users, and can be used as a standalone for any other platform,
  so you can use it for a personal use.<br>
 Content service is responsible for menus, posts, categories (and comments in the future).
 <br>
-Front Service is responsible for the client frontend and SSR, using Nuxt.js (+vue, vuex, vue-router..).<br>
-Hopefully on the time you read this line, there's already an admin service for you, so you can manage all of the content. :)
+Front Service is responsible for the client frontend and SSR, using Fastify-DX and Vue.<br>
+The Admin Panel written in Vue and is located <a href="/gp-admin/" target="blank">/gp-admin</a>. :)
 </p>`],
 			tags: [],
 		})).save();

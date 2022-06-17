@@ -7,7 +7,7 @@ function setComposeCommand(program) {
         return yargs
           .positional('action', {
             describe: 'what to do?!',
-            enum: ['create', 'pull', 'start', 'restart'],
+            choices: ['create', 'pull', 'start', 'restart', 'populate', 'prune'],
             type: 'string'
           })
           .option('branch', {
@@ -24,6 +24,17 @@ function setComposeCommand(program) {
           .option('mongo', {
             alias: 'm',
             describe: 'Use MongoDB from given URL',
+            type: 'string'
+          })
+          .option('populate', {
+            alias: 'p',
+            describe: 'Should populate (on start / restart)?',
+            type: 'boolean'
+          })
+          .option('tenant', {
+            alias: 'ten',
+            describe: 'Tenant ID ( for populate)',
+            default: '0',
             type: 'string'
           })
       },
