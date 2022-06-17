@@ -14,7 +14,7 @@ const Menu = mongoose.model('Menu');
 const Post = mongoose.model('Post');
 const Configuration = mongoose.model('Configuration');
 
-const row = new Configuration({
+const config = new Configuration({
 	tenant: TENANT,
 	key: appConfiguration,
 	public: true,
@@ -31,7 +31,6 @@ const row = new Configuration({
 		websiteUrls: [HOST],
 	}
 })
-return row.save()
 
 const category = new Category({
 	tenant: TENANT,
@@ -54,6 +53,7 @@ console.log('initiate content');
 Promise.all([
 	category.save(),
 	cat2.save(),
+	config.save(),
 ])
 	.then(async ([newCategory, secondCat]) => {
 
