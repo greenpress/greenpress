@@ -1,8 +1,8 @@
 const { join } = require('path')
 const execute = require('../utils/execute');
-const pull = require('./compose/pull');
+const prune = require('./compose/prune');
 
-async function composeCommand({ action, branch, tag, mongo, populate, tenant }) {
+async function composeCommand({ action, branch, tag, mongo, populate, tenant, host }) {
 
 	if (!tag) {
 		execute(`git clone --branch ${branch} https://github.com/greenpress/greenpress.git`);
@@ -19,7 +19,7 @@ async function composeCommand({ action, branch, tag, mongo, populate, tenant }) 
 			require('./compose/create')({ tag, branch, mongo });
 			break;
 		case 'start':
-			start({ populate, tenant });
+			start({ populate, tenant, host });
 			break;
 		case 'pull':
 			pull();
@@ -27,9 +27,12 @@ async function composeCommand({ action, branch, tag, mongo, populate, tenant }) 
 		case 'prune':
 			prune();
 			break;
+		case 'populate':
+			require('./compose/populate')({ tenant, host });
+			break;
 		case 'restart':
 			pull();
-			start({ populate, tenant });
+			start({ populate, tenant, host });
 			console.log('Will prune old unused images soon...');
 			setTimeout(prune, 20000);
 	}

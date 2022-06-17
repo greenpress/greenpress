@@ -33,8 +33,12 @@ function setComposeCommand(program) {
           })
           .option('tenant', {
             alias: 'ten',
-            describe: 'Tenant ID ( for populate)',
+            describe: 'Tenant ID (for populate)',
             default: '0',
+            type: 'string'
+          })
+          .option('host', {
+            describe: 'Website host domain (mandatory for populate)',
             type: 'string'
           })
       },

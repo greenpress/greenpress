@@ -3,12 +3,35 @@
  */
 const config = require('../config');
 const mongoose = require('mongoose');
+const { appConfiguration } = require('../config');
 require('../server/models').connect(config.mongoUri);
 
 const TENANT = process.env.TENANT || '0';
+const HOST = process.env.HOST || 'localhost';
+
 const Category = mongoose.model('Category');
 const Menu = mongoose.model('Menu');
 const Post = mongoose.model('Post');
+const Configuration = mongoose.model('Configuration');
+
+const row = new Configuration({
+	tenant: TENANT,
+	key: appConfiguration,
+	public: true,
+	metadata: {
+		name: 'greenpress',
+		language: 'en',
+		direction: 'ltr',
+		logoUrl: '/logo.png',
+		description: 'Blogs and content sites open-source platform, built for the 21st century, using micro-services and best common technologies.',
+		slogan: 'amazing blog platform',
+		keywords: 'blog, platform, open-source, node, nuxt, vue',
+		theme: 'damal',
+		themeStylesUrl: '',
+		websiteUrls: [HOST],
+	}
+})
+return row.save()
 
 const category = new Category({
 	tenant: TENANT,
