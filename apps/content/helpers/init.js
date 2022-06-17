@@ -84,7 +84,7 @@ The Admin Panel written in Vue and is located <a href="/gp-admin/" target="blank
 		})).save();
 
 		return (new Menu({
-			tenant: '0',
+			tenant: TENANT,
 			name: 'main',
 			links: [{
 				kind: 'category',
