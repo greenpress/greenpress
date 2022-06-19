@@ -78,7 +78,7 @@ const submit = () => emit('submitted', clearNulls(editedLayout))
 <style>
 view-builder {
   margin: 10px 0;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(200, 200, 200, 0.2);
 }
 
 builder-plugins, builder-layout {
@@ -87,11 +87,23 @@ builder-plugins, builder-layout {
 }
 
 builder-plugins {
-  max-width: 180px;
+  max-width: 200px;
+  padding: 10px;
 }
 
 builder-layout {
   display: block;
+}
+
+builder-plugin-item {
+  background-color: #efefef;
+  border: 1px solid #e1e1e1;
+  border-radius: 5px;
+  margin-block-end: 10px;
+}
+
+builder-plugin-item:hover {
+  background-color: var(--third-color);
 }
 
 builder-layout-item[shown] {

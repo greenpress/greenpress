@@ -1,9 +1,10 @@
+import {defineStore} from 'pinia';
 import {useDispatcher} from '@/modules/core/compositions/dispatcher';
 import {IBlock} from '@/services/types/block';
 import blocksService from '@/services/blocks-service';
 import {useSubmitting} from '@/modules/core/compositions/submitting';
 
-export function useBlocksList() {
+export const useBlocksList = defineStore('blocks-list', function useBlocksList() {
     const {loading, result} = useDispatcher<IBlock[]>(() => blocksService.getAll());
     const {submit} = useSubmitting(
         ({_id}) =>
@@ -21,4 +22,4 @@ export function useBlocksList() {
         blocks: result,
         removeBlock: submit
     }
-}
+})

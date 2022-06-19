@@ -1,7 +1,7 @@
+import {computed, ref, toRef} from 'vue';
 import {IPlugin} from '@greenpress/view-builder/src';
 import {LayoutConnectedDataKind} from '@greenpress/sdk/dist/layouts';
 import {useBlocksList} from '@/modules/blocks/compositions/blocks-list';
-import {computed, ref} from 'vue';
 
 const customPlugins: Record<string, IPlugin[]> = {
   category: [
@@ -138,7 +138,7 @@ function getBlockPlugin({_id, name}) {
 }
 
 export function usePlugins(kind: string) {
-  const {blocks} = useBlocksList();
+  const blocks = toRef(useBlocksList(), 'blocks');
 
   const plugins = ref([
     ...(customPlugins[kind] || []),

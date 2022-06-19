@@ -1,12 +1,12 @@
 <template>
   <div class="list">
-    <router-link v-for="(cd, index) in connectedData" :key="index" class="item" :to="getRouteParams(cd)">
+    <router-link v-for="(cd, index) in items" :key="index" class="item" :to="getRouteParams(cd)">
       <el-icon class="delete" @click.native.prevent="$emit('remove', cd)">
         <icon-delete/>
       </el-icon>
-      <h4>{{ cd.reference }}</h4>
-      <div v-if="cd.identifier">{{ cd.kind }}: {{ cd.identifier }}</div>
+      <div v-if="cd.identifier">{{ cd.kind }}: <strong>{{ cd.displayName || cd.identifier }}</strong></div>
       <div v-else>{{ cd.kind }}</div>
+      <small>{{ cd.reference }}</small>
     </router-link>
   </div>
 </template>
@@ -14,6 +14,8 @@
 <script setup lang="ts">
 
 import {LayoutConnectedDataKind} from '@greenpress/sdk/dist/layouts';
+import {useBlocksList} from '@/modules/blocks/compositions/blocks-list';
+import {computed, toRef} from 'vue';
 
 interface IConnectedData {
   kind: LayoutConnectedDataKind;
@@ -23,12 +25,34 @@ interface IConnectedData {
   context?: any;
 }
 
+const blocks = toRef(useBlocksList(), 'blocks');
+
 const props = defineProps({
   connectedData: {
     type: Array as () => IConnectedData[],
     default: () => [],
   }
 });
+
+const blocksMap = computed(
+    () => (blocks.value || []).reduce((map, block) => {
+      map[block._id] = block;
+      return map;
+    }, {})
+);
+
+const items = computed(() => {
+  return props.connectedData.map(cd => {
+    let displayName;
+    if (cd.kind === 'block') {
+      displayName = blocksMap.value[cd.identifier]?.name;
+    }
+    return {
+      ...cd,
+      displayName
+    }
+  })
+})
 
 
 function getRouteParams(connectedData: IConnectedData) {
@@ -62,7 +86,6 @@ function getRouteParams(connectedData: IConnectedData) {
 }
 
 .item {
-  flex: 0;
   background-color: var(--secondary-color);
   padding: 10px;
   border-radius: 5px;
