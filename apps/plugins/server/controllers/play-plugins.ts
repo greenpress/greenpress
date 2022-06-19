@@ -1,15 +1,5 @@
+import Plugin, {IPlugin} from '../models/plugin';
 
-
-export interface IPluginProxy {
-  name: string;
-  apiPath: string;
-  token: string;
-  proxyUrl: string;
-}
-
-
-const plugins: IPluginProxy[] = [];
-
-export async function getPlugins() {
-  return plugins;
+export async function getPluginProxy({tenant, apiPath}): Promise<Pick<IPlugin, 'token' | 'proxyUrl'>> {
+  return Plugin.findOne({tenant, apiPath}).select('token proxyUrl').lean();
 }

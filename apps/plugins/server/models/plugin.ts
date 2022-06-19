@@ -51,4 +51,6 @@ const PluginSchema = new mongoose.Schema<IPlugin>({
 
 PluginSchema.index({tenant: 1, apiPath: 1}, {unique: true});
 
-export default mongoose.model<IPlugin>('Plugin', PluginSchema);
+const Plugin = mongoose.model<IPlugin>('Plugin', PluginSchema);
+
+export default Plugin;
