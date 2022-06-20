@@ -1,10 +1,10 @@
-import GreenpressSDK from '@greenpress/sdk';
+import * as server from './sdk-server';
 
 export const {sdk, loadAll} = import.meta.env.SSR
-  ? await import('./sdk-server')
+  ? server
   : {
-    sdk: new GreenpressSDK({appUrl: location.origin, fetch: globalThis.fetch}),
-    loadAll: (kind, {req}) => null,
+    sdk: null,
+    loadAll: (kind: string) => null,
   }
 
 export default sdk;
