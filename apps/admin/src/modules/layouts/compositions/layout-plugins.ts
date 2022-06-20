@@ -51,6 +51,53 @@ const customPlugins: Record<string, IPlugin[]> = {
       }
     },
   ],
+  post: [
+    {
+      match: 'PostCategory',
+      component: 'PostCategory',
+      title: 'Post Title',
+      description: 'using H1',
+      supportChildren: false,
+      predefined: true,
+      props: {
+        post: '$post'
+      },
+      connectedData: {
+        kind: LayoutConnectedDataKind.POST,
+        reference: '$post',
+      }
+    },
+    {
+      match: 'PostShort',
+      component: 'PostShort',
+      title: 'Post Short',
+      description: 'Show the short of the post',
+      supportChildren: false,
+      predefined: true,
+      props: {
+        post: '$post'
+      },
+      connectedData: {
+        kind: LayoutConnectedDataKind.POST,
+        reference: '$post',
+      }
+    },
+    {
+      match: 'PostContent',
+      component: 'PostContent',
+      title: 'Post Content',
+      description: 'Show the content of the post',
+      supportChildren: false,
+      predefined: true,
+      props: {
+        post: '$post'
+      },
+      connectedData: {
+        kind: LayoutConnectedDataKind.POST,
+        reference: '$post',
+      }
+    },
+  ],
   index: [
     {
       match: 'CategoryContent',
