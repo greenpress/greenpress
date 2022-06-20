@@ -23,15 +23,16 @@ export default class GpConfigurations extends BaseSDK {
     super(options);
   }
 
-  getAppConfiguration() {
-    return this.callJsonApi<IAppConfiguration>(this.relativePath);
+  getAppConfiguration(extra?: Partial<RequestInit>) {
+    return this.callJsonApi<IAppConfiguration>(this.relativePath, extra);
   }
 
-  update(changes: Partial<IAppConfiguration>): Promise<IAppConfiguration> {
+  update(changes: Partial<IAppConfiguration>, extra?: Partial<RequestInit>): Promise<IAppConfiguration> {
     return this.callJsonApi<IAppConfiguration>(this.relativePath, {
       method: "put",
       headers: {'content-type': 'application/json'},
       body: JSON.stringify(changes),
+      ...(extra || {}),
     });
   }
 }
