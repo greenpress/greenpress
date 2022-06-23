@@ -12,10 +12,10 @@
       return {
 
         create: async () => {
-          await createCategory({ path: '-' })
+          await createCategory({ path: '-', content: '<p>Welcome to my website!</p>' })
 					router.push({
             name: 'editCategory',
-            params: { categoryPath: '-', content: '<p>Welcome to my website!</p>' }
+            params: { categoryPath: '-' }
           })
         }
       }

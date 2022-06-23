@@ -25,12 +25,20 @@ const configuration = new Configuration({
 		logoUrl: '/logo.png',
 		description: 'Blogs and content sites open-source platform, built for the 21st century, using micro-services and best common technologies.',
 		slogan: 'amazing blog platform',
-		keywords: 'blog, platform, open-source, node, nuxt, vue',
+		keywords: 'blog, platform, open-source, node, vue, fastify-dx',
 		theme: 'damal',
 		themeStylesUrl: '',
 		websiteUrls: [HOST],
 	}
 })
+
+const homePage = new Category({
+	tenant: TENANT,
+	path: '-',
+	isPublic: true,
+	content: '<p>Welcome to my website!</p>'
+});
+
 
 const category = new Category({
 	tenant: TENANT,
@@ -53,6 +61,7 @@ console.log('initiate content');
 Promise.all([
 	category.save(),
 	cat2.save(),
+	homePage.save(),
 	configuration.save(),
 ])
 	.then(async ([newCategory, secondCat]) => {
