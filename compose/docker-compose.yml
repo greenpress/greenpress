@@ -4,6 +4,7 @@ services:
     image: redis
   admin:
     image: greenpress/admin-panel:${ADMIN_PANEL_VERSION}
+    restart: always
   assets:
     image: greenpress/assets:${ASSETS_SERVICE_VERSION}
     restart: always
@@ -21,6 +22,7 @@ services:
       - secrets
   front:
     image: greenpress/front-ssr:${FRONT_SSR_VERSION}
+    restart: always
     links:
       - gateway
     environment:
@@ -37,6 +39,7 @@ services:
       APPLICATION_URL: ${APPLICATION_URL}
   gateway:
     image: greenpress/gateway:${GATEWAY_VERSION}
+    restart: always
     ports:
       - ${PORT}:3000
     environment:
