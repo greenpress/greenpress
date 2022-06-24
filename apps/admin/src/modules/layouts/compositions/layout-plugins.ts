@@ -1,7 +1,9 @@
 import {computed, ref, toRef} from 'vue';
 import {IPlugin} from '@greenpress/view-builder/src';
 import {LayoutConnectedDataKind} from '@greenpress/sdk/dist/layouts';
-import {useBlocksList} from '@/modules/blocks/compositions/blocks-list';
+import {useBlocksList} from '@/modules/blocks/store/blocks-list';
+import useMenusList from '@/modules/menus/store/menus-list';
+import {IMenu} from '@greenpress/sdk/dist/menus';
 
 const customPlugins: Record<string, IPlugin[]> = {
   category: [
@@ -184,8 +186,29 @@ function getBlockPlugin({_id, name}) {
   };
 }
 
+function getMenuPlugin(menuName: string) {
+  const reference = 'menu_' + menuName;
+  return {
+    match: `Menu[menu=${reference}]`,
+    component: 'Menu',
+    title: 'Menu: ' + menuName,
+    description: 'Links menu',
+    supportChildren: false,
+    predefined: true,
+    props: {
+      menu: reference
+    },
+    connectedData: {
+      kind: LayoutConnectedDataKind.MENU,
+      reference,
+      identifier: menuName
+    }
+  };
+}
+
 export function usePlugins(kind: string) {
   const blocks = toRef(useBlocksList(), 'blocks');
+  const menus = toRef(useMenusList(), 'menus');
 
   const plugins = ref([
     ...(customPlugins[kind] || []),
@@ -195,5 +218,6 @@ export function usePlugins(kind: string) {
   return computed(() => [
     ...plugins.value,
     ...(blocks.value || []).map(getBlockPlugin),
+    ...(menus.value || []).map(getMenuPlugin),
   ]);
 }

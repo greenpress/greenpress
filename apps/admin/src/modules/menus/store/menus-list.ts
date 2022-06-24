@@ -2,9 +2,10 @@ import { useDispatcher } from '../../core/compositions/dispatcher'
 import menusService from '../../../services/menus-service'
 import { useSubmitting } from '../../core/compositions/submitting'
 import { useConfirmAction } from '../../core/compositions/confirm-action'
+import {defineStore} from 'pinia';
 
-export function useMenusList() {
-  const { result } = useDispatcher(() => menusService.getAll(), [])
+const useMenusList = defineStore('menus-list', function useMenusList() {
+  const { result, retry } = useDispatcher(() => menusService.getAll(), [])
 
   const { submit: remove } = useSubmitting(
     (name) => menusService.remove(name),
@@ -13,5 +14,7 @@ export function useMenusList() {
       success: 'Menu removed successfully'
     })
 
-  return { menus: result, remove: useConfirmAction(remove) }
-}
+  return { menus: result, reload: retry, remove: useConfirmAction(remove) }
+})
+
+export default useMenusList;

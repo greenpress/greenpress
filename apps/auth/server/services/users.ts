@@ -22,9 +22,7 @@ export async function updateUser(
   let directUpdate;
   if (!(user instanceof User)) {
     if (email || roles || password) {
-      console.log('loading the user: ', user)
       user = await User.findOne(user);
-      console.log('this is the user:', user._id)
     } else {
       directUpdate = {_id: user._id, tenant: user.tenant};
       user = {} as UserDocument;

@@ -18,7 +18,7 @@
 <script lang="ts" setup>
 import {useConfirmAction} from '../../core/compositions/confirm-action'
 import GpItem from '../../core/components/layout/GpItem.vue';
-import {useBlocksList} from '@/modules/blocks/compositions/blocks-list';
+import {useBlocksList} from '@/modules/blocks/store/blocks-list';
 
 const {blocks, removeBlock} = useBlocksList()
 

@@ -56,7 +56,7 @@ const {builder, editedItem, onChangeItem, onCreateItem, onEditItem, onChangeCont
 const {layoutStyles, check} = useLayoutStyles(content)
 
 function removeConnectedData(itemToRemove) {
-  connectedData.value = connectedData.value.filter(cd => cd !== itemToRemove);
+  connectedData.value = connectedData.value.filter(cd => cd.reference !== itemToRemove.reference);
 }
 
 // useUnsavedChanges('layout', props.layout._id, computed(() => props.layout.kind), editedLayout)

@@ -1,7 +1,7 @@
 <template>
   <div class="list">
     <router-link v-for="(cd, index) in items" :key="index" class="item" :to="getRouteParams(cd)">
-      <el-icon class="delete" @click.native.prevent="$emit('remove', cd)">
+      <el-icon class="delete" @click.native="emitRemove($event, cd)">
         <icon-delete/>
       </el-icon>
       <div v-if="cd.identifier">{{ cd.kind }}: <strong>{{ cd.displayName || cd.identifier }}</strong></div>
@@ -14,8 +14,8 @@
 <script setup lang="ts">
 
 import {LayoutConnectedDataKind} from '@greenpress/sdk/dist/layouts';
-import {useBlocksList} from '@/modules/blocks/compositions/blocks-list';
 import {computed, toRef} from 'vue';
+import {useBlocksList} from '@/modules/blocks/store/blocks-list';
 
 interface IConnectedData {
   kind: LayoutConnectedDataKind;
@@ -24,6 +24,8 @@ interface IConnectedData {
   reference: string;
   context?: any;
 }
+
+const emit = defineEmits(['remove']);
 
 const blocks = toRef(useBlocksList(), 'blocks');
 
@@ -74,6 +76,11 @@ function getRouteParams(connectedData: IConnectedData) {
     }
   }
   return '/'
+}
+
+function emitRemove(e, cd) {
+  e.preventDefault();
+  emit('remove', cd)
 }
 
 </script>
