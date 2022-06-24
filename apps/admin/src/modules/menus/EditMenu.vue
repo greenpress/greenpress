@@ -1,6 +1,6 @@
 <template>
   <div class="category-page">
-    <PageTitle title="Edit Menu" :item-name="$route.params.menuName"/>
+    <PageTitle :title="$route.params.menuName ? 'Edit Menu' : 'Create Menu'" :item-name="$route.params.menuName"/>
     <MenuEditor :menu="$route.params.menuName"/>
   </div>
 </template>
