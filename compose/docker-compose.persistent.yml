@@ -5,7 +5,7 @@ services:
     volumes:
       - ../apps/greenpress/db-data:/data/db
   redis:
-    image: redis
+    image: redis:7.0-alpine
     restart: always
   admin:
     image: greenpress/admin-panel:${ADMIN_PANEL_VERSION}

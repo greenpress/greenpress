@@ -7,7 +7,7 @@ services:
     networks:
       common_network:
   redis:
-    image: redis
+    image: redis:7.0-alpine
     networks:
       common_network:
   greenpress:
