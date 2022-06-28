@@ -3,7 +3,6 @@ import {IPlugin} from '@greenpress/view-builder/src';
 import {LayoutConnectedDataKind} from '@greenpress/sdk/dist/layouts';
 import {useBlocksList} from '@/modules/blocks/store/blocks-list';
 import useMenusList from '@/modules/menus/store/menus-list';
-import {IMenu} from '@greenpress/sdk/dist/menus';
 
 const customPlugins: Record<string, IPlugin[]> = {
   category: [
