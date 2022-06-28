@@ -55,8 +55,8 @@ const customPlugins: Record<string, IPlugin[]> = {
   ],
   post: [
     {
-      match: 'PostCategory',
-      component: 'PostCategory',
+      match: 'PostTitle',
+      component: 'PostTitle',
       title: 'Post Title',
       description: 'using H1',
       supportChildren: false,
