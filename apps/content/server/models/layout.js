@@ -34,7 +34,7 @@ const LayoutSchema = new mongoose.Schema({
 		{
 			kind: {
 				type: String,
-				enum: [ 'block', 'menu', 'http', 'posts', 'categoryPosts', 'category' ]
+				enum: [ 'block', 'menu', 'http', 'post', 'posts', 'categoryPosts', 'category' ]
 			},
 			context: mongoose.Schema.Types.Mixed,
 			identifier: String,

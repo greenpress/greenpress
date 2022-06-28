@@ -25,22 +25,23 @@ function getBasicContentItem() {
     ]
   };
 }
+
+function getNewLayout(kind): ILayout {
+  return {
+    kind,
+    connectedData: [],
+    content: [getBasicContentItem()]
+  }
+}
+
 export function useEditLayout(kind: LayoutKind) {
   const {result: layout} = useDispatcher<ILayout>(
     () => sdk.layouts.getLayout(kind)
       .then((layout): ILayout => {
-        return layout || {
-          kind,
-          connectedData: [],
-          content: [getBasicContentItem()]
-        };
+        return layout || getNewLayout(kind);
       })
       .catch(() => {
-        return {
-          kind,
-          connectedData: [],
-          content: [getBasicContentItem()]
-        }
+        return getNewLayout(kind)
       })
   )
 
