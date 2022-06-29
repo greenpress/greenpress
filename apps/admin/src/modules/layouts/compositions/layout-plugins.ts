@@ -1,8 +1,34 @@
 import {computed, ref, toRef} from 'vue';
-import {IPlugin} from '@greenpress/view-builder/src';
+import {ILayoutContent, IPlugin} from '@greenpress/view-builder/src';
 import {LayoutConnectedDataKind} from '@greenpress/sdk/dist/layouts';
 import {useBlocksList} from '@/modules/blocks/store/blocks-list';
 import useMenusList from '@/modules/menus/store/menus-list';
+
+export function getStylesheetContent(href = ''): ILayoutContent {
+  return {
+    component: 'link',
+    predefined: false,
+    classes: '',
+    props: {
+      rel: 'stylesheet',
+      href,
+    },
+  }
+}
+
+function getStylesheetPlugin(href = ''): IPlugin {
+  return {
+    match: 'link[rel=stylesheet]',
+    component: 'link',
+    title: 'Resource Link to CSS',
+    description: 'Load CSS file in page',
+    supportChildren: false,
+    props: {
+      rel: 'stylesheet',
+      href,
+    },
+  };
+}
 
 const customPlugins: Record<string, IPlugin[]> = {
   category: [
@@ -142,17 +168,7 @@ const basicPlugins: IPlugin[] = [
     description: 'Flex Row Div',
     classes: 'flex-row',
   },
-  {
-    match: 'link[rel=stylesheet]',
-    component: 'link',
-    title: 'Resource Link to CSS',
-    description: 'Load CSS file in page',
-    supportChildren: false,
-    props: {
-      rel: 'stylesheet',
-      href: '',
-    },
-  },
+  getStylesheetPlugin(),
   ...['div', 'header', 'footer', 'main', 'aside', 'section'].map(tag => {
     return {
       match: tag,

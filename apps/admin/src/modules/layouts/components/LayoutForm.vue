@@ -3,7 +3,11 @@
     <div class="flex-row">
       <PageTitle :title="'Edit Layout'" :item-name="layout.kind"/>
       <div class="ops">
-        <el-button type="text"><el-icon><icon-Suitcase /></el-icon></el-button>
+        <el-button type="text" @click="openStylesMarket">
+          <el-icon>
+            <icon-Suitcase/>
+          </el-icon>
+        </el-button>
         <SaveButton :submitting="submitting"/>
       </div>
     </div>
@@ -23,24 +27,28 @@
                      :styles="layoutStyles"
                      @cancel="editedItem = null"
                      @submit="onChangeContent($event); check();"/>
+    <StylesMarketplaceModal v-if="isMarketOpen"
+                            @cancel="isMarketOpen = false"
+                            @submit="addStyles($event); check();"/>
   </el-form>
 
 </template>
 <script lang="ts" setup>
-import {toRef} from 'vue'
+import {ref, toRef} from 'vue'
 import {ILayout} from '@greenpress/sdk/dist/layouts';
 import {clearNulls} from '../../core/utils/clear-nulls'
 import {useLayoutForm} from '../compositions/layouts';
 
 import '@greenpress/view-builder/dist/index.es.js';
 import '@greenpress/view-builder/dist/style.css';
-import {usePlugins} from '@/modules/layouts/compositions/layout-plugins';
+import {getStylesheetContent, usePlugins} from '@/modules/layouts/compositions/layout-plugins';
 import LayoutConnectedData from '@/modules/layouts/components/LayoutConnectedData.vue';
 import LayoutItemModal from '@/modules/layouts/components/LayoutItemModal.vue';
 import {useLayoutBuilder} from '@/modules/layouts/compositions/layout-builder';
 import {useLayoutStyles} from '@/modules/layouts/compositions/layout-styles';
 import PageTitle from '@/modules/core/components/semantics/PageTitle.vue';
 import SaveButton from '@/modules/core/components/forms/SaveButton.vue';
+import StylesMarketplaceModal from '@/modules/layouts/components/StylesMarketplaceModal.vue';
 
 const props = defineProps({
   layout: Object as () => ILayout,
@@ -48,6 +56,7 @@ const props = defineProps({
 })
 
 const plugins = usePlugins(props.layout.kind)
+const isMarketOpen = ref(false)
 
 const emit = defineEmits(['submitted'])
 
@@ -58,6 +67,17 @@ const {builder, editedItem, onChangeItem, onCreateItem, onEditItem, onChangeCont
   layout: toRef(props, 'layout')
 })
 const {layoutStyles, check} = useLayoutStyles(content)
+
+function addStyles({cssFiles}) {
+  isMarketOpen.value = false;
+  content.value = cssFiles.map(getStylesheetContent).concat(content.value);
+  props.layout.content = content.value;
+  builder.value.layout = props.layout;
+}
+
+function openStylesMarket() {
+  isMarketOpen.value = true;
+}
 
 function removeConnectedData(itemToRemove) {
   connectedData.value = connectedData.value.filter(cd => cd.reference !== itemToRemove.reference);
