@@ -1,5 +1,5 @@
 <template>
-  <el-button native-type="submit" :loading="submitting">{{ $t(text) }}</el-button>
+  <el-button native-type="submit" type="text" :loading="submitting">{{ $t(text) }}</el-button>
 </template>
 
 <script lang="ts" setup>

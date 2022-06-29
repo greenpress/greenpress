@@ -2,7 +2,10 @@
   <el-form class="layout-form" @submit.native.prevent="submit">
     <div class="flex-row">
       <PageTitle :title="'Edit Layout'" :item-name="layout.kind"/>
-      <SaveButton :submitting="submitting" class="save-btn"/>
+      <div class="ops">
+        <el-button type="text"><el-icon><icon-Suitcase /></el-icon></el-button>
+        <SaveButton :submitting="submitting"/>
+      </div>
     </div>
     <div>
       <LayoutConnectedData :connected-data="connectedData"
@@ -70,10 +73,12 @@ const submit = () => emit('submitted', clearNulls(editedLayout))
   padding: 0 10px;
 }
 
-.save-btn {
+.ops {
   margin-inline: auto 0;
   align-self: center;
   flex: 0;
+  display: flex;
+  flex-direction: row;
 }
 </style>
 <style>

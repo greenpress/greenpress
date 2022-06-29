@@ -36,7 +36,7 @@
   import { useEditorConfig } from '@/modules/posts/compositions/gp-editor'
   import { useUnsavedChanges } from '@/modules/drafts/compositions/unsaved-changes.ts'
   import { computed } from 'vue'
-  import SaveButton from '@/modules/core/components/forms/SaveButton';
+  import SaveButton from '@/modules/core/components/forms/SaveButton.vue';
 
   export default {
     name: 'CategoryForm',
