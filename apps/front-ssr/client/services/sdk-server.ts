@@ -4,7 +4,8 @@ import {IAppConfiguration} from '@greenpress/sdk/dist/configurations';
 
 const appUrl = ((globalThis as any).gatewayUrl as string)
 
-export const sdk = new GreenpressSDK({appUrl, fetch: globalThis.fetch});
+// @ts-ignore
+export const sdk: GreenpressSDK = import.meta.env.SSR ? new GreenpressSDK({appUrl, fetch: globalThis.fetch}) : null;
 
 const fallbackLayout = (kind: string) => [
   {
@@ -80,6 +81,8 @@ export const loadAppConfiguration = ({req}: any): Promise<IAppConfiguration> => 
   })
 }
 
-export function loadAll(kind: string, {req}: any) {
+function loadAllData(kind: string, {req}: any) {
   return Promise.all([loadLayoutPayload(kind, {req}), loadAppConfiguration({req})])
 }
+
+export const loadAll = import.meta.env.SSR ? loadAllData : () => null;
