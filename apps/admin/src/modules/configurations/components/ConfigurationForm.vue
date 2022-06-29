@@ -1,11 +1,11 @@
 <template>
 	<el-form @submit.native.prevent="save">
-    <ConfigurationInput  
+    <ConfigurationInput
       v-for="key in keys"
       :key="key"
       v-model="updated[key]"
       :valueType="valuesTypes[key]" />
-		<el-button native-type="submit" :loading="submitting">{{$t('SAVE')}}</el-button>
+    <SaveButton :submitting="submitting"/>
 	</el-form>
 </template>
 
@@ -14,10 +14,11 @@
   import { clearNulls } from '../../core/utils/clear-nulls'
   import FormInput from '../../core/components/forms/FormInput.vue'
   import ConfigurationInput from './ConfigurationInput.vue'
+  import SaveButton from '@/modules/core/components/forms/SaveButton.vue';
 
   export default {
     name: 'ConfigurationForm',
-    components: { FormInput, ConfigurationInput },
+    components: {SaveButton, FormInput, ConfigurationInput },
     props: {
       metadata: Object,
       submitting: Boolean

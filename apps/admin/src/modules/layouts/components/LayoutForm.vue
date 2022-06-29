@@ -2,7 +2,7 @@
   <el-form class="layout-form" @submit.native.prevent="submit">
     <div class="flex-row">
       <PageTitle :title="'Edit Layout'" :item-name="layout.kind"/>
-      <el-button native-type="submit" :loading="submitting" class="save-btn">{{ $t('SAVE') }}</el-button>
+      <SaveButton :submitting="submitting" class="save-btn"/>
     </div>
     <div>
       <LayoutConnectedData :connected-data="connectedData"
@@ -37,6 +37,7 @@ import LayoutItemModal from '@/modules/layouts/components/LayoutItemModal.vue';
 import {useLayoutBuilder} from '@/modules/layouts/compositions/layout-builder';
 import {useLayoutStyles} from '@/modules/layouts/compositions/layout-styles';
 import PageTitle from '@/modules/core/components/semantics/PageTitle.vue';
+import SaveButton from '@/modules/core/components/forms/SaveButton.vue';
 
 const props = defineProps({
   layout: Object as () => ILayout,

@@ -14,7 +14,7 @@
           <gp-editor :model-value="content" @input="content = $event" :config="editorConfig"/>
         </div>
       </el-form-item>
-      <el-button native-type="submit" :loading="submitting">{{ $t('SAVE') }}</el-button>
+      <SaveButton :submitting="submitting"/>
     </div>
   </el-form>
 </template>
@@ -26,6 +26,7 @@ import {useBlockForm} from '../compositions/blocks'
 import {useEditorConfig} from '../../posts/compositions/gp-editor'
 import {useUnsavedChanges} from '../../drafts/compositions/unsaved-changes'
 import {IBlock} from '../../../services/types/block';
+import SaveButton from '@/modules/core/components/forms/SaveButton.vue';
 
 const props = defineProps({
   block: Object as () => IBlock,

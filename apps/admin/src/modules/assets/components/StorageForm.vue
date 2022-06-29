@@ -62,7 +62,7 @@
         />
 			</template>
 		</div>
-		<el-button native-type="submit" :loading="submitting">{{ $t('SAVE') }}</el-button>
+    <SaveButton :submitting="submitting"/>
 	</el-form>
 </template>
 <script lang="ts" setup>
@@ -72,6 +72,7 @@ import StorageS3Auth from './StorageS3Auth.vue'
 import StorageCloudinaryAuth from './StorageCloudinaryAuth.vue'
 import FormInput from '../../core/components/forms/FormInput.vue'
 import { useStorageForm } from '../compositions/storages'
+import SaveButton from '@/modules/core/components/forms/SaveButton.vue';
 
 const props = defineProps({
 	value: Object,

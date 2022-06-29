@@ -11,7 +11,7 @@
 			</div>
 		</el-form-item>
 		<div class="form-buttons">
-			<el-button native-type="submit" :loading="submitting">{{ $t('Login') }}</el-button>
+      <SaveButton :submitting="submitting" text="Login"/>
 		</div>
 	</el-form>
 </template>
@@ -21,10 +21,12 @@ import {watch} from 'vue'
 import {useLogin} from '../compositions/authentication'
 import {useSubmitting} from '../compositions/submitting'
 import {useRouter} from 'vue-router'
+import SaveButton from '@/modules/core/components/forms/SaveButton.vue';
 
 export default {
 	name: 'LoginForm',
-	setup() {
+  components: {SaveButton},
+  setup() {
 		const {login, form, isLoggedIn} = useLogin()
 		const router = useRouter()
 

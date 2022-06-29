@@ -17,7 +17,7 @@
         </el-checkbox-group>
       </el-form-item>
     </div>
-    <el-button native-type="submit" :loading="submitting">{{ $t('SAVE') }}</el-button>
+    <SaveButton :submitting="submitting"/>
   </el-form>
 </template>
 <script lang="ts">
@@ -26,9 +26,10 @@ import FormInput from '../../core/components/forms/FormInput.vue'
 import {clearNulls} from '../../core/utils/clear-nulls'
 import {useEditedInputs} from '../../core/compositions/edited-inputs'
 import {IUser} from '../../core/store/types/user';
+import SaveButton from '@/modules/core/components/forms/SaveButton.vue';
 
 export default {
-  components: {FormInput},
+  components: {SaveButton, FormInput},
   props: {
     user: Object as () => IUser,
     hideRoles: Boolean,

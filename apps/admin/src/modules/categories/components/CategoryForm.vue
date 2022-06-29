@@ -26,7 +26,7 @@
         <gp-editor :model-value="content" @input="editedCategory.content = $event" :config="editorConfig"/>
       </div>
     </el-form-item>
-    <el-button native-type="submit" :loading="submitting">{{$t('SAVE')}}</el-button>
+    <SaveButton :submitting="submitting"/>
   </el-form>
 </template>
 <script>
@@ -36,10 +36,11 @@
   import { useEditorConfig } from '@/modules/posts/compositions/gp-editor'
   import { useUnsavedChanges } from '@/modules/drafts/compositions/unsaved-changes.ts'
   import { computed } from 'vue'
+  import SaveButton from '@/modules/core/components/forms/SaveButton';
 
   export default {
     name: 'CategoryForm',
-    components: { FormInput },
+    components: { SaveButton, FormInput },
     props: {
       isHomePage: Boolean,
       category: Object,
