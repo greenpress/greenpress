@@ -1,5 +1,5 @@
 <template>
-  <div :class="kind">
+  <div :class="kind" :key="`layout-${kind}`">
     <LayoutItems v-if="layout" :items="layout" :internals="internalComponents"/>
   </div>
 </template>

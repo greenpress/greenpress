@@ -3,12 +3,14 @@ import {LayoutItem} from '../components/types/layout';
 
 export type ComponentsMap = { [key: string]: Component };
 
+const allComponents = import.meta.env.SSR ? import.meta.globEager('../components/layouts/*.vue') : {};
+
 function loadComponent(componentName: string) {
   if (import.meta.env.SSR) {
-    const components = import.meta.globEager('../components/layouts/*.vue');
-    return Promise.resolve(components[`../components/layouts/${componentName}.vue`]);
+    return Promise.resolve(allComponents[`../components/layouts/${componentName}.vue`]);
   } else {
-    return import(`../components/layouts/${componentName}.vue`);
+    const component = allComponents[componentName] = allComponents[componentName] || import(`../components/layouts/${componentName}.vue`);
+    return component;
   }
 }
 
