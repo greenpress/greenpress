@@ -4,6 +4,7 @@
   "version": "2.0.21",
   "scripts": {
     "dev": "dx dev",
+    "postinstall": "node build-workaround.mjs",
     "build": "node build-workaround.mjs && dx build",
     "start": "dx start"
   },

@@ -22,7 +22,7 @@ LayoutContentSchema.add({
 const LayoutSchema = new mongoose.Schema({
 	kind: {
 		type: String,
-		enum: [ 'index', 'search', 'tag', 'category', 'post' ],
+		enum: [ 'index', 'search', 'tag', 'category', 'post', 'error' ],
 		required: true,
 		index: true,
 	},
