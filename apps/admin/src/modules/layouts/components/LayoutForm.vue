@@ -134,6 +134,7 @@ builder-plugin-item:hover {
 
 builder-layout-item[shown] {
   background-color: transparent;
+  max-height: none;
 }
 
 builder-layout-item[shown].hover {

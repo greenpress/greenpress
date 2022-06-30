@@ -59,7 +59,7 @@ builder-layout-item {
 builder-layout-item[shown] {
     background-color: #fefefe;
 	padding: 50px 10px;
-	max-height: 100%;
+	max-height: none;
 }
 
 builder-layout-item[shown].hover {
