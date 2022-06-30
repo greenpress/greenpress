@@ -113,7 +113,7 @@ PostSchema.statics.search = function search (query, freeTextSearch, select, { li
   }
 
   if (useCache) {
-    return cacheManager.wrap(`${cachePrefix}search:${stringedQuery}.${stringedSearch}.${select}.${limit}.${offset}.${categoriesFields}`, makeSearch)
+    return cacheManager.wrap(`${cachePrefix}search:${stringedQuery}.${stringedSearch}.${select}.${limit}.${offset}.${categoriesFields}`, makeSearch, { ttl: 60 })
   } else {
     return makeSearch()
   }

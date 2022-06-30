@@ -48,4 +48,8 @@ CategorySchema.statics.getCategoryIdByPath = function getCategoryIdByPath (tenan
 		.then(cat => cat ? cat._id : null))
 }
 
+CategorySchema.post('save', function () {
+	cacheManager.setItem(`${cachePrefix}:IdByPath:${this.tenant}:${this.path}`, '', { ttl: 1 })
+})
+
 module.exports = mongoose.model('Category', CategorySchema)

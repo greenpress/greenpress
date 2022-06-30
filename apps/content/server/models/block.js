@@ -56,4 +56,8 @@ BlockSchema.statics.getSingleBlock = function getSingleBlock({ blockId, tenant, 
   return this.findOne({ _id: blockId, tenant }).lean().exec().then(JSON.stringify);
 }
 
+BlockSchema.post('save', function () {
+  cacheManager.setItem(`${cachePrefix}single:${this._id}.${this.tenant}`, '', { ttl: 1 })
+})
+
 module.exports = mongoose.model("Block", BlockSchema);

@@ -66,4 +66,8 @@ MenuSchema.statics.getSingleMenu = function getSingleMenu({ tenant, name, useCac
   return this.findOne({ name, tenant }).lean().exec().then(JSON.stringify);
 }
 
+MenuSchema.post('save', function () {
+  cacheManager.setItem(`${cachePrefix}single:${this.name}.${this.tenant}`, '', { ttl: 1 })
+})
+
 module.exports = mongoose.model('Menu', MenuSchema)

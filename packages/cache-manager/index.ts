@@ -5,11 +5,11 @@ export type IDataProviderCallback = () => string | Promise<string>;
 
 export interface CacheManager {
     getItem: (key: string) => Promise<string>;
-    setItem: (key: string, value: string, { ttl }: CacheManagerOptions) => Promise<void>;
-    wrap: (key: string, fallback: IDataProviderCallback) => Promise<string>;
+    setItem: (key: string, value: string, { ttl }?: CacheManagerOptions) => Promise<void>;
+    wrap: (key: string, fallback: IDataProviderCallback, setterOptions?: Partial<CacheManagerOptions>) => Promise<string>;
 }
 
-export function createCacheManager(cacher: ICache, applicationOptions: CacheManagerOptions = { ttl: 600 }): CacheManager {
+export function createCacheManager(cacher: ICache, applicationOptions: CacheManagerOptions = { ttl: 6000 }): CacheManager {
 
     return {
         getItem: cacher.getItem,
