@@ -58,6 +58,12 @@ const items = computed(() => {
 
 
 function getRouteParams(connectedData: IConnectedData) {
+  if (connectedData.kind === LayoutConnectedDataKind.CATEGORY) {
+    if (connectedData.reference === '$homePage') {
+      return {name: 'editCategory', params: {categoryPath: '-'}}
+    }
+    return { name: 'categories' }
+  }
   if (connectedData.kind === LayoutConnectedDataKind.BLOCK) {
     return {name: 'editBlock', params: {blockId: connectedData.identifier}}
   }
