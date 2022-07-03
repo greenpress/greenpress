@@ -1,10 +1,7 @@
 <template>
-  <div class="post-header">
-    <h2>{{ title }}<strong v-if="post.title">{{ post.title }}</strong></h2>
+  <div class="category-header">
+    <h2>{{ title }}<strong v-if="!isHomePage && category.name">{{ category.name }}</strong></h2>
     <div class="buttons-group">
-      <a @click="to('details')" :class="{active: $route.query.tab === 'details'}">{{ $t('Page details') }}</a>
-      <a @click="to('short')" :class="{active: $route.query.tab === 'short'}">{{ $t('Short') }}</a>
-      <a @click="to('content')" :class="{active: $route.query.tab === 'content'}">{{ $t('Content') }}</a>
       <el-button native-type="submit" type="primary" :loading="submitting">
         <el-icon>
           <icon-promotion/>
@@ -16,30 +13,28 @@
 
 <script lang="ts" setup>
 import {computed} from 'vue';
-import {translate} from '../../../plugins/i18n';
-import {useRouter} from 'vue-router';
+import {translate} from '@/plugins/i18n';
 
 const props = defineProps({
-  post: Object,
+  category: Object,
+  isHomePage: Boolean,
   submitting: Boolean
 })
-const router = useRouter();
-const title = computed(() => translate(props.post._id ? 'Edit Post' : 'Create Post'))
-
-const to = (tab) => {
-  router.push({query: {tab}})
-}
+const title = computed(() => translate(props.isHomePage ? 'Edit' : 'Edit category'));
 </script>
 
 <style scoped lang="scss">
 @import "../../../style/colors";
 
-.post-header {
+.category-header {
   display: flex;
   flex-direction: row;
   background-color: $border-color;
   justify-content: space-between;
   align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 2;
 }
 
 h2 {

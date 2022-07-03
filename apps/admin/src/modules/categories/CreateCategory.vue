@@ -1,6 +1,5 @@
 <template>
   <div class="category-page">
-    <PageTitle title="Create Category"/>
     <CategoryForm :category="{}" @submitted="submit"/>
   </div>
 </template>

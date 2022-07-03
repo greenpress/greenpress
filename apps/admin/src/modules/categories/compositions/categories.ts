@@ -30,8 +30,9 @@ export function useEditCategory(categoryPath: string) {
   const { submit, submitting } = useSubmitting(
     (payload) => {
       return categoriesService.update(categoryPath, payload)
-        .then(() => {
+        .then((newCategory) => {
           removeUnsavedChanges('category', category.value._id)
+          category.value = newCategory;
         })
     },
     {
