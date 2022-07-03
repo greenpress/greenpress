@@ -20,7 +20,7 @@ const props = defineProps({
   isHomePage: Boolean,
   submitting: Boolean
 })
-const title = computed(() => translate(props.isHomePage ? 'Edit' : 'Edit category'));
+const title = computed(() => translate(props.isHomePage ? 'Edit' : props.category._id ? 'Edit category' : 'Create Category'));
 </script>
 
 <style scoped lang="scss">

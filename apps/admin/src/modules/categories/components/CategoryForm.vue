@@ -11,17 +11,20 @@
               @change="editedCategory.isPublic = $event"
           />
         </div>
-        <FormInput
-            title="Name"
-            :model-value="name"
-            @input="editedCategory.name = $event"
-        />
-        <FormInput
-            title="Path"
-            label="leave empty to auto-generate"
-            :model-value="path"
-            @input="editedCategory.path = $event"
-        />
+        <div class="metadata">
+          <FormInput
+              title="Name"
+              gap
+              :model-value="name"
+              @input="editedCategory.name = $event"
+          />
+          <FormInput
+              title="Path"
+              label="leave empty to auto-generate"
+              :model-value="path"
+              @input="editedCategory.path = $event"
+          />
+        </div>
       </template>
       <el-form-item label="Content" class="form-item-flex">
         <div>
@@ -68,5 +71,20 @@ export default {
 
 .form-content {
   padding: 10px;
+}
+
+.metadata {
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+  align-items: flex-end;
+}
+
+.metadata > :first-child {
+  flex: 5;
+}
+
+.metadata > :last-child {
+  flex: 2;
 }
 </style>

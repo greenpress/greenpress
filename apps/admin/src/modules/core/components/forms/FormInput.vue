@@ -1,7 +1,8 @@
 <template>
 	<div>
 		<el-form-item :label="title ? $t(title) : null">
-			<small v-if="label"> ({{ $t(label) }})</small>
+      <small v-if="label"> ({{ $t(label) }})</small>
+      <small v-else-if="gap">&nbsp;</small>
 			<slot name="pre" />
 			<el-input-number v-if="type === 'number'" v-on="listeners" :model-value="modelValue" />
 			<AssetUploader v-else-if="type === 'upload'" v-on="listeners" :value="modelValue" class="asset-upload" />
@@ -22,6 +23,7 @@
 			label: String,
 			type: String,
 			placeholder: String,
+      gap: Boolean,
 			modelValue: [String, Number, Object]
 		},
 		emits: ['input', 'change', 'update:modelValue'],
