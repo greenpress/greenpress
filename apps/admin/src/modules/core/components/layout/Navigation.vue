@@ -4,11 +4,20 @@
     <router-link to="/" class="home-logo">
       <img alt="greenpress Admin Panel" src="../../../../assets/logo.png">
     </router-link>
-    <router-link to="/configurations">
+    <router-link to="/categories/new" class="simple">
+      <span>{{ $t('Create Category') }}</span>
+    </router-link>
+    <router-link to="/posts/new" class="simple">
+      <span>{{ $t('Create Post') }}</span>
+    </router-link>
+    <router-link to="/blocks/new" class="simple">
+      <span>{{ $t('Create Content Box') }}</span>
+    </router-link>
+    <router-link to="/layouts" class="bottom">
       <el-icon>
-        <icon-setting/>
+        <icon-grid/>
       </el-icon>
-      <span>{{ $t('Configurations') }}</span>
+      <span>{{ $t('Layouts') }}</span>
     </router-link>
     <router-link to="/assets">
       <el-icon>
@@ -40,12 +49,6 @@
       </el-icon>
       <span>{{ $t('Blocks') }}</span>
     </router-link>
-    <router-link to="/layouts">
-      <el-icon>
-        <icon-grid/>
-      </el-icon>
-      <span>{{ $t('Layouts') }}</span>
-    </router-link>
     <router-link to="/users">
       <el-icon>
         <icon-user/>
@@ -58,7 +61,13 @@
       </el-icon>
       <span>{{ $t('Drafts') }}</span>
     </router-link>
-    <a class="bottom" @click="logout" v-t="'Logout'"></a>
+    <router-link to="/configurations">
+      <el-icon>
+        <icon-setting/>
+      </el-icon>
+      <span>{{ $t('Configurations') }}</span>
+    </router-link>
+    <a class="logout" @click="logout" v-t="'Logout'"/>
   </nav>
 </template>
 
@@ -91,12 +100,15 @@ nav {
   width: 38px;
   background-color: #e7e7e7;
   box-shadow: 1px 1px 4px 0 rgb(0 0 0 / 40%);
-  overflow: hidden;
   transition: width .2s linear;
 }
 
 nav:hover {
   width: $nav-width;
+
+  a.simple {
+    visibility: visible;
+  }
 }
 
 .mobile-mask {
@@ -131,10 +143,17 @@ nav:hover .home-logo img {
 
 a {
   width: $nav-width;
-  font-weight: bold;
   color: $negative-color;
   padding: 15px 3px;
   display: inline-flex;
+  font-size: 12px;
+
+  &.simple {
+    visibility: hidden;
+    text-align: center;
+    display: block;
+    font-size: 16px;
+  }
 
   &:hover {
     text-decoration: none;
@@ -147,6 +166,7 @@ a {
   }
 
   .el-icon {
+    font-size: 16px;
     padding-inline-start: 10px;
     padding-inline-end: 25px;
   }
@@ -176,6 +196,10 @@ a {
         bottom: 0;
         z-index: -1;
       }
+
+      .simple {
+        visibility: visible;
+      }
     }
   }
 
@@ -187,9 +211,32 @@ a {
   }
 }
 
+@media (min-width: 1200px) {
+  nav {
+    width: $nav-width;
+  }
+
+  a.simple {
+    visibility: visible;
+  }
+
+
+  nav .home-logo {
+    background: transparent;
+    width: $nav-width;
+  }
+
+  nav .home-logo img {
+    display: inline-block;
+  }
+}
+
 .bottom {
-  display: block;
   margin-top: auto;
+}
+
+.logout {
+  display: block;
   text-align: center;
 }
 </style>

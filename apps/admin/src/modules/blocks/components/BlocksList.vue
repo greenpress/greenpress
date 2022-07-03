@@ -1,6 +1,6 @@
 <template>
   <div>
-    <GpItem v-for="block in blocks" :key="block._id">
+    <GpItem v-for="block in state.blocks" :key="block._id">
       <template v-slot:title>
         <router-link :to="{name: 'editBlock', params: {blockId: block._id}}">
           {{ block.name }}
@@ -20,9 +20,9 @@ import {useConfirmAction} from '../../core/compositions/confirm-action'
 import GpItem from '../../core/components/layout/GpItem.vue';
 import {useBlocksList} from '@/modules/blocks/store/blocks-list';
 
-const {blocks, removeBlock} = useBlocksList()
+const state = useBlocksList()
 
-const askBeforeRemove = useConfirmAction(removeBlock);
+const askBeforeRemove = useConfirmAction(state.removeBlock);
 </script>
 <style scoped>
 .metadata {

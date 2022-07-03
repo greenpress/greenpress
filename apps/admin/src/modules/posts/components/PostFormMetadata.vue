@@ -1,14 +1,12 @@
 <template>
-	<details>
-		<summary>Metadata</summary>
-		<div class="input-group">
-			<el-form-item label="Category">
-				<CategorySelector :model-value="categoryPath" @change="emitCategory" @mounted="mountCategory"/>
-			</el-form-item>
-			<FormInput title="Path" label="leave empty to auto-generate"
-			           :model-value="path" @input="emitPath"/>
-		</div>
-	</details>
+  <div class="input-group">
+    <el-form-item label="Category">
+      <div>&nbsp;</div>
+      <CategorySelector :model-value="categoryPath" @change="emitCategory" @mounted="mountCategory"/>
+    </el-form-item>
+    <FormInput title="Path" label="leave empty to auto-generate"
+               :model-value="path" @input="emitPath"/>
+  </div>
 </template>
 
 <script lang="ts">
@@ -45,22 +43,21 @@ export default {
 </script>
 
 <style scoped>
-details {
-	border: 1px solid #eee;
-	padding: 10px;
-	margin: 10px 0;
-}
-
-details summary {
-	cursor: pointer;
-	user-select: none;
-}
-
 .input-group {
 	display: flex;
 	flex-direction: row;
-	justify-content: space-between;
 	align-items: end;
+  gap: 5px;
+}
+
+.input-group > :first-child {
+  flex: 2;
+  min-width: 200px;
+}
+
+
+.input-group > :last-child {
+  flex: 5;
 }
 
 @media (max-width: 720px) {

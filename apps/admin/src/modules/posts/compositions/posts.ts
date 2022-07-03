@@ -51,7 +51,7 @@ export function useNewPost() {
       editorContentsStates: null,
       path: null,
       tags: null,
-      category: null,
+      category: '-',
       isPublic: null,
       isPinned: null
     })
