@@ -8,11 +8,17 @@ export interface IPlugin extends Document {
   user: string;
   token: string;
   proxyUrl: string;
-  microFrontends: [{
+  subscribedEvents: {
+    source?: string,
+    kind?: string,
+    eventName?: string,
+    hookUrl: string;
+  }[]
+  microFrontends: {
     name: string;
     path: string;
     url: string;
-  }]
+  }[]
 }
 
 const PluginSchema = new mongoose.Schema<IPlugin>({
@@ -42,6 +48,15 @@ const PluginSchema = new mongoose.Schema<IPlugin>({
     type: String,
     required: true
   },
+  subscribedEvents: [{
+    source: String,
+    kind: String,
+    eventName: String,
+    hookUrl: {
+      type: String,
+      required: true
+    }
+  }],
   microFrontends: [{
     name: String,
     path: String,

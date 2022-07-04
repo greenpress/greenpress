@@ -12,4 +12,5 @@ export const connect = (uri: string) => {
 
   // load models
   require('./plugin')
+  require('./event')
 }

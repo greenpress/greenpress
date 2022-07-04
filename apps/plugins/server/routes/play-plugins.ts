@@ -11,7 +11,7 @@ declare module 'express' {
   }
 }
 
-export async function playPlugins() {
+export function playPlugins() {
   const router = getRouter();
 
   async function loadPluginRequest(req, res, next) {
