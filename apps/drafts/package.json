@@ -7,6 +7,7 @@
     "access": "public"
   },
   "scripts": {
+    "dev": "npm start",
     "prepublishOnly": "tsc",
     "build": "tsc",
     "start": "node --use_strict dist/index.js"

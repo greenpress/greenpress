@@ -12,6 +12,6 @@ import './server/routes'
 require('@greenpress/api-kit')
       .start(
           'Authentication Service',
-          process.env.PORT || 8000,
+          process.env.PORT || 9000,
           process.env.IP || '0.0.0.0'
       )

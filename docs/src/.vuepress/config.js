@@ -90,7 +90,6 @@ module.exports = {
 				path: '/tools/',
 				children: [
 					'/tools/cli',
-					'/tools/cli-service-pm2',
 					'/tools/api-kit'
 				]
 			},

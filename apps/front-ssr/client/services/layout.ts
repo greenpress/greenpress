@@ -1,4 +1,4 @@
-import {Component} from 'vue';
+import {Component, h} from 'vue';
 import {LayoutItem} from '../components/types/layout';
 
 export type ComponentsMap = { [key: string]: Component };
@@ -40,6 +40,12 @@ export async function getLazyLayoutComponents(layout: LayoutItem[], references: 
   await Promise.all(Object.keys(components).map(componentName => {
     return loadComponent(componentName).then(component => {
       components[componentName] = component.default;
+    }).catch(() => {
+      components[componentName] = {
+        render() {
+          return h('div', null, [`component: ${componentName} not exist`]);
+        }
+      };
     })
   }));
 

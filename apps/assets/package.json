@@ -16,6 +16,7 @@
     "node": ">=10.5"
   },
   "scripts": {
+    "dev": "npm start",
     "start": "node --use_strict index.js"
   },
   "main": "index.js",

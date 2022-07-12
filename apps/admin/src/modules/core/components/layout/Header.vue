@@ -56,9 +56,12 @@ header {
   z-index: 1;
   display: flex;
   justify-content: flex-start;
-  height: 70px;
-  background-color: $negative-color;
+  height: 50px;
   align-items: center;
+  margin: 15px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 2px 2px #eee;
 }
 
 .welcome {

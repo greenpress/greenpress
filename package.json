@@ -9,7 +9,7 @@
     "prebuild": "lerna run prebuild --parallel",
     "build": "npm run prebuild && lerna run build",
     "clean": "lerna clean --yes",
-    "dev": "lerna exec npm run dev --scope=@greenpress/greenpress",
+    "dev": "env-cmd lerna run dev --parallel",
     "start": "lerna exec npm start --scope=@greenpress/greenpress",
     "populate-db": "lerna exec npm run populate-db --scope=@greenpress/greenpress",
     "pack-package": "lerna exec npm pack",
@@ -35,6 +35,7 @@
   "devDependencies": {
     "@types/jest": "^27.0.2",
     "@types/node": "^16.11.22",
+    "env-cmd": "^10.1.0",
     "jest": "^27.0.4",
     "lerna": "^4.0.0",
     "ts-node": "^10.2.1"

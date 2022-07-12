@@ -13,6 +13,7 @@
     "node": ">=10.5"
   },
   "scripts": {
+    "dev": "npm start",
     "prepublishOnly": "tsc",
     "build": "tsc",
     "start": "node --use_strict dist/index.js"
