@@ -1,5 +1,5 @@
 <template>
-  <div class="post-header">
+  <div class="edit-header">
     <h2>{{ title }}<strong v-if="post.title">{{ post.title }}</strong></h2>
     <div class="buttons-group">
       <a @click="to('details')" :class="{active: $route.query.tab === 'details'}">{{ $t('Page details') }}</a>
@@ -33,14 +33,6 @@ const to = (tab) => {
 
 <style scoped lang="scss">
 @import "../../../style/colors";
-
-.post-header {
-  display: flex;
-  flex-direction: row;
-  background-color: $border-color;
-  justify-content: space-between;
-  align-items: center;
-}
 
 h2 {
   strong {

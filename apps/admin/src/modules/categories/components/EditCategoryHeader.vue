@@ -1,5 +1,5 @@
 <template>
-  <div class="category-header">
+  <div class="edit-header">
     <h2>{{ title }}<strong v-if="!isHomePage && category.name">{{ category.name }}</strong></h2>
     <div class="buttons-group">
       <el-button native-type="submit" type="primary" :loading="submitting">
@@ -25,17 +25,6 @@ const title = computed(() => translate(props.isHomePage ? 'Edit' : props.categor
 
 <style scoped lang="scss">
 @import "../../../style/colors";
-
-.category-header {
-  display: flex;
-  flex-direction: row;
-  background-color: $border-color;
-  justify-content: space-between;
-  align-items: center;
-  position: sticky;
-  top: 0;
-  z-index: 2;
-}
 
 h2 {
   strong {

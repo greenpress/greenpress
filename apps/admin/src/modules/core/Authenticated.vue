@@ -32,7 +32,7 @@ router.afterEach(() => navigationOpened.value = false)
   width: 100%;
   height: 100%;
   flex-direction: row;
-  background-image: linear-gradient(45deg, rgb(235, 235, 235) 0%, rgb(255, 255, 255) 100%);
+  background-color: var(--body-bg);
 }
 
 .admin-content {

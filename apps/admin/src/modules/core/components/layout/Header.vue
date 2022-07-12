@@ -1,5 +1,6 @@
 <template>
   <header :dir="$t('appDirection')">
+    <SearchForm/>
     <div class="welcome">
       <el-button type="default" class="btn" circle @click="open">
         <el-icon>
@@ -19,33 +20,34 @@
             <el-dropdown-item>
               <router-link :to="{name: 'updateProfile'}">{{ $t('Update profile') }}</router-link>
             </el-dropdown-item>
+            <el-dropdown-item @click="logout">
+              {{ $t('Logout') }}
+            </el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
 
     </div>
-    <router-link :to="{name: 'createPost'}" class="quick-action">
-      <el-icon>
-        <icon-document/>
-      </el-icon>
-    </router-link>
-    <router-link :to="{name: 'createCategory'}" class="quick-action">
-      <el-icon>
-        <icon-folder-opened/>
-      </el-icon>
-    </router-link>
   </header>
 </template>
 <script lang="ts" setup>
 import {computed} from 'vue';
 import {useAuth} from '../../compositions/authentication'
-import {translate} from '../../../../plugins/i18n';
+import {translate} from '@/plugins/i18n';
+import SearchForm from '@/modules/core/components/layout/SearchForm.vue';
+import {useRouter} from 'vue-router';
 const emit = defineEmits(['open']);
-const {user} = useAuth()
+const {user, logout: logoutApi} = useAuth()
+const router = useRouter()
 
 const greeting = computed(() => translate('Hello {userName}', {userName: user.value?.name || ''}))
 
 const open = () => emit('open')
+
+const logout = async () => {
+  await logoutApi()
+  router.push('login')
+}
 </script>
 <style scoped lang="scss">
 @import "../../../../style/colors";
@@ -56,7 +58,7 @@ header {
   z-index: 1;
   display: flex;
   justify-content: flex-start;
-  height: 50px;
+  height: 62px;
   align-items: center;
   margin: 15px;
   border-radius: 10px;
@@ -65,13 +67,12 @@ header {
 }
 
 .welcome {
-  margin-right: auto;
   display: flex;
   align-items: center;
 }
 
 .user-welcome {
-  padding-inline-start: 10px;
+  padding-inline-end: 10px;
   color: $main-color;
   font-size: 16px;
 
