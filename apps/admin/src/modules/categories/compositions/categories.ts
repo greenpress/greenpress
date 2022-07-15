@@ -69,6 +69,7 @@ export function useCategoryForm(props) {
   const editedCategory = reactive<{ [key: string]: any | null }>({
     name: null,
     path: null,
+    thumbnail: null,
     content: null,
     isPublic: null
   })
@@ -87,6 +88,11 @@ export function useCategoryForm(props) {
       ? props.category.path
       : editedCategory.path
   })
+  const thumbnail = computed(() => {
+    return editedCategory.thumbnail === null
+      ? props.category.thumbnail
+      : editedCategory.thumbnail
+  })
   const content = computed(() => {
     return editedCategory.content === null
       ? props.category.content
@@ -102,6 +108,7 @@ export function useCategoryForm(props) {
     editedCategory,
     name,
     path,
+    thumbnail,
     content,
     isPublic
   }

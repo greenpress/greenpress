@@ -14,29 +14,32 @@
 @import "../../../../style/colors";
 
 .gp-item {
-  border-top: 2px solid $main-color;
-  background: $negative-color;
-  color: white;
-  margin: 10px;
-  padding: 10px;
-  box-shadow: 0 10px 6px -6px #777;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 1px 1px #ccc;
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
 
   &:hover {
     opacity: 0.9;
-    box-shadow: 0 12px 6px -6px #777;
   }
 
   ::v-deep(*) {
-    color: white;
   }
 
   h4 {
-    padding-bottom: 15px;
+    padding: 10px 10px;
     font-size: 18px;
   }
 }
 
+.metadata {
+  margin: 10px;
+}
+
 .actions {
+  margin: auto 10px 10px 10px;
   > ::v-deep(*) {
     padding-inline-end: 10px;
   }

@@ -136,18 +136,14 @@ $nav-width: 240px;
 nav {
   display: flex;
   flex-direction: column;
-  width: 38px;
   background-color: #fff;
   box-shadow: 1px 1px #eee;
   transition: width .2s linear;
+  width: $nav-width;
 }
 
 a:hover {
   border: none;
-}
-
-nav:hover {
-  width: $nav-width;
 }
 
 .mobile-mask {
@@ -156,28 +152,17 @@ nav:hover {
 
 .home-logo {
   display: block;
-  width: 100%;
   padding: 5px 0 10px 0;
   height: 70px;
   align-self: center;
   text-align: center;
-  background: #4fc370;
   transition: background 0.1s linear;
+  width: $nav-width;
 
   img {
-    display: none;
     max-width: 100%;
     max-height: 100%;
   }
-}
-
-nav:hover .home-logo {
-  background: transparent;
-  width: $nav-width;
-}
-
-nav:hover .home-logo img {
-  display: inline-block;
 }
 
 @media (max-width: 600px) {
@@ -203,10 +188,6 @@ nav:hover .home-logo img {
         right: 0;
         bottom: 0;
         z-index: -1;
-      }
-
-      .simple {
-        visibility: visible;
       }
     }
   }

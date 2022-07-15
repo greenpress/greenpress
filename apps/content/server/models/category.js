@@ -12,6 +12,7 @@ const CategorySchema = new mongoose.Schema({
 	},
 	name: String,
 	content: String,
+	thumbnail: String,
 	path: {
 		type: String,
 		default: () => shortid.generate(),

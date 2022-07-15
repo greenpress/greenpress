@@ -3,9 +3,9 @@
 		<template v-slot:title>
 			<router-link :to="{name: 'editMenu', params: {menuName: menu}}">{{ menu }}</router-link>
 		</template>
-		<div>
-			<small class="link" @click.prevent="store.remove(menu)"><el-icon><icon-delete/></el-icon> {{$t('Remove')}}</small>
-		</div>
+    <template v-slot:actions>
+      <small class="link" @click.prevent="store.remove(menu)"><el-icon><icon-delete/></el-icon> {{$t('Remove')}}</small>
+    </template>
 	</GpItem>
 </template>
 <script lang="ts" setup>

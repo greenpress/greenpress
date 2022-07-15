@@ -26,6 +26,14 @@
           />
         </div>
       </template>
+
+      <el-form-item label="Thumbnail">
+        <FormInput :model-value="thumbnail" placeholder="https://" @input="editedCategory.thumbnail = $event"/>
+        <div v-if="thumbnail">
+          <img class="thumbnail-image" :src="thumbnail" alt="">
+        </div>
+      </el-form-item>
+
       <el-form-item label="Content" class="form-item-flex">
         <div>
           <gp-editor :model-value="content" @input="editedCategory.content = $event" :config="editorConfig"/>
@@ -86,5 +94,9 @@ export default {
 
 .metadata > :last-child {
   flex: 2;
+}
+
+.thumbnail-image {
+  max-width: 100px;
 }
 </style>

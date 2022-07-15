@@ -17,7 +17,7 @@ function getCategoryByPath (req, res, next) {
 }
 
 function getCategoryMetadataByPath (req, res, next) {
-	req.categorySelect = 'name path _id'
+	req.categorySelect = 'name path thumbnail _id'
 	req.leanCategory = true
 	return getCategoryByPath(req, res, next)
 }
@@ -50,6 +50,7 @@ function createCategory (req, res) {
 		name: body.name,
 		content: body.content,
 		path: body.path,
+		thumbnail: body.thumbnail,
 		isPublic: body.isPublic
 	})
 
@@ -86,6 +87,10 @@ function updateCategory (req, res) {
 
 	if (body.content) {
 		category.content = body.content
+	}
+
+	if (body.thumbnail) {
+		category.thumbnail = body.thumbnail
 	}
 
 	category.save()
