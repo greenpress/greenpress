@@ -84,7 +84,7 @@
     <div class="nav-group">
       <h4>{{ $t('MANAGE') }}</h4>
       <el-menu router>
-        <el-menu-item :route="{name: 'assets'}" index="/assets">
+        <el-menu-item :route="{name: 'storageList'}" index="/assets">
           <el-icon>
             <icon-files/>
           </el-icon>
@@ -142,6 +142,28 @@ nav {
   width: $nav-width;
 }
 
+nav .el-menu, nav .el-menu-item:hover {
+  --el-menu-hover-bg-color: var(--main-color-light);
+}
+
+.el-menu-item {
+  padding: 0;
+  margin: 5px;
+  border-radius: 5px;
+  line-height: 50px;
+  height: 50px;
+}
+
+.el-sub-menu {
+  margin: 5px;
+  ::v-deep(.el-sub-menu__title) {
+    padding: 0;
+    border-radius: 5px;
+    line-height: 50px;
+    height: 50px;
+  }
+}
+
 a:hover {
   border: none;
 }
@@ -194,6 +216,7 @@ a:hover {
 
   .home-logo {
     background: transparent;
+
     img {
       display: inline;
     }

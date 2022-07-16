@@ -16,8 +16,9 @@ export async function getEvent(req, res) {
 }
 
 export async function createEvent(req, res) {
-  res.status(200).json({}).end()
+  res.status(200).end();
 
   const event = new PlatformEvent(req.data);
+
   await event.save();
 }

@@ -7,9 +7,11 @@ $border-color: #eee;
 :root {
   --body-bg: #f5f5f9;
   --main-color: #4fc370;
+  --main-color-light: #d6eedd;
   --negative-color: #254044;
   --secondary-color: #0a7080;
   --third-color: #c6dccc;
   --link: var(--negative-color);
   --border-color: #eee;
+  --el-menu-hover-bg-color: --main-color;
 }

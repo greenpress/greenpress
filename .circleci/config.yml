@@ -123,6 +123,20 @@ jobs:
           fi
       - run: |
           cd compose/builders
+          docker build . -f plugins.Dockerfile -t greenpress/plugins:$BRANCH_NAME --build-arg MONOREPO_VERSION=$BRANCH_NAME
+          docker push greenpress/plugins:$BRANCH_NAME
+          localVersion=v$(docker run -it greenpress/plugins:$BRANCH_NAME sed 's/.*"version": "\(.*\)".*/\1/;t;d' ./package.json)
+          localVersion=$(echo ${localVersion} | tr -d "^@" | tr -d "\r")
+          dockerHubVersion=$(wget -q -O- "https://index.docker.io/v1/repositories/greenpress/plugins/tags/${localVersion}" || true)
+          if [ "$dockerHubVersion" = "[]"  ]; then
+          echo "version: ${localVersion} already exist in docker hub";
+          else docker tag greenpress/plugins:$BRANCH_NAME greenpress/plugins:latest
+          docker push greenpress/plugins:latest
+          docker tag greenpress/plugins:latest greenpress/plugins:${localVersion}
+          docker push greenpress/plugins:${localVersion};
+          fi
+      - run: |
+          cd compose/builders
           docker build . -f mailing.Dockerfile -t greenpress/mailing:$BRANCH_NAME --build-arg MONOREPO_VERSION=$BRANCH_NAME
           docker push greenpress/mailing:$BRANCH_NAME
           localVersion=v$(docker run -it greenpress/mailing:$BRANCH_NAME sed 's/.*"version": "\(.*\)".*/\1/;t;d' ./package.json)
