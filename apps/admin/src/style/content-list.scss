@@ -13,6 +13,7 @@
   padding: 0;
   
   .thumbnail {
+	text-align: center;
 	&:hover {
 	  border: none;
 	}
@@ -20,6 +21,11 @@
 	img {
 	  max-width: 100%;
 	  max-height: 400px;
+	}
+	
+	.el-icon {
+	  font-size: 900%;
+	  color: #eee;
 	}
   }
   

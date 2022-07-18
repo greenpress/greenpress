@@ -5,26 +5,26 @@
       <img alt="greenpress Admin Panel" src="../../../../assets/logo.png">
     </router-link>
 
-    <div class="nav-group">
-      <h4>{{ $t('CONTENT') }}</h4>
-      <el-menu router>
-        <el-sub-menu>
+    <el-menu router>
+
+      <div class="nav-group">
+        <h4>{{ $t('CONTENT') }}</h4>
+        <el-sub-menu index="1">
           <template #title>
             <el-icon>
               <icon-document/>
             </el-icon>
             <span>{{ $t('Posts') }}</span>
           </template>
-          <el-menu-item :route="{name: 'posts'}" index="/posts">
+          <el-menu-item :route="{name: 'posts'}" index="/posts" :active="false">
             <span>{{ $t('Posts List') }}</span>
           </el-menu-item>
           <el-menu-item :route="{name: 'createPost'}" index="/posts/new">
             <span>{{ $t('Create Post') }}</span>
           </el-menu-item>
         </el-sub-menu>
-      </el-menu>
-      <el-menu router>
-        <el-sub-menu>
+
+        <el-sub-menu index="2">
           <template #title>
             <el-icon>
               <icon-folder-opened/>
@@ -38,33 +38,29 @@
             <span>{{ $t('Create Page') }}</span>
           </el-menu-item>
         </el-sub-menu>
-      </el-menu>
-    </div>
+      </div>
 
-
-    <div class="nav-group">
-      <h4>{{ $t('LOOK AND FEEL') }}</h4>
-      <el-menu router>
+      <div class="nav-group">
+        <h4>{{ $t('LOOK AND FEEL') }}</h4>
         <el-menu-item :route="{name: 'layouts'}" index="/layouts">
           <el-icon>
             <icon-grid/>
           </el-icon>
           <span>{{ $t('Layouts') }}</span>
         </el-menu-item>
-      </el-menu>
-    </div>
+      </div>
 
-    <div class="nav-group">
-      <h4>{{ $t('COMPONENTS') }}</h4>
 
-      <el-menu router>
+      <div class="nav-group">
+        <h4>{{ $t('COMPONENTS') }}</h4>
+
         <el-menu-item :route="{name: 'menus'}" index="/menus">
           <el-icon>
             <icon-menu/>
           </el-icon>
           <span>{{ $t('Menus') }}</span>
         </el-menu-item>
-        <el-sub-menu>
+        <el-sub-menu index="3">
           <template #title>
             <el-icon>
               <icon-box/>
@@ -78,12 +74,11 @@
             <span>{{ $t('Create Content Box') }}</span>
           </el-menu-item>
         </el-sub-menu>
-      </el-menu>
-    </div>
+      </div>
 
-    <div class="nav-group">
-      <h4>{{ $t('MANAGE') }}</h4>
-      <el-menu router>
+
+      <div class="nav-group">
+        <h4>{{ $t('MANAGE') }}</h4>
         <el-menu-item :route="{name: 'storageList'}" index="/assets">
           <el-icon>
             <icon-files/>
@@ -111,8 +106,8 @@
           </el-icon>
           <span>{{ $t('Configurations') }}</span>
         </el-menu-item>
-      </el-menu>
-    </div>
+      </div>
+    </el-menu>
   </nav>
 </template>
 

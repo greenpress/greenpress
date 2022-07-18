@@ -6,8 +6,9 @@
           {{ post.title }}
         </router-link>
       </template>
-      <router-link v-if="post.thumbnail" class="thumbnail" :to="{name: 'editPost', params: {postId: post._id}}">
-        <img :src="post.thumbnail">
+      <router-link class="thumbnail" :to="{name: 'editPost', params: {postId: post._id}}">
+        <img v-if="post.thumbnail" :src="post.thumbnail">
+        <el-icon v-else><icon-picture/></el-icon>
       </router-link>
       <div class="metadata" v-if="post.category.path !== '-'">
         <router-link :to="{name: 'editCategory', params: {categoryPath: post.category.path}}">
