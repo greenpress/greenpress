@@ -84,5 +84,7 @@
   "Page details": "פרטי העמוד",
   "Short": "תקציר",
   "Content": "תוכן",
-  "Update profile": "עדכן פרופיל"
+  "Update profile": "עדכן פרופיל",
+  "{amount} Posts": "אין פוסטים | פוסט אחד | {amount} פוסטים",
+  "{amount} Blocks": "אין בלוקים | בלוק אחד | {amount} בלוקים"
 }

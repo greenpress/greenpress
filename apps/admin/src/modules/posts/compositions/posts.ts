@@ -1,4 +1,4 @@
-import {reactive, ref, watch} from 'vue'
+import {reactive, ref} from 'vue'
 import debounce from 'lodash.debounce'
 import {useSubmitting} from '../../core/compositions/submitting'
 import {removeUnsavedChanges} from '../../drafts/compositions/unsaved-changes'
@@ -8,14 +8,6 @@ export function useCreatePost() {
   return useSubmitting((post) => {
     return postsService.create(post)
   }, {success: 'Post created successfully', error: 'Failed to create post'})
-}
-
-function fetchPosts(filters: any = {}) {
-  const qs: any = {populate: ['category']};
-  if (filters.category) {
-    qs.category = filters.category;
-  }
-  return postsService.getAll(qs)
 }
 
 function fetchPost(postId: string) {
@@ -58,25 +50,6 @@ export function useNewPost() {
   }
 }
 
-export function usePostsList(filters) {
-  const posts = ref<any[]>([])
-
-  watch(
-    filters,
-    () => {
-      if (filters.value) {
-        fetchPosts(filters.value).then(list => posts.value = list)
-      }
-    },
-    {immediate: true})
-
-
-  return {
-    posts,
-    remove: (postId) => postsService.remove(postId)
-      .then(() => posts.value = posts.value.filter(({_id}) => _id !== postId))
-  }
-}
 
 export function usePostsSearch() {
   const searchPostsList = ref<any[]>([])

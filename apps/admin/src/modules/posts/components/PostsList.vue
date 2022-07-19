@@ -8,7 +8,9 @@
       </template>
       <router-link class="thumbnail" :to="{name: 'editPost', params: {postId: post._id}}">
         <img v-if="post.thumbnail" :src="post.thumbnail">
-        <el-icon v-else><icon-picture/></el-icon>
+        <el-icon v-else>
+          <icon-picture/>
+        </el-icon>
       </router-link>
       <div class="metadata" v-if="post.category.path !== '-'">
         <router-link :to="{name: 'editCategory', params: {categoryPath: post.category.path}}">
@@ -34,24 +36,27 @@
   </div>
 </template>
 <script lang="ts">
-import {usePostsList} from '../compositions/posts'
 import {useConfirmAction} from '../../core/compositions/confirm-action'
 import {useI18n} from 'vue-i18n';
 import GpItem from '../../core/components/layout/GpItem.vue';
 import {useRoute} from 'vue-router';
-import {computed} from 'vue';
+import {computed, toRefs, watch} from 'vue';
+import {usePostsListStore} from '../store/posts-list';
 
 export default {
   components: {GpItem},
   setup() {
     const route = useRoute();
     const queryParams = computed(() => route.name === 'posts' ? (route.query || {}) : null);
-    const {posts, remove} = usePostsList(queryParams)
+    const {posts, remove, fetchPosts} = toRefs(usePostsListStore())
+
     const {t} = useI18n();
+
+    watch(queryParams, fetchPosts.value, {immediate: true});
 
     return {
       posts,
-      remove: useConfirmAction(remove),
+      remove: useConfirmAction(remove.value),
       t,
       getPath(post) {
         return '/' + post.category.path + '/' + post.path;

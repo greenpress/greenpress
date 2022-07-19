@@ -84,5 +84,7 @@
   "Page details": "Page details",
   "Short": "Short",
   "Content": "Content",
-  "Update profile": "Update profile"
+  "Update profile": "Update profile",
+  "{amount} Posts": "No Posts | One Post | {amount} Posts",
+  "{amount} Blocks": "No Blocks | One Block | {amount} Blocks"
 }

@@ -20,9 +20,11 @@
   margin: 20px;
   display: flex;
   flex-direction: column;
+  transition: box-shadow 0.2s linear;
 
   &:hover {
     opacity: 0.9;
+    box-shadow: 1px 2px #ccc;
   }
 
   ::v-deep(*) {
