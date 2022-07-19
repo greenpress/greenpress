@@ -8,9 +8,10 @@
             {{ category.name }}
           </router-link>
         </template>
-        <router-link v-if="category.thumbnail" class="thumbnail"
+        <router-link class="thumbnail"
                      :to="{name: 'editCategory', params: {categoryPath: category.path}}">
-          <img :src="category.thumbnail">
+          <img v-if="category.thumbnail" :src="category.thumbnail">
+          <el-icon v-else><icon-picture/></el-icon>
         </router-link>
         <div class="small metadata">
           <span v-if="category.isPublic"><el-icon><icon-check/></el-icon> {{ $t('Public') }}</span>
