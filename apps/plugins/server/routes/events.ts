@@ -7,16 +7,11 @@ const eventsRouter = getRouter();
 const AUTHENTICATION_MIDDLEWARES = [populateUser, verifyUser, onlyPrivileged]
 
 eventsRouter
-  .route('/api/events')
-  .use(AUTHENTICATION_MIDDLEWARES)
-  .get(getAllEvents)
-  .post(createEvent);
+  .get('/api/events', AUTHENTICATION_MIDDLEWARES.concat(getAllEvents))
+  .post('/api/events', AUTHENTICATION_MIDDLEWARES.concat(createEvent))
 
 eventsRouter.post('/internal-api/events', createEvent);
 
-eventsRouter
-  .route('/api/events/:eventId')
-  .use(AUTHENTICATION_MIDDLEWARES)
-  .get(getEvent);
+eventsRouter.get('/api/events/:eventId', AUTHENTICATION_MIDDLEWARES.concat(getEvent));
 
 export default eventsRouter;

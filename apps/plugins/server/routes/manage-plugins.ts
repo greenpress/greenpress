@@ -8,17 +8,13 @@ export function managePlugins() {
   const AUTHENTICATION_MIDDLEWARES = [populateUser, verifyUser, onlyPrivileged]
 
   router
-    .route('/api/plugins')
-    .use(AUTHENTICATION_MIDDLEWARES)
-    .get(getAllPlugins)
-    .post(createPlugin);
+    .get('/api/plugins', AUTHENTICATION_MIDDLEWARES.concat(getAllPlugins))
+    .post('/api/plugins', AUTHENTICATION_MIDDLEWARES.concat(createPlugin))
 
   router
-    .route('/api/plugins/:pluginId')
-    .use(AUTHENTICATION_MIDDLEWARES)
-    .get(getPlugin)
-    .put(updatePlugin)
-    .delete(removePlugin);
+    .get('/api/plugins/:pluginId', AUTHENTICATION_MIDDLEWARES.concat(getPlugin))
+    .put('/api/plugins/:pluginId', AUTHENTICATION_MIDDLEWARES.concat(updatePlugin))
+    .delete('/api/plugins/:pluginId', AUTHENTICATION_MIDDLEWARES.concat(removePlugin))
 
   return router;
 }

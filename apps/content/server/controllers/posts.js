@@ -2,6 +2,7 @@ const { getUsersMap } = require('../utils/users')
 const Post = require('../models/post')
 const Comment = require('../models/comment')
 const Category = require('../models/category')
+const { emitPlatformEvent } = require('@greenpress/api-kit');
 
 const LIMIT = 30
 const MAX_LIMIT = 300
@@ -165,6 +166,16 @@ function createPost(req, res) {
       post = post.toObject()
       post.category = body.category
       res.status(200).json(post).end()
+
+      emitPlatformEvent({
+        tenant: req.headers.tenant,
+        user: req.headers.user._id,
+        source: 'content',
+        kind: 'posts',
+        eventName: 'postCreated',
+        description: 'new post created',
+        metadata: post
+      })
     })
     .catch((err) => res.status(400).json({ message: err || 'post creation failed' }).end())
 }

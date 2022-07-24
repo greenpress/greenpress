@@ -22,6 +22,7 @@ export default function apiProxy(app: any, config: Partial<IApiProxyConfig>, cac
     assetsService,
     draftsService,
     frontService,
+    pluginsService,
     tenant: defaultTenant,
     applicationUrl,
     internalUrl,
@@ -77,7 +78,7 @@ export default function apiProxy(app: any, config: Partial<IApiProxyConfig>, cac
   });
 
   app.use(
-    [...authService.proxies, ...contentService.proxies, ...assetsService.proxies, ...draftsService.proxies],
+    [...authService.proxies, ...contentService.proxies, ...assetsService.proxies, ...draftsService.proxies, ...pluginsService.proxies],
     require("cors")((req, callback) => {
       // TODO: support subdomains of host
       if (!req.disableCors && req.header("Origin") === req.header.host) {
@@ -88,7 +89,7 @@ export default function apiProxy(app: any, config: Partial<IApiProxyConfig>, cac
     })
   );
 
-  app.use([...contentService.proxies, ...assetsService.proxies, ...draftsService.proxies], (req, res, next) => {
+  app.use([...contentService.proxies, ...assetsService.proxies, ...draftsService.proxies, ...pluginsService.proxies], (req, res, next) => {
     if (!(req.headers.authorization || (req.headers.cookie && req.headers.cookie.includes("token=")))) {
       next();
       return;
@@ -125,6 +126,7 @@ export default function apiProxy(app: any, config: Partial<IApiProxyConfig>, cac
   useProxy(app, contentService);
   useProxy(app, draftsService);
   useProxy(app, assetsService);
+  useProxy(app, pluginsService);
   useProxy(app, adminPanel);
   useProxy(app, frontService);
 }

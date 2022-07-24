@@ -1,4 +1,5 @@
 import PlatformEvent from '../models/event';
+import {emitPlatformEvent} from '../services/hook-events';
 
 export async function getAllEvents(req, res) {
   const event = await PlatformEvent.find({
@@ -18,7 +19,13 @@ export async function getEvent(req, res) {
 export async function createEvent(req, res) {
   res.status(200).end();
 
-  const event = new PlatformEvent(req.data);
 
-  await event.save();
+  try {
+    const event = new PlatformEvent(req.body);
+    await event.save();
+    emitPlatformEvent(event);
+  } catch {
+    //
+  }
+
 }

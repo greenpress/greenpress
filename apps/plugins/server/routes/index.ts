@@ -7,5 +7,5 @@ export async function loadRoutes() {
   const app = getApp()
   app.use(managePlugins());
   app.use(playPlugins());
-  app.use(eventsRouter());
+  app.use(eventsRouter);
 }
