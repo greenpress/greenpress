@@ -27,17 +27,12 @@ function getUsers(req:AuthRequest, res:Response): RequestHandler {
     return;
 	}
 
-	const query: Record<string, any> = isPrivileged && !users.length ? {} : { _id: { $in: users } }
-	query.tenant = req.headers.tenant
-
-	User.find(query)
-		.select(isPrivileged ? privilegedUserFields : 'name')
-		.lean()
-		.then((users:any[]) => {
-			res.status(200).json(users || []).end()
+	User
+		.getUsersList(req.headers.tenant, users, isPrivileged, privilegedUserFields)
+		.then(list => {
+			res.status(200).set('Content-Type', 'application/json').end(list)
 		})
 		.catch(() => res.status(404).json({ message: 'could not load users' }).end())
-  return;
 }
 
 function getUser(req:AuthRequest, res:Response): RequestHandler {

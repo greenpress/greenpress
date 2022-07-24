@@ -1,5 +1,5 @@
 const adminRole = process.env.ADMIN_ROLE || 'admin'
-const editorsRoles = process.env.EDITORS_ROLES ? process.env.EDITORS_ROLES.split(',') : ['editor', adminRole]
+const editorsRoles = process.env.EDITORS_ROLES ? process.env.EDITORS_ROLES.split(',') : ['editor', 'plugin', adminRole]
 
 module.exports = {
   port: process.env.PORT || 9001,

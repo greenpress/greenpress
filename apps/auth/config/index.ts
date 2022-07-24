@@ -2,7 +2,7 @@ const TEN_MINUTES = 1000 * 60 * 10
 const THIRTY_DAYS = 1000 * 60 * 60 * 24 * 30
 export const privilegedRoles = process.env.PRIVILEGED_ROLES ? process.env.PRIVILEGED_ROLES.split(',') : ['admin']
 
-export const roles = process.env.ROLES ? process.env.ROLES.split(',') : ['user', 'admin']
+export const roles = process.env.ROLES ? process.env.ROLES.split(',') : ['user', 'plugin', 'admin']
 
 export const mongoUri = process.env.MONGO_URI || 'mongodb://localhost/auth-service';
 export const cookieBaseDomain = process.env.COOKIE_BASE_DOMAIN ||

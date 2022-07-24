@@ -1,9 +1,9 @@
-import mongoose from 'mongoose';
-import {Document, Model} from 'mongoose';
+import mongoose, {ObjectId, Document, Model} from 'mongoose';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import * as config from '../../config';
-import {getSignedToken, getUniqueId} from '../services/tokens';
+import { getSignedToken, getUniqueId } from '../services/tokens';
+import { cacheManager } from '../services/cache-manager';
 
 export interface IUser {
   tenant: string;
@@ -38,6 +38,8 @@ export interface UserModel extends Model<UserDocument> {
   deleteToken(authType: string, tokenIdentifier: string): Promise<UserDocument>;
 
   getTokenByRelatedTokens(authType: string, tokenIdentifier: string): string;
+
+  getUsersList(tenant: string, usersIds: ObjectId[], isPrivilegedUser: boolean, privilegedUserFields?: string): Promise<string>;
 }
 
 // define the User model schema
@@ -179,6 +181,20 @@ UserSchema.methods.getTokenByRelatedTokens = function getTokenByRelatedTokens(
 
   return token ? token.tokenIdentifier : tokenIdentifier;
 };
+
+UserSchema.statics.getUsersList = function getUsersList(tenant: string, usersIds: ObjectId[], isPrivilegedUser = false, privilegedUserFields?: Array<string>) {
+  return cacheManager.wrap(`usersList.${tenant}.${isPrivilegedUser}.${usersIds.map(id => id.toString()).join(',')}`,
+    () => {
+      const query: Record<string, any> = isPrivilegedUser && !usersIds.length ? {} : {_id: {$in: usersIds}}
+      query.tenant = tenant;
+
+      return this.find(query)
+        .select(isPrivilegedUser ? privilegedUserFields : 'name')
+        .lean()
+        .then(users => JSON.stringify(users))
+        .catch(() => '[]');
+    });
+}
 
 /**
  * The pre-save hook method.
