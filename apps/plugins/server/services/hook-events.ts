@@ -29,10 +29,16 @@ hookEvents.on('hook', async (platformEvent: IEvent) => {
   const emittedEventContent = JSON.stringify(platformEvent.toObject());
 
   awaitedPlugins.forEach(plugin => {
+    const headers = {
+      'x-tenant': plugin.tenant,
+      'x-from': 'greenpress',
+      'Authorization': 'Bearer ' + plugin.token,
+      "Content-Type": "application/json",
+    };
     plugin.subscribedEvents.forEach(subscribedEvent => {
       let shouldHook = false;
-      if (!subscribedEvent.kind) {
-        subscribedEvent.kind = '*';
+      if (!subscribedEvent.eventName) {
+        subscribedEvent.eventName = '*';
       }
       if (subscribedEvent.source && subscribedEvent.kind && subscribedEvent.eventName) { // plugin filled all values
         if (subscribedEvent.source === platformEvent.source &&
@@ -47,15 +53,11 @@ hookEvents.on('hook', async (platformEvent: IEvent) => {
       }
 
       if (shouldHook) {
-        fetch({
+        fetch(subscribedEvent.hookUrl, {
           method: 'POST',
-          url: subscribedEvent.hookUrl,
           body: emittedEventContent,
-          headers: {
-            'Authorization': 'Bearer ' + plugin.token,
-            "Content-Type": "application/json",
-          }
-        }).catch();
+          headers,
+        }).catch(() => null);
       }
     })
   })

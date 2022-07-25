@@ -43,8 +43,6 @@ const EventSchema = new mongoose.Schema<IEvent>({
   }
 });
 
-EventSchema.index({tenant: 1, apiPath: 1}, {unique: true});
-
 const PlatformEvent = mongoose.model<IEvent>('Event', EventSchema);
 
 export default PlatformEvent;

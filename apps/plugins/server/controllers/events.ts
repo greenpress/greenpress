@@ -19,7 +19,6 @@ export async function getEvent(req, res) {
 export async function createEvent(req, res) {
   res.status(200).end();
 
-
   try {
     const event = new PlatformEvent(req.body);
     await event.save();
