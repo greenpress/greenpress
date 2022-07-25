@@ -1,7 +1,7 @@
 import Plugin from '../models/plugin';
 
 export function getAllPlugins(req, res) {
-  Plugin.find({tenant: req.headers.tenant}).lean()
+  Plugin.find({tenant: req.headers.tenant}).select('-token').lean()
     .then(list => {
       res.json(list).end();
     })
@@ -11,7 +11,7 @@ export function getAllPlugins(req, res) {
 }
 
 export function getPlugin(req, res) {
-  Plugin.findOne({tenant: req.headers.tenant, _id: req.params.pluginId}).lean()
+  Plugin.findOne({tenant: req.headers.tenant, _id: req.params.pluginId}).select('-token').lean()
     .then(plugin => {
       res.json(plugin).end();
     })
