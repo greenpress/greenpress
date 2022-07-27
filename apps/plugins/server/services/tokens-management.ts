@@ -1,5 +1,6 @@
 import {internalServicesSecret, secretsToken} from '../../config';
 import {service} from '@greenpress/api-kit';
+
 const secretsService = service('SECRETS');
 
 function callSecretsService(url: string, tenant: string, key: string, value?: any) {
@@ -16,10 +17,10 @@ function callSecretsService(url: string, tenant: string, key: string, value?: an
     .then((axiosRes: any) => axiosRes.data)
 }
 
-export function getSecret(tenant: string, key: string) {
-  return callSecretsService('/api/secrets/get', tenant, key)
+export function getRefreshSecret(tenant: string, apiPath: string): Promise<{ value: string }> {
+  return callSecretsService('/api/secrets/get', tenant, `refresh-token-${tenant}-${apiPath}`)
 }
 
-export function setSecret(tenant: string, key: string, value: any) {
-  return callSecretsService('/api/secrets/set', tenant, key, value)
+export function setRefreshSecret(tenant: string, apiPath: string, refreshToken: string) {
+  return callSecretsService('/api/secrets/set', tenant, `refresh-token-${tenant}-${apiPath}`, refreshToken)
 }

@@ -4,10 +4,18 @@ export interface IPlugin extends Document {
   tenant: string;
   name: string;
   description?: string;
-  path: string;
+  apiPath: string;
   user: string;
   token: string;
   proxyUrl: string;
+  authAcquire: {
+    refreshTokenUrl: string;
+    refreshTokenKey: string;
+    accessTokenKey: string;
+  };
+  auth: {
+    refreshTokenIdentifier?: string;
+  };
   subscribedEvents: {
     source?: string,
     kind?: string,
@@ -40,10 +48,26 @@ const PluginSchema = new mongoose.Schema<IPlugin>({
     type: String,
     required: true
   },
-  token: {
-    type: String,
-    required: true
+  authAcquire: {
+    refreshTokenUrl: {
+      type: String,
+      required: true
+    },
+    refreshTokenKey: {
+      type: String,
+      required: true,
+      default: 'refresh_token'
+    },
+    accessTokenKey: {
+      type: String,
+      required: true,
+      default: 'access_token'
+    }
   },
+  auth: {
+    refreshTokenIdentifier: String,
+  },
+  token: String,
   proxyUrl: {
     type: String,
     required: true

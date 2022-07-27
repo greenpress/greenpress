@@ -18,6 +18,7 @@ module.exports = function ({ tag, branch, mongo }) {
 		"REFRESH_TOKEN_SECRET",
 		"SECRETS_SERVICE_SECRET",
 		"ASSETS_SECRETS_TOKEN",
+		"PLUGINS_SERVICE_SECRET",
 		"INTERNAL_SECRET"
 	]
 

@@ -22,6 +22,7 @@
  "dependencies": {
   "node-fetch": "^2.6.1",
   "@greenpress/api-kit": "^2.0.21",
+  "@greenpress/cache-manager": "^2.0.21",
   "http-proxy-middleware": "^1.3.1",
   "mongoose": "^5.10.5",
   "uniqid": "^5.0.3"

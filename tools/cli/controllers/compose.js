@@ -1,4 +1,3 @@
-const start = require('./compose/start');
 const execute = require('../utils/execute');
 
 async function composeCommand({ action, branch, tag, mongo, populate, tenant, host }) {
