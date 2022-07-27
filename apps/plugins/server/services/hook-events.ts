@@ -2,6 +2,7 @@ import EventEmitter from 'events';
 import {IEvent} from '../models/event';
 import Plugin from '../models/plugin';
 import fetch from 'node-fetch';
+import {getPluginAccessToken, refreshTokenForPlugin} from './tokens-management';
 
 class HooksEmitter extends EventEmitter {
 }
@@ -28,13 +29,9 @@ hookEvents.on('hook', async (platformEvent: IEvent) => {
 
   const emittedEventContent = JSON.stringify(platformEvent.toObject());
 
-  awaitedPlugins.forEach(plugin => {
-    const headers = {
-      'x-tenant': plugin.tenant,
-      'x-from': 'greenpress',
-      'Authorization': 'Bearer ' + plugin.token,
-      "Content-Type": "application/json",
-    };
+  Promise.all(awaitedPlugins.map(async plugin => {
+    const hooks: { hookUrl: string }[] = [];
+
     plugin.subscribedEvents.forEach(subscribedEvent => {
       let shouldHook = false;
       if (!subscribedEvent.eventName) {
@@ -53,12 +50,27 @@ hookEvents.on('hook', async (platformEvent: IEvent) => {
       }
 
       if (shouldHook) {
-        fetch(subscribedEvent.hookUrl, {
-          method: 'POST',
-          body: emittedEventContent,
-          headers,
-        }).catch(() => null);
+        hooks.push({hookUrl: subscribedEvent.hookUrl})
       }
     })
-  })
+
+    if (hooks.length) {
+      const accessToken = plugin.token ||
+        await getPluginAccessToken(plugin.tenant, plugin.apiPath) ||
+        await refreshTokenForPlugin(plugin.tenant, plugin.apiPath, plugin.authAcquire);
+
+      hooks.forEach(({hookUrl}) => {
+        fetch(hookUrl, {
+          method: 'POST',
+          body: emittedEventContent,
+          headers: {
+            'x-tenant': plugin.tenant,
+            'x-from': 'greenpress',
+            'Authorization': 'Bearer ' + accessToken,
+            'Content-Type': 'application/json',
+          },
+        }).catch(() => null);
+      })
+    }
+  })).catch(() => null);
 });
