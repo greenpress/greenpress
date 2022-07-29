@@ -11,56 +11,67 @@ import {authStore, fetchAuthUser} from './modules/core/store/auth'
 import draftsRoutes from './modules/drafts/routes';
 import blocksRoutes from './modules/blocks/routes';
 import layoutsRoutes from '@/modules/layouts/routes';
+import EmptyRoute from '@/modules/core/components/layout/EmptyRoute.vue';
 
 // @ts-ignore
 const BASE = import.meta.env.BASE_URL || '/gp-admin';
 
 const router = createRouter({
-    history: createWebHistory(BASE),
-    routes: [
+  history: createWebHistory(BASE),
+  routes: [
+    {
+      path: '/',
+      name: 'authenticated',
+      component: Authenticated,
+      children: [
         {
-            path: '/',
-            name: 'authenticated',
-            component: Authenticated,
-            children: [
-                {
-                    path: '/',
-                    name: 'home',
-                    component: Home
-                },
-                configurationsRoutes,
-                menusRoutes,
-                categoriesRoutes,
-                assetsRoutes,
-                postsRoutes,
-                usersRoutes,
-                draftsRoutes,
-                blocksRoutes,
-                layoutsRoutes,
-            ]
+          path: '/',
+          name: 'home',
+          component: Home
         },
+        configurationsRoutes,
+        menusRoutes,
+        categoriesRoutes,
+        assetsRoutes,
+        postsRoutes,
+        usersRoutes,
+        draftsRoutes,
+        blocksRoutes,
+        layoutsRoutes,
         {
-            path: '/login',
-            name: 'login',
-            component: async () => (await import('./modules/core/Login.vue')).default,
-            meta: {
-                guest: true
-            }
-        }
-    ]
+          path: 'play',
+          name: 'playPlugin',
+          component: EmptyRoute,
+          children: [{
+            name: 'defaultPluginPlaceholder',
+            path: ':all',
+            component: EmptyRoute,
+          }]
+        },
+      ]
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: async () => (await import('./modules/core/Login.vue')).default,
+      meta: {
+        guest: true
+      }
+    }
+  ]
 })
 
 router.beforeEach((to, from, next) => {
-    if (to.name === 'login' || to.meta.guest || localStorage.refresh_token) {
-        return next()
-    }
-    fetchAuthUser()
-    if (authStore.userPromise || authStore.user) {
-        return next()
-    }
-    next({
-        name: 'login'
-    })
+  if (to.name === 'login' || to.meta.guest || localStorage.refresh_token) {
+    return next()
+  }
+  fetchAuthUser()
+  if (authStore.userPromise || authStore.user) {
+    return next()
+  }
+  next({
+    name: 'login'
+  })
 })
 
 export default router

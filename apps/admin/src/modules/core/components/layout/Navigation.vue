@@ -6,6 +6,12 @@
     </router-link>
 
     <el-menu router>
+      <div v-if="microFrontends.top.length" class="nav-group">
+        <h4>{{ $t('PLUGINS') }}</h4>
+        <el-menu-item v-for="mf in microFrontends.top" :key="mf.route.path" :route="{name: 'plugin.' + mf.route.name}" :index="'/play/' + mf.route.path">
+          <span>{{ mf.name }}</span>
+        </el-menu-item>
+      </div>
 
       <div class="nav-group">
         <h4>{{ $t('CONTENT') }}</h4>
@@ -50,7 +56,6 @@
         </el-menu-item>
       </div>
 
-
       <div class="nav-group">
         <h4>{{ $t('COMPONENTS') }}</h4>
 
@@ -75,7 +80,6 @@
           </el-menu-item>
         </el-sub-menu>
       </div>
-
 
       <div class="nav-group">
         <h4>{{ $t('MANAGE') }}</h4>
@@ -107,18 +111,28 @@
           <span>{{ $t('Configurations') }}</span>
         </el-menu-item>
       </div>
+
+      <div v-if="microFrontends.bottom.length" class="nav-group">
+        <h4>{{ $t('PLUGINS') }}</h4>
+        <el-menu-item v-for="mf in microFrontends.top" :key="mf.route.path" :route="{name: 'plugin.' + mf.route.name}" :index="'/play/' + mf.route.path">
+          <span>{{ mf.name }}</span>
+        </el-menu-item>
+      </div>
     </el-menu>
   </nav>
 </template>
 
 <script lang="ts" setup>
 import {useRouter} from 'vue-router';
+import {storeToRefs} from 'pinia';
+import {usePluginsMicroFrontends} from '@/modules/plugins/store/plugins-microfrontends';
 
 const router = useRouter()
 
+const {microFrontends} = storeToRefs(usePluginsMicroFrontends());
+
 defineProps({opened: Boolean})
 const emit = defineEmits(['close'])
-
 
 const close = () => emit('close')
 
@@ -151,6 +165,7 @@ nav .el-menu, nav .el-menu-item:hover {
 
 .el-sub-menu {
   margin: 5px;
+
   ::v-deep(.el-sub-menu__title) {
     padding: 0;
     border-radius: 5px;
