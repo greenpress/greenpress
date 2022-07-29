@@ -24,10 +24,62 @@ export interface IPlugin extends Document {
   }[]
   microFrontends: {
     name: string;
-    path: string;
+    description: string;
     url: string;
+    active: boolean;
+    opened: boolean;
+    route?: {
+      name: string;
+      path: string;
+      roles: string[],
+      navBarPosition: 'top' | 'bottom';
+    };
+    component?: {
+      page: string;
+      position: 'top' | 'left' | 'right' | 'bottom';
+    }
   }[]
 }
+
+const MicroFrontendSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  description: String,
+  active: {
+    type: Boolean,
+    default: true,
+  },
+  opened: {
+    type: Boolean,
+    default: true,
+  },
+  url: {
+    type: String,
+    required: true
+  },
+  route: {
+    name: String,
+    path: String,
+    roles: {
+      type: [String],
+      default: ['*']
+    },
+    navBarPosition: {
+      type: String,
+      enum: ['top', 'bottom'],
+      default: 'bottom'
+    },
+  },
+  component: {
+    page: String,
+    position: {
+      type: String,
+      enum: ['top', 'left', 'right', 'bottom']
+    }
+  }
+})
 
 const PluginSchema = new mongoose.Schema<IPlugin>({
   tenant: {
@@ -81,11 +133,7 @@ const PluginSchema = new mongoose.Schema<IPlugin>({
       required: true
     }
   }],
-  microFrontends: [{
-    name: String,
-    path: String,
-    url: String,
-  }]
+  microFrontends: [MicroFrontendSchema]
 });
 
 PluginSchema.index({tenant: 1, apiPath: 1}, {unique: true});
