@@ -1,10 +1,10 @@
 import {getRouter, verifyUser, populateUser} from '@greenpress/api-kit';
-import onlyPrivileged from '../middlewares/privileged-check';
+import {onlyEditPrivileged} from '../middlewares/privileged-check';
 import {createEvent, getAllEvents, getEvent} from '../controllers/events';
 
 const eventsRouter = getRouter();
 
-const AUTHENTICATION_MIDDLEWARES = [populateUser, verifyUser, onlyPrivileged]
+const AUTHENTICATION_MIDDLEWARES = [populateUser, verifyUser, onlyEditPrivileged]
 
 eventsRouter
   .get('/api/events', AUTHENTICATION_MIDDLEWARES.concat(getAllEvents))

@@ -3,10 +3,13 @@ import {useRouter} from 'vue-router';
 import {defineStore, storeToRefs} from 'pinia';
 import {usePluginsList} from './plugins-list';
 import MicroFrontendPage from '../MicroFrontendPage.vue';
+import {authStore} from '@/modules/core/store/auth';
 
 export const usePluginsMicroFrontends = defineStore('plugins-micro-frontends', function usePluginsMicroFrontends() {
   const {plugins} = storeToRefs(usePluginsList());
   const router = useRouter();
+
+  const userRoles = computed(() => authStore.user?.roles || []);
 
   const microFrontends = computed(() => {
     const data = {top: [], bottom: []};
@@ -14,7 +17,11 @@ export const usePluginsMicroFrontends = defineStore('plugins-micro-frontends', f
       return data;
     }
     return plugins.value.reduce((routes, plugin) => {
-      plugin.microFrontends?.filter(frontend => frontend.active && !!frontend.route)
+      plugin.microFrontends?.filter(frontend =>
+        frontend.active &&
+        !!frontend.route &&
+        (!frontend.route.roles || frontend.route.roles.some(role => role === '*' || userRoles.value.includes(role)))
+      )
         .forEach(frontend => {
           if (frontend.route.navBarPosition === 'top') {
             routes.top.push(frontend);

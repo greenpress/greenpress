@@ -1,20 +1,20 @@
 import {getRouter, verifyUser, populateUser} from '@greenpress/api-kit';
 import {createPlugin, getAllPlugins, getPlugin, removePlugin, updatePlugin} from '../controllers/manage-plugins';
-import onlyPrivileged from '../middlewares/privileged-check';
+import {onlyEditPrivileged, onlyViewPrivileged} from '../middlewares/privileged-check';
 
 export function managePlugins() {
   const router = getRouter();
 
-  const AUTHENTICATION_MIDDLEWARES = [populateUser, verifyUser, onlyPrivileged]
+  const AUTHENTICATION_MIDDLEWARES = [populateUser, verifyUser];
 
   router
-    .get('/api/plugins', AUTHENTICATION_MIDDLEWARES.concat(getAllPlugins))
-    .post('/api/plugins', AUTHENTICATION_MIDDLEWARES.concat(createPlugin))
+    .get('/api/plugins', AUTHENTICATION_MIDDLEWARES.concat(onlyViewPrivileged, getAllPlugins))
+    .post('/api/plugins', AUTHENTICATION_MIDDLEWARES.concat(onlyEditPrivileged, createPlugin))
 
   router
-    .get('/api/plugins/:pluginId', AUTHENTICATION_MIDDLEWARES.concat(getPlugin))
-    .put('/api/plugins/:pluginId', AUTHENTICATION_MIDDLEWARES.concat(updatePlugin))
-    .delete('/api/plugins/:pluginId', AUTHENTICATION_MIDDLEWARES.concat(removePlugin))
+    .get('/api/plugins/:pluginId', AUTHENTICATION_MIDDLEWARES.concat(onlyViewPrivileged, getPlugin))
+    .put('/api/plugins/:pluginId', AUTHENTICATION_MIDDLEWARES.concat(onlyEditPrivileged, updatePlugin))
+    .delete('/api/plugins/:pluginId', AUTHENTICATION_MIDDLEWARES.concat(onlyEditPrivileged, removePlugin))
 
   return router;
 }

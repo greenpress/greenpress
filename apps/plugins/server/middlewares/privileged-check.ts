@@ -1,10 +1,19 @@
-import {privilegedRoles} from '../../config';
+import {privilegedEditingRoles, privilegedViewingRoles} from '../../config';
 
-export default function onlyPrivileged(req, res, next) {
-  if (req.user.roles.find(role => privilegedRoles.includes(role))) {
+export function onlyViewPrivileged(req, res, next) {
+  if (req.user.roles.find(role => privilegedViewingRoles.includes(role))) {
     req.user.isPrivileged = true
     return next()
   }
 
   return res.status(401).end()
-};
+}
+
+export function onlyEditPrivileged(req, res, next) {
+  if (req.user.roles.find(role => privilegedEditingRoles.includes(role))) {
+    req.user.isPrivileged = true
+    return next()
+  }
+
+  return res.status(401).end()
+}

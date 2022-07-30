@@ -12,7 +12,7 @@ export const usePostsListStore = defineStore('posts-list', function usePostsList
     async fetchPosts(filters: any = {}) {
       loading.value = true;
       const qs: any = {populate: ['category']};
-      if (filters.category) {
+      if (filters?.category) {
         qs.category = filters.category;
       }
       posts.value = await postsService.getAll(qs);

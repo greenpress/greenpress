@@ -11,7 +11,7 @@ import {authStore, fetchAuthUser} from './modules/core/store/auth'
 import draftsRoutes from './modules/drafts/routes';
 import blocksRoutes from './modules/blocks/routes';
 import layoutsRoutes from '@/modules/layouts/routes';
-import EmptyRoute from '@/modules/core/components/layout/EmptyRoute.vue';
+import {managePluginsRoutes, playRoutes} from '@/modules/plugins/routes';
 
 // @ts-ignore
 const BASE = import.meta.env.BASE_URL || '/gp-admin';
@@ -38,16 +38,8 @@ const router = createRouter({
         draftsRoutes,
         blocksRoutes,
         layoutsRoutes,
-        {
-          path: 'play',
-          name: 'playPlugin',
-          component: EmptyRoute,
-          children: [{
-            name: 'defaultPluginPlaceholder',
-            path: ':all',
-            component: EmptyRoute,
-          }]
-        },
+        managePluginsRoutes,
+        playRoutes,
       ]
     },
     {

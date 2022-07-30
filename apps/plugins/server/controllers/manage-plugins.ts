@@ -57,7 +57,7 @@ export async function updatePlugin(req, res) {
     res.json(plugin).end();
 
     if (newRefreshToken) {
-      setRefreshSecret(tenant, plugin.apiPath, newRefreshToken).catch();
+      setRefreshSecret(tenant, plugin.apiPath, newRefreshToken).catch(() => null);
     }
   } catch (e) {
     res.status(500).json({message: 'could not update plugin'}).end();
@@ -68,7 +68,7 @@ export async function removePlugin(req, res) {
   try {
     const plugin = await Plugin.findOne({tenant: req.headers.tenant, _id: req.params.pluginId}).select('tenant name apiPath')
     if (plugin) {
-      setRefreshSecret(plugin.tenant, plugin.apiPath, '').catch();
+      setRefreshSecret(plugin.tenant, plugin.apiPath, '').catch(() => null);
       await plugin.remove();
       res.json(plugin).end();
     } else {

@@ -7,8 +7,9 @@
 
     <el-menu router>
       <div v-if="microFrontends.top.length" class="nav-group">
-        <h4>{{ $t('PLUGINS') }}</h4>
-        <el-menu-item v-for="mf in microFrontends.top" :key="mf.route.path" :route="{name: 'plugin.' + mf.route.name}" :index="'/play/' + mf.route.path">
+        <h4>{{ $t('PLAY') }}</h4>
+        <el-menu-item v-for="mf in microFrontends.top" :key="mf.route.path" :route="'/play/' + mf.route.path"
+                      :index="'/play/' + mf.route.path">
           <span>{{ mf.name }}</span>
         </el-menu-item>
       </div>
@@ -112,9 +113,20 @@
         </el-menu-item>
       </div>
 
-      <div v-if="microFrontends.bottom.length" class="nav-group">
+      <div class="nav-group">
         <h4>{{ $t('PLUGINS') }}</h4>
-        <el-menu-item v-for="mf in microFrontends.top" :key="mf.route.path" :route="{name: 'plugin.' + mf.route.name}" :index="'/play/' + mf.route.path">
+        <el-menu-item :route="{name: 'plugins'}" index="/plugins">
+          <el-icon>
+            <icon-sugar/>
+          </el-icon>
+          <span>{{ $t('Plugins List') }}</span>
+        </el-menu-item>
+      </div>
+
+      <div v-if="microFrontends.bottom.length" class="nav-group">
+        <h4>{{ $t('PLAY') }}</h4>
+        <el-menu-item v-for="mf in microFrontends.top" :key="mf.route.path" :route="'/play/' + mf.route.path"
+                      :index="'/play/' + mf.route.path">
           <span>{{ mf.name }}</span>
         </el-menu-item>
       </div>
@@ -149,6 +161,7 @@ nav {
   box-shadow: 1px 1px #eee;
   transition: width .2s linear;
   width: $nav-width;
+  overflow-y: auto;
 }
 
 nav .el-menu, nav .el-menu-item:hover {
@@ -188,8 +201,12 @@ a:hover {
   height: 70px;
   align-self: center;
   text-align: center;
+  background-color: #fff;
   transition: background 0.1s linear;
   width: $nav-width;
+  position: sticky;
+  top: 0;
+  z-index: 2;
 
   img {
     max-width: 100%;

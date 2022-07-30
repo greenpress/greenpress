@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import {computed, toRef} from 'vue';
+import {computed} from 'vue';
 import {useRouter} from 'vue-router';
 
 const currentRoute = useRouter().currentRoute;
@@ -16,5 +16,7 @@ const currentMicroFrontend = computed(() => {
 </script>
 
 <style scoped>
-
+iframe {
+  border: none;
+}
 </style>
