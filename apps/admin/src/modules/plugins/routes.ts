@@ -14,7 +14,7 @@ export const managePluginsRoutes = {
     {
       path: ':pluginId',
       name: 'editPlugin',
-      component: EmptyRoute
+      component: async () => (await import('./EditPlugin.vue')).default
     }
   ]
 };

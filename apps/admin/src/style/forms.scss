@@ -1,3 +1,5 @@
+@import "colors";
+
 input[type="color"],
 input[type="date"],
 input[type="datetime"],
@@ -21,7 +23,7 @@ textarea {
 .form-item-flex, .el-form-item {
   display: flex;
   flex-direction: column;
-
+  
   .el-form-item__label {
 	text-align: left;
   }
@@ -33,12 +35,12 @@ textarea {
 	color: white;
 	border: 1px solid $negative-color;
   }
-
+  
   &.el-button--primary {
 	background-color: $main-color;
 	color: white;
 	border: 1px solid $border-color;
-
+	
 	&:hover {
 	  background-color: $main-color;
 	  opacity: 0.8;
@@ -56,4 +58,39 @@ textarea {
   position: sticky;
   top: 0;
   z-index: 2;
+  
+  h2 {
+	strong {
+	  color: $main-color;
+	  
+	  &:before {
+		content: ': ';
+		color: black;
+	  }
+	}
+  }
+  
+  .buttons-group {
+	padding: 0 10px;
+	flex: 1;
+	display: flex;
+	justify-content: flex-end;
+	
+	a {
+	  margin: 0 5px;
+	  padding: 0 15px;
+	  line-height: 40px;
+	  transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+	  
+	  &.active, &:active {
+		background-color: #fff;
+		box-shadow: 2px 2px #eee;
+	  }
+	  
+	  &:hover {
+		color: $secondary-color;
+		border: 0;
+	  }
+	}
+  }
 }

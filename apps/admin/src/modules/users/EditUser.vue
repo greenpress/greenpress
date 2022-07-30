@@ -5,7 +5,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import {useEditUsers} from './compositions/users'
+import {useEditUsers} from './compositions/users.js'
 import UserForm from './components/UserForm.vue'
 import PageTitle from '../core/components/semantics/PageTitle.vue'
 import {useRoute} from 'vue-router'

@@ -91,7 +91,7 @@
           <span>{{ $t('Storage & Assets') }}</span>
         </el-menu-item>
 
-        <el-menu-item :route="{name: 'users'}" index="/users">
+        <el-menu-item v-if="isAdmin" :route="{name: 'users'}" index="/users">
           <el-icon>
             <icon-user/>
           </el-icon>
@@ -105,7 +105,7 @@
           <span>{{ $t('Drafts') }}</span>
         </el-menu-item>
 
-        <el-menu-item :route="{name: 'configurations'}" index="/configurations">
+        <el-menu-item v-if="isAdmin" :route="{name: 'configurations'}" index="/configurations">
           <el-icon>
             <icon-setting/>
           </el-icon>
@@ -138,9 +138,9 @@
 import {useRouter} from 'vue-router';
 import {storeToRefs} from 'pinia';
 import {usePluginsMicroFrontends} from '@/modules/plugins/store/plugins-microfrontends';
+import {isAdmin} from '@/modules/core/store/auth';
 
 const router = useRouter()
-
 const {microFrontends} = storeToRefs(usePluginsMicroFrontends());
 
 defineProps({opened: Boolean})
