@@ -16,6 +16,7 @@ export interface IPlugin extends Document {
   auth: {
     refreshTokenIdentifier?: string;
   };
+  manifestUrl: string,
   subscribedEvents: {
     source?: string,
     kind?: string,
@@ -47,6 +48,7 @@ const MicroFrontendSchema = new mongoose.Schema({
     required: true
   },
   description: String,
+  manifestUrl: String,
   active: {
     type: Boolean,
     default: true,

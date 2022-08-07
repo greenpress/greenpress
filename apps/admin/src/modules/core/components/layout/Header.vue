@@ -40,7 +40,7 @@ const emit = defineEmits(['open']);
 const {user, logout: logoutApi} = useAuth()
 const router = useRouter()
 
-const greeting = computed(() => translate('Hello {userName}', {userName: user.value?.name || ''}))
+const greeting = computed(() => translate('Hello {userName}', {userName: user.value?.fullName || ''}))
 
 const open = () => emit('open')
 

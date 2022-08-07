@@ -1,6 +1,7 @@
 import User, {UserDocument, UserModel} from '../models/user';
 import {cookieTokenExpiration} from '../../config';
 import {Types} from 'mongoose';
+import {getAbsoluteDate} from './dates';
 
 export async function getUser(query: any) {
   try {
@@ -16,8 +17,8 @@ export async function getUser(query: any) {
 }
 
 export async function updateUser(
-  user: UserDocument | {_id: string | Types.ObjectId, tenant: string},
-  {email = null, password = null, name = null, roles = null}
+  user: UserDocument | { _id: string | Types.ObjectId, tenant: string },
+  {email = null, password = null, fullName = null, roles = null, firstName = null, lastName = null, birthDate = null}
 ) {
   let directUpdate;
   if (!(user instanceof User)) {
@@ -29,8 +30,8 @@ export async function updateUser(
     }
   }
 
-  if (name) {
-    user.name = name;
+  if (fullName) {
+    user.fullName = fullName;
   }
 
   if (email) {
@@ -39,6 +40,18 @@ export async function updateUser(
 
   if (password) {
     user.password = password;
+  }
+
+  if (firstName) {
+    user.firstName = firstName;
+  }
+
+  if (lastName) {
+    user.lastName = lastName;
+  }
+
+  if (birthDate) {
+    user.birthDate = getAbsoluteDate(birthDate);
   }
 
   if (roles) {

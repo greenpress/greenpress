@@ -55,6 +55,10 @@ export function getSignedToken(user:any, tokenIdentifier:string, expiresIn = tok
 		tenant: user.tenant,
 		email: user.email,
 		name: user.name,
+		fullName: user.fullName,
+		firstName: user.firstName,
+		lastName: user.lastName,
+		birthDate: user.birthDate,
 		roles: user.roles
 	}
 	if (tokenIdentifier) {

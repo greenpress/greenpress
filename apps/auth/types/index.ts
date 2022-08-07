@@ -13,6 +13,10 @@ export interface AuthRequest extends Request {
     tenant: string,
     email: string,
     name: string,
+    fullName: string,
+    firstName: string,
+    lastName: string,
+    birthDate: string,
     roles: string[],
     isPrivileged: boolean,
     user: any

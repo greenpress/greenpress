@@ -7,6 +7,7 @@ export interface IPlugin {
   user: string;
   token: string;
   proxyUrl: string;
+  manifestUrl: string;
   authAcquire: {
     refreshTokenUrl: string;
     refreshTokenKey: string;

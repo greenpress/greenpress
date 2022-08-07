@@ -3,6 +3,7 @@ import {setToken} from '../services/users';
 
 import {defaultAuthType, defaultRole} from '../../config';
 import {Strategy} from 'passport-local';
+import {getAbsoluteDate} from '../services/dates';
 
 /**
  * Return the Passport Local Strategy object.
@@ -15,12 +16,15 @@ module.exports = new Strategy(
     passReqToCallback: true,
   },
   (req, email, password, done) => {
-    const name = (req.body && req.body.name) || '';
+    const { name, fullName, firstName, lastName, birthDate } = req.body || {};
     const newUser = new User({
       tenant: req.headers.tenant,
       email: email.trim(),
       password: password.trim(),
-      name,
+      fullName: fullName || name || (`${firstName} ${lastName}`),
+      firstName,
+      lastName,
+      birthDate: birthDate ? getAbsoluteDate(birthDate) : undefined,
       roles: [defaultRole],
     });
     const authType = req.body.authType || defaultAuthType;
@@ -38,7 +42,10 @@ module.exports = new Strategy(
           cookieToken,
           user: {
             email: user.email,
-            name: user.name,
+            name: user.fullName,
+            fullName: user.fullName,
+            firstName: user.firstName,
+            lastName: user.lastName,
             roles: user.roles,
           },
         });

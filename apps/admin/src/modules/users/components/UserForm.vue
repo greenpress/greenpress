@@ -1,6 +1,6 @@
 <template>
   <el-form @submit.native.prevent="submit">
-    <FormInput title="Name" :model-value="name" @input="editedData.name = $event"/>
+    <FormInput title="Name" :model-value="fullName" @input="editedData.fullName = $event"/>
     <FormInput title="Email" :model-value="email" @input="editedData.email = $event"/>
     <el-form-item label="Password">
       <small>Leave empty to ignore changes</small>
@@ -37,7 +37,7 @@ export default {
   },
   setup(props, {emit}) {
     const editedData = reactive({
-      name: null,
+      fullName: null,
       email: null,
       password: null,
       roles: props.user && props.user._id ? null : ['user'],
@@ -54,7 +54,7 @@ export default {
 
     return {
       editedData,
-      ...useEditedInputs(editedData, props.user, ['name', 'email']),
+      ...useEditedInputs(editedData, props.user, ['fullName', 'email']),
       roles,
       submit() {
         emit('submitted', clearNulls(editedData))

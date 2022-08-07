@@ -9,7 +9,10 @@ export interface IUser {
   tenant: string;
   email: string;
   password: string;
-  name: string;
+  fullName: string;
+  firstName: string;
+  lastName: string;
+  birthDate: string;
   salt: string;
   roles: string[];
   tokens: any[];
@@ -54,7 +57,10 @@ const UserSchema = new mongoose.Schema<UserDocument, UserModel>({
     required: true,
   },
   password: String,
-  name: String,
+  fullName: String,
+  firstName: String,
+  lastName: String,
+  birthDate: String,
   salt: String,
   roles: {
     type: [String],
@@ -189,7 +195,7 @@ UserSchema.statics.getUsersList = function getUsersList(tenant: string, usersIds
       query.tenant = tenant;
 
       return this.find(query)
-        .select(isPrivilegedUser ? privilegedUserFields : 'name')
+        .select(isPrivilegedUser ? privilegedUserFields : 'fullName')
         .lean()
         .then(users => JSON.stringify(users))
         .catch(() => '[]');

@@ -1,0 +1,32 @@
+{
+  "name": "@greenpress/plugin-play",
+  "version": "2.0.21",
+  "description": "Play a plugin for Greenpress",
+  "main": "./dist/index.js",
+  "scripts": {
+    "demo": "npx tsx watch ./examples/basic-demo.ts",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/greenpress/greenoress.git"
+  },
+  "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/greenpress/greenpress/issues"
+  },
+  "homepage": "https://github.com/greenpress/greenpress#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@greenpress/sdk": "^2.0.21",
+    "fastify": "^4.3.0",
+    "jsonwebtoken": "^8.5.1",
+    "undici": "^5.8.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.6.3"
+  }
+}
