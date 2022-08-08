@@ -1,5 +1,5 @@
 import {join} from 'path';
-import {manifest} from './app';
+import manifest from './manifest';
 import {RouteHandlerMethod} from 'fastify/types/route';
 
 export interface MicroFrontend {
