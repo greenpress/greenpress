@@ -4,6 +4,7 @@ import {RouteHandlerMethod} from 'fastify/types/route';
 import {manifest, ManifestOptions} from './manifest';
 import config, {ConfigOptions, setConfig} from './config';
 import {getRefreshTokenRoute} from './authentication';
+import handlers from './handlers';
 
 const hooks = new Set<{ subscribedEvent, path, handler }>();
 
@@ -50,6 +51,10 @@ function createApp(): FastifyInstance {
   app.route(getRefreshTokenRoute());
   playManifest();
   playHooks();
+
+  if (!(config.greenpressUrl || handlers.refreshToken.length)) {
+    throw new Error('you must provide either a refresh token handler or Greenpress application credentials');
+  }
 
   return app;
 }

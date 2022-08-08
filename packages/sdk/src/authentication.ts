@@ -4,7 +4,10 @@ import BaseSDK from './base-gp-sdk';
 export interface IUser {
   _id: string;
   email: string;
-  name: string;
+  fullName: string;
+  firstName: string;
+  lastName: string;
+  birthDate: string;
   roles: string[];
 
   [key: string]: any;
@@ -23,7 +26,10 @@ export interface BasicPayload {
 export interface ISignupInformation {
   email: string;
   password: string;
-  name: string;
+  fullName?: string;
+  firstName: string;
+  lastName: string;
+  birthDate: string;
 }
 
 export default class GpAuthentication extends BaseSDK {
