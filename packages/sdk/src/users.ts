@@ -2,23 +2,23 @@ import {GreenpressSDKOptions} from './types';
 import BaseSDK from './base-gp-sdk';
 import {IUser} from './authentication';
 
-export interface IManagedUser extends IUser {
-  internalMetadata?: any;
+export interface IManagedUser<T = any> extends IUser {
+  internalMetadata?: T;
 }
 
-export interface IManagedUserRequest extends IManagedUser {
+export interface IManagedUserRequest<T = any> extends IManagedUser<T> {
   password?: string;
 }
 
-export default class GpUsers extends BaseSDK {
+export default class GpUsers<T = any> extends BaseSDK {
   private relativePath = '/api/users';
 
   constructor(options: GreenpressSDKOptions) {
     super(options)
   }
 
-  getUser(userId: string) {
-    return this.callJsonApi<IManagedUser>(`${this.relativePath}/${userId}`)
+  getUser<Z = T>(userId: string) {
+    return this.callJsonApi<IManagedUser<Z>>(`${this.relativePath}/${userId}`)
   }
 
   getList() {
@@ -29,7 +29,7 @@ export default class GpUsers extends BaseSDK {
     return this.callApi(`${this.relativePath}/${userId}`, {method: 'delete'});
   }
 
-  update(userId: string, changes: Partial<IManagedUserRequest>): Promise<IManagedUser> {
+  update<Z = T>(userId: string, changes: Partial<IManagedUserRequest<Z>>): Promise<IManagedUser> {
     return this.callJsonApi<IManagedUser>(
       `${this.relativePath}/${userId}`,
       {
@@ -40,7 +40,7 @@ export default class GpUsers extends BaseSDK {
     )
   }
 
-  create(user: IManagedUserRequest): Promise<IManagedUser> {
+  create<Z = T>(user: IManagedUserRequest<Z>): Promise<IManagedUser<Z>> {
     return this.callJsonApi<IManagedUser>(this.relativePath, {
       method: 'post',
       headers: {'content-type': 'application/json'},

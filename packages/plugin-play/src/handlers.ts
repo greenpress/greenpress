@@ -7,7 +7,9 @@ export const handlers = {
   storeUser: [],
 }
 
-export function onRefreshToken<T = any>(handler: (tokenPayload: T, request: FastifyRequest) => void | { payload: T } | Promise<void | { payload: T }>) {
+export type StandardPayload = { sub: string, identifier: string };
+
+export function onRefreshToken<T = any>(handler: (tokenPayload: T, request: FastifyRequest) => void | { payload: T & StandardPayload } | Promise<void | { payload: T & StandardPayload }>) {
   handlers.refreshToken.push(handler);
 }
 

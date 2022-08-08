@@ -1,12 +1,16 @@
 import {RouteOptions} from 'fastify/types/route';
 import jwt from 'jsonwebtoken';
+import GpUsers from '@greenpress/sdk/dist/users';
 import manifest from './manifest';
-import handlers from './handlers';
+import handlers, {StandardPayload} from './handlers';
 import config from './config';
 
 const notAuthorized = {message: 'you are not authorized'};
 
 export function getRefreshTokenRoute(): RouteOptions {
+
+  const usersSdk = new GpUsers<{ tokenIdentifier: string }>({fetch: globalThis.fetch, appUrl: config.greenpressUrl});
+
   return {
     method: 'POST',
     url: manifest.authAcquire.refreshTokenUrl,
@@ -16,12 +20,13 @@ export function getRefreshTokenRoute(): RouteOptions {
         reply.statusCode = 401;
         return notAuthorized;
       }
+      let payload: StandardPayload;
       try {
-        const payload = jwt.verify(expectedRefreshToken, config.refreshTokenSecret);
+        payload = jwt.verify(expectedRefreshToken, config.refreshTokenSecret);
         if (handlers.refreshToken.length) {
           for (let handler of handlers.refreshToken) {
             const result = await handler(payload, request);
-            if (result?.payload) {
+            if (result?.payload as StandardPayload) {
               return {
                 [manifest.authAcquire.refreshTokenKey]: jwt.sign(result.payload, config.refreshTokenSecret, {expiresIn: '90d'}),
                 [manifest.authAcquire.accessTokenKey]: jwt.sign(result.payload, config.accessTokenSecret, {expiresIn: '1h'}),
@@ -33,8 +38,21 @@ export function getRefreshTokenRoute(): RouteOptions {
         reply.statusCode = 401;
         return notAuthorized;
       }
-      reply.statusCode = 403;
-      // will store inside greenpress!
+
+      const user = await usersSdk.getUser(payload.sub);
+      if (payload.identifier !== user.internalMetadata?.tokenIdentifier) {
+        reply.statusCode = 401;
+        return notAuthorized;
+      }
+      const newPayload: StandardPayload = {
+        sub: payload.sub,
+        identifier: (Date.now() + Math.random()).toString().substring(0, 10)
+      }
+      await usersSdk.update(payload.sub, {internalMetadata: {tokenIdentifier: newPayload.identifier}})
+      return {
+        [manifest.authAcquire.refreshTokenKey]: jwt.sign(newPayload, config.refreshTokenSecret, {expiresIn: '90d'}),
+        [manifest.authAcquire.accessTokenKey]: jwt.sign({sub: newPayload.sub}, config.accessTokenSecret, {expiresIn: '1h'}),
+      };
     }
   };
 }
