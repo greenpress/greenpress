@@ -207,7 +207,18 @@ function updatePost(req, res) {
     })
     .then(body => Object.assign(post, body).save())
     .then(post => {
-      res.status(200).json(getDisplayPost(post.toObject(), req.category)).end()
+      const rawPost = post.toObject();
+      res.status(200).json(getDisplayPost(rawPost, req.category)).end()
+
+      emitPlatformEvent({
+        tenant: req.headers.tenant,
+        user: req.headers.user._id,
+        source: 'content',
+        kind: 'posts',
+        eventName: 'postUpdated',
+        description: `post updated: ${rawPost.title}`,
+        metadata: rawPost
+      })
     })
     .catch(() => res.status(400).json({ message: 'post update failed' }).end())
 }

@@ -13,7 +13,7 @@
     "node": ">=10.5"
   },
   "scripts": {
-    "dev": "npm start",
+    "dev": "npx nodemon --watch server index.js",
     "prestart": "node ./migrator",
     "start": "node index.js"
   },
@@ -26,6 +26,9 @@
     "mongoose": "^5.10.5",
     "node-fetch": "^2.6.1",
     "shortid": "^2.2.14"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
   },
   "publishConfig": {
     "access": "public"

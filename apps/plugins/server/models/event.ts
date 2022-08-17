@@ -2,7 +2,7 @@ import mongoose, {Document} from 'mongoose'
 
 export interface IEvent extends Document {
   tenant: string;
-  user?: mongoose.Types.ObjectId;
+  user?: string;
   source: string;
   kind: string;
   eventName: string;
@@ -18,7 +18,7 @@ const EventSchema = new mongoose.Schema<IEvent>({
     required: true
   },
   user: {
-    type: mongoose.Types.ObjectId,
+    type: String,
   },
   source: {
     type: String,

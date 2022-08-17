@@ -83,7 +83,6 @@ async function renameFile(storage, oldIdentifier, newFileName) {
     await cloudinary.ready;
     await cloudinary.rename(oldIdentifier, newIdentifier);
   } catch (e) {
-    console.log({ e })
     throw new Error(e.message || 'failed to rename asset: ' + oldFullPath);
   }
 

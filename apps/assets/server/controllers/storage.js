@@ -19,7 +19,6 @@ async function createStorage(req, res) {
       message: 'storage creation failed',
       description: 'failed to encrypt authentication values'
     }).end();
-    console.log(e);
     return;
   }
 

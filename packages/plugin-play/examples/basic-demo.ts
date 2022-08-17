@@ -1,8 +1,9 @@
 import {start, registerToHook} from '../src'
 
-registerToHook({source: 'content', path: 'my-hook'}, () => {
+registerToHook({source: 'content', path: 'my-hook'}, (request) => {
+  console.log(request.headers, request.body);
   return {message: 'king'}
-})
+});
 
 start({
   config: {

@@ -78,7 +78,7 @@ function playHooks() {
       url: routePath,
       handler: hook.handler
     })
-    console.log('subscribed event configured: ', hook.subscribedEvent);
+    console.log('subscribed event configured: ', routePath, hook.subscribedEvent);
   })
 }
 

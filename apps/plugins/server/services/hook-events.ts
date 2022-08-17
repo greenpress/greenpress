@@ -14,6 +14,7 @@ export function emitPlatformEvent(event: IEvent) {
 }
 
 hookEvents.on('hook', async (platformEvent: IEvent) => {
+  console.log('hookihn event', platformEvent)
   const awaitedPlugins = await Plugin.find({
     $and: [
       {tenant: platformEvent.tenant},
@@ -49,6 +50,7 @@ hookEvents.on('hook', async (platformEvent: IEvent) => {
         shouldHook = true;
       }
 
+      console.log('plugin should hook ? ', shouldHook)
       if (shouldHook) {
         hooks.push({hookUrl: subscribedEvent.hookUrl})
       }

@@ -32,12 +32,12 @@ export async function createEvent(req, res) {
 
   try {
     const event = new PlatformEvent(req.body);
-    if (req.user.roles.includes('plugin')) {
+    if (req.user && req.user.roles.includes('plugin')) {
       event.source = 'plugin:' + event.source;
     }
     await event.save();
     emitPlatformEvent(event);
-  } catch {
+  } catch (err) {
     //
   }
 

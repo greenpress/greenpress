@@ -11,6 +11,21 @@ export function getRefreshTokenRoute(): RouteOptions {
 
   const usersSdk = new GpUsers<{ tokenIdentifier: string }>({fetch: globalThis.fetch, appUrl: config.greenpressUrl});
 
+  if (config.greenpressUrl) {
+    handlers.refreshToken.push(async (payload) => {
+      const user = await usersSdk.getUser(payload.sub);
+      if (payload.identifier !== user.internalMetadata?.tokenIdentifier) {
+        throw new Error('user is not verified on greenpress BaaS')
+      }
+      const newPayload: StandardPayload = {
+        sub: payload.sub,
+        identifier: (Date.now() + Math.random()).toString().substring(0, 10)
+      }
+      await usersSdk.update(payload.sub, {internalMetadata: {tokenIdentifier: newPayload.identifier}})
+      return newPayload;
+    })
+  }
+
   return {
     method: 'POST',
     url: manifest.authAcquire.refreshTokenUrl,
@@ -35,24 +50,12 @@ export function getRefreshTokenRoute(): RouteOptions {
           }
         }
       } catch (err) {
-        reply.statusCode = 401;
-        return notAuthorized;
+        if (config.dev) {
+          console.log(err);
+        }
       }
-
-      const user = await usersSdk.getUser(payload.sub);
-      if (payload.identifier !== user.internalMetadata?.tokenIdentifier) {
-        reply.statusCode = 401;
-        return notAuthorized;
-      }
-      const newPayload: StandardPayload = {
-        sub: payload.sub,
-        identifier: (Date.now() + Math.random()).toString().substring(0, 10)
-      }
-      await usersSdk.update(payload.sub, {internalMetadata: {tokenIdentifier: newPayload.identifier}})
-      return {
-        [manifest.authAcquire.refreshTokenKey]: jwt.sign(newPayload, config.refreshTokenSecret, {expiresIn: '90d'}),
-        [manifest.authAcquire.accessTokenKey]: jwt.sign({sub: newPayload.sub}, config.accessTokenSecret, {expiresIn: '1h'}),
-      };
+      reply.statusCode = 401;
+      return notAuthorized;
     }
   };
 }
