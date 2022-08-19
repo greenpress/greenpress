@@ -1,6 +1,6 @@
-import GreenpressSDK from '@greenpress/sdk'
+import GreenpressAdministratorSDK from '@greenpress/sdk/dist/administrator'
 
-const sdk = new GreenpressSDK({
+const sdk = new GreenpressAdministratorSDK({
     appUrl: location.origin,
     fetch: globalThis.fetch.bind(globalThis),
 })

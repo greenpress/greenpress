@@ -4,7 +4,7 @@ export const privilegedRoles = process.env.PRIVILEGED_ROLES ? process.env.PRIVIL
 
 export const roles = process.env.ROLES ? process.env.ROLES.split(',') : ['user', 'plugin', 'admin']
 
-export const mongoUri = process.env.MONGO_URI || 'mongodb://localhost/auth-service';
+export const mongoUri = process.env.MONGO_URI || 'mongodb://localhost/greenpress';
 export const cookieBaseDomain = process.env.COOKIE_BASE_DOMAIN ||
   (process.env.APPLICATION_URL ?
     new URL(process.env.APPLICATION_URL).hostname.replace(/www\.|www/, '')
