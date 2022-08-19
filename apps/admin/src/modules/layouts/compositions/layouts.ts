@@ -46,7 +46,7 @@ export function useEditLayout(kind: LayoutKind) {
   )
 
   const {submit, submitting} = useSubmitting(
-    (payload) => sdk.layouts.update(kind, payload).then((newLayout) => {
+    (payload) => sdk.manageLayouts.update(kind, payload).then((newLayout) => {
       removeUnsavedChanges('layout', kind);
       layout.value = newLayout;
     }),
