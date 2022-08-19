@@ -3,7 +3,7 @@ import {join} from 'path';
 import {RouteHandlerMethod} from 'fastify/types/route';
 import {manifest, ManifestOptions} from './manifest';
 import config, {ConfigOptions, setConfig} from './config';
-import {getRefreshTokenRoute} from './authentication';
+import {getRefreshTokenRoute, verifyAccessToken} from './authentication';
 import handlers from './handlers';
 
 const hooks = new Set<{ subscribedEvent, path, handler }>();
@@ -36,6 +36,20 @@ export function getApp(): FastifyInstance {
   return app || createApp();
 }
 
+export function registerToHook(hook: { source?: string, kind?: string, eventName?: string, path: string }, handler: RouteHandlerMethod) {
+  const subscribedEvent = {
+    source: hook.source || '*',
+    kind: hook.kind || '*',
+    eventName: hook.eventName || '*',
+  };
+  hooks.add({
+    subscribedEvent,
+    path: hook.path,
+    handler
+  });
+  manifest.subscribedEvents.push(subscribedEvent);
+}
+
 function createApp(): FastifyInstance {
   app = fastify(config.dev ? {logger: true} : {});
 
@@ -63,7 +77,8 @@ function playManifest() {
   getApp().route({
     method: 'GET',
     url: manifest.manifestUrl,
-    handler() {
+    handler({headers, body}) {
+      setImmediate(() => handlers.manifest.forEach(cb => cb({headers, body})));
       return manifest;
     }
   })
@@ -76,22 +91,9 @@ function playHooks() {
     getApp().route({
       method: 'POST',
       url: routePath,
+      preHandler: verifyAccessToken,
       handler: hook.handler
     })
     console.log('subscribed event configured: ', routePath, hook.subscribedEvent);
   })
-}
-
-export function registerToHook(hook: { source?: string, kind?: string, eventName?: string, path: string }, handler: RouteHandlerMethod) {
-  const subscribedEvent = {
-    source: hook.source || '*',
-    kind: hook.kind || '*',
-    eventName: hook.eventName || '*',
-  };
-  hooks.add({
-    subscribedEvent,
-    path: hook.path,
-    handler
-  });
-  manifest.subscribedEvents.push(subscribedEvent);
 }

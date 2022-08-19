@@ -1,9 +1,20 @@
-import {start, registerToHook} from '../src'
+import {start, registerToHook, addMicroFrontend} from '../src'
 
 registerToHook({source: 'content', path: 'my-hook'}, (request) => {
-  console.log(request.headers, request.body);
+  console.log(request.tenantPayload, request.headers, request.body);
   return {message: 'king'}
 });
+
+addMicroFrontend({
+  name: 'custom demo',
+  url: 'https://google.com',
+  description: 'google it',
+  route: {
+    name: 'custom-demo',
+    path:'custom',
+    navBarPosition: 'top',
+  },
+})
 
 start({
   config: {

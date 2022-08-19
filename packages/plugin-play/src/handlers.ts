@@ -1,4 +1,5 @@
 import {FastifyRequest} from 'fastify/types/request';
+import {FastifyReply} from 'fastify';
 
 export const handlers = {
   refreshToken: [],
@@ -17,7 +18,7 @@ export function onNewTenant(handler) {
   handlers.newTenant.push(handler);
 }
 
-export function onManifest(handler) {
+export function onManifest(handler: (request: FastifyRequest) => any) {
   handlers.manifest.push(handler);
 }
 

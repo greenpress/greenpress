@@ -6,12 +6,10 @@ export interface MicroFrontend {
   name: string;
   description: string;
   url: string;
-  active: boolean;
-  opened: boolean;
   route?: {
     name: string;
     path: string;
-    roles: string[],
+    roles?: string[],
     navBarPosition: 'top' | 'bottom';
   };
   component?: {
@@ -28,6 +26,6 @@ export function addProxyEndpoint(path: string, handler: RouteHandlerMethod) {
   // add to server.
 }
 
-export function addMicroFrontends(mfe: MicroFrontend) {
-
+export function addMicroFrontend(mfe: MicroFrontend) {
+  manifest.microFrontends.push(mfe);
 }

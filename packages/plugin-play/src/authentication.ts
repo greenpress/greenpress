@@ -4,12 +4,20 @@ import GpUsers from '@greenpress/sdk/dist/users';
 import manifest from './manifest';
 import handlers, {StandardPayload} from './handlers';
 import config from './config';
+import {FastifyRequest} from 'fastify/types/request';
+import {getSdk} from './sdk';
+
+declare module 'fastify' {
+  interface FastifyRequest {
+    tenantPayload: StandardPayload & any;
+  }
+}
 
 const notAuthorized = {message: 'you are not authorized'};
 
 export function getRefreshTokenRoute(): RouteOptions {
 
-  const usersSdk = new GpUsers<{ tokenIdentifier: string }>({fetch: globalThis.fetch, appUrl: config.greenpressUrl});
+  const usersSdk = getSdk().users;
 
   if (config.greenpressUrl) {
     handlers.refreshToken.push(async (payload) => {
@@ -58,4 +66,20 @@ export function getRefreshTokenRoute(): RouteOptions {
       return notAuthorized;
     }
   };
+}
+
+export async function verifyAccessToken(req: FastifyRequest): Promise<void> {
+  const {authorization} = req.headers;
+
+  const token = authorization?.split(' ')[1];
+
+  if (!token) {
+    throw new Error('authorization token was not provided');
+  }
+
+  try {
+    req.tenantPayload = jwt.verify(token, config.accessTokenSecret);
+  } catch {
+    throw new Error('authorization token was not valid');
+  }
 }
