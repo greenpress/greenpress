@@ -2,6 +2,7 @@ import {Response, Request, RequestHandler} from 'express'
 import {AuthRequest} from '../../types'
 import User, {IUser} from '../models/user'
 import UserInternalMetadata from '../models/user-internal-metadata';
+import {getEncryptedData, setEncryptedData} from '../services/encrypted-data';
 
 const {Types: {ObjectId}} = require('mongoose')
 const UsersService = require('../services/users')
@@ -60,6 +61,41 @@ function getUser(req: AuthRequest, res: Response): RequestHandler {
     })
     .catch(() => res.status(404).json({message: 'user not exists'}).end())
   return;
+}
+
+async function getUserEncryptedData(req: Request, res: Response) {
+  const tenant = req.headers.tenant as string;
+  if (!tenant) {
+    return res.status(401).end();
+  }
+  try {
+    const user = await User.findOne({_id: req.params.userId, tenant}).select('_id').lean().exec();
+    if (!user) {
+      throw new Error('user not found');
+    }
+    const {value} = await getEncryptedData(tenant, user._id);
+
+    res.status(200).set('Content-Type', 'application/json').end(value);
+  } catch (e) {
+    res.status(400).json({message: 'failed to retrieve encrypted data for user'}).end()
+  }
+}
+
+async function setUserEncryptedData(req: Request, res: Response) {
+  const tenant = req.headers.tenant as string;
+  if (!tenant) {
+    return res.status(401).end();
+  }
+  try {
+    const user = await User.findOne({_id: req.params.userId, tenant}).select('_id').lean().exec();
+    if (!user) {
+      throw new Error('user not found');
+    }
+    await setEncryptedData(tenant, user._id, JSON.stringify(req.body));
+    res.status(200).set('Content-Type', 'application/json').end('{}');
+  } catch (e) {
+    res.status(400).json({message: 'failed to retrieve encrypted data for user'}).end()
+  }
 }
 
 async function createUser(req: AuthRequest, res: Response) {
@@ -133,4 +169,6 @@ export default {
   getUser,
   updateUser,
   removeUser,
+  getUserEncryptedData,
+  setUserEncryptedData
 }

@@ -7,6 +7,7 @@ import GpConfigurations from './configurations';
 import GpAuthentication from './authentication';
 import GpBlocks from './blocks';
 import GpLayouts from './layouts';
+import authentication from './authentication';
 
 export default class GreenpressSDK extends BaseSDK {
 
@@ -27,5 +28,22 @@ export default class GreenpressSDK extends BaseSDK {
     this.layouts = new GpLayouts(this.options);
     this.configurations = new GpConfigurations(this.options);
     this.authentication = new GpAuthentication(this.options);
+
+    if (!options.getAccessToken) {
+      options.getAccessToken = () => this.authentication.accessToken;
+    }
+    if (!options.refreshToken) {
+      options.refreshToken = () => this.authentication.refreshToken();
+    }
+    if (!options.extraHeaders) {
+      options.extraHeaders = () => {
+        const token = options.getAccessToken();
+        if (token) {
+          return {authorization: 'Bearer ' + token}
+        }
+        return {}
+      }
+    }
   }
+
 }

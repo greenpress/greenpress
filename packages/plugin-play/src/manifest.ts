@@ -6,6 +6,7 @@ export const manifest = {
   appUrl: process.env.APP_URL || '',
   apiPath: pkg.name,
   manifestUrl: '/api/play-manifest',
+  registerUrl: '/api/register',
   proxyPath: '/api/play',
   proxyUrl: '',
   subscribedEvents: [],

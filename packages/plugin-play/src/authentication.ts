@@ -1,11 +1,10 @@
 import {RouteOptions} from 'fastify/types/route';
 import jwt from 'jsonwebtoken';
-import GpUsers from '@greenpress/sdk/dist/users';
 import manifest from './manifest';
 import handlers, {StandardPayload} from './handlers';
 import config from './config';
 import {FastifyRequest} from 'fastify/types/request';
-import {getSdk} from './sdk';
+import {getSdk, getSdkForUrl} from './sdk';
 
 declare module 'fastify' {
   interface FastifyRequest {
@@ -67,6 +66,67 @@ export function getRefreshTokenRoute(): RouteOptions {
     }
   };
 }
+
+export function getRegisterRoute(): RouteOptions {
+
+  const usersSdk = getSdk().users;
+
+  if (config.greenpressUrl) {
+    handlers.newTenant.push(async ({email, password, appUrl}) => {
+      const sdk = getSdkForUrl(appUrl)
+      const {payload} = await sdk.authentication.oAuthSignin({email, password});
+      if (!payload.user?.roles?.includes('plugin')) {
+        throw new Error('should retrieve a plugin user to app: ' + appUrl);
+      }
+      const newPayload: StandardPayload = {
+        sub: '',
+        identifier: (Date.now() + Math.random()).toString().substring(0, 10)
+      }
+      const {payload: {user}} = await usersSdk.create({
+        firstName: appUrl,
+        lastName: 'gp-player-app',
+        email,
+        password,
+        roles: ['user'],
+        internalMetadata: {tokenIdentifier: newPayload.identifier}
+      });
+      newPayload.sub = user._id;
+      return newPayload;
+    })
+  }
+
+  return {
+    method: 'POST',
+    url: manifest.registerUrl,
+    handler: async (request, reply) => {
+      const {email, password, appUrl} = request.body || {} as any;
+      if (!(email && password && appUrl)) {
+        reply.statusCode = 401;
+        return notAuthorized;
+      }
+      try {
+        if (handlers.newTenant.length) {
+          for (let handler of handlers.newTenant) {
+            const result = await handler({email, password, appUrl}, request);
+            if (result?.payload as StandardPayload) {
+              return {
+                [manifest.authAcquire.refreshTokenKey]: jwt.sign(result.payload, config.refreshTokenSecret, {expiresIn: '90d'}),
+                [manifest.authAcquire.accessTokenKey]: jwt.sign(result.payload, config.accessTokenSecret, {expiresIn: '1h'}),
+              }
+            }
+          }
+        }
+      } catch (err) {
+        if (config.dev) {
+          console.log(err);
+        }
+      }
+      reply.statusCode = 401;
+      return notAuthorized;
+    }
+  };
+}
+
 
 export async function verifyAccessToken(req: FastifyRequest): Promise<void> {
   const {authorization} = req.headers;

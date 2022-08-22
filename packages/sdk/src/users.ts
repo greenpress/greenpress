@@ -13,7 +13,7 @@ export interface IManagedUserRequest<T = any> extends IManagedUser<T> {
 export default class GpUsers<T = any> extends BaseSDK {
   private relativePath = '/api/users';
 
-  constructor(options: GreenpressSDKOptions) {
+  constructor(private options: GreenpressSDKOptions) {
     super(options)
   }
 
@@ -40,7 +40,7 @@ export default class GpUsers<T = any> extends BaseSDK {
     )
   }
 
-  create<Z = T>(user: IManagedUserRequest<Z>): Promise<IManagedUser<Z>> {
+  create<Z = T>(user: Omit<IManagedUserRequest<Z>, '_id' | 'fullName' | 'birthDate'>): Promise<IManagedUser<Z>> {
     return this.callJsonApi<IManagedUser>(this.relativePath, {
       method: 'post',
       headers: {'content-type': 'application/json'},

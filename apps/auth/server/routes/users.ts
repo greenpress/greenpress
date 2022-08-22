@@ -2,25 +2,17 @@ import {getRouter} from '@greenpress/api-kit'
 import users from '../controllers/users'
 import verifyUser from '../middleware/verify-user'
 import {onlyPrivileged} from '../middleware/auth-check'
-import {AuthRequest} from '../../types';
 
-const {getUsers, createUser, getUser, updateUser, removeUser} = users
+const {getUsers, createUser, getUser, updateUser, removeUser, getUserEncryptedData, setUserEncryptedData} = users
 const router = getRouter()
 
 router
   .get('/api/users', verifyUser, getUsers)
-  .post('/api/users', verifyUser, onlyPrivileged,
-    (req: AuthRequest, res) => {
-      createUser(req, res);
-    })
+  .post('/api/users', verifyUser, onlyPrivileged, createUser)
+  .post('/api/users/:userId/encrypted', verifyUser, onlyPrivileged, setUserEncryptedData)
   .get('/api/users/:userId', verifyUser, getUser)
-  .put('/api/users/:userId', verifyUser, onlyPrivileged,
-    (req: AuthRequest, res) => {
-      updateUser(req, res);
-    })
-  .delete('/api/users/:userId', verifyUser, onlyPrivileged,
-    (req: AuthRequest, res) => {
-      removeUser(req, res)
-    });
+  .get('/api/users/:userId/encrypted', verifyUser, onlyPrivileged, getUserEncryptedData)
+  .put('/api/users/:userId', verifyUser, onlyPrivileged, updateUser)
+  .delete('/api/users/:userId', verifyUser, onlyPrivileged, removeUser);
 
 export default router;
