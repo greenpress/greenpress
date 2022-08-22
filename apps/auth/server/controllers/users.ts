@@ -63,7 +63,7 @@ function getUser(req: AuthRequest, res: Response): RequestHandler {
   return;
 }
 
-async function getUserEncryptedData(req: Request, res: Response) {
+async function getUserEncryptedData(req: AuthRequest, res: Response) {
   const tenant = req.headers.tenant as string;
   if (!tenant) {
     return res.status(401).end();
@@ -81,7 +81,7 @@ async function getUserEncryptedData(req: Request, res: Response) {
   }
 }
 
-async function setUserEncryptedData(req: Request, res: Response) {
+async function setUserEncryptedData(req: AuthRequest, res: Response) {
   const tenant = req.headers.tenant as string;
   if (!tenant) {
     return res.status(401).end();
