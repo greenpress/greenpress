@@ -10,6 +10,7 @@
           </el-icon>
         </el-button>
       </div>
+      <pre>{{ JSON.stringify(plugin, null, 2) }}</pre>
     </div>
   </el-form>
 </template>
@@ -19,19 +20,20 @@ import EditPluginHeader from './EditPluginHeader.vue';
 import {IPlugin} from '@/services/types/plugin';
 import {reactive} from 'vue';
 import FormInput from '@/modules/core/components/forms/FormInput.vue';
+import pluginsService from '@/services/plugins-service';
 
 const props = defineProps({
   plugin: Object as () => IPlugin,
   submitting: Boolean
 });
 
+const emit = defineEmits(['submitted']);
+
 const edit = reactive<IPlugin>({...props.plugin});
 
 async function refreshPluginFromManifest() {
-  if(!edit.manifestUrl) return;
-
-  const res = await fetch(edit.manifestUrl);
-  const manifest = await res.json();
+  const plugin = await pluginsService.update(props.plugin._id, {hardReset: true, manifestUrl: edit.manifestUrl});
+  emit('submitted', plugin);
 }
 
 const submit = () => alert('soon');
@@ -44,5 +46,10 @@ const submit = () => alert('soon');
 .refresh-manifest {
   text-align: center;
   font-size: 36px;
+}
+
+pre {
+  max-width: 700px;
+  overflow: auto;
 }
 </style>

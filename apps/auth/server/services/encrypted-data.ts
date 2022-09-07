@@ -1,7 +1,7 @@
 import {internalServicesSecret, secretsToken} from '../../config';
 import {service} from '@greenpress/api-kit';
 
-const secretsService = service('SECRETS');
+const secretsService = service('SECRETS', {port: process.env.SECRETS_SERVICE_PORT || 9002});
 
 function callSecretsService(url: string, tenant: string, key: string, value?: any) {
   return secretsService({

@@ -66,14 +66,17 @@ export async function updateUser(
   );
 }
 
-export function deleteUser(userId: string, tenant: string) {
-  User.deleteOne({_id: userId, tenant})
-    .then(() =>
-      Promise.resolve({code: 'USER_DELETED_SUCCESSFULLY', info: userId})
-    )
-    .catch((error) =>
-      Promise.reject({code: 'USER_DELETE_FAILED', info: error})
-    );
+export async function deleteUser(userId: string, tenant: string) {
+  if (!tenant) {
+    throw new Error('tenant is missing');
+  }
+
+  try {
+    await User.deleteOne({_id: userId, tenant}).exec();
+    return {code: 'USER_DELETED_SUCCESSFULLY', info: userId};
+  } catch (error) {
+    throw {code: 'USER_DELETE_FAILED', info: error}
+  }
 }
 
 export function comparePassword(user: UserModel, password: string) {
@@ -83,7 +86,7 @@ export function comparePassword(user: UserModel, password: string) {
         return reject({code: 'FORM_SUBMISSION_FAILED', info: passwordErr});
       }
       if (!isMatch) {
-        return reject({code: 'INCORRECT_CREDENTIAL'});
+        return reject({code: 'INCORRECT_CREDENTIALS'});
       }
       resolve(user);
     });

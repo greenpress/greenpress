@@ -13,6 +13,7 @@
         <el-checkbox-group v-model="roles">
           <el-checkbox label="admin"></el-checkbox>
           <el-checkbox label="editor"></el-checkbox>
+          <el-checkbox label="plugin"></el-checkbox>
           <el-checkbox label="user"></el-checkbox>
         </el-checkbox-group>
       </el-form-item>

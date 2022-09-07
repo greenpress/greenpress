@@ -8,10 +8,30 @@ const {Types: {ObjectId}} = require('mongoose')
 const UsersService = require('../services/users')
 const {isObjectId} = require('../../helpers/mongo-utils')
 
-const privilegedUserFields = 'email fullName firstName lastName birthDate roles'
+const privilegedUserFields = 'email fullName firstName lastName birthDate roles';
+
+function getUsersForAdmin(req: AuthRequest, res: Response): void {
+  const email = req.query.email?.toString().toLowerCase() || undefined;
+
+  User
+    .find({email: req.query.exact ? email : new RegExp(email)})
+    .lean()
+    .exec()
+    .then(users => {
+      res.json(users).end();
+    })
+    .catch(() => {
+      res.json([]).end();
+    })
+}
 
 function getUsers(req: AuthRequest, res: Response): RequestHandler {
   const isPrivileged = !!(req.userPayload && req.userPayload.isPrivileged)
+
+  if (isPrivileged && req.query.email) {
+    getUsersForAdmin(req, res);
+    return;
+  }
 
   const users = (req.query.users as string || '')
     .split(',')
@@ -25,7 +45,7 @@ function getUsers(req: AuthRequest, res: Response): RequestHandler {
     .filter(Boolean)
 
   if (!(isPrivileged || users.length)) {
-    res.status(200).json([]).end()
+    res.status(200).set('Content-Type', 'application/json').end('[]')
     return;
   }
 
@@ -46,7 +66,7 @@ function getUser(req: AuthRequest, res: Response): RequestHandler {
       .lean().exec()
   ]
   if (isPrivileged) {
-    promises.push(UserInternalMetadata.findOne({_id: req.params.userId, tenant: req.headers.tenant}).lean().exec())
+    promises.push(UserInternalMetadata.findOne({_id: req.params.userId, tenant: req.headers.tenant}).lean().exec().catch(() => null))
   }
 
   Promise.all(promises)
@@ -77,7 +97,7 @@ async function getUserEncryptedData(req: AuthRequest, res: Response) {
 
     res.status(200).set('Content-Type', 'application/json').end(value);
   } catch (e) {
-    res.status(400).json({message: 'failed to retrieve encrypted data for user'}).end()
+    res.status(200).json(null).end()
   }
 }
 
@@ -106,6 +126,9 @@ async function createUser(req: AuthRequest, res: Response) {
     user.fullName = name;
   }
   try {
+    if (!user.tenant) {
+      throw new Error('tenant is missing');
+    }
     const {_id, fullName, firstName, lastName, birthDate, email, roles} = await user.save()
     const userInternalMetadata = new UserInternalMetadata({
       tenant: req.headers.tenant,
@@ -154,16 +177,17 @@ async function updateUser(req: AuthRequest, res: Response) {
   }
 }
 
-async function removeUser(req: Request, res: Response) {
+async function removeUser(req: AuthRequest, res: Response) {
   try {
     await UsersService.deleteUser(req.params.userId, req.headers.tenant);
-    res.status(200).json({_id: req.params.userId}).end()
+    res.status(200).json({_id: req.params.userId, tenant: req.headers.tenant}).end()
   } catch (e) {
     res.status(400).json({message: 'user deletion failed'}).end()
   }
 }
 
 export default {
+  getUsersForAdmin,
   getUsers,
   createUser,
   getUser,

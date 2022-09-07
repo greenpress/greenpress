@@ -5,6 +5,7 @@ function getItem(tenant, key) {
 }
 
 function setItem(tenant, key, value) {
+  // TODO: findOneAndUpdate is deprecated
   return Secret.findOneAndUpdate({ tenant, key }, { $set: { tenant, key, value } }, { upsert: true });
 }
 

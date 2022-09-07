@@ -1,7 +1,8 @@
 import {fetch as undiciFetch} from 'undici';
 import GreenpressAdministratorSDK from '@greenpress/sdk/dist/administrator';
-import {FetchLike} from '@greenpress/sdk/dist/types';
+import {FetchLike, GreenpressSDKOptions} from '@greenpress/sdk/dist/types';
 import config from './config';
+import {StandardPayload} from './handlers';
 
 let localSdk: GreenpressAdministratorSDK<{ tokenIdentifier: string }>;
 
@@ -15,8 +16,15 @@ async function authenticate() {
   }
 }
 
-export function getSdkForUrl<T = any>(appUrl: string): GreenpressAdministratorSDK {
-  return new GreenpressAdministratorSDK<T>({appUrl, fetch: globalThis.fetch || undiciFetch as any as FetchLike});
+export function getSdkForUrl<T = any>(appUrl: string, refreshToken?: string, accessToken?: string): GreenpressAdministratorSDK {
+  const options: GreenpressSDKOptions = {appUrl, fetch: globalThis.fetch || undiciFetch as any as FetchLike};
+  if (refreshToken) {
+    options.refreshToken = refreshToken;
+  }
+  if (accessToken) {
+    options.accessToken = accessToken;
+  }
+  return new GreenpressAdministratorSDK<T>(options);
 }
 
 export function getSdk() {
@@ -28,6 +36,18 @@ export function getSdk() {
   return localSdk;
 }
 
-export function verifyWebsite(url: string, email: string) {
-  return false;
+export async function getSdkForTenant(tenantPayload: StandardPayload): Promise<GreenpressAdministratorSDK | null> {
+  try {
+    const data = await getSdk().users.getEncryptedData(tenantPayload.sub);
+    if (!data.appUrl) {
+      return null;
+    }
+    const sdk = getSdkForUrl(data.appUrl, data.currentAuthPayload?.refreshToken, data.currentAuthPayload?.token);
+    return sdk;
+  } catch (e) {
+    if (config.dev) {
+      console.log(e);
+    }
+    return null;
+  }
 }

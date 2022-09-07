@@ -10,7 +10,7 @@ export interface IManagedUserRequest<T = any> extends IManagedUser<T> {
   password?: string;
 }
 
-export default class GpUsers<T = any> extends BaseSDK {
+export default class GpUsers<T = any, E = any> extends BaseSDK {
   private relativePath = '/api/users';
 
   constructor(private options: GreenpressSDKOptions) {
@@ -21,8 +21,13 @@ export default class GpUsers<T = any> extends BaseSDK {
     return this.callJsonApi<IManagedUser<Z>>(`${this.relativePath}/${userId}`)
   }
 
-  getList() {
-    return this.callJsonApi<IUser[]>(this.relativePath);
+  getList(filters?: { email: string, exact?: boolean }) {
+    return this.callJsonApi<IUser[]>(
+      this.relativePath +
+      (filters ?
+        `?${Object.entries(filters).map(([key, value]) => `${key}=${value}`).join('&')}` :
+        '')
+    );
   }
 
   remove(userId: string): Promise<any> {
@@ -46,5 +51,20 @@ export default class GpUsers<T = any> extends BaseSDK {
       headers: {'content-type': 'application/json'},
       body: JSON.stringify(user)
     })
+  }
+
+  getEncryptedData<Z = E>(userId: string) {
+    return this.callJsonApi<IManagedUser<Z>>(`${this.relativePath}/${userId}/encrypted`)
+  }
+
+  async setEncryptedData<Z = E>(userId: string, data: Z): Promise<void> {
+    const res = await this.callApi(`${this.relativePath}/${userId}/encrypted`, {
+      method: 'post',
+      headers: {'content-type': 'application/json'},
+      body: JSON.stringify(data)
+    })
+    if (res.status >= 300) {
+      throw new Error('could not set encrypted data')
+    }
   }
 }
