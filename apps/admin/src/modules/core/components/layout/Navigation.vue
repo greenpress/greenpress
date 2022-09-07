@@ -113,7 +113,7 @@
         </el-menu-item>
       </div>
 
-      <div class="nav-group">
+      <div class="nav-group" v-if="isAdmin">
         <h4>{{ $t('PLUGINS') }}</h4>
         <el-menu-item :route="{name: 'plugins'}" index="/plugins">
           <el-icon>
@@ -125,7 +125,7 @@
 
       <div v-if="microFrontends.bottom.length" class="nav-group">
         <h4>{{ $t('PLAY') }}</h4>
-        <el-menu-item v-for="mf in microFrontends.top" :key="mf.route.path" :route="'/play/' + mf.route.path"
+        <el-menu-item v-for="mf in microFrontends.bottom" :key="mf.route.path" :route="'/play/' + mf.route.path"
                       :index="'/play/' + mf.route.path">
           <span>{{ mf.name }}</span>
         </el-menu-item>

@@ -12,15 +12,15 @@
     <tr v-for="user in users" :key="user._id" @click="$router.push({name: 'editUser', params: {userId: user._id}})">
       <td>
         <router-link :to="{name: 'editUser', params: {userId: user._id}}">
-          {{ user.name || user.fullName || 'Unknown' }}
+          {{ getUserFullName(user) }}
         </router-link>
       </td>
       <td>
-        <a :href="user.email">{{ user.email }}</a>
+        <a :href="'mailto:' + user.email" @click.stop>{{ user.email }}</a>
       </td>
       <td>{{ join(user.roles) }}</td>
       <td>
-        <a @click.prevent="remove(user)">
+        <a @click.prevent.stop="remove(user)">
           <el-icon>
             <icon-delete/>
           </el-icon>
@@ -39,4 +39,15 @@ const {remove} = useRemoveUser((id) => {
 })
 
 const join = (arr) => arr.join(', ')
+
+function getUserFullName(user) {
+  let fullName = user.name || user.fullName;
+  if (fullName) {
+    return fullName;
+  }
+  if (user.firstName) {
+    return user.firstName + (user.lastName ? ' ' + user.lastName : '')
+  }
+  return 'Unknown'
+}
 </script>

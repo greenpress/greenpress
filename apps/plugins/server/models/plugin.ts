@@ -94,6 +94,7 @@ const PluginSchema = new mongoose.Schema<IPlugin>({
     required: true
   },
   description: String,
+  manifestUrl: String,
   apiPath: {
     type: String,
     required: true,

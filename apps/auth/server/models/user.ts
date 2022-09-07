@@ -2,8 +2,8 @@ import mongoose, {ObjectId, Document, Model} from 'mongoose';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import * as config from '../../config';
-import { getSignedToken, getUniqueId } from '../services/tokens';
-import { cacheManager } from '../services/cache-manager';
+import {getSignedToken, getUniqueId} from '../services/tokens';
+import {cacheManager} from '../services/cache-manager';
 
 export interface IUser {
   tenant: string;
@@ -189,14 +189,22 @@ UserSchema.methods.getTokenByRelatedTokens = function getTokenByRelatedTokens(
 };
 
 UserSchema.statics.getUsersList = function getUsersList(tenant: string, usersIds: ObjectId[], isPrivilegedUser = false, privilegedUserFields?: Array<string>) {
+  if (isPrivilegedUser && !usersIds.length) {
+    return this.find({})
+      .select(privilegedUserFields)
+      .lean()
+      .exec()
+      .then(users => JSON.stringify(users));
+  }
   return cacheManager.wrap(`usersList.${tenant}.${isPrivilegedUser}.${usersIds.map(id => id.toString()).join(',')}`,
     () => {
-      const query: Record<string, any> = isPrivilegedUser && !usersIds.length ? {} : {_id: {$in: usersIds}}
+      const query: Record<string, any> = {_id: {$in: usersIds}}
       query.tenant = tenant;
 
       return this.find(query)
         .select(isPrivilegedUser ? privilegedUserFields : 'fullName')
         .lean()
+        .exec()
         .then(users => JSON.stringify(users))
         .catch(() => '[]');
     });

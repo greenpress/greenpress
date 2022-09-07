@@ -2,7 +2,7 @@ import {internalServicesSecret, secretsToken} from '../../config';
 import {service} from '@greenpress/api-kit';
 import {cacheManager} from './cache-manager';
 
-const secretsService = service('SECRETS');
+const secretsService = service('SECRETS', {port: process.env.SECRETS_SERVICE_PORT || 9002});
 
 function callSecretsService(url: string, tenant: string, key: string, value?: any) {
   return secretsService({
@@ -26,6 +26,16 @@ export function setRefreshSecret(tenant: string, apiPath: string, refreshToken: 
   return callSecretsService('/api/secrets/set', tenant, `refresh-token-${tenant}-${apiPath}`, refreshToken)
 }
 
+export function storeOAuthPayloadForPlugin(tenant: string, apiPath: string, payload, authAcquire) {
+  const newRefreshToken = payload[authAcquire.refreshTokenKey];
+  const accessToken = payload[authAcquire.accessTokenKey];
+
+  setRefreshSecret(tenant, apiPath, newRefreshToken).catch();
+  cacheManager.setItem(`plugins:${tenant}-${apiPath}:access-token`, accessToken, {ttl: 60000}).catch()
+
+  return accessToken;
+}
+
 
 export async function refreshTokenForPlugin(tenant: string, apiPath: string, authAcquire): Promise<string> {
   const refreshToken = (await getRefreshSecret(tenant, apiPath)).value;
@@ -41,12 +51,7 @@ export async function refreshTokenForPlugin(tenant: string, apiPath: string, aut
   })
   const body = await res.json();
 
-  const newRefreshToken = body[authAcquire.refreshTokenKey];
-  const accessToken = body[authAcquire.accessTokenKey];
-
-  setRefreshSecret(tenant, apiPath, newRefreshToken).catch();
-  cacheManager.setItem(`plugins:${tenant}-${apiPath}:access-token`, accessToken, {ttl: 60000}).catch()
-
+  const accessToken = storeOAuthPayloadForPlugin(tenant, apiPath, body, authAcquire);
   return accessToken;
 }
 

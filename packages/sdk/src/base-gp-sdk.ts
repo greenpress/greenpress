@@ -20,7 +20,7 @@ export default class BaseSDK {
     return this.callApi(relativeUrl, data).then(async res => {
       const body = await res.json()
       if (res.status >= 300) {
-        throw new Error(body)
+        throw body;
       }
       return body;
     });

@@ -15,6 +15,7 @@ export async function start(options?: { manifest?: ManifestOptions, config?: Con
 
   const app = getApp();
   try {
+    console.log('start application for environment: ', config.dev ? 'development' : 'production');
     await app.listen({port: Number(config.port), host: config.host})
   } catch (err) {
     app.log.error(err);
@@ -36,7 +37,8 @@ export function getApp(): FastifyInstance {
   return app || createApp();
 }
 
-export function registerToHook(hook: { source?: string, kind?: string, eventName?: string, path: string }, handler: RouteHandlerMethod) {
+export function registerToHook(hook: { source?: string, kind?: string, eventName?: string, path?: string }, handler: RouteHandlerMethod) {
+  hook.path = hook.path || btoa(JSON.stringify(hook));
   const subscribedEvent = {
     source: hook.source || '*',
     kind: hook.kind || '*',

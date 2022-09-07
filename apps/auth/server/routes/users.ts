@@ -3,7 +3,7 @@ import users from '../controllers/users'
 import verifyUser from '../middleware/verify-user'
 import {onlyPrivileged} from '../middleware/auth-check'
 
-const {getUsers, createUser, getUser, updateUser, removeUser, getUserEncryptedData, setUserEncryptedData} = users
+const {getUsersForAdmin, getUsers, createUser, getUser, updateUser, removeUser, getUserEncryptedData, setUserEncryptedData} = users
 const router = getRouter()
 
 router
@@ -14,5 +14,12 @@ router
   .get('/api/users/:userId/encrypted', verifyUser, onlyPrivileged, getUserEncryptedData)
   .put('/api/users/:userId', verifyUser, onlyPrivileged, updateUser)
   .delete('/api/users/:userId', verifyUser, onlyPrivileged, removeUser);
+
+router
+  .get('/internal-api/users', getUsersForAdmin)
+  .post('/internal-api/users', createUser)
+  .put('/internal-api/users/:userId', updateUser)
+  .delete('/internal-api/users/:userId', removeUser);
+
 
 export default router;

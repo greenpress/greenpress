@@ -1,9 +1,9 @@
-import {RouteOptions} from 'fastify/types/route';
 import jwt from 'jsonwebtoken';
-import manifest from './manifest';
-import handlers, {StandardPayload} from './handlers';
-import config from './config';
+import {RouteOptions} from 'fastify/types/route';
 import {FastifyRequest} from 'fastify/types/request';
+import manifest from './manifest';
+import handlers, {onNewTenant, onRefreshToken, StandardPayload} from './handlers';
+import config from './config';
 import {getSdk, getSdkForUrl} from './sdk';
 
 declare module 'fastify' {
@@ -14,22 +14,27 @@ declare module 'fastify' {
 
 const notAuthorized = {message: 'you are not authorized'};
 
+function getHostname(fullUrl: string) {
+  const url = new URL(fullUrl);
+  return url.hostname;
+}
+
 export function getRefreshTokenRoute(): RouteOptions {
 
   const usersSdk = getSdk().users;
 
   if (config.greenpressUrl) {
-    handlers.refreshToken.push(async (payload) => {
-      const user = await usersSdk.getUser(payload.sub);
-      if (payload.identifier !== user.internalMetadata?.tokenIdentifier) {
+    onRefreshToken(async ({sub, identifier}) => {
+      const user = await usersSdk.getUser(sub);
+      if (identifier !== user.internalMetadata?.tokenIdentifier) {
         throw new Error('user is not verified on greenpress BaaS')
       }
       const newPayload: StandardPayload = {
-        sub: payload.sub,
+        sub,
         identifier: (Date.now() + Math.random()).toString().substring(0, 10)
       }
-      await usersSdk.update(payload.sub, {internalMetadata: {tokenIdentifier: newPayload.identifier}})
-      return newPayload;
+      await usersSdk.update(sub, {internalMetadata: {tokenIdentifier: newPayload.identifier}})
+      return {payload: newPayload};
     })
   }
 
@@ -72,9 +77,14 @@ export function getRegisterRoute(): RouteOptions {
   const usersSdk = getSdk().users;
 
   if (config.greenpressUrl) {
-    handlers.newTenant.push(async ({email, password, appUrl}) => {
-      const sdk = getSdkForUrl(appUrl)
-      const {payload} = await sdk.authentication.oAuthSignin({email, password});
+    onNewTenant(async ({email, password, appUrl}) => {
+      const tenantSdk = getSdkForUrl(appUrl)
+      const emailSplit = email.split('@');
+      if (emailSplit.length === 2 && getHostname(appUrl) !== emailSplit[1].split(':')[0]) {
+        throw new Error('email must be provided from the same app url');
+      }
+      // email will be: {pluginId}.{tenantId}@${tenantHostname}
+      const {payload} = await tenantSdk.authentication.oAuthSignin({email, password});
       if (!payload.user?.roles?.includes('plugin')) {
         throw new Error('should retrieve a plugin user to app: ' + appUrl);
       }
@@ -82,16 +92,35 @@ export function getRegisterRoute(): RouteOptions {
         sub: '',
         identifier: (Date.now() + Math.random()).toString().substring(0, 10)
       }
-      const {payload: {user}} = await usersSdk.create({
-        firstName: appUrl,
-        lastName: 'gp-player-app',
+      const [existingUser] = await usersSdk.getList({email, exact: true});
+      let user;
+      if (existingUser) {
+        user = existingUser;
+        await usersSdk.update(user._id, {
+          firstName: appUrl,
+          lastName: 'gp-player-app',
+          email,
+          password
+        });
+      } else {
+        user = await usersSdk.create({
+          firstName: appUrl,
+          lastName: 'gp-player-app',
+          email,
+          password,
+          roles: ['user'],
+          internalMetadata: {tokenIdentifier: newPayload.identifier}
+        });
+      }
+
+      await usersSdk.setEncryptedData(user._id, {
+        appUrl,
         email,
         password,
-        roles: ['user'],
-        internalMetadata: {tokenIdentifier: newPayload.identifier}
-      });
+        currentAuthPayload: payload
+      })
       newPayload.sub = user._id;
-      return newPayload;
+      return {payload: newPayload};
     })
   }
 
@@ -101,6 +130,7 @@ export function getRegisterRoute(): RouteOptions {
     handler: async (request, reply) => {
       const {email, password, appUrl} = request.body || {} as any;
       if (!(email && password && appUrl)) {
+        console.log('something is missing in request', {email, password, appUrl});
         reply.statusCode = 401;
         return notAuthorized;
       }
@@ -126,7 +156,6 @@ export function getRegisterRoute(): RouteOptions {
     }
   };
 }
-
 
 export async function verifyAccessToken(req: FastifyRequest): Promise<void> {
   const {authorization} = req.headers;

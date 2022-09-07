@@ -43,8 +43,13 @@ export default class GpAuthentication extends BaseSDK {
 
   constructor(options: GreenpressSDKOptions) {
     super(options);
-    if (options.getAccessToken) {
-      this.#accessToken = options.getAccessToken();
+    if (options.accessToken || options.getAccessToken) {
+      this.#accessToken = options.accessToken || options.getAccessToken();
+      delete options.accessToken;
+    }
+    if (options.refreshToken) {
+      this.#refreshToken = options.refreshToken;
+      delete options.refreshToken;
     }
   }
 
@@ -96,7 +101,8 @@ export default class GpAuthentication extends BaseSDK {
       })
   }
 
-  refreshToken(refreshToken: string = this.#refreshToken) {
+  refreshToken(refreshToken?: string) {
+    refreshToken = refreshToken || this.#refreshToken;
     if (!refreshToken) {
       throw new Error('existing refresh token not found');
     }

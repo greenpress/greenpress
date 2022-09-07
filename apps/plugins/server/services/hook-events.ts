@@ -14,7 +14,6 @@ export function emitPlatformEvent(event: IEvent) {
 }
 
 hookEvents.on('hook', async (platformEvent: IEvent) => {
-  console.log('hookihn event', platformEvent)
   const awaitedPlugins = await Plugin.find({
     $and: [
       {tenant: platformEvent.tenant},
@@ -40,7 +39,7 @@ hookEvents.on('hook', async (platformEvent: IEvent) => {
       }
       if (subscribedEvent.source && subscribedEvent.kind && subscribedEvent.eventName) { // plugin filled all values
         if (subscribedEvent.source === platformEvent.source &&
-          subscribedEvent.kind === platformEvent.kind &&
+          (subscribedEvent.kind === platformEvent.kind || subscribedEvent.kind === '*') &&
           (subscribedEvent.eventName === '*' || subscribedEvent.eventName === platformEvent.eventName)) {
           shouldHook = true;
         }
@@ -50,16 +49,18 @@ hookEvents.on('hook', async (platformEvent: IEvent) => {
         shouldHook = true;
       }
 
-      console.log('plugin should hook ? ', shouldHook)
       if (shouldHook) {
         hooks.push({hookUrl: subscribedEvent.hookUrl})
       }
     })
 
     if (hooks.length) {
-      const accessToken = plugin.token ||
-        await getPluginAccessToken(plugin.tenant, plugin.apiPath) ||
-        await refreshTokenForPlugin(plugin.tenant, plugin.apiPath, plugin.authAcquire);
+      const accessToken =
+        await getPluginAccessToken(plugin.tenant, plugin.apiPath).catch(() => null) ||
+        await refreshTokenForPlugin(plugin.tenant, plugin.apiPath, plugin.authAcquire).catch(() => null) ||
+        plugin.token;
+
+      console.log('call the hook with token: ', accessToken)
 
       hooks.forEach(({hookUrl}) => {
         fetch(hookUrl, {

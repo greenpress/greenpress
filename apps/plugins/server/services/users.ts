@@ -1,8 +1,9 @@
 import {internalServicesSecret} from '../../config';
 import {service} from '@greenpress/api-kit';
-const authService = service('AUTH');
 
-function callAuthService(url: string, method: 'POST' | 'DELETE', tenant: string, data?: any) {
+const authService = service('AUTH', {port: process.env.AUTH_SERVICE_PORT || 9000});
+
+function callAuthService(url: string, method: 'GET' | 'POST' | 'PUT' | 'DELETE', tenant: string, data?: any) {
   return authService({
     headers: {internal_secret: internalServicesSecret, tenant},
     method,
@@ -12,10 +13,18 @@ function callAuthService(url: string, method: 'POST' | 'DELETE', tenant: string,
     .then((axiosRes: any) => axiosRes.data)
 }
 
-export function createUser(tenant: string, email: string, password: string) {
-  return callAuthService('/api/auth/users', 'POST', tenant, {email, password});
+export function getUsers(tenant: string, {email, exact = false}) {
+  return callAuthService(`/internal-api/users?email=${email}` + (exact ? '&exact=true' : ''), 'GET', tenant);
 }
 
-export function removeUser(tenant: string, userId: string, value: any) {
-  return callAuthService('/api/auth/users/' + userId, 'DELETE', tenant)
+export function createUser(tenant: string, {email, password, roles, firstName}) {
+  return callAuthService('/internal-api/users', 'POST', tenant, {email, password, roles, firstName});
+}
+
+export function updateUser(tenant: string, userId: string, {email, password, roles, firstName}) {
+  return callAuthService('/internal-api/users/' + userId, 'PUT', tenant, {password, roles, firstName});
+}
+
+export function removeUser(tenant: string, userId: string) {
+  return callAuthService('/internal-api/users/' + userId, 'DELETE', tenant)
 }

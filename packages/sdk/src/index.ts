@@ -32,9 +32,6 @@ export default class GreenpressSDK extends BaseSDK {
     if (!options.getAccessToken) {
       options.getAccessToken = () => this.authentication.accessToken;
     }
-    if (!options.refreshToken) {
-      options.refreshToken = () => this.authentication.refreshToken();
-    }
     if (!options.extraHeaders) {
       options.extraHeaders = () => {
         const token = options.getAccessToken();

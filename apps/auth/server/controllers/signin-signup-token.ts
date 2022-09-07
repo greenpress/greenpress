@@ -1,5 +1,5 @@
 const {
-  validateBasicSignInSignUpForm,
+  validateBasicSignUpForm,
 } = require("../../helpers/form-validations");
 const { setCookie } = require("../services/tokens");
 import { Response } from "express";
@@ -11,14 +11,14 @@ import { Response } from "express";
  *                   errors tips, and a global message for the whole form.
  */
 export function validateSignUpForm(payload: any) {
-  const errors = validateBasicSignInSignUpForm(payload);
+  const errors = validateBasicSignUpForm(payload);
 
   if (
     !payload ||
-    typeof payload.name !== "string" ||
-    !/^[a-zA-Z]+([\-\s]?[a-zA-Z]+)*$/.test(payload.name.trim())
+    typeof payload.firstName !== "string" ||
+    !/^[a-zA-Z]+([\-\s]?[a-zA-Z]+)*$/.test(payload.firstName.trim())
   ) {
-    errors.name = {
+    errors.firstName = {
       code: "INVALID_NAME",
     };
   }
@@ -44,7 +44,7 @@ export function validateSignUpForm(payload: any) {
  *                   errors tips, and a global message for the whole form.
  */
 export function validateSignInForm(payload: any) {
-  const errors = validateBasicSignInSignUpForm(payload);
+  const errors: any = {};
 
   if (
     !payload ||

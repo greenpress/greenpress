@@ -82,6 +82,19 @@ services:
     environment:
       MONGO_URI: ${DRAFTS_MONGODB_URI}
       IP: 0.0.0.0
+  plugins:
+    image: greenpress/plugins:${PLUGINS_SERVICE_VERSION}
+    restart: always
+    environment:
+      MONGO_URI: ${PLUGINS_MONGODB_URI}
+      REDIS_URL: redis://redis
+      INTERNAL_SECRET: ${INTERNAL_SECRET}
+      SECRETS_TOKEN: ${PLUGINS_SERVICE_SECRET}
+      AUTH_SERVICE_URL: auth
+      SECRETS_SERVICE_URL: secrets
+      IP: 0.0.0.0
+    depends_on:
+      - redis
 
 networks:
   common_network:

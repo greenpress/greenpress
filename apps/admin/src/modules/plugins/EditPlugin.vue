@@ -1,6 +1,6 @@
 <template>
   <div class="edit-plugin-page" v-if="plugin">
-    <PluginForm :plugin="plugin" :submitting="submitting"/>
+    <PluginForm :plugin="plugin" :submitting="submitting" @submitted="plugin = $event"/>
   </div>
 </template>
 <script lang="ts" setup>

@@ -11,6 +11,7 @@ export function getDraft(query: GetDraftQuery) {
 }
 
 export function setDraft(query: GetDraftQuery, contexts: SetDraftContexts) {
+	// TODO: findOneAndUpdate is deprecated
 	return Draft.findOneAndUpdate(query, contexts, {
 		upsert: true,
 		new: true,
