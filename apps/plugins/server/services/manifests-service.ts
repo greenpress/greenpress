@@ -1,7 +1,7 @@
 import crypto from 'crypto';
 import fetch from 'node-fetch';
 import {IPlugin} from '../models/plugin';
-import {createUser, getUsers} from './users';
+import {createUser, getUsers, updateUser} from './users';
 import {storeOAuthPayloadForPlugin} from './tokens-management';
 
 type PluginEnrichOptions = {
@@ -41,12 +41,15 @@ async function registerToPlugin(plugin: IPlugin, registerUrl: string, {tenant, h
   const email = `${plugin._id}.${tenant}@${host}`;
   const password = getRandomHash();
   const [maybeUser] = await getUsers(tenant, {email});
-  const user = maybeUser || await createUser(plugin.tenant, {
+  const metadataToStore = {
     email,
     password,
     roles: ['plugin'],
     firstName: plugin.name
-  });
+  };
+  const user = maybeUser ?
+    await updateUser(plugin.tenant, maybeUser._id, metadataToStore) :
+    await createUser(plugin.tenant, metadataToStore);
   plugin.user = user._id;
   const res = await fetch(registerUrl, {
     method: 'POST',
@@ -56,12 +59,8 @@ async function registerToPlugin(plugin: IPlugin, registerUrl: string, {tenant, h
       'x-from': 'greenpress',
       'Content-Type': 'application/json',
     }
-
   })
   const payload = await res.json();
-
-  console.log('-------------------------------------------')
-  console.log('registered at plugin', payload)
 
   storeOAuthPayloadForPlugin(tenant, plugin.apiPath, payload, plugin.authAcquire);
 }

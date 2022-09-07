@@ -18,6 +18,7 @@ router
 router
   .get('/internal-api/users', getUsersForAdmin)
   .post('/internal-api/users', createUser)
+  .put('/internal-api/users/:userId', updateUser)
   .delete('/internal-api/users/:userId', removeUser);
 
 

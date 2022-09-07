@@ -3,7 +3,7 @@ import {service} from '@greenpress/api-kit';
 
 const authService = service('AUTH', {port: process.env.AUTH_SERVICE_PORT || 9000});
 
-function callAuthService(url: string, method: 'GET' | 'POST' | 'DELETE', tenant: string, data?: any) {
+function callAuthService(url: string, method: 'GET' | 'POST' | 'PUT' | 'DELETE', tenant: string, data?: any) {
   return authService({
     headers: {internal_secret: internalServicesSecret, tenant},
     method,
@@ -19,6 +19,10 @@ export function getUsers(tenant: string, {email, exact = false}) {
 
 export function createUser(tenant: string, {email, password, roles, firstName}) {
   return callAuthService('/internal-api/users', 'POST', tenant, {email, password, roles, firstName});
+}
+
+export function updateUser(tenant: string, userId: string, {email, password, roles, firstName}) {
+  return callAuthService('/internal-api/users/' + userId, 'PUT', tenant, {password, roles, firstName});
 }
 
 export function removeUser(tenant: string, userId: string) {
