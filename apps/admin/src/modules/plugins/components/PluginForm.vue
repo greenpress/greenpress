@@ -20,7 +20,6 @@ import EditPluginHeader from './EditPluginHeader.vue';
 import {IPlugin} from '@/services/types/plugin';
 import {reactive} from 'vue';
 import FormInput from '@/modules/core/components/forms/FormInput.vue';
-import pluginsService from '@/services/plugins-service';
 
 const props = defineProps({
   plugin: Object as () => IPlugin,

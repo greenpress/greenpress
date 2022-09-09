@@ -1,6 +1,6 @@
 <template>
   <div class="edit-header">
-    <h2>{{ $t('Edit Plugin') }}<strong>{{ plugin.name }}</strong></h2>
+    <h2>{{ $t(plugin._id ? 'Edit Plugin' : 'Create Plugin') }}<strong>{{ plugin.name }}</strong></h2>
     <div class="buttons-group">
       <el-button native-type="submit" type="primary" :loading="submitting">
         <el-icon>
