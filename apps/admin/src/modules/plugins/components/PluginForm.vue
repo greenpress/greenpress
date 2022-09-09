@@ -32,8 +32,7 @@ const emit = defineEmits(['submitted']);
 const edit = reactive<IPlugin>({...props.plugin});
 
 async function refreshPluginFromManifest() {
-  const plugin = await pluginsService.update(props.plugin._id, {hardReset: true, manifestUrl: edit.manifestUrl});
-  emit('submitted', plugin);
+  emit('submitted', {hardReset: true, manifestUrl: edit.manifestUrl});
 }
 
 const submit = () => alert('soon');

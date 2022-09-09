@@ -4,12 +4,17 @@ import EmptyRoute from '@/modules/core/components/layout/EmptyRoute.vue';
 export const managePluginsRoutes = {
   path: 'plugins',
   component: EmptyRoute,
-  redirect: { name: 'menus' },
+  redirect: {name: 'plugins'},
   children: [
     {
       path: '',
       name: 'plugins',
       component: async () => (await import('./Plugins.vue')).default
+    },
+    {
+      path: 'new',
+      name: 'createPlugin',
+      component: async () => (await import('./CreatePlugin.vue')).default
     },
     {
       path: ':pluginId',
