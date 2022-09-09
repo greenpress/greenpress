@@ -23,13 +23,13 @@ addMicroFrontend({
 });
 
 addMicroFrontend({
-  name: "youtube",
-  url: "https://www.youtube.com/embed/T7cxXHSouqs",
+  name: "David",
+  url: "https://www.davidlevy.co.il/wallak/vue-react-rectivity",
   description: "tweet it",
   route: {
-    name: "tweet",
-    path: "tweet",
-    navBarPosition: "bottom",
+    name: "davidlevy",
+    path: "davidlevy",
+    navBarPosition: "top",
   },
 });
 

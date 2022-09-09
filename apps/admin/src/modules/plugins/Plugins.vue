@@ -1,6 +1,6 @@
 <template>
   <div class="plugins-page">
-    <ListPageTitle title="Your Plugins"/>
+    <ListPageTitle title="Your Plugins" create-route="createPlugin" />
     <YourPluginsList/>
   </div>
 </template>

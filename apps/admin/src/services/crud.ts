@@ -9,7 +9,7 @@ export function getCrud<T = any>(path: string) {
     getOne(id: string | number): Promise<T> {
       return api.get<T>(`${path}/${id}`).then(getCallData)
     },
-    create(data: T): Promise<T> {
+    create<Z = Omit<T, '_id'>>(data: Z): Promise<T> {
       return api.post(path, data).then(getCallData)
     },
     remove(id: string | number): Promise<AxiosResponse> {

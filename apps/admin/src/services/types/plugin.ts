@@ -5,7 +5,6 @@ export interface IPlugin {
   description?: string;
   apiPath: string;
   user: string;
-  token: string;
   proxyUrl: string;
   manifestUrl: string;
   authAcquire: {
