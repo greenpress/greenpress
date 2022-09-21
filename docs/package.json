@@ -1,25 +1,21 @@
 {
-  "name": "@greenpress/docs",
-  "version": "0.0.1",
-  "description": "Content websites platforms for the 21st century",
+  "name": "docs",
+  "version": "1.0.0",
+  "description": "",
   "main": "index.js",
-  "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
   "scripts": {
-    "dev": "vuepress dev src",
-    "build": "vuepress build src"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "license": "MIT",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "devDependencies": {
-    "@vuepress/plugin-back-to-top": "^1.3.1",
-    "@vuepress/plugin-medium-zoom": "^1.3.1",
-    "vuepress": "^0.14.11"
+    "vitepress": "^1.0.0-alpha.15",
+    "vue": "^3.2.39"
   },
-  "homepage": "https://github.com/greenpress/greenpress#readme",
-  "bugs": {
-    "url": "https://github.com/greenpress/greenpress/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/greenpress/greenpress.git"
+  "scripts": {
+    "dev": "vitepress dev docs",
+    "build": "vitepress build docs",
+    "serve": "vitepress serve docs"
   }
 }
