@@ -13,6 +13,20 @@ export function getAllPlugins(req, res) {
     })
 }
 
+export function redirectToPluginMfe(req, res) {
+  Plugin.findOne({tenant: req.headers.tenant, _id: req.params.pluginId})
+    .select('callbackUrl')
+    .lean()
+    .exec()
+    .then(plugin => {
+      res.json(plugin).end();
+    })
+    .catch(() => {
+      res.status(500).json({message: 'could not find plugin'}).end();
+    })
+}
+
+
 export function getPlugin(req, res) {
   Plugin.findOne({tenant: req.headers.tenant, _id: req.params.pluginId}).select('-token -auth').lean()
     .then(plugin => {

@@ -5,6 +5,7 @@ export const handlers = {
   newTenant: [],
   manifest: [],
   storeUser: [],
+  callback: [],
 }
 export type StandardPayload = { sub: string, identifier: string };
 
@@ -26,6 +27,10 @@ export function onManifest(handler: (request: FastifyRequest) => any) {
 }
 
 export function onStoreUser(handler) {
+  handlers.storeUser.push(handler);
+}
+
+export function onCallback(handler: ({user, returnUrl}, request: FastifyRequest) => void | string | Promise<void | string>) {
   handlers.storeUser.push(handler);
 }
 

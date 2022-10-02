@@ -4,6 +4,14 @@ import {defineStore, storeToRefs} from 'pinia';
 import {usePluginsList} from './plugins-list';
 import MicroFrontendPage from '../MicroFrontendPage.vue';
 import {authStore} from '@/modules/core/store/auth';
+import {IMicroFrontend} from '@/services/types/plugin';
+
+function getMfeUrl(mfe: IMicroFrontend): string {
+  if (!mfe.callbackUrl) {
+    return mfe.url;
+  }
+  return `/api/plugins/${mfe.pluginId}/callback?returnUrl=` + mfe.url;
+}
 
 export const usePluginsMicroFrontends = defineStore('plugins-micro-frontends', function usePluginsMicroFrontends() {
   const {plugins} = storeToRefs(usePluginsList());
@@ -23,6 +31,8 @@ export const usePluginsMicroFrontends = defineStore('plugins-micro-frontends', f
         (!frontend.route.roles || frontend.route.roles.some(role => role === '*' || userRoles.value.includes(role)))
       )
         .forEach(frontend => {
+          frontend.callbackUrl = plugin.callbackUrl;
+          frontend.pluginId = plugin._id;
           if (frontend.route.navBarPosition === 'top') {
             routes.top.push(frontend);
           } else {
@@ -40,7 +50,7 @@ export const usePluginsMicroFrontends = defineStore('plugins-micro-frontends', f
         path: frontend.route.path,
         meta: {
           roles: frontend.route.roles || ['*'],
-          microfUrl: frontend.url,
+          mfeUrl: getMfeUrl(frontend),
         },
         component: MicroFrontendPage
       })

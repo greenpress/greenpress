@@ -3,7 +3,7 @@ import {join} from 'path';
 import {RouteHandlerMethod} from 'fastify/types/route';
 import {manifest, ManifestOptions} from './manifest';
 import config, {ConfigOptions, setConfig} from './config';
-import {getRefreshTokenRoute, getRegisterRoute, verifyAccessToken} from './authentication';
+import {getCallbackRoute, getRefreshTokenRoute, getRegisterRoute, verifyAccessToken} from './authentication';
 import handlers from './handlers';
 
 const hooks = new Set<{ subscribedEvent, path, handler }>();
@@ -66,6 +66,7 @@ function createApp(): FastifyInstance {
 
   app.route(getRefreshTokenRoute());
   app.route(getRegisterRoute());
+  app.route(getCallbackRoute())
   playManifest();
   playHooks();
 

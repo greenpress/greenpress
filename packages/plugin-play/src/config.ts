@@ -1,5 +1,5 @@
 const config = {
-  port: process.env.PORT || 5555,
+  port: process.env.PORT || 1086,
   host: process.env.HOST || '0.0.0.0',
   dev: process.env.NODE_ENV !== 'production',
   refreshTokenSecret: process.env.REFRESH_TOKEN_SECRET,

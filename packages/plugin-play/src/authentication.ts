@@ -2,13 +2,14 @@ import jwt from 'jsonwebtoken';
 import {RouteOptions} from 'fastify/types/route';
 import {FastifyRequest} from 'fastify/types/request';
 import manifest from './manifest';
-import handlers, {onNewTenant, onRefreshToken, StandardPayload} from './handlers';
+import handlers, {onCallback, onNewTenant, onRefreshToken, StandardPayload} from './handlers';
 import config from './config';
 import {getSdk, getSdkForUrl} from './sdk';
 
 declare module 'fastify' {
   interface FastifyRequest {
     tenantPayload: StandardPayload & any;
+    user?: { email, firstName, lastName }
   }
 }
 
@@ -17,6 +18,22 @@ const notAuthorized = {message: 'you are not authorized'};
 function getHostname(fullUrl: string) {
   const url = new URL(fullUrl);
   return url.hostname;
+}
+
+export async function verifyAccessToken(req: FastifyRequest): Promise<void> {
+  const {authorization} = req.headers;
+
+  const token = authorization?.split(' ')[1];
+
+  if (!token) {
+    throw new Error('authorization token was not provided');
+  }
+
+  try {
+    req.tenantPayload = jwt.verify(token, config.accessTokenSecret);
+  } catch {
+    throw new Error('authorization token was not valid');
+  }
 }
 
 export function getRefreshTokenRoute(): RouteOptions {
@@ -130,7 +147,6 @@ export function getRegisterRoute(): RouteOptions {
     handler: async (request, reply) => {
       const {email, password, appUrl} = request.body || {} as any;
       if (!(email && password && appUrl)) {
-        console.log('something is missing in request', {email, password, appUrl});
         reply.statusCode = 401;
         return notAuthorized;
       }
@@ -157,18 +173,58 @@ export function getRegisterRoute(): RouteOptions {
   };
 }
 
-export async function verifyAccessToken(req: FastifyRequest): Promise<void> {
-  const {authorization} = req.headers;
-
-  const token = authorization?.split(' ')[1];
-
-  if (!token) {
-    throw new Error('authorization token was not provided');
+export function getCallbackRoute(): RouteOptions {
+  if (config.greenpressUrl) {
+    onCallback(async ({user, returnUrl}, request) => {
+      const code = Math.floor(Math.random() * 1000).toString();
+      // set the code on gp db
+      // temporary set the data as drafts
+      // TODO: add callback code-based endpoint in auth service
+      await getSdk().drafts.setDraft({
+        contextType: returnUrl,
+        contextId: `${request.tenantPayload.sub}.${user.email}`,
+        contextData: {
+          code,
+          user,
+          created: Date.now(),
+          tenant: request.tenantPayload
+        }
+      })
+      return code;
+    });
   }
 
-  try {
-    req.tenantPayload = jwt.verify(token, config.accessTokenSecret);
-  } catch {
-    throw new Error('authorization token was not valid');
+  return {
+    method: 'POST',
+    url: manifest.callbackUrl,
+    preHandler: verifyAccessToken,
+    handler: async (request, reply) => {
+      const queryParams: any = request.query || {};
+
+      try {
+        const returnUrl = new URL(queryParams.returnUrl);
+        const user = request.headers.user ? JSON.parse(request.headers.user as string) : undefined;
+        request.user = user;
+
+        for (let handler of handlers.callback) {
+          const code = await handler({user, returnUrl: returnUrl.href}, request)
+
+          if (code && typeof code === 'string') {
+            returnUrl.searchParams.append('code', code);
+            returnUrl.searchParams.append('token', jwt.sign({user}, config.accessTokenSecret, {expiresIn: '10min'}));
+            
+            return {
+              returnUrl
+            }
+          }
+        }
+      } catch (err) {
+        if (config.dev) {
+          console.log(err);
+        }
+      }
+      reply.statusCode = 401;
+      return notAuthorized;
+    }
   }
 }

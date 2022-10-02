@@ -1,3 +1,23 @@
+export interface IMicroFrontend {
+  name: string;
+  description: string;
+  callbackUrl?: string;
+  pluginId?: string;
+  url: string;
+  active: boolean;
+  opened: boolean;
+  route?: {
+    name: string;
+    path: string;
+    roles: string[],
+    navBarPosition: 'top' | 'bottom';
+  };
+  component?: {
+    page: string;
+    position: 'top' | 'left' | 'right' | 'bottom';
+  }
+}
+
 export interface IPlugin {
   _id: string;
   tenant: string;
@@ -7,6 +27,7 @@ export interface IPlugin {
   user: string;
   proxyUrl: string;
   manifestUrl: string;
+  callbackUrl?: string;
   authAcquire: {
     refreshTokenUrl: string;
     refreshTokenKey: string;
@@ -21,21 +42,5 @@ export interface IPlugin {
     eventName?: string,
     hookUrl: string;
   }[]
-  microFrontends: {
-    name: string;
-    description: string;
-    url: string;
-    active: boolean;
-    opened: boolean;
-    route?: {
-      name: string;
-      path: string;
-      roles: string[],
-      navBarPosition: 'top' | 'bottom';
-    };
-    component?: {
-      page: string;
-      position: 'top' | 'left' | 'right' | 'bottom';
-    }
-  }[]
+  microFrontends: IMicroFrontend[]
 }
