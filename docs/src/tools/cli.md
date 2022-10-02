@@ -12,7 +12,7 @@ npm install -g @greenpress/cli
 
 For commands that accepts a service_name as parameter, the supported services are:
 
-- auth, admin, assets, secrets, content, front, mailing
+- auth, admin, assets, secrets, content, front
 
 If multiple services are required at once, separate them with a comma (,) without spaces in between.
 
