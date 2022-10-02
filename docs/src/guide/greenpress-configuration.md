@@ -211,31 +211,6 @@ module.exports = {
 }
 ```
 
-### Mail Provider
-
-The mail provider is an object which contains a few values.
-
-| Prop Name | Set By Envirnment       | Prop Type | Default Value |
-|-----------|-------------------------|-----------|---------------|
-| service   | MAIL_PROVIDER_SERVICE   | string    | 'gmail'       |
-| authType  | MAIL_PROVIDER_AUTH_TYPE | string    | 'basic'       |
-| email     | MAIL_PROVIDER_EMAIL     | string    |               |
-| password  | MAIL_PROVIDER_PW        | string    |               |
-
-**Default Values: ```{ service: 'gmail', authType: 'basic', email: undefined, password: undefined }```**
-
-- `mailProvider.service`
-Set the service value to use the mailing service you need to use. such as 'yahoo', 'outlook' etc. <br />
-Set the `service` by environment variable as **MAIL_PROVIDER_SERVICE**
-
-- `mailProvider.authType`
-You are able to set the authType to `'custom'` if you want to provide another email authentication method. **NOTE: Greenpress doesn't fully supports that yet.** <br />
-Set the `authType` by environment variable as **MAIL_PROVIDER_AUTH_TYPE**
-
-- `mailProvider.email`, `mailProvider.password`
-Set the credentials for your email service with this values. <br />
-Set them by environment variables as **MAIL_PROVIDER_EMAIL** and **MAIL_PROVIDER_PW**
-
 ### Config Greenpress services
 
 To add the service configurations, use the `services` prop on the config file:
