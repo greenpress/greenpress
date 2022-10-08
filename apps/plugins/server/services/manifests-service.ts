@@ -30,6 +30,7 @@ export async function loadManifest(manifestUrl: string): Promise<IPlugin & { reg
     ...manifest,
     manifestUrl: (new URL(manifest.manifestUrl, appUrl)).href,
     registerUrl: (new URL(manifest.registerUrl, appUrl)).href,
+    callbackUrl: (new URL(manifest.callbackUrl, appUrl)).href,
     authAcquire: {
       ...manifest.authAcquire,
       refreshTokenUrl: (new URL(manifest.authAcquire.refreshTokenUrl, appUrl)).href,
@@ -88,6 +89,7 @@ export async function enrichPluginWithManifest(plugin: IPlugin, {
   if (hardReset) {
     plugin.apiPath = manifest.apiPath;
     plugin.proxyUrl = manifest.proxyUrl;
+    plugin.callbackUrl = manifest.callbackUrl;
     plugin.subscribedEvents = manifest.subscribedEvents;
     if (manifest.registerUrl) {
       await registerToPlugin(plugin, manifest.registerUrl, {tenant, host, appUrl});

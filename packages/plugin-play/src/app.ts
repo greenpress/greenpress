@@ -66,7 +66,7 @@ function createApp(): FastifyInstance {
 
   app.route(getRefreshTokenRoute());
   app.route(getRegisterRoute());
-  app.route(getCallbackRoute())
+  app.route(getCallbackRoute());
   playManifest();
   playHooks();
 
@@ -86,6 +86,7 @@ function playManifest() {
       return manifest;
     }
   })
+  console.log('manifest URL: ' + new URL(manifest.manifestUrl, manifest.appUrl).href)
 }
 
 function playHooks() {

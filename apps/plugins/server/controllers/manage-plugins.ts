@@ -1,7 +1,8 @@
 import Plugin from '../models/plugin';
-import {setRefreshSecret} from '../services/tokens-management';
+import {getPluginToken, setRefreshSecret} from '../services/tokens-management';
 import {enrichPluginWithManifest} from '../services/manifests-service';
 import {removeUser} from '../services/users';
+import {fetchPlugin} from '../services/plugins-call';
 
 export function getAllPlugins(req, res) {
   Plugin.find({tenant: req.headers.tenant}).select('-token -auth').lean()
@@ -15,13 +16,38 @@ export function getAllPlugins(req, res) {
 
 export function redirectToPluginMfe(req, res) {
   Plugin.findOne({tenant: req.headers.tenant, _id: req.params.pluginId})
-    .select('callbackUrl')
+    .select('callbackUrl apiPath authAcquire')
     .lean()
     .exec()
-    .then(plugin => {
-      res.json(plugin).end();
+    .then(async (plugin) => {
+      if (!plugin) {
+        res.status(404).end();
+        return;
+      }
+      if (plugin.callbackUrl) {
+        const pluginRes = await fetchPlugin({
+          url: plugin.callbackUrl,
+          tenant: req.headers.tenant,
+          accessToken: await getPluginToken({
+            tenant: req.headers.tenant,
+            apiPath: plugin.apiPath,
+            authAcquire: plugin.authAcquire
+          })
+        })
+
+        const {returnUrl} = await pluginRes.json();
+
+        console.log('returnUrl', returnUrl)
+
+        res.redirect(302, returnUrl);
+        res.end();
+        return;
+      }
+
+      res.status(400).end();
     })
-    .catch(() => {
+    .catch((err) => {
+      console.log(err);
       res.status(500).json({message: 'could not find plugin'}).end();
     })
 }

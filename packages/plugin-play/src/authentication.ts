@@ -195,7 +195,7 @@ export function getCallbackRoute(): RouteOptions {
   }
 
   return {
-    method: 'POST',
+    method: 'GET',
     url: manifest.callbackUrl,
     preHandler: verifyAccessToken,
     handler: async (request, reply) => {
@@ -212,7 +212,7 @@ export function getCallbackRoute(): RouteOptions {
           if (code && typeof code === 'string') {
             returnUrl.searchParams.append('code', code);
             returnUrl.searchParams.append('token', jwt.sign({user}, config.accessTokenSecret, {expiresIn: '10min'}));
-            
+
             return {
               returnUrl
             }

@@ -50,7 +50,6 @@ const MicroFrontendSchema = new mongoose.Schema({
   },
   description: String,
   manifestUrl: String,
-  callbackUrl: String,
   active: {
     type: Boolean,
     default: true,
@@ -97,6 +96,7 @@ const PluginSchema = new mongoose.Schema<IPlugin>({
   },
   description: String,
   manifestUrl: String,
+  callbackUrl: String,
   apiPath: {
     type: String,
     required: true,
@@ -145,8 +145,8 @@ PluginSchema.index({tenant: 1, apiPath: 1}, {unique: true});
 
 PluginSchema.pre('save', function () {
   // make sure name doesn't have any sort of slashes.
-  if (this.name.includes('/') || this.name.includes('\\')) {
-    this.name = this.name.replace(/[\/\\]/g, ':');
+  if (this.apiPath.includes('/') || this.apiPath.includes('\\')) {
+    this.apiPath = this.apiPath.replace(/[\/\\]/g, ':');
   }
 })
 
