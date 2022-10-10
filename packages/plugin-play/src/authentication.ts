@@ -214,7 +214,7 @@ export function getCallbackRoute(): RouteOptions {
             returnUrl.searchParams.append('token', jwt.sign({user}, config.accessTokenSecret, {expiresIn: '10min'}));
 
             return {
-              returnUrl
+              returnUrl: returnUrl.href
             }
           }
         }

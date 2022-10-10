@@ -25,8 +25,10 @@ export function redirectToPluginMfe(req, res) {
         return;
       }
       if (plugin.callbackUrl) {
+        const callbackUrl = new URL(plugin.callbackUrl);
+        callbackUrl.searchParams.append('returnUrl', req.query.returnUrl || '');
         const pluginRes = await fetchPlugin({
-          url: plugin.callbackUrl,
+          url: callbackUrl.href,
           tenant: req.headers.tenant,
           accessToken: await getPluginToken({
             tenant: req.headers.tenant,
@@ -35,11 +37,11 @@ export function redirectToPluginMfe(req, res) {
           })
         })
 
-        const {returnUrl} = await pluginRes.json();
+        const data = await pluginRes.json();
 
-        console.log('returnUrl', returnUrl)
+        console.log('returnUrl', data)
 
-        res.redirect(302, returnUrl);
+        res.redirect(302, data.returnUrl || req.query.returnUrl);
         res.end();
         return;
       }
