@@ -17,18 +17,15 @@ function callSecretsService(url: string, tenant: string, key: string, value?: an
     url
   })
     .then((axiosRes: any) => {
-      console.log(axiosRes.data);
       return axiosRes.data;
     })
 }
 
 export function getRefreshSecret(tenant: string, apiPath: string): Promise<{ value: string }> {
-  console.log('get refresh secret', tenant, apiPath)
   return callSecretsService('/api/secrets/get', tenant, `refresh-token-${tenant}-${apiPath}`)
 }
 
 export function setRefreshSecret(tenant: string, apiPath: string, refreshToken: string) {
-  console.log('set refresh token', tenant, apiPath, refreshToken)
   return callSecretsService('/api/secrets/set', tenant, `refresh-token-${tenant}-${apiPath}`, refreshToken)
 }
 

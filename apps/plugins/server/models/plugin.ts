@@ -1,6 +1,7 @@
 import mongoose, {Document} from 'mongoose'
 
 export interface IPlugin extends Document {
+  encodePath();
   tenant: string;
   name: string;
   description?: string;
@@ -143,11 +144,15 @@ const PluginSchema = new mongoose.Schema<IPlugin>({
 
 PluginSchema.index({tenant: 1, apiPath: 1}, {unique: true});
 
-PluginSchema.pre('save', function () {
+PluginSchema.methods.encodePath = function encodePath() {
   // make sure name doesn't have any sort of slashes.
   if (this.apiPath.includes('/') || this.apiPath.includes('\\')) {
     this.apiPath = this.apiPath.replace(/[\/\\]/g, ':');
   }
+};
+
+PluginSchema.pre('save', function () {
+  this.encodePath();
 })
 
 const Plugin = mongoose.model<IPlugin>('Plugin', PluginSchema);

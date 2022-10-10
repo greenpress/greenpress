@@ -92,6 +92,7 @@ export async function enrichPluginWithManifest(plugin: IPlugin, {
     plugin.callbackUrl = manifest.callbackUrl;
     plugin.subscribedEvents = manifest.subscribedEvents;
     if (manifest.registerUrl) {
+      plugin.encodePath();
       await registerToPlugin(plugin, manifest.registerUrl, {tenant, host, appUrl});
     }
   }

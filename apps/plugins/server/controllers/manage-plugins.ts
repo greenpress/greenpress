@@ -100,6 +100,8 @@ export async function updatePlugin(req, res) {
     const newRefreshToken = allowedChanges.authAcquire?.refreshToken;
     Object.assign(plugin, allowedChanges);
 
+    plugin.encodePath();
+
     await enrichPluginWithManifest(plugin, {
       hardReset,
       tenant: req.headers.tenant,
