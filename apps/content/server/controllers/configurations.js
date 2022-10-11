@@ -7,7 +7,7 @@ function getConfigurationByKey (req, res, next) {
         return Promise.reject(null)
       }
       req.configuration = configuration
-      return next()
+      next();
     })
     .catch(() => res.status(404).json({ message: 'configuration not exists' }).end())
 }
@@ -17,7 +17,7 @@ function getConfigurationsList (req, res) {
     .select('key public description created')
     .lean()
     .then(list => {
-      return res.status(200).json(list || []).end()
+      res.status(200).json(list || []).end()
     })
     .catch(() => res.status(401).json({ message: 'failed to load configurations list' }).end())
 }
@@ -44,10 +44,10 @@ async function updateConfiguration (req, res) {
       const existingTenantWithUrl = await Configuration.findOne({ _id: { $ne: configuration._id }, websiteUrls: { $in: body.metadata.websiteUrls } })
         .select('_id')
         .lean();
-      
+
       if (existingTenantWithUrl) {
         res.status(400).json({ message: 'URL already exists for another account' }).end()
-        retrun;
+        return;
       }
     }
     configuration.metadata = {

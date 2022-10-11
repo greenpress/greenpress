@@ -51,7 +51,7 @@ export default function apiProxy(app: any, config: Partial<IApiProxyConfig>, cac
 
   app.use(async (req, res, next) => {
     const host = req.headers.host;
-    //disable cors when tenant defined from request headers:
+    // disable cors when tenant defined from request headers:
     if (req.headers.tenant) {
       req.disableCors = true;
     }
