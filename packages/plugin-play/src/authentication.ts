@@ -30,6 +30,7 @@ export async function verifyAccessToken(req: FastifyRequest): Promise<void> {
   }
 
   try {
+    console.log('get access token', token)
     req.tenantPayload = jwt.verify(token, config.accessTokenSecret);
   } catch {
     throw new Error('authorization token was not valid');
@@ -41,9 +42,10 @@ export function getRefreshTokenRoute(): RouteOptions {
   const usersSdk = getSdk().users;
 
   if (config.greenpressUrl) {
-    onRefreshToken(async ({sub, identifier}) => {
+    onRefreshToken(async ({sub, identifier = ''}) => {
       const user = await usersSdk.getUser(sub);
-      if (identifier !== user.internalMetadata?.tokenIdentifier) {
+      console.log('user for refresh token', identifier, user)
+      if (identifier.toString() !== user.internalMetadata?.tokenIdentifier) {
         throw new Error('user is not verified on greenpress BaaS')
       }
       const newPayload: StandardPayload = {
@@ -64,12 +66,14 @@ export function getRefreshTokenRoute(): RouteOptions {
         reply.statusCode = 401;
         return notAuthorized;
       }
+      console.log('refresh token accepted', expectedRefreshToken)
       let payload: StandardPayload;
       try {
         payload = jwt.verify(expectedRefreshToken, config.refreshTokenSecret);
         if (handlers.refreshToken.length) {
           for (let handler of handlers.refreshToken) {
             const result = await handler(payload, request);
+            console.log('payload for new token', result)
             if (result?.payload as StandardPayload) {
               return {
                 [manifest.authAcquire.refreshTokenKey]: jwt.sign(result.payload, config.refreshTokenSecret, {expiresIn: '90d'}),
@@ -117,7 +121,8 @@ export function getRegisterRoute(): RouteOptions {
           firstName: appUrl,
           lastName: 'gp-player-app',
           email,
-          password
+          password,
+          internalMetadata: {tokenIdentifier: newPayload.identifier}
         });
       } else {
         user = await usersSdk.create({
@@ -199,6 +204,7 @@ export function getCallbackRoute(): RouteOptions {
     url: manifest.callbackUrl,
     preHandler: verifyAccessToken,
     handler: async (request, reply) => {
+      console.log('doing the callback url');
       const queryParams: any = request.query || {};
 
       try {
@@ -220,7 +226,7 @@ export function getCallbackRoute(): RouteOptions {
         }
       } catch (err) {
         if (config.dev) {
-          console.log(err);
+          console.log('error in callback', err);
         }
       }
       reply.statusCode = 401;

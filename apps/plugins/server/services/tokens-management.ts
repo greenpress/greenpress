@@ -41,8 +41,7 @@ export function storeOAuthPayloadForPlugin(tenant: string, apiPath: string, payl
 
 export async function refreshTokenForPlugin(tenant: string, apiPath: string, authAcquire): Promise<string> {
   const refreshToken = (await getRefreshSecret(tenant, apiPath)).value;
-
-  const res = fetchPlugin({
+  const res = await fetchPlugin({
     url: authAcquire.refreshTokenUrl,
     method: 'POST',
     tenant,
@@ -56,6 +55,10 @@ export async function refreshTokenForPlugin(tenant: string, apiPath: string, aut
 
 export function getPluginAccessToken(tenant: string, apiPath: string) {
   return cacheManager.getItem(`plugins:${tenant}-${apiPath}:access-token`).catch(() => null)
+}
+
+export function clearPluginAccessToken(tenant: string, apiPath: string) {
+  return cacheManager.setItem(`plugins:${tenant}-${apiPath}:access-token`, '', {ttl: 1}).catch(() => null)
 }
 
 export async function getPluginToken(plugin: { tenant: string, apiPath: string, authAcquire?, token? }): Promise<string> {

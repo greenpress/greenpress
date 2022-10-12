@@ -31,7 +31,7 @@ export function onStoreUser(handler) {
 }
 
 export function onCallback(handler: ({user, returnUrl}, request: FastifyRequest) => void | string | Promise<void | string>) {
-  handlers.storeUser.push(handler);
+  handlers.callback.push(handler);
 }
 
 export default handlers;

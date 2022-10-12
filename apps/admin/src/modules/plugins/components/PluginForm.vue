@@ -37,6 +37,7 @@ async function refreshPluginFromManifest() {
       mode: 'cors'
     })
     const data = await res.json();
+
     plugin.name = data.name;
     plugin.apiPath = data.apiPath;
   } catch {

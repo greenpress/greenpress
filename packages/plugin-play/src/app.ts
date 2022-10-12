@@ -57,7 +57,8 @@ function createApp(): FastifyInstance {
 
   app.addContentTypeParser('application/json', {parseAs: 'string'}, function (req, body, done) {
     try {
-      done(null, JSON.parse(body.toString() as string))
+      const bodyStr = body.toString() as string;
+      done(null, bodyStr ? JSON.parse(bodyStr) : {})
     } catch (err) {
       err.statusCode = 400
       done(err, undefined)
@@ -81,8 +82,9 @@ function playManifest() {
   getApp().route({
     method: 'GET',
     url: manifest.manifestUrl,
-    handler({headers, body}) {
+    handler({headers, body}, res) {
       setImmediate(() => handlers.manifest.forEach(cb => cb({headers, body})));
+      res.header('Access-Control-Allow-Origin', '*');
       return manifest;
     }
   })

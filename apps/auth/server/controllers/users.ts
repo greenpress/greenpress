@@ -66,7 +66,7 @@ function getUser(req: AuthRequest, res: Response): RequestHandler {
       .lean().exec()
   ]
   if (isPrivileged) {
-    promises.push(UserInternalMetadata.findOne({_id: req.params.userId, tenant: req.headers.tenant}).lean().exec().catch(() => null))
+    promises.push(UserInternalMetadata.findOne({user: req.params.userId, tenant: req.headers.tenant}).lean().exec().catch(() => null))
   }
 
   Promise.all(promises)
@@ -145,7 +145,7 @@ async function createUser(req: AuthRequest, res: Response) {
 
 async function updateUser(req: AuthRequest, res: Response) {
   const {email, roles, name, password, fullName, firstName, lastName, birthDate, internalMetadata} = req.body || {}
-
+  let newInternalMetadata;
   try {
     await UsersService.updateUser(
       {_id: req.params.userId, tenant: req.headers.tenant},
@@ -155,12 +155,12 @@ async function updateUser(req: AuthRequest, res: Response) {
       const userInternalMetadata = (await UserInternalMetadata.findOne({
         user: req.params.userId,
         tenant: req.headers.tenant
-      }) || new UserInternalMetadata({
+      }).exec()) || new UserInternalMetadata({
         user: req.params.userId,
         tenant: req.headers.tenant
-      }))
-      userInternalMetadata.metadata = Object.assign(userInternalMetadata.metadata || {}, internalMetadata);
-      userInternalMetadata.save();
+      })
+      newInternalMetadata = userInternalMetadata.metadata = Object.assign(userInternalMetadata.metadata || {}, internalMetadata);
+      await userInternalMetadata.save();
     }
     res.status(200).json({
       email,
@@ -170,6 +170,7 @@ async function updateUser(req: AuthRequest, res: Response) {
       lastName,
       birthDate,
       roles,
+      internalMetadata: newInternalMetadata || internalMetadata,
       _id: req.params.userId
     }).end()
   } catch (e) {
