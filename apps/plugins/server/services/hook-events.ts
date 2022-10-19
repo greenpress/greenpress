@@ -1,8 +1,8 @@
 import EventEmitter from 'events';
 import {IEvent} from '../models/event';
 import Plugin from '../models/plugin';
-import fetch from 'node-fetch';
-import {getPluginAccessToken, refreshTokenForPlugin} from './tokens-management';
+import {getPluginToken} from './tokens-management';
+import {fetchPlugin} from './plugins-call';
 
 class HooksEmitter extends EventEmitter {
 }
@@ -55,23 +55,15 @@ hookEvents.on('hook', async (platformEvent: IEvent) => {
     })
 
     if (hooks.length) {
-      const accessToken =
-        await getPluginAccessToken(plugin.tenant, plugin.apiPath).catch(() => null) ||
-        await refreshTokenForPlugin(plugin.tenant, plugin.apiPath, plugin.authAcquire).catch(() => null) ||
-        plugin.token;
-
-      console.log('call the hook with token: ', accessToken)
+      const accessToken = getPluginToken(plugin)
 
       hooks.forEach(({hookUrl}) => {
-        fetch(hookUrl, {
+        return fetchPlugin({
+          url: hookUrl,
           method: 'POST',
-          body: emittedEventContent,
-          headers: {
-            'x-tenant': plugin.tenant,
-            'x-from': 'greenpress',
-            'Authorization': 'Bearer ' + accessToken,
-            'Content-Type': 'application/json',
-          },
+          tenant: plugin.tenant,
+          accessToken,
+          body: emittedEventContent
         }).catch(() => null);
       })
     }

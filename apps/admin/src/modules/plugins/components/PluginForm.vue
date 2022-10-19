@@ -31,7 +31,19 @@ const emit = defineEmits(['submitted']);
 const edit = reactive<IPlugin>({...props.plugin});
 
 async function refreshPluginFromManifest() {
-  emit('submitted', {hardReset: true, manifestUrl: edit.manifestUrl});
+  const plugin: Partial<IPlugin & { hardReset: boolean }> = {hardReset: true, manifestUrl: edit.manifestUrl};
+  try {
+    const res = await fetch(edit.manifestUrl, {
+      mode: 'cors'
+    })
+    const data = await res.json();
+
+    plugin.name = data.name;
+    plugin.apiPath = data.apiPath;
+  } catch {
+    //
+  }
+  emit('submitted', plugin);
 }
 
 const submit = () => alert('soon');

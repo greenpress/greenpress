@@ -27,7 +27,7 @@ export function getSdkForUrl<T = any>(appUrl: string, refreshToken?: string, acc
   return new GreenpressAdministratorSDK<T>(options);
 }
 
-export function getSdk() {
+export function getSdk(): GreenpressAdministratorSDK {
   if (localSdk) {
     return localSdk;
   }

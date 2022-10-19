@@ -7,6 +7,7 @@ export const manifest = {
   apiPath: pkg.name,
   manifestUrl: '/api/play-manifest',
   registerUrl: '/api/register',
+  callbackUrl: '/api/callback',
   proxyPath: '/api/play',
   proxyUrl: '',
   subscribedEvents: [],

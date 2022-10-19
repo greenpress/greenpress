@@ -1,6 +1,7 @@
 import mongoose, {Document} from 'mongoose'
 
 export interface IPlugin extends Document {
+  encodePath();
   tenant: string;
   name: string;
   description?: string;
@@ -17,6 +18,7 @@ export interface IPlugin extends Document {
     refreshTokenIdentifier?: string;
   };
   manifestUrl: string,
+  callbackUrl?: string,
   subscribedEvents: {
     source?: string,
     kind?: string,
@@ -95,6 +97,7 @@ const PluginSchema = new mongoose.Schema<IPlugin>({
   },
   description: String,
   manifestUrl: String,
+  callbackUrl: String,
   apiPath: {
     type: String,
     required: true,
@@ -140,6 +143,17 @@ const PluginSchema = new mongoose.Schema<IPlugin>({
 });
 
 PluginSchema.index({tenant: 1, apiPath: 1}, {unique: true});
+
+PluginSchema.methods.encodePath = function encodePath() {
+  // make sure name doesn't have any sort of slashes.
+  if (this.apiPath.includes('/') || this.apiPath.includes('\\')) {
+    this.apiPath = this.apiPath.replace(/[\/\\]/g, ':');
+  }
+};
+
+PluginSchema.pre('save', function () {
+  this.encodePath();
+})
 
 const Plugin = mongoose.model<IPlugin>('Plugin', PluginSchema);
 

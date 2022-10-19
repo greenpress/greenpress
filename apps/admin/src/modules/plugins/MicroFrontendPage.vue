@@ -10,7 +10,7 @@ const currentRoute = useRouter().currentRoute;
 
 const currentMicroFrontend = computed(() => {
   return {
-    frameUrl: currentRoute.value.meta.microfUrl,
+    frameUrl: currentRoute.value.meta.mfeUrl,
   }
 })
 </script>

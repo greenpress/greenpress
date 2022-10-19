@@ -7,7 +7,6 @@ import GpConfigurations from './configurations';
 import GpAuthentication from './authentication';
 import GpBlocks from './blocks';
 import GpLayouts from './layouts';
-import authentication from './authentication';
 
 export default class GreenpressSDK extends BaseSDK {
 

@@ -3,7 +3,7 @@ import {join} from 'path';
 import {RouteHandlerMethod} from 'fastify/types/route';
 import {manifest, ManifestOptions} from './manifest';
 import config, {ConfigOptions, setConfig} from './config';
-import {getRefreshTokenRoute, getRegisterRoute, verifyAccessToken} from './authentication';
+import {getCallbackRoute, getRefreshTokenRoute, getRegisterRoute, verifyAccessToken} from './authentication';
 import handlers from './handlers';
 
 const hooks = new Set<{ subscribedEvent, path, handler }>();
@@ -57,7 +57,8 @@ function createApp(): FastifyInstance {
 
   app.addContentTypeParser('application/json', {parseAs: 'string'}, function (req, body, done) {
     try {
-      done(null, JSON.parse(body.toString() as string))
+      const bodyStr = body.toString() as string;
+      done(null, bodyStr ? JSON.parse(bodyStr) : {})
     } catch (err) {
       err.statusCode = 400
       done(err, undefined)
@@ -66,6 +67,7 @@ function createApp(): FastifyInstance {
 
   app.route(getRefreshTokenRoute());
   app.route(getRegisterRoute());
+  app.route(getCallbackRoute());
   playManifest();
   playHooks();
 
@@ -80,11 +82,13 @@ function playManifest() {
   getApp().route({
     method: 'GET',
     url: manifest.manifestUrl,
-    handler({headers, body}) {
+    handler({headers, body}, res) {
       setImmediate(() => handlers.manifest.forEach(cb => cb({headers, body})));
+      res.header('Access-Control-Allow-Origin', '*');
       return manifest;
     }
   })
+  console.log('manifest URL: ' + new URL(manifest.manifestUrl, manifest.appUrl).href)
 }
 
 function playHooks() {

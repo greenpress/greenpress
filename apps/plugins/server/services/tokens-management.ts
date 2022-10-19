@@ -1,6 +1,7 @@
 import {internalServicesSecret, secretsToken} from '../../config';
 import {service} from '@greenpress/api-kit';
 import {cacheManager} from './cache-manager';
+import {fetchPlugin} from './plugins-call';
 
 const secretsService = service('SECRETS', {port: process.env.SECRETS_SERVICE_PORT || 9002});
 
@@ -15,7 +16,9 @@ function callSecretsService(url: string, tenant: string, key: string, value?: an
     },
     url
   })
-    .then((axiosRes: any) => axiosRes.data)
+    .then((axiosRes: any) => {
+      return axiosRes.data;
+    })
 }
 
 export function getRefreshSecret(tenant: string, apiPath: string): Promise<{ value: string }> {
@@ -36,18 +39,13 @@ export function storeOAuthPayloadForPlugin(tenant: string, apiPath: string, payl
   return accessToken;
 }
 
-
 export async function refreshTokenForPlugin(tenant: string, apiPath: string, authAcquire): Promise<string> {
   const refreshToken = (await getRefreshSecret(tenant, apiPath)).value;
-
-  const res = await fetch(authAcquire.refreshTokenUrl, {
+  const res = await fetchPlugin({
+    url: authAcquire.refreshTokenUrl,
     method: 'POST',
-    headers: {
-      'x-tenant': tenant,
-      'x-from': 'greenpress',
-      'Authorization': 'Bearer ' + refreshToken,
-      'Content-Type': 'application/json',
-    }
+    tenant,
+    accessToken: refreshToken,
   })
   const body = await res.json();
 
@@ -58,3 +56,15 @@ export async function refreshTokenForPlugin(tenant: string, apiPath: string, aut
 export function getPluginAccessToken(tenant: string, apiPath: string) {
   return cacheManager.getItem(`plugins:${tenant}-${apiPath}:access-token`).catch(() => null)
 }
+
+export function clearPluginAccessToken(tenant: string, apiPath: string) {
+  return cacheManager.setItem(`plugins:${tenant}-${apiPath}:access-token`, '', {ttl: 1}).catch(() => null)
+}
+
+export async function getPluginToken(plugin: { tenant: string, apiPath: string, authAcquire?, token? }): Promise<string> {
+  return (await getPluginAccessToken(plugin.tenant, plugin.apiPath).catch(() => null)) ||
+    (await refreshTokenForPlugin(plugin.tenant, plugin.apiPath, plugin.authAcquire).catch(() => null)) ||
+    plugin.token
+}
+
+
