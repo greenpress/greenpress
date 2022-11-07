@@ -1,9 +1,15 @@
+const {join} = require('path');
 const execute = require('../utils/execute');
 
-function populate(EMAIL, PASSWORD) {
-  execute(`npm run populate-db`,
-    'populate initial data',
-    { stdio: 'inherit', env: { ...process.env, EMAIL, PASSWORD } });
+function getCommand(tenant, host) {
+  return `TENANT=${tenant} HOST=${host} node helpers/init`
 }
 
-module.exports = { populate }
+function populate({email, password, tenant, host}) {
+  const cmd = `EMAIL=${email} PASSWORD=${password} ${getCommand(tenant, host)}`;
+  execute(cmd, 'populate auth', {stdio: 'inherit', cwd: join(process.cwd(), '/apps/auth')});
+  execute(cmd, 'populate content', {stdio: 'inherit', cwd: join(process.cwd(), '/apps/content')});
+
+}
+
+module.exports = {populate, getCommand}

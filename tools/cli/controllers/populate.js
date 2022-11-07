@@ -16,13 +16,12 @@ async function readCredential(credentialType, defaultValue) {
   return input;
 }
 
-module.exports = async function populateController({ email, password }) {
+module.exports = async function populateController({ email, password, tenant, host }) {
   if (!email) {
     email = await readCredential('email', 'test@test.com');
   }
   if (!password) {
     password = await readCredential('password', 'admin');
   }
-
-  populate(email, password);
+  populate({ email, password, tenant, host });
 }

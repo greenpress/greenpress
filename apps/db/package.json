@@ -2,7 +2,7 @@
   "name": "@greenpress/db",
   "version": "2.0.21",
   "scripts": {
-    "dev": "docker run -p 27017-27019:27017-27019 -v $PWD/db-data:/data/db mongo:5"
+    "dev": "docker run -p 27017-27019:27017-27019 -v $PWD/db-data:/data/db mongo"
   },
   "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
   "license": "MIT"
