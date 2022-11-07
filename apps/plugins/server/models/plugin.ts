@@ -104,12 +104,10 @@ const PluginSchema = new mongoose.Schema<IPlugin>({
   },
   user: {
     type: String,
-    required: true
   },
   authAcquire: {
     refreshTokenUrl: {
       type: String,
-      required: true
     },
     refreshTokenKey: {
       type: String,

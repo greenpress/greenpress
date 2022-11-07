@@ -127,7 +127,13 @@ function playEndpoints() {
   if (!endpoints.size) {
     return;
   }
-  getApp().register(cookie, {} as FastifyCookieOptions);
+  getApp().register(cookie, {
+    parseOptions: {
+      maxAge: 1000 * 60 * 30, // 30 MINUTES,
+      secure: !config.dev,
+      httpOnly: true
+    }
+  } as FastifyCookieOptions);
   getApp().route(getFrontendAuthorizationRoute());
   endpoints.forEach((routeOptions, path) => {
     getApp().route({

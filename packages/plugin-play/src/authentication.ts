@@ -261,7 +261,7 @@ export function getFrontendAuthorizationRoute(): RouteOptions {
       if (draft && draft.contextData) {
         return {
           code: draft.contextData.code,
-          token: jwt.sign({code: draft.contextData, user, tenant}, config.accessTokenSecret, {expiresIn: '10min'}),
+          token: jwt.sign({code: draft.contextData, user, tenant}, config.accessTokenSecret, {expiresIn: '30min'}),
         }
       }
       return;
@@ -274,22 +274,24 @@ export function getFrontendAuthorizationRoute(): RouteOptions {
     handler: async (request, reply) => {
       const {returnUrl, token}: any = request.body || {};
 
-      try {
-        const {user, tenant} = jwt.verify(token, config.accessTokenSecret);
-        for (let handler of handlers.frontendAuth) {
-          const cookieData = await handler({returnUrl, user, tenant}, request);
+      if (returnUrl && token) {
+        try {
+          const {user, tenant} = jwt.verify(token, config.accessTokenSecret);
+          for (let handler of handlers.frontendAuth) {
+            const cookieData = await handler({returnUrl, user, tenant}, request);
 
-          if (cookieData && cookieData.code && cookieData.token) {
-            reply.setCookie('token_' + cookieData.code, cookieData.token);
-            return {
-              user,
-              tenant
+            if (cookieData && cookieData.code && cookieData.token) {
+              reply.setCookie('token_' + cookieData.code, cookieData.token);
+              return {
+                user,
+                tenant
+              }
             }
           }
-        }
-      } catch (err) {
-        if (config.dev) {
-          console.log('error in callback', err);
+        } catch (err) {
+          if (config.dev) {
+            console.log('error in callback', err);
+          }
         }
       }
       reply.statusCode = 401;

@@ -40,6 +40,7 @@ async function refreshPluginFromManifest() {
 
     plugin.name = data.name;
     plugin.apiPath = data.apiPath;
+    plugin.proxyUrl = data.proxyUrl;
   } catch {
     //
   }

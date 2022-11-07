@@ -1,4 +1,4 @@
-import {start, registerToHook, addMicroFrontend, getSdkForTenant} from '../../src';
+import {start, addMicroFrontend, addEndpoint} from '../../src';
 import {join} from "path";
 
 addMicroFrontend({
@@ -11,6 +11,12 @@ addMicroFrontend({
     navBarPosition: 'top',
   },
 });
+
+addEndpoint('/api/todos', {
+  handler() {
+    return [];
+  }
+})
 
 start({
   config: {

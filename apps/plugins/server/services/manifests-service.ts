@@ -17,7 +17,7 @@ function getRandomHash() {
   return crypto.createHash('sha1').update(currentDate + random).digest('hex');
 }
 
-export async function loadManifest(manifestUrl: string): Promise<IPlugin & { registerUrl?: string }> {
+export async function loadManifest(manifestUrl: string): Promise<IPlugin & { registerUrl?: string, appUrl?: string }> {
   const res = await fetch(manifestUrl);
   const manifest = await res.json();
 
@@ -84,7 +84,12 @@ export async function enrichPluginWithManifest(plugin: IPlugin, {
   }
   plugin.name = manifest.name || plugin.name;
   plugin.description = manifest.description || plugin.description;
-  plugin.microFrontends = manifest.microFrontends;
+  plugin.microFrontends = manifest.microFrontends.map(mfe => {
+    return {
+      ...mfe,
+      url: mfe.url.startsWith('http') ? mfe.url : new URL(mfe.url, manifest.appUrl).href,
+    }
+  });
 
   if (hardReset) {
     plugin.apiPath = manifest.apiPath;
