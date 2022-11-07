@@ -19,13 +19,9 @@ export interface MicroFrontend {
 }
 
 export {start, configure, registerToHook} from './app';
-export {onRefreshToken, onManifest, onStoreUser, onNewTenant, onCallback} from './handlers'
+export {onRefreshToken, onManifest, onStoreUser, onNewTenant, onCallback} from './handlers';
+export {addEndpoint, addProxyEndpoint} from './endpoints'
 export {getSdkForTenant, getSdk, getSdkForUrl} from './sdk';
-
-export function addProxyEndpoint(path: string, handler: RouteHandlerMethod) {
-  const endpointApiPath = join(manifest.apiPath, path);
-  // add to server.
-}
 
 export function addMicroFrontend(mfe: MicroFrontend) {
   manifest.microFrontends.push(mfe);
