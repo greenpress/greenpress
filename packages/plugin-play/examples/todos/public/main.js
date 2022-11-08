@@ -17,6 +17,7 @@ async function authorize() {
     })
   })
 }
+
 async function fetchTodos() {
   const res = await fetch('/api/todos', {
     headers: {
@@ -26,9 +27,43 @@ async function fetchTodos() {
 
   const todos = await res.json()
 
-  document.querySelector('#app').innerHTML = JSON.stringify(todos);
+  document.querySelector('#app').innerHTML = `<add-todo>ADD</add-todo>` + todos.map(todo => {
+    return `<div class="box">
+                <h3>${todo.name}</h3>
+                <div>${todo.content}</div>
+            </div>`
+  }).join('')
 }
 
+class AddTodoButton extends HTMLElement {
+  async add() {
+    const name = prompt('choose a name');
+    const content = prompt('add content');
+    if (!(name && content)) {
+      return;
+    }
+
+    await fetch('/api/add-todos', {
+      method: 'post',
+      headers: {
+        'content-type': 'application/json',
+        code
+      },
+      body: JSON.stringify({
+        name,
+        content
+      })
+    });
+
+    await fetchTodos();
+  }
+  constructor() {
+    super();
+    this.addEventListener('click', () => this.add());
+  }
+}
+
+customElements.define('add-todo', AddTodoButton)
 
 await authorize()
 await fetchTodos();

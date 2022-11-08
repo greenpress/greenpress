@@ -48,7 +48,9 @@ export async function verifyCookieToken(req: FastifyRequest): Promise<void> {
   }
 
   try {
-    req.tenantPayload = jwt.verify(token, config.accessTokenSecret);
+    const data = jwt.verify(token, config.accessTokenSecret);
+    req.tenantPayload = data.tenant;
+    req.user = data.user;
   } catch {
     throw new Error('authorization token was not valid');
   }
@@ -83,9 +85,11 @@ export function getRefreshTokenRoute(): RouteOptions {
         reply.statusCode = 401;
         return notAuthorized;
       }
-      console.log('refresh token accepted', expectedRefreshToken)
       let payload: StandardPayload;
       try {
+        if (!expectedRefreshToken) {
+          throw new Error('expected refresh token is empty');
+        }
         payload = jwt.verify(expectedRefreshToken, config.refreshTokenSecret);
         if (handlers.refreshToken.length) {
           for (let handler of handlers.refreshToken) {

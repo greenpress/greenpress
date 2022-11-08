@@ -1,9 +1,9 @@
 import crypto from 'crypto';
-import * as https from 'https';
 import fetch from 'node-fetch';
 import {IPlugin} from '../models/plugin';
 import {createUser, getUsers, updateUser} from './users';
 import {storeOAuthPayloadForPlugin} from './tokens-management';
+import httpAgent from './http-agent';
 
 type PluginEnrichOptions = {
   hardReset?: boolean,
@@ -19,11 +19,8 @@ function getRandomHash() {
 }
 
 export async function loadManifest(manifestUrl: string): Promise<IPlugin & { registerUrl?: string, appUrl?: string }> {
-  const httpsAgent = new https.Agent({
-    rejectUnauthorized: false,
-  });
   const res = await fetch(manifestUrl, {
-    agent: httpsAgent
+    agent: httpAgent,
   });
   const manifest = await res.json();
 
@@ -61,6 +58,7 @@ async function registerToPlugin(plugin: IPlugin, registerUrl: string, {tenant, h
   const res = await fetch(registerUrl, {
     method: 'POST',
     body: JSON.stringify({email, password, appUrl}),
+    agent: httpAgent,
     headers: {
       'x-tenant': tenant,
       'x-from': 'greenpress',

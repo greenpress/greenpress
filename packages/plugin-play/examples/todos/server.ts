@@ -1,5 +1,5 @@
-import {start, addMicroFrontend, addEndpoint} from '../../src';
-import {join} from "path";
+import {start, addMicroFrontend, addEndpoint, getSdkForTenant} from '../../src';
+import {join} from 'path';
 
 addMicroFrontend({
   name: 'Todos',
@@ -13,10 +13,40 @@ addMicroFrontend({
 });
 
 addEndpoint('/api/todos', {
-  handler() {
-    return [];
+  async handler(req) {
+    try {
+      const sdk = await getSdkForTenant(req.tenantPayload);
+      if (!sdk) {
+        return ['empty'];
+      }
+      return sdk.blocks.getList();
+    } catch {
+      //
+    }
+    return ['no access']
   }
 })
+
+addEndpoint('/api/add-todos', {
+  method: 'POST',
+  async handler(req) {
+    const body: any = req.body || {}
+    try {
+      const sdk = await getSdkForTenant(req.tenantPayload);
+      if (!sdk) {
+        return ['empty'];
+      }
+      await sdk.blocks.create({
+        name: body.name,
+        content: body.content
+      })
+    } catch {
+      //
+    }
+    return ['no access']
+  }
+})
+
 
 start({
   config: {

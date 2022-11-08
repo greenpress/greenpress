@@ -58,7 +58,7 @@ export function getPluginAccessToken(tenant: string, apiPath: string) {
 }
 
 export function clearPluginAccessToken(tenant: string, apiPath: string) {
-  return cacheManager.setItem(`plugins:${tenant}-${apiPath}:access-token`, '', {ttl: 1}).catch(() => null)
+  return cacheManager.setItem(`plugins:${tenant}-${apiPath}:access-token`, '', {ttl: 1}).catch()
 }
 
 export async function getPluginToken(plugin: { tenant: string, apiPath: string, authAcquire?, token? }): Promise<string> {
