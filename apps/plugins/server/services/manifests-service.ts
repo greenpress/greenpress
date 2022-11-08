@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import * as https from 'https';
 import fetch from 'node-fetch';
 import {IPlugin} from '../models/plugin';
 import {createUser, getUsers, updateUser} from './users';
@@ -18,7 +19,12 @@ function getRandomHash() {
 }
 
 export async function loadManifest(manifestUrl: string): Promise<IPlugin & { registerUrl?: string, appUrl?: string }> {
-  const res = await fetch(manifestUrl);
+  const httpsAgent = new https.Agent({
+    rejectUnauthorized: false,
+  });
+  const res = await fetch(manifestUrl, {
+    agent: httpsAgent
+  });
   const manifest = await res.json();
 
   const appUrl = manifest.appUrl;

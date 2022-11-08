@@ -1,4 +1,4 @@
-import {existsSync} from 'fs';
+import {existsSync, readFileSync} from 'fs';
 import {join} from 'path';
 import fastify, {FastifyInstance} from 'fastify';
 import {RouteHandlerMethod} from 'fastify/types/route';
@@ -38,7 +38,7 @@ export function configure(manifestOptions: ManifestOptions, appConfig: ConfigOpt
   setConfig(appConfig);
 
   if (config.dev && !manifest.appUrl) {
-    manifest.appUrl = 'http://' + config.host + ':' + config.port;
+    manifest.appUrl = 'https://' + config.host + ':' + config.port;
   }
   manifest.proxyUrl = new URL(manifest.proxyPath, manifest.appUrl).href;
 }
@@ -66,9 +66,8 @@ function createApp(): FastifyInstance {
   app = fastify( {
     logger: !!config.dev,
     https: {
-      cert: '',
-      key: '',
-
+      cert: readFileSync(join(process.cwd(), 'cert/cert.pem')).toString(),
+      key: readFileSync(join(process.cwd(), 'cert/key.pem')).toString(),
     }
   });
 

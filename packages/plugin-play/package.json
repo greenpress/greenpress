@@ -4,6 +4,7 @@
   "description": "Play a plugin for Greenpress",
   "main": "./dist/index.js",
   "scripts": {
+    "create-certs": "node create-cert.js",
     "demo:basic": "npx tsx watch ./examples/basic-demo.ts",
     "demo:todos": "npx tsx watch ./examples/todos/server.ts",
     "build": "tsc"
