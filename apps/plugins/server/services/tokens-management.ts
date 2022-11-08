@@ -66,5 +66,3 @@ export async function getPluginToken(plugin: { tenant: string, apiPath: string, 
     (await refreshTokenForPlugin(plugin.tenant, plugin.apiPath, plugin.authAcquire).catch(() => null)) ||
     plugin.token
 }
-
-

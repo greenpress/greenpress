@@ -63,7 +63,14 @@ export function registerToHook(hook: { source?: string, kind?: string, eventName
 }
 
 function createApp(): FastifyInstance {
-  app = fastify(config.dev ? {logger: true} : {});
+  app = fastify( {
+    logger: !!config.dev,
+    https: {
+      cert: '',
+      key: '',
+
+    }
+  });
 
   app.addContentTypeParser('application/json', {parseAs: 'string'}, function (req, body, done) {
     try {
@@ -130,8 +137,9 @@ function playEndpoints() {
   getApp().register(cookie, {
     parseOptions: {
       maxAge: 1000 * 60 * 30, // 30 MINUTES,
-      secure: !config.dev,
-      httpOnly: true
+      secure: true,
+      httpOnly: true,
+      sameSite: config.dev ? 'none' : true
     }
   } as FastifyCookieOptions);
   getApp().route(getFrontendAuthorizationRoute());

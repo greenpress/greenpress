@@ -273,7 +273,6 @@ export function getFrontendAuthorizationRoute(): RouteOptions {
     url: manifest.authorizeUrl,
     handler: async (request, reply) => {
       const {returnUrl, token}: any = request.body || {};
-
       if (returnUrl && token) {
         try {
           const {user, tenant} = jwt.verify(token, config.accessTokenSecret);
