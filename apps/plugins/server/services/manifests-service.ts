@@ -3,6 +3,7 @@ import fetch from 'node-fetch';
 import {IPlugin} from '../models/plugin';
 import {createUser, getUsers, updateUser} from './users';
 import {storeOAuthPayloadForPlugin} from './tokens-management';
+import httpAgent from './http-agent';
 
 type PluginEnrichOptions = {
   hardReset?: boolean,
@@ -17,8 +18,10 @@ function getRandomHash() {
   return crypto.createHash('sha1').update(currentDate + random).digest('hex');
 }
 
-export async function loadManifest(manifestUrl: string): Promise<IPlugin & { registerUrl?: string }> {
-  const res = await fetch(manifestUrl);
+export async function loadManifest(manifestUrl: string): Promise<IPlugin & { registerUrl?: string, appUrl?: string }> {
+  const res = await fetch(manifestUrl, {
+    agent: httpAgent,
+  });
   const manifest = await res.json();
 
   const appUrl = manifest.appUrl;
@@ -55,6 +58,7 @@ async function registerToPlugin(plugin: IPlugin, registerUrl: string, {tenant, h
   const res = await fetch(registerUrl, {
     method: 'POST',
     body: JSON.stringify({email, password, appUrl}),
+    agent: httpAgent,
     headers: {
       'x-tenant': tenant,
       'x-from': 'greenpress',
@@ -84,7 +88,12 @@ export async function enrichPluginWithManifest(plugin: IPlugin, {
   }
   plugin.name = manifest.name || plugin.name;
   plugin.description = manifest.description || plugin.description;
-  plugin.microFrontends = manifest.microFrontends;
+  plugin.microFrontends = manifest.microFrontends.map(mfe => {
+    return {
+      ...mfe,
+      url: mfe.url.startsWith('http') ? mfe.url : new URL(mfe.url, manifest.appUrl).href,
+    }
+  });
 
   if (hardReset) {
     plugin.apiPath = manifest.apiPath;

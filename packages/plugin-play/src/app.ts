@@ -1,10 +1,20 @@
-import fastify, {FastifyInstance} from 'fastify';
+import {existsSync, readFileSync} from 'fs';
 import {join} from 'path';
+import fastify, {FastifyInstance} from 'fastify';
 import {RouteHandlerMethod} from 'fastify/types/route';
+import type {FastifyCookieOptions} from '@fastify/cookie'
+import cookie from '@fastify/cookie'
 import {manifest, ManifestOptions} from './manifest';
 import config, {ConfigOptions, setConfig} from './config';
-import {getCallbackRoute, getRefreshTokenRoute, getRegisterRoute, verifyAccessToken} from './authentication';
+import {
+  getCallbackRoute,
+  getFrontendAuthorizationRoute,
+  getRefreshTokenRoute,
+  getRegisterRoute,
+  verifyAccessToken, verifyCookieToken
+} from './authentication';
 import handlers from './handlers';
+import {endpoints} from './endpoints';
 
 const hooks = new Set<{ subscribedEvent, path, handler }>();
 
@@ -28,7 +38,7 @@ export function configure(manifestOptions: ManifestOptions, appConfig: ConfigOpt
   setConfig(appConfig);
 
   if (config.dev && !manifest.appUrl) {
-    manifest.appUrl = 'http://' + config.host + ':' + config.port;
+    manifest.appUrl = 'https://' + config.host + ':' + config.port;
   }
   manifest.proxyUrl = new URL(manifest.proxyPath, manifest.appUrl).href;
 }
@@ -53,7 +63,13 @@ export function registerToHook(hook: { source?: string, kind?: string, eventName
 }
 
 function createApp(): FastifyInstance {
-  app = fastify(config.dev ? {logger: true} : {});
+  app = fastify( {
+    logger: !!config.dev,
+    https: {
+      cert: readFileSync(join(process.cwd(), 'cert/cert.pem')).toString(),
+      key: readFileSync(join(process.cwd(), 'cert/key.pem')).toString(),
+    }
+  });
 
   app.addContentTypeParser('application/json', {parseAs: 'string'}, function (req, body, done) {
     try {
@@ -70,6 +86,8 @@ function createApp(): FastifyInstance {
   app.route(getCallbackRoute());
   playManifest();
   playHooks();
+  playEndpoints();
+  playFrontend();
 
   if (!(config.greenpressUrl || handlers.refreshToken.length)) {
     throw new Error('you must provide either a refresh token handler or Greenpress application credentials');
@@ -102,5 +120,32 @@ function playHooks() {
       handler: hook.handler
     })
     console.log('subscribed event configured: ', routePath, hook.subscribedEvent);
+  })
+}
+
+function playFrontend() {
+  if (existsSync(config.staticFrontend.root)) {
+    getApp().register(require('@fastify/static'), config.staticFrontend);
+  }
+}
+
+function playEndpoints() {
+  if (!endpoints.size) {
+    return;
+  }
+  getApp().register(cookie, {
+    parseOptions: {
+      maxAge: 1000 * 60 * 30, // 30 MINUTES,
+      secure: true,
+      httpOnly: true,
+      sameSite: config.dev ? 'none' : true
+    }
+  } as FastifyCookieOptions);
+  getApp().route(getFrontendAuthorizationRoute());
+  endpoints.forEach((routeOptions, path) => {
+    getApp().route({
+      ...routeOptions,
+      preHandler: path.startsWith(manifest.apiPath) ? verifyAccessToken : verifyCookieToken
+    });
   })
 }

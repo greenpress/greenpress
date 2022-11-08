@@ -34,12 +34,14 @@ async function refreshPluginFromManifest() {
   const plugin: Partial<IPlugin & { hardReset: boolean }> = {hardReset: true, manifestUrl: edit.manifestUrl};
   try {
     const res = await fetch(edit.manifestUrl, {
-      mode: 'cors'
+      mode: 'cors',
     })
-    const data = await res.json();
+    const str = await res.text();
+    const data = JSON.parse(str);
 
     plugin.name = data.name;
     plugin.apiPath = data.apiPath;
+    plugin.proxyUrl = data.proxyUrl;
   } catch {
     //
   }

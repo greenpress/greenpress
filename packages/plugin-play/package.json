@@ -4,7 +4,9 @@
   "description": "Play a plugin for Greenpress",
   "main": "./dist/index.js",
   "scripts": {
-    "demo": "npx tsx watch ./examples/basic-demo.ts",
+    "create-certs": "node create-cert.js",
+    "demo:basic": "npx tsx watch ./examples/basic-demo.ts",
+    "demo:todos": "npx tsx watch ./examples/todos/server.ts",
     "build": "tsc"
   },
   "repository": {
@@ -21,6 +23,8 @@
     "access": "public"
   },
   "dependencies": {
+    "@fastify/cookie": "^8.3.0",
+    "@fastify/static": "^6.5.0",
     "@greenpress/sdk": "^2.0.21",
     "fastify": "^4.3.0",
     "jsonwebtoken": "^8.5.1",

@@ -22,14 +22,14 @@ export default class GpDrafts extends BaseSDK {
   }
 
   #getDraftUrl(contextType, contextId): string {
-    const url = new URL(this.relativePath);
+    const url = new URL(this.relativePath, 'https://stub');
     if (contextType) {
       url.searchParams.append('contextType', contextType)
     }
     if (contextId) {
       url.searchParams.append('contextId', contextId)
     }
-    return url.href;
+    return url.href.replace(url.origin, '');
   }
 
   getList() {

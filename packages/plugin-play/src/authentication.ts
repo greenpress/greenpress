@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import {RouteOptions} from 'fastify/types/route';
 import {FastifyRequest} from 'fastify/types/request';
 import manifest from './manifest';
-import handlers, {onCallback, onNewTenant, onRefreshToken, StandardPayload} from './handlers';
+import handlers, {onCallback, onFrontendAuthorization, onNewTenant, onRefreshToken, StandardPayload} from './handlers';
 import config from './config';
 import {getSdk, getSdkForUrl} from './sdk';
 
@@ -30,8 +30,27 @@ export async function verifyAccessToken(req: FastifyRequest): Promise<void> {
   }
 
   try {
-    console.log('get access token', token)
     req.tenantPayload = jwt.verify(token, config.accessTokenSecret);
+  } catch {
+    throw new Error('authorization token was not valid');
+  }
+}
+
+export async function verifyCookieToken(req: FastifyRequest): Promise<void> {
+  const {code} = req.headers;
+  if (!code) {
+    throw new Error('authorization code was not provided');
+  }
+  const token = req.cookies?.['token_' + code];
+
+  if (!token) {
+    throw new Error('user is not authorized');
+  }
+
+  try {
+    const data = jwt.verify(token, config.accessTokenSecret);
+    req.tenantPayload = data.tenant;
+    req.user = data.user;
   } catch {
     throw new Error('authorization token was not valid');
   }
@@ -66,9 +85,11 @@ export function getRefreshTokenRoute(): RouteOptions {
         reply.statusCode = 401;
         return notAuthorized;
       }
-      console.log('refresh token accepted', expectedRefreshToken)
       let payload: StandardPayload;
       try {
+        if (!expectedRefreshToken) {
+          throw new Error('expected refresh token is empty');
+        }
         payload = jwt.verify(expectedRefreshToken, config.refreshTokenSecret);
         if (handlers.refreshToken.length) {
           for (let handler of handlers.refreshToken) {
@@ -204,7 +225,6 @@ export function getCallbackRoute(): RouteOptions {
     url: manifest.callbackUrl,
     preHandler: verifyAccessToken,
     handler: async (request, reply) => {
-      console.log('doing the callback url');
       const queryParams: any = request.query || {};
 
       try {
@@ -217,7 +237,10 @@ export function getCallbackRoute(): RouteOptions {
 
           if (code && typeof code === 'string') {
             returnUrl.searchParams.append('code', code);
-            returnUrl.searchParams.append('token', jwt.sign({user}, config.accessTokenSecret, {expiresIn: '10min'}));
+            returnUrl.searchParams.append('token', jwt.sign({
+              user,
+              tenant: request.tenantPayload
+            }, config.accessTokenSecret, {expiresIn: '10min'}));
 
             return {
               returnUrl: returnUrl.href
@@ -227,6 +250,51 @@ export function getCallbackRoute(): RouteOptions {
       } catch (err) {
         if (config.dev) {
           console.log('error in callback', err);
+        }
+      }
+      reply.statusCode = 401;
+      return notAuthorized;
+    }
+  }
+}
+
+export function getFrontendAuthorizationRoute(): RouteOptions {
+  if (config.greenpressUrl) {
+    onFrontendAuthorization(async ({returnUrl, user, tenant}, request) => {
+      const draft = await getSdk().drafts.getDraft(returnUrl, `${tenant.sub}.${user.email}`);
+      if (draft && draft.contextData) {
+        return {
+          code: draft.contextData.code,
+          token: jwt.sign({code: draft.contextData, user, tenant}, config.accessTokenSecret, {expiresIn: '30min'}),
+        }
+      }
+      return;
+    });
+  }
+
+  return {
+    method: 'POST',
+    url: manifest.authorizeUrl,
+    handler: async (request, reply) => {
+      const {returnUrl, token}: any = request.body || {};
+      if (returnUrl && token) {
+        try {
+          const {user, tenant} = jwt.verify(token, config.accessTokenSecret);
+          for (let handler of handlers.frontendAuth) {
+            const cookieData = await handler({returnUrl, user, tenant}, request);
+
+            if (cookieData && cookieData.code && cookieData.token) {
+              reply.setCookie('token_' + cookieData.code, cookieData.token);
+              return {
+                user,
+                tenant
+              }
+            }
+          }
+        } catch (err) {
+          if (config.dev) {
+            console.log('error in callback', err);
+          }
         }
       }
       reply.statusCode = 401;
